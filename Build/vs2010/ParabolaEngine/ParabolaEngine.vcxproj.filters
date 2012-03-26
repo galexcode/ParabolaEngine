@@ -1,0 +1,756 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Engine\Core">
+      <UniqueIdentifier>{30367528-e977-4fab-9415-5a2d578c09d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scripting">
+      <UniqueIdentifier>{1bf7ca03-3fb1-4c06-9664-aaf7776aa7ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Sound">
+      <UniqueIdentifier>{6327c05a-26e9-4626-9c73-f8894565639f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics">
+      <UniqueIdentifier>{063e66c0-0dba-4049-8add-8e717b3c5905}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Content">
+      <UniqueIdentifier>{e84e6810-1661-40dc-9583-a9462ce7087d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scripting\AngelScript">
+      <UniqueIdentifier>{bf176b1b-1cfd-4978-bf85-5b11308b3f75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\AnimationFramework">
+      <UniqueIdentifier>{4a9cb4b0-3254-4154-8fb9-b65cd7f4362f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Foundation">
+      <UniqueIdentifier>{67c262c1-74aa-4ecc-a906-2cd5e8b5f1a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Kinesis">
+      <UniqueIdentifier>{e5331e27-0d1c-4733-ad18-193f45fa5112}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Network">
+      <UniqueIdentifier>{64c4a95a-d0f1-4f07-bbde-7a191cff77a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\RocketInterface">
+      <UniqueIdentifier>{99179493-82b7-4dac-9afb-3c683ce9fdba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\StoryPlayer">
+      <UniqueIdentifier>{3e3b9c6c-800a-4e5e-a7e3-15b472700bdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\RenderTree">
+      <UniqueIdentifier>{8437f7e3-58b8-46e0-b524-87e879856bf4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene">
+      <UniqueIdentifier>{e99ce6ec-a9ad-4a37-bb70-6609b40fe197}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\Editor">
+      <UniqueIdentifier>{bb6d0e54-dd0e-4043-be2e-9d20267eea3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\EntityFramework">
+      <UniqueIdentifier>{b259af3a-b7b9-4728-b417-98e37e6ca5ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\SceneGraph">
+      <UniqueIdentifier>{8e4e51a1-9ac0-464d-a02c-84eab4c60df2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Scene\EntityFramework\Components">
+      <UniqueIdentifier>{d6abd746-1262-474f-8b66-e931627a38e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\Graphics\LetThereBeLight">
+      <UniqueIdentifier>{d1c987b5-425c-490e-86c7-3c038c8214fe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Source\Animation.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationSprite.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationView.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\BoundingBox.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ConfigurationFile.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ContentBank.cpp">
+      <Filter>Engine\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ContentList.cpp">
+      <Filter>Engine\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ContentLoader.cpp">
+      <Filter>Engine\Content</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\CRC32.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\DateTime.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Drawable.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Engine.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\EngineProfile.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\EventHandler.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Events.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\FileStream.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\FileSystem.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\GameCore.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\GameCoreInstancer.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\GameCoreManager.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\KinesisActorBuilder.cpp">
+      <Filter>Engine\Kinesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\KinesisContactListener.cpp">
+      <Filter>Engine\Kinesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\KinesisDebugDraw.cpp">
+      <Filter>Engine\Kinesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\KinesisQueryCallback.cpp">
+      <Filter>Engine\Kinesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\KinesisWorld.cpp">
+      <Filter>Engine\Kinesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\LinkedPointer.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NetworkClient.cpp">
+      <Filter>Engine\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NetworkServer.cpp">
+      <Filter>Engine\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NetworkServerPeer.cpp">
+      <Filter>Engine\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NetworkSocket.cpp">
+      <Filter>Engine\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NetworkThread.cpp">
+      <Filter>Engine\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\MathTools.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Packages.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Window.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Views.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Textures.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Sprite.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketContext.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketEventBox.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketEventInterface.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketPlugin.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketRenderInterface.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketSystemInterface.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ReferenceCountable.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StringID.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StringList.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Strings.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StringStream.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\TextFileStream.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Tree.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ScriptEngine.cpp">
+      <Filter>Engine\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ScriptEngineDefault.cpp">
+      <Filter>Engine\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ScriptEngineTask.cpp">
+      <Filter>Engine\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\SceneRenderer.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\SoundPlayer.cpp">
+      <Filter>Engine\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\SoundSharedDevice.cpp">
+      <Filter>Engine\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ResourceTable.cpp">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StoryAction.cpp">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StoryActionStyle.cpp">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Storyline.cpp">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StoryPlayer.cpp">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\QuadTree.cpp">
+      <Filter>Engine\Graphics\RenderTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Text.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StateMachine.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StateMachineNode.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\SceneGraph.cpp">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Localization.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Logger.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Editor.cpp">
+      <Filter>Engine\Scene\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ParticleSystem.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\SceneLayer.cpp">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Node.cpp">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\EntityManager.cpp">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NameGenerator.cpp">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\SceneNode.cpp">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Entity.cpp">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\EntityScript.cpp">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\SceneItem.cpp">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ScriptGame.cpp">
+      <Filter>Engine\Scripting</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonAny.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonArray.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonBuilder.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonFile.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonMath.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonMathComplex.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonString.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonStringUtils.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ASScript.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ASParticleSystem.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ASEngine.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ASCommon.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\KinesisActors.cpp">
+      <Filter>Engine\Kinesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\EntityComponent.cpp">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\EntityComponentFactory.cpp">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\DynamicKeys.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\KinesisForge.cpp">
+      <Filter>Engine\Kinesis</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NetworkPacket.cpp">
+      <Filter>Engine\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ComponentKinesis.cpp">
+      <Filter>Engine\Scene\EntityFramework\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\Constructs.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\ConvexHull.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\EmissiveLight.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\Light.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\Light_Point.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\LightSystem.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\QuadTree.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\QuadTreeNode.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\QuadTreeOccupant.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\SFML_OpenGL.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Lighting\ShadowFin.cpp">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Include\ParabolaCore\Vectors.inl">
+      <Filter>Engine\Foundation</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Platform.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationView.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Animation.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationSprite.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\BoundingBox.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ConfigurationFile.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ContentLoader.h">
+      <Filter>Engine\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ContentBank.h">
+      <Filter>Engine\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ContentList.h">
+      <Filter>Engine\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Core.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\DateTime.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\CRC32.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Drawable.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\DynamicKeys.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Engine.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EngineProfile.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EntityManager.h">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Entity.h">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EntityComponent.h">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EventHandler.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Events.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\FileSystem.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\FileStream.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Foundation.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\GameCore.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\GameCoreInstancer.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\GameCoreManager.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Graphics.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Kinesis.h">
+      <Filter>Engine\Kinesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisActorBuilder.h">
+      <Filter>Engine\Kinesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisContactListener.h">
+      <Filter>Engine\Kinesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisDebugDraw.h">
+      <Filter>Engine\Kinesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisQueryCallback.h">
+      <Filter>Engine\Kinesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisWorld.h">
+      <Filter>Engine\Kinesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Lighting.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\LinkedPointer.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkThread.h">
+      <Filter>Engine\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Network.h">
+      <Filter>Engine\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkClient.h">
+      <Filter>Engine\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkServer.h">
+      <Filter>Engine\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkServerPeer.h">
+      <Filter>Engine\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkSocket.h">
+      <Filter>Engine\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\MathTools.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Packages.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ParticleSystem.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Parabola.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Window.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Views.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Textures.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Sprite.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketSystemInterface.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketContext.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketDecoratorAnimator.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketEventBox.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketEventInterface.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketPlugin.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketRenderInterface.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ProtectedPointer.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ReferenceCountable.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Signals.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Sizes.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Stream.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StringID.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StringList.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Strings.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StringStream.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\TextFileStream.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Vectors.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Tree.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ScriptEngine.h">
+      <Filter>Engine\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ScriptEngineDefault.h">
+      <Filter>Engine\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ScriptEngineTask.h">
+      <Filter>Engine\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneRenderer.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Sound.h">
+      <Filter>Engine\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SoundSharedDevice.h">
+      <Filter>Engine\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SoundPlayer.h">
+      <Filter>Engine\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ResourceTable.h">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StoryAction.h">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StoryActionStyle.h">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Storyline.h">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StoryPlayer.h">
+      <Filter>Engine\StoryPlayer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\QuadTree.h">
+      <Filter>Engine\Graphics\RenderTree</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Text.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StateMachineNode.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StateMachine.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneGraph.h">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Scripting.h">
+      <Filter>Engine\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Library.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Localization.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Logger.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Content.h">
+      <Filter>Engine\Content</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Editor.h">
+      <Filter>Engine\Scene\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneLayer.h">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Node.h">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NameGenerator.h">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneNode.h">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EntityScript.h">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneItem.h">
+      <Filter>Engine\Scene\SceneGraph</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ScriptGame.h">
+      <Filter>Engine\Scripting</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ASScript.h">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ASEngine.h">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisActors.h">
+      <Filter>Engine\Kinesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EntityComponentFactory.h">
+      <Filter>Engine\Scene\EntityFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisForge.h">
+      <Filter>Engine\Kinesis</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkPacket.h">
+      <Filter>Engine\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ComponentKinesis.h">
+      <Filter>Engine\Scene\EntityFramework\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\Constructs.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\ConvexHull.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\EmissiveLight.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\Light.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\Light_Point.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\LightSystem.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\QuadTree.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\QuadTreeNode.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\QuadTreeOccupant.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\SFML_OpenGL.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Lighting\ShadowFin.h">
+      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,454 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Android Debug|Android">
+      <Configuration>Android Debug</Configuration>
+      <Platform>Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Android Debug|Win32">
+      <Configuration>Android Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Android">
+      <Configuration>Debug</Configuration>
+      <Platform>Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Android">
+      <Configuration>Release</Configuration>
+      <Platform>Android</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Include\AS\ASAddonAny.cpp" />
+    <ClCompile Include="..\..\..\Include\AS\ASAddonArray.cpp" />
+    <ClCompile Include="..\..\..\Include\AS\ASAddonBuilder.cpp" />
+    <ClCompile Include="..\..\..\Include\AS\ASAddonFile.cpp" />
+    <ClCompile Include="..\..\..\Include\AS\ASAddonMath.cpp" />
+    <ClCompile Include="..\..\..\Include\AS\ASAddonMathComplex.cpp" />
+    <ClCompile Include="..\..\..\Include\AS\ASAddonString.cpp" />
+    <ClCompile Include="..\..\..\Include\AS\ASAddonStringUtils.cpp" />
+    <ClCompile Include="..\..\..\Source\ASEngine.cpp" />
+    <ClCompile Include="..\..\..\Source\ASCommon.cpp" />
+    <ClCompile Include="..\..\..\Source\Animation.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationSprite.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationView.cpp" />
+    <ClCompile Include="..\..\..\Source\ASParticleSystem.cpp" />
+    <ClCompile Include="..\..\..\Source\ASScript.cpp" />
+    <ClCompile Include="..\..\..\Source\BoundingBox.cpp" />
+    <ClCompile Include="..\..\..\Source\ComponentKinesis.cpp" />
+    <ClCompile Include="..\..\..\Source\ConfigurationFile.cpp" />
+    <ClCompile Include="..\..\..\Source\ContentBank.cpp" />
+    <ClCompile Include="..\..\..\Source\ContentList.cpp" />
+    <ClCompile Include="..\..\..\Source\ContentLoader.cpp" />
+    <ClCompile Include="..\..\..\Source\CRC32.cpp" />
+    <ClCompile Include="..\..\..\Source\DateTime.cpp" />
+    <ClCompile Include="..\..\..\Source\Drawable.cpp" />
+    <ClCompile Include="..\..\..\Source\DynamicKeys.cpp" />
+    <ClCompile Include="..\..\..\Source\Editor.cpp" />
+    <ClCompile Include="..\..\..\Source\Engine.cpp" />
+    <ClCompile Include="..\..\..\Source\EngineProfile.cpp" />
+    <ClCompile Include="..\..\..\Source\Entity.cpp" />
+    <ClCompile Include="..\..\..\Source\EntityComponent.cpp" />
+    <ClCompile Include="..\..\..\Source\EntityComponentFactory.cpp" />
+    <ClCompile Include="..\..\..\Source\EntityManager.cpp" />
+    <ClCompile Include="..\..\..\Source\EntityScript.cpp" />
+    <ClCompile Include="..\..\..\Source\EventHandler.cpp" />
+    <ClCompile Include="..\..\..\Source\Events.cpp" />
+    <ClCompile Include="..\..\..\Source\FileStream.cpp" />
+    <ClCompile Include="..\..\..\Source\FileSystem.cpp" />
+    <ClCompile Include="..\..\..\Source\GameCore.cpp" />
+    <ClCompile Include="..\..\..\Source\GameCoreInstancer.cpp" />
+    <ClCompile Include="..\..\..\Source\GameCoreManager.cpp" />
+    <ClCompile Include="..\..\..\Source\KinesisActors.cpp" />
+    <ClCompile Include="..\..\..\Source\KinesisActorBuilder.cpp" />
+    <ClCompile Include="..\..\..\Source\KinesisContactListener.cpp" />
+    <ClCompile Include="..\..\..\Source\KinesisDebugDraw.cpp" />
+    <ClCompile Include="..\..\..\Source\KinesisQueryCallback.cpp" />
+    <ClCompile Include="..\..\..\Source\KinesisWorld.cpp" />
+    <ClCompile Include="..\..\..\Source\KinesisForge.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\Constructs.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\ConvexHull.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\EmissiveLight.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\Light.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\LightSystem.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\Light_Point.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\QuadTree.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\QuadTreeNode.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\QuadTreeOccupant.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\SFML_OpenGL.cpp" />
+    <ClCompile Include="..\..\..\Source\Lighting\ShadowFin.cpp" />
+    <ClCompile Include="..\..\..\Source\LinkedPointer.cpp" />
+    <ClCompile Include="..\..\..\Source\Localization.cpp" />
+    <ClCompile Include="..\..\..\Source\Logger.cpp" />
+    <ClCompile Include="..\..\..\Source\MathTools.cpp" />
+    <ClCompile Include="..\..\..\Source\NameGenerator.cpp" />
+    <ClCompile Include="..\..\..\Source\NetworkClient.cpp" />
+    <ClCompile Include="..\..\..\Source\NetworkPacket.cpp" />
+    <ClCompile Include="..\..\..\Source\NetworkServer.cpp" />
+    <ClCompile Include="..\..\..\Source\NetworkServerPeer.cpp" />
+    <ClCompile Include="..\..\..\Source\NetworkSocket.cpp" />
+    <ClCompile Include="..\..\..\Source\NetworkThread.cpp" />
+    <ClCompile Include="..\..\..\Source\Node.cpp" />
+    <ClCompile Include="..\..\..\Source\Packages.cpp" />
+    <ClCompile Include="..\..\..\Source\ParticleSystem.cpp" />
+    <ClCompile Include="..\..\..\Source\QuadTree.cpp" />
+    <ClCompile Include="..\..\..\Source\ReferenceCountable.cpp" />
+    <ClCompile Include="..\..\..\Source\ResourceTable.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketContext.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketEventBox.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketEventInterface.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketPlugin.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketRenderInterface.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketSystemInterface.cpp" />
+    <ClCompile Include="..\..\..\Source\SceneGraph.cpp" />
+    <ClCompile Include="..\..\..\Source\SceneItem.cpp" />
+    <ClCompile Include="..\..\..\Source\SceneLayer.cpp" />
+    <ClCompile Include="..\..\..\Source\SceneNode.cpp" />
+    <ClCompile Include="..\..\..\Source\SceneRenderer.cpp" />
+    <ClCompile Include="..\..\..\Source\ScriptEngine.cpp" />
+    <ClCompile Include="..\..\..\Source\ScriptEngineDefault.cpp" />
+    <ClCompile Include="..\..\..\Source\ScriptEngineTask.cpp" />
+    <ClCompile Include="..\..\..\Source\ScriptGame.cpp" />
+    <ClCompile Include="..\..\..\Source\SoundPlayer.cpp" />
+    <ClCompile Include="..\..\..\Source\SoundSharedDevice.cpp" />
+    <ClCompile Include="..\..\..\Source\Sprite.cpp" />
+    <ClCompile Include="..\..\..\Source\StateMachine.cpp" />
+    <ClCompile Include="..\..\..\Source\StateMachineNode.cpp" />
+    <ClCompile Include="..\..\..\Source\StoryAction.cpp" />
+    <ClCompile Include="..\..\..\Source\StoryActionStyle.cpp" />
+    <ClCompile Include="..\..\..\Source\Storyline.cpp" />
+    <ClCompile Include="..\..\..\Source\StoryPlayer.cpp" />
+    <ClCompile Include="..\..\..\Source\StringID.cpp" />
+    <ClCompile Include="..\..\..\Source\StringList.cpp" />
+    <ClCompile Include="..\..\..\Source\Strings.cpp" />
+    <ClCompile Include="..\..\..\Source\StringStream.cpp" />
+    <ClCompile Include="..\..\..\Source\Text.cpp" />
+    <ClCompile Include="..\..\..\Source\TextFileStream.cpp" />
+    <ClCompile Include="..\..\..\Source\Textures.cpp" />
+    <ClCompile Include="..\..\..\Source\Tree.cpp" />
+    <ClCompile Include="..\..\..\Source\Views.cpp" />
+    <ClCompile Include="..\..\..\Source\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Include\ParabolaCore\Vectors.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Include\Library.h" />
+    <ClInclude Include="..\..\..\Include\Parabola.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ASEngine.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Animation.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationSprite.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationView.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ASScript.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\BoundingBox.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ComponentKinesis.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ConfigurationFile.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Content.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ContentBank.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ContentList.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ContentLoader.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Core.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\CRC32.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\DateTime.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Drawable.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\DynamicKeys.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Editor.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Engine.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EngineProfile.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Entity.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EntityComponent.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EntityComponentFactory.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EntityManager.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EntityScript.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\EventHandler.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Events.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\FileStream.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\FileSystem.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Foundation.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\GameCore.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\GameCoreInstancer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\GameCoreManager.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Graphics.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Kinesis.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisActors.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisActorBuilder.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisContactListener.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisDebugDraw.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisQueryCallback.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisWorld.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\KinesisForge.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Lighting.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\LinkedPointer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Localization.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Logger.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\MathTools.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NameGenerator.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Network.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkClient.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkPacket.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkServer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkServerPeer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkSocket.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkThread.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Node.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Packages.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ParticleSystem.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Platform.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ProtectedPointer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\QuadTree.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ReferenceCountable.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ResourceTable.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketContext.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketDecoratorAnimator.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketEventBox.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketEventInterface.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketPlugin.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketRenderInterface.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketSystemInterface.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneGraph.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneLayer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneNode.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneItem.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SceneRenderer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ScriptEngine.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ScriptEngineDefault.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ScriptEngineTask.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ScriptGame.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Scripting.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Signals.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Sizes.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Sound.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SoundPlayer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SoundSharedDevice.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Sprite.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StateMachine.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StateMachineNode.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StoryAction.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StoryActionStyle.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Storyline.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StoryPlayer.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Stream.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StringID.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StringList.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Strings.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\StringStream.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Text.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\TextFileStream.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Textures.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Tree.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Vectors.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Views.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Window.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\Constructs.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\ConvexHull.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\EmissiveLight.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\Light.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\LightSystem.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\Light_Point.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\QuadTree.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\QuadTreeNode.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\QuadTreeOccupant.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\SFML_OpenGL.h" />
+    <ClInclude Include="..\..\..\Source\Lighting\ShadowFin.h" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{4292CC22-598F-4CEE-A397-41C4740CDE1A}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>ParabolaEngine</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Android Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Android Debug|Android'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Android Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Android Debug|Android'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>../../../Bin/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <OutDir>../../../Bin/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Android Debug|Win32'">
+    <OutDir>../../../Bin/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Android Debug|Android'">
+    <OutDir>../../../Bin/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>../../../Bin/</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
+    <OutDir>../../../Bin/</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;SIGC_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../Include/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)-s-d$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;SIGC_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../Include/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)-s-d$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Android Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;SIGC_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../Include/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)-s-d$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Android Debug|Android'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;SIGC_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../Include/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)-s-d$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../Include/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)-s$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Android'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../../../Include/</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)-s$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
