@@ -12,48 +12,48 @@ PARABOLA_NAMESPACE_BEGIN
 		if(event == "keydown"){
 			Rocket::Core::Input::KeyIdentifier key_identifier = (Rocket::Core::Input::KeyIdentifier) event.GetParameter< int >("key_identifier", 0);
 
-			sevent.Type = (sf::Event::EventType)Event::KeyPressed;
-			sevent.Key.Code = (sf::Keyboard::Key)EventDispatcher::translateFromRocketKey(key_identifier);
+			sevent.type = (sf::Event::EventType)Event::KeyPressed;
+			sevent.key.code = (sf::Keyboard::Key)EventDispatcher::translateFromRocketKey(key_identifier);
 
 		}
 		else if(event == "keyup"){
 			Rocket::Core::Input::KeyIdentifier key_identifier = (Rocket::Core::Input::KeyIdentifier) event.GetParameter< int >("key_identifier", 0);
 
-			sevent.Type = (sf::Event::EventType)Event::KeyReleased;
-			sevent.Key.Code = (sf::Keyboard::Key)EventDispatcher::translateFromRocketKey(key_identifier);
+			sevent.type = (sf::Event::EventType)Event::KeyReleased;
+			sevent.key.code = (sf::Keyboard::Key)EventDispatcher::translateFromRocketKey(key_identifier);
 		}
 		else if(event == "mousedown"){
-			sevent.Type = (sf::Event::EventType)Event::MouseButtonPressed;
-			sevent.MouseButton.Button = (sf::Mouse::Button)event.GetParameter<int>("button", 0);
-			sevent.MouseButton.X = event.GetParameter<int>("mouse_x", 0);
-			sevent.MouseButton.Y = event.GetParameter<int>("mouse_y", 0);
+			sevent.type = (sf::Event::EventType)Event::MouseButtonPressed;
+			sevent.mouseButton.button = (sf::Mouse::Button)event.GetParameter<int>("button", 0);
+			sevent.mouseButton.x = event.GetParameter<int>("mouse_x", 0);
+			sevent.mouseButton.y = event.GetParameter<int>("mouse_y", 0);
 		}
 		else if(event == "mouseup"){
-			sevent.Type = (sf::Event::EventType)Event::MouseButtonReleased;
-			sevent.MouseButton.Button = (sf::Mouse::Button)event.GetParameter<int>("button", 0);
-			sevent.MouseButton.X = event.GetParameter<int>("mouse_x", 0);
-			sevent.MouseButton.Y = event.GetParameter<int>("mouse_y", 0);
+			sevent.type = (sf::Event::EventType)Event::MouseButtonReleased;
+			sevent.mouseButton.button = (sf::Mouse::Button)event.GetParameter<int>("button", 0);
+			sevent.mouseButton.x = event.GetParameter<int>("mouse_x", 0);
+			sevent.mouseButton.y = event.GetParameter<int>("mouse_y", 0);
 		}
 		else if(event == "mousemove"){
-			sevent.Type = (sf::Event::EventType)Event::MouseMoved;
-			sevent.MouseMove.X = event.GetParameter<int>("mouse_x", 0);
-			sevent.MouseMove.Y = event.GetParameter<int>("mouse_y", 0);
+			sevent.type = (sf::Event::EventType)Event::MouseMoved;
+			sevent.mouseMove.x = event.GetParameter<int>("mouse_x", 0);
+			sevent.mouseMove.y = event.GetParameter<int>("mouse_y", 0);
 		}
 		else if(event == "wheel"){
-			sevent.Type = (sf::Event::EventType)Event::MouseWheelMoved;
+			sevent.type = (sf::Event::EventType)Event::MouseWheelMoved;
 
 		}
 		else if(event == "textinput"){
-			sevent.Type = (sf::Event::EventType)Event::TextEntered;
+			sevent.type = (sf::Event::EventType)Event::TextEntered;
 
 		}
 		else if(event == "click"){
-			sevent.Type = (sf::Event::EventType)Event::Click;
-			sevent.MouseButton.X = event.GetParameter<int>("mouse_x", 0);
-			sevent.MouseButton.Y = event.GetParameter<int>("mouse_y", 0);
+			sevent.type = (sf::Event::EventType)Event::Click;
+			sevent.mouseButton.x = event.GetParameter<int>("mouse_x", 0);
+			sevent.mouseButton.y = event.GetParameter<int>("mouse_y", 0);
 		}
 		else if(event == "dblclick"){
-			sevent.Type = (sf::Event::EventType)Event::DoubleClick;
+			sevent.type = (sf::Event::EventType)Event::DoubleClick;
 		}
 	
 		return sevent;

@@ -9,8 +9,8 @@ AnimationView::AnimationView(View &view) : AnimationInterface(), myTimeLeft(0.f)
 	myView = &view;
 	myRestore = true;
 
-	saved_x = myView->GetCenter().x;
-	saved_y = myView->GetCenter().y;
+	saved_x = myView->getCenter().x;
+	saved_y = myView->getCenter().y;
 };
 
 /// Creates an animation, but doesn't set the view yet
@@ -22,8 +22,8 @@ AnimationView::AnimationView() : myTimeLeft(0.f){
 /// Set the view to animate
 void AnimationView::setView(View &view){
 	myView = &view;
-	saved_x = myView->GetCenter().x;
-	saved_y = myView->GetCenter().y;
+	saved_x = myView->getCenter().x;
+	saved_y = myView->getCenter().y;
 };
 
 /// When a view is assigned to this animation
@@ -36,8 +36,8 @@ void AnimationView::allowRestore(bool allow){
 /// Requests the view data to be stored for later restoring.
 void AnimationView::saveState(){
 	if(myView){
-		saved_x = myView->GetCenter().x;
-		saved_y = myView->GetCenter().y;
+		saved_x = myView->getCenter().x;
+		saved_y = myView->getCenter().y;
 	}
 };
 
@@ -57,8 +57,8 @@ void AnimationView::update(float elapsedTime){
 			float timeUpdate = std::max<float>(elapsedTime, 0.f);
 			
 			// going to change the center, keep it safe
-			center_x = myView->GetCenter().x;
-			center_y = myView->GetCenter().y;
+			center_x = myView->getCenter().x;
+			center_y = myView->getCenter().y;
 
 			if((center_x + x_dev) <= (center_x - x_max_deviation) || (center_x + x_dev) >= (center_x + x_max_deviation)){
 				
@@ -72,7 +72,7 @@ void AnimationView::update(float elapsedTime){
 			x_dev += ((x_speed + (pow(abs(x_dev),2) / 1.f)) * x_dir) * timeUpdate;
 			y_dev += (y_speed + (pow(abs(y_dev),2) / 1.f)) * y_dir * timeUpdate;
 			//std::cout<<"Dev values: "<<x_dev<<" ; "<<y_dev<<" time: "<<timeUpdate<<std::endl;
-			myView->SetCenter(center_x + x_dev, center_y + y_dev);
+			myView->setCenter(center_x + x_dev, center_y + y_dev);
 
 			x_speed *= attenuation;
 			y_speed *= attenuation;
@@ -88,7 +88,7 @@ void AnimationView::update(float elapsedTime){
 /// Restores the saved view coordinates
 void AnimationView::restore(){
 	if(myView){
-		myView->SetCenter(saved_x, saved_y);
+		myView->setCenter(saved_x, saved_y);
 	}
 };
 

@@ -11,6 +11,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+class ContentBank;
 class GameCore;
 class ASEngine;
 class SoundSharedDevice;
@@ -41,6 +42,9 @@ public:
 	/// Safely destroys all sounds associated and removes itself from the shared device.
 	~SoundPlayer();
 
+	/// Associate a content bank
+	void setContentBank(ContentBank* contentBank);
+
 	/// Starts streaming a music from a file
 	bool playMusic(const String &fileName);
 
@@ -57,6 +61,8 @@ private:
 	// Music list
 	std::vector<sf::Music*> myMusicList;
 	std::vector<sf::Sound*> mySoundList;
+
+	ContentBank* myContentBank;
 
 	friend class GameCore;
 	friend class SoundSharedDevice;

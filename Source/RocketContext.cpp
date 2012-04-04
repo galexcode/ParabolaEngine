@@ -34,18 +34,18 @@ void RocketContext::update(){
 };
 
 
-void RocketContext::Draw(sf::RenderTarget& target, sf::RenderStates states) const{
-	// Draw code here.
-
-	if(this->GetNumDocuments() == 0)
-		return;
-
-	RocketPlugin::instance().renderInterface()->target = &target;
-	RocketPlugin::instance().renderInterface()->states = &states;	
-	const_cast<RocketContext&>(*this).Render();
-	RocketPlugin::instance().renderInterface()->target = NULL;
-	RocketPlugin::instance().renderInterface()->states = NULL;
-}
+// void RocketContext::draw(sf::RenderTarget& target, sf::RenderStates states) const{
+// 	// Draw code here.
+// 
+// 	if(this->GetNumDocuments() == 0)
+// 		return;
+// 
+// 	RocketPlugin::instance().renderInterface()->target = &target;
+// 	RocketPlugin::instance().renderInterface()->states = &states;	
+// 	const_cast<RocketContext&>(*this).Render();
+// 	RocketPlugin::instance().renderInterface()->target = NULL;
+// 	RocketPlugin::instance().renderInterface()->states = NULL;
+// }
 
 /// Sets the document as visible
 /// If the document wasn't loaded yet, it is loaded now.

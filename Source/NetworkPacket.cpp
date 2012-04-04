@@ -30,7 +30,7 @@ void* NetworkPacket::getRawData(){
 /// Get the packet as an SFML packet
 sf::Packet NetworkPacket::asSFMLPacket(){
 	sf::Packet p;
-	p.Append(myPacket->data, myPacket->dataLength);
+	p.append(myPacket->data, myPacket->dataLength);
 	return p;
 };
 

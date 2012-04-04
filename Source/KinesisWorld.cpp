@@ -1,13 +1,18 @@
 #include "ParabolaCore/KinesisWorld.h"
+#include "ParabolaCore/SceneRenderer.h"
+#include "ParabolaCore/Text.h"
+#include "ParabolaCore/Window.h"
+
+#include <iostream>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 	KinesisWorld::KinesisWorld() : b2World(b2Vec2(0.f, 0.98f)){
 		VelocityIterations = 8;
 		PositionIterations = 3;
-		SetDebugDraw(&DebugRenderer);
+		SetDebugDraw(&myDebugDraw);
 		myPixelRatio = 100;
-		DebugRenderer.PixelsPerMeter = myPixelRatio;
-		DebugRenderer.myParent = this;
+		myDebugDraw.myParent = this;
 		pickerMouseJoint = NULL;
 		defaultGroundBody = NULL;
 
@@ -17,15 +22,39 @@ PARABOLA_NAMESPACE_BEGIN
 	KinesisWorld::KinesisWorld(Vec2f gravityForce) : b2World(b2Vec2(gravityForce.x, gravityForce.y)){
 		VelocityIterations = 8;
 		PositionIterations = 3;
-		SetDebugDraw(&DebugRenderer);
+		SetDebugDraw(&myDebugDraw);
 		myPixelRatio = 100;
-		DebugRenderer.PixelsPerMeter = myPixelRatio;
-		DebugRenderer.myParent = this;
+		myDebugDraw.myParent = this;
 		pickerMouseJoint = NULL;
 		defaultGroundBody = NULL;
 
 		SetContactListener(&contactListener);
 	};
+
+	/// Draw the simulation in test mode through a renderer
+	void KinesisWorld::drawDebug(SceneRenderer* renderer){
+		renderer->getRenderTarget()->resetGLStates();
+		((Window*)renderer->getRenderTarget())->setActive(true);
+		myDebugDraw.renderer = renderer;
+		myDebugDraw.PixelsPerMeter = myPixelRatio;
+	//	renderer->draw(Text("hdsyhshsdhsdh",0,0));
+		//cout<<"bodies: "<<GetBodyCount()<<endl;
+		DrawDebugData();
+		renderer->getRenderTarget()->resetGLStates();
+	};
+
+	/// Destroy a body by its actor
+	void KinesisWorld::destroyBodyActor(KinesisBodyActor *actor){
+		if(actor && actor->myBody){
+			DestroyBody(actor->myBody);
+		}
+	};
+
+
+
+
+
+
 
 	void KinesisWorld::SetVelocityIterationCount(int velocityIterations){
 		VelocityIterations = velocityIterations;
@@ -82,10 +111,9 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 
-	void KinesisWorld::Update(float UpdateStep){
+	void KinesisWorld::update(float elapsedTime){
 		sf::Lock lock(mutex);
-		Step(UpdateStep, VelocityIterations, PositionIterations);
-		
+		Step(elapsedTime, VelocityIterations, PositionIterations);		
 	};
 
 	bool KinesisWorld::StartPicking(float x, float y){
@@ -98,8 +126,8 @@ PARABOLA_NAMESPACE_BEGIN
 		float real_x_mouse = ToMeters(x);
 		float real_y_mouse = ToMeters(y);
 
-		aabb.lowerBound.Set(real_x_mouse - 0.001, real_y_mouse - 0.001);
-		aabb.upperBound.Set(real_x_mouse + 0.001, real_y_mouse + 0.001);
+		aabb.lowerBound.Set(real_x_mouse - 0.002f, real_y_mouse - 0.002f);
+		aabb.upperBound.Set(real_x_mouse + 0.002f, real_y_mouse + 0.002f);
 		
 		
 		this->QueryAABB(&query, aabb);
@@ -148,7 +176,7 @@ PARABOLA_NAMESPACE_BEGIN
 		}
 	};
 
-	void KinesisWorld::CreateQuickCircle(int x, int y, int r){
+	void KinesisWorld::CreateQuickCircle(float x, float y, float r){
 		b2BodyDef def;
 		def.position = b2Vec2(ToMeters(x),ToMeters(y));
 		def.type = b2_dynamicBody;
@@ -168,7 +196,7 @@ PARABOLA_NAMESPACE_BEGIN
 		body->CreateFixture(&fixDef);
 	};
 
-	b2Body* KinesisWorld::CreateQuickBox(int x, int y, int width, int height){
+	KinesisBodyActor* KinesisWorld::CreateQuickBox(float x, float y, float width, float height){
 		b2BodyDef def;
 		def.position = b2Vec2(ToMeters(x), ToMeters(y));
 		def.type = b2_dynamicBody;
@@ -188,10 +216,11 @@ PARABOLA_NAMESPACE_BEGIN
 
 		KinesisBodyActor *bodyActor = new KinesisBodyActor(body);
 		body -> SetUserData(bodyActor);
-		return body;
+		bodyActor->myBody = body;
+		return bodyActor;
 	};
 
-	b2Body* KinesisWorld::CreateStaticBox(int x, int y, int width, int height){
+	b2Body* KinesisWorld::CreateStaticBox(float x, float y, float width, float height){
 		b2BodyDef def;
 		def.position = b2Vec2(ToMeters(x), ToMeters(y));
 		def.type = b2_staticBody;
@@ -212,7 +241,7 @@ PARABOLA_NAMESPACE_BEGIN
 		return body;
 	};
 
-	void KinesisWorld::CreateQuickLine(int x, int y, int xx, int yy){
+	void KinesisWorld::CreateQuickLine(float x, float y, float xx, float yy){
 		/*b2BodyDef def;
 		def.position = b2Vec2(ToMeters(xx)/ToMeters(x), ToMeters(yy)/ToMeters(y));
 		def.type = b2_dynamicBody;
@@ -236,7 +265,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 
 	KinesisDebugDraw* KinesisWorld::GetDebugRenderer(){
-		return &DebugRenderer;
+		return &myDebugDraw;
 	};
 
 	float KinesisWorld::getPixelRatio(){

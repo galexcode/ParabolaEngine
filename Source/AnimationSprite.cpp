@@ -66,7 +66,7 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 	void AnimationSprite::applyFrame(int index){
-		if(index < 0 || index >= frames.size()){
+		if(index < 0 || (unsigned int)index >= frames.size()){
 			frameIndex = -1;
 			return;
 		}
@@ -77,9 +77,9 @@ PARABOLA_NAMESPACE_BEGIN
 			if(animationSprites[i] == NULL){
 				std::cout<<"USING A NULL SPRITE:"<<std::endl;
 			}
-			if(animationSprites[i]->GetTexture() != frames[index].texture){
+			if(animationSprites[i]->getTexture() != frames[index].texture){
 			//if(animationSprites[i]->GetTexture() == NULL && index > 0){
-				animationSprites[i]->SetTexture(*frames[index].texture, true);
+				animationSprites[i]->setTexture(*frames[index].texture, true);
 			}
 				//animationSprites[i]->SetTextureRect(sf::IntRect(0,0,6,6));
 				//cout<<"Resized sprite to: "<<frames[index].subRect.BottomRight.x - frames[index].subRect.TopLeft.x<<endl;
@@ -104,8 +104,8 @@ PARABOLA_NAMESPACE_BEGIN
 		if(!texture)
 			return -1;
 
-		int texture_width = texture->GetWidth();
-		int texture_height = texture->GetHeight();
+		int texture_width = texture->getSize().x;
+		int texture_height = texture->getSize().y;
 		double frame_length = 0.8;
 
 		float offset = 0;
@@ -128,7 +128,7 @@ PARABOLA_NAMESPACE_BEGIN
 					
 					AnimationSpriteFrame frame;
 					frame.texture = texture;
-					frame.subRect.set(offset, 0, /*offset +*/ frameWidth, texture_height);
+					frame.subRect.set(offset, 0.f, /*offset +*/ (float)frameWidth, (float)texture_height);
 					frame.time = frame_length;
 
 					std::cout<<"made a frame with width: ";

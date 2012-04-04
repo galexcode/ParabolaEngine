@@ -136,10 +136,10 @@ void PackageNode::computeSize(unsigned long &size){
 
 void PackageNode::computeOffsets(unsigned long &from){	
 	for(std::map<String, PackageFileInformation>::iterator it = childFiles.begin(); it != childFiles.end(); it++){
-		unsigned long size = FileStream::size(it->second.path);
+		Int64 size = FileStream::size(it->second.path);
 		it->second.begin = from;
 		it->second.size = size;
-		from += size;
+		from += (unsigned long)size;
 	}
 
 	for(std::map<String, PackageNode>::iterator it = children.begin(); it != children.end(); it++){
@@ -170,7 +170,7 @@ void PackageNode::load(FileStream *fileStream){
 	unsigned int fileCount;
 	*fileStream >> fileCount;
 
-	for(int i = 0; i < fileCount; i++){
+	for(unsigned int i = 0; i < fileCount; i++){
 		//create the files
 		String fileName;
 		*fileStream >> fileName;
@@ -184,7 +184,7 @@ void PackageNode::load(FileStream *fileStream){
 	unsigned int childCount;
 	*fileStream >> childCount;
 
-	for(int i = 0; i < childCount; i++){
+	for(unsigned int i = 0; i < childCount; i++){
 		PackageNode node;
 		node.load(fileStream);
 		children[node.name] = node;
@@ -300,8 +300,8 @@ bool PackageStream::seekFile(String fileName){
 	if(fp){
 		openStream = new FileStream(packageName, StreamMode::ReadOnly);		
 		openStream->seek(fp->begin);
-		offset = fp->begin;
-		sizeConstraint = fp->size;
+		offset = (unsigned long)fp->begin;
+		sizeConstraint = (unsigned long)fp->size;
 		return true;
 	}
 	else return false;

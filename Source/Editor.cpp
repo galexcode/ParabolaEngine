@@ -14,8 +14,8 @@ enet_initialize();
 void isp(Event &event){
 //	cout<<"Got event"<<endl;
 
-	if(event.Type == Event::KeyPressed){
-		if(event.Key.Code == Keyboard::U){
+	if(event.type == Event::KeyPressed){
+		if(event.key.code == Keyboard::U){
 			// start server
 
 			
@@ -24,7 +24,7 @@ void isp(Event &event){
 
 		}
 
-		if(event.Key.Code == Keyboard::Z){
+		if(event.key.code == Keyboard::Z){
 			// connect
 
 			
@@ -70,7 +70,7 @@ void Editor::onCreate(){
 	scriptEngine().registerTask(String("broadcast"), generictask2);
 
 	sf::Thread *consoleThread = new sf::Thread(&Editor::consoleThread, this);
-	consoleThread->Launch();
+	consoleThread->launch();
 };
 
 /// When a rocket inline event happens
@@ -82,8 +82,8 @@ void Editor::onRocketEvent(String event){
 void Editor::onEvent(const Event &event){
 	const_cast<Event&>(event).dispatch(uiContext);
 
-	if(event.Type == Event::KeyPressed){
-		if(event.Key.Code == Keyboard::N){
+	if(event.type == Event::KeyPressed){
+		if(event.key.code == Keyboard::N){
 			// start server
 
 			if(server.start(8005)){
@@ -92,7 +92,7 @@ void Editor::onEvent(const Event &event){
 
 		}
 
-		if(event.Key.Code == Keyboard::M){
+		if(event.key.code == Keyboard::M){
 			// connect
 
 			if(client.connect("127.0.0.1", 8005)){
@@ -110,7 +110,7 @@ void Editor::onUpdate(float elapsedTime){
 /// When the editor is rendered
 void Editor::onRender(){
 	//renderer->draw(Text("Beautiful text", 0, 0));
-	renderer->draw(*uiContext);
+	//renderer->draw(*uiContext);
 
 };
 

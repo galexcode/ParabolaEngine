@@ -3,6 +3,7 @@
 #include "ParabolaCore/Window.h"
 #include "ParabolaCore/Sprite.h"
 #include "ParabolaCore/Sound.h"
+#include "ParabolaCore/Kinesis.h"
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -11,6 +12,7 @@
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
+
 
 ScriptGame *game;
 SceneRenderer *grenderer;
@@ -22,33 +24,6 @@ void enableRenderScript(const String &script, const String &func){
 	game->renderScriptFunc = func;
 }
 
-void drawdebug(const String &text, int x, int y){
-	grenderer->draw(Text(text, x, y));
-}
-
-void drawimagedebug(const String &text, int x, int y){
-	sf::Texture *t = new sf::Texture();
-	t->LoadFromFile(text);
-
-	Sprite a;
-	a.SetTexture(*t);
-	a.SetPosition(x, y);
-
-	grenderer->draw(a);
-}
-
-void playsounddebug(const String &text){
-	sf::SoundBuffer *buffer = new sf::SoundBuffer;
-	buffer->LoadFromFile(text);
-
-	sf::Sound *sound = new sf::Sound;
-	sound->SetBuffer(*buffer);
-	sound->Play();
-}
-
-bool iskeydebug(int a){
-	return sf::Keyboard::IsKeyPressed((sf::Keyboard::Key)a) ;
-}
 
 
 
@@ -65,72 +40,99 @@ void ScriptGame::onCreate(){
 	renderer = createRenderer(NULL);
 	grenderer = renderer.get();
 
-	/*asEngine.RegisterString();
-	asEngine.exportEngineTools();
-	asEngine.exportGameTools(this);
-	asEngine.exportSoundPlayer();
+	asEngine.exportStrings();
+	asEngine.exportFiles();
+	asEngine.exportMath();
+	asEngine.exportBasicEngine();
+	asEngine.exportBasicGameCore();
+	asEngine.exportEvents();
+	asEngine.exportBasicGraphics();
+	asEngine.exportKinesis();	
+	asEngine.exportContentBanks();
+	asEngine.exportSoundGameCore();
+	asEngine.exportGameAs("myGame", this);
 
+	asEngine.exportGlobalProperty("SceneRenderer Renderer", renderer.get());
+
+	//p->drawDebug(renderer.get());
 	exportScripts();
-	asEngine.CompileScript(entryPointScript);
-	asEngine.ExecuteScriptFunction(entryPointScript, "int main()");*/
+
+	myMainScript = asEngine.loadScript("main.as");
+	if(myMainScript){
+		myCreateFunc = myMainScript->getFunctionIdByName("void onCreate()");
+		myEventFunc = myMainScript->getFunctionIdByName("void onEvent(Event@)");
+		myUpdateFunc = myMainScript->getFunctionIdByName("void onUpdate(float)");
+		myRenderFunc = myMainScript->getFunctionIdByName("void onRender()");
+		
+		myMainScript->call(myCreateFunc);
+	}
+	else{
+		this->close();
+		std::cout<<"Finished execution with errors."<<std::endl;
+		system("pause");
+	}
 };
 
 /// Draws the configured scene graph
 /// If the direct render script is enabled, it is rendered after the other objects.
 void ScriptGame::onRender(){
-	if(renderScriptEnabled){
-		//asEngine.ExecuteScriptFunction(renderScriptName, renderScriptFunc);
-	}
+	if(!myMainScript)return ;
+
+	View v;
+	v.reset(sf::FloatRect(0,0,1024,768));
+	renderer->setView(v);
+
+	renderer->draw(Text(")sf", 0,0));
+
+	renderer->getRenderTarget()->resetGLStates();
+	renderer->draw(Text(")sf", 0,0));
+
+	
+	myMainScript->call(myRenderFunc);
+	renderer->draw(Text(")sf", 0,0));
+
+
+
+
 };
 
 /// Called when an event is fired.
 void ScriptGame::onEvent(const Event &event){
-	if(event.Type == Event::KeyPressed){
-		//asEngine.ExecuteScriptFunction(entryPointScript, "void onKeyPress()");
-	}
+	if(!myMainScript)return ;
+
+	myMainScript->prepareMethod(myEventFunc);
+	myMainScript->prepareMethodArgument(0, (void*)&const_cast<Event&>(event), ScriptArgumentTypes::Object);
+	myMainScript->call();
+};
+
+/// Called when the game is updating
+void ScriptGame::onUpdate(float elapsedTime){
+	if(!myMainScript)return ;
+
+	myMainScript->prepareMethod(myUpdateFunc);
+	myMainScript->prepareMethodArgument(0, &elapsedTime, ScriptArgumentTypes::Float);
+	myMainScript->call();
 };
 
 /// Exports all necessary functions to scripts
 void ScriptGame::exportScripts(){
 	asIScriptEngine *engine = asEngine.getASEngine();
 
-	engine->RegisterGlobalFunction("void enableRenderScript(const string &in, const string &in)", asFUNCTION(enableRenderScript), asCALL_CDECL);
-	engine->RegisterGlobalFunction("void drawText(const string &in, int, int)", asFUNCTION(drawdebug), asCALL_CDECL);
-	engine->RegisterGlobalFunction("void playSound(const string &in)", asFUNCTION(playsounddebug), asCALL_CDECL);
-	engine->RegisterGlobalFunction("bool isKeyPressed(int)", asFUNCTION(iskeydebug), asCALL_CDECL);
-	engine->RegisterGlobalFunction("void drawImage(const string &in, int , int)", asFUNCTION(drawimagedebug), asCALL_CDECL);
 
 
 
-	engine->RegisterEnum("Keyboard");
-	engine->RegisterEnumValue("Keyboard", "A", Keyboard::A);
-	engine->RegisterEnumValue("Keyboard", "B", Keyboard::B);
-	engine->RegisterEnumValue("Keyboard", "C", Keyboard::C);
-	engine->RegisterEnumValue("Keyboard", "D", Keyboard::D);
-	engine->RegisterEnumValue("Keyboard", "E", Keyboard::E);
-	engine->RegisterEnumValue("Keyboard", "F", Keyboard::F);
-	engine->RegisterEnumValue("Keyboard", "G", Keyboard::G);
-	engine->RegisterEnumValue("Keyboard", "H", Keyboard::H);
-	engine->RegisterEnumValue("Keyboard", "I", Keyboard::I);
-	engine->RegisterEnumValue("Keyboard", "J", Keyboard::J);
-	engine->RegisterEnumValue("Keyboard", "K", Keyboard::K);
-	engine->RegisterEnumValue("Keyboard", "L", Keyboard::L);
-	engine->RegisterEnumValue("Keyboard", "M", Keyboard::M);
-	engine->RegisterEnumValue("Keyboard", "N", Keyboard::N);
-	engine->RegisterEnumValue("Keyboard", "O", Keyboard::O);
-	engine->RegisterEnumValue("Keyboard", "P", Keyboard::P);
-	engine->RegisterEnumValue("Keyboard", "Q", Keyboard::Q);
-	engine->RegisterEnumValue("Keyboard", "R", Keyboard::R);
-	engine->RegisterEnumValue("Keyboard", "S", Keyboard::S);
-	engine->RegisterEnumValue("Keyboard", "T", Keyboard::T);
-	engine->RegisterEnumValue("Keyboard", "U", Keyboard::U);
-	engine->RegisterEnumValue("Keyboard", "V", Keyboard::V);
-	engine->RegisterEnumValue("Keyboard", "W", Keyboard::W);
-	engine->RegisterEnumValue("Keyboard", "X", Keyboard::X);
-	engine->RegisterEnumValue("Keyboard", "Y", Keyboard::Y);
-	engine->RegisterEnumValue("Keyboard", "Z", Keyboard::Z);
+
+	//engine->RegisterGlobalFunction("void enableRenderScript(const string &in, const string &in)", asFUNCTION(enableRenderScript), asCALL_CDECL);
+	//engine->RegisterGlobalFunction("void drawText(const string &in, int, int)", asFUNCTION(drawdebug), asCALL_CDECL);
+	//engine->RegisterGlobalFunction("void playSound(const string &in)", asFUNCTION(playsounddebug), asCALL_CDECL);
+	//engine->RegisterGlobalFunction("bool isKeyPressed(int)", asFUNCTION(iskeydebug), asCALL_CDECL);
+	//engine->RegisterGlobalFunction("void drawImage(const string &in, int , int)", asFUNCTION(drawimagedebug), asCALL_CDECL);
 
 
+
+	/*
+
+	*/
 	//engine->RegisterObjectProperty(")
 	
 };

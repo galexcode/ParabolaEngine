@@ -113,9 +113,9 @@ bool NetworkServer::send(const sf::Packet &packet, bool reliable){
 	ENetPacket* epacket;
 
 	if(reliable)
-		epacket = enet_packet_create(packet.GetData(), packet.GetDataSize(), ENET_PACKET_FLAG_RELIABLE);
+		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_RELIABLE);
 	else
-		epacket = enet_packet_create(packet.GetData(), packet.GetDataSize(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
+		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
 
 	enet_host_broadcast(myHost, 0, epacket);
 	return true;

@@ -58,6 +58,9 @@ public:
 	/// Give a limited time to the function execution.
 	void prepareMethodTimeout(float timeoutSeconds);
 
+	/// Get function id by its name
+	int getFunctionIdByName(const String &name);
+
 	/// Call an already prepared context
 	/// Returns whether the execution was successful.
 	/// If you want the return value, pass your object address and specify the type you want to get.
@@ -102,6 +105,7 @@ private:
 	// Preparation
 	bool myCallPending;
 	int myPreparedMethod;
+	bool myPreserveGlobals;
 };
 
 /**

@@ -217,6 +217,15 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Dispatches the event to the handler, which will have a callback for the specific kind of event
 		void dispatch(EventHandler *handler);
 
+		/// Get the x position of the mouse in a mouse move or mouse press/release event
+		int mouseX();
+		/// Get the y position of the mouse in a mouse move or mouse press/release event
+		int mouseY();
+		/// Get the key code for the current event
+		int getKeyCode();
+		/// Get the mouse button code for the current event
+		int mouse();
+
 		/**
 			\brief Enum lists all the types the event can be of
 		*/
@@ -243,6 +252,8 @@ PARABOLA_NAMESPACE_BEGIN
 			DoubleClick, /// Only for events filtered by rocket
 			Count  
 		};
+
+		
 	};
 
 PARABOLA_NAMESPACE_END

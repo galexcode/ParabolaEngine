@@ -53,10 +53,10 @@ void GameCore::innerUpdate(Uint32 elapsedTime){
 /// Calls SetActive() on the window, clears the buffer and displays it.
 void GameCore::innerRender(){
 	if(myWindow && activeDrawing){
-		myWindow->SetActive(true);
-		myWindow->Clear(clearColor);
+		myWindow->setActive(true);
+		myWindow->clear(clearColor);
 		onRender();
-		myWindow->Display();
+		myWindow->display();
 	}
 };
 
@@ -75,7 +75,7 @@ void GameCore::innerCreate(){
 void GameCore::innerActivate(){
 	activeDrawing = true;
 	if(myWindow){
-		myWindow->SetTitle(myWindowTitle);
+		myWindow->setTitle(myWindowTitle);
 	}
 	onRenderFocus();
 };
@@ -155,10 +155,10 @@ SceneRenderer* GameCore::createRenderer(RenderTarget *target){
 
 	// assign window
 	if(target){
-		renderer->setRenderTarget(target);
+		renderer->setRenderTarget(*target);
 	}
 	else if(getWindow()){
-		renderer->setRenderTarget(getWindow().get());
+		renderer->setRenderTarget(*getWindow().get());
 	}
 
 	return renderer;
@@ -173,7 +173,7 @@ String& GameCore::windowTitle(){
 /// Set the window title
 void GameCore::setWindowTitle(const String &title){
 	myWindowTitle = title;
-	if(activeDrawing && myWindow) myWindow->SetTitle(title);
+	if(activeDrawing && myWindow) myWindow->setTitle(title);
 };
 
 

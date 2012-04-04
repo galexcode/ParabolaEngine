@@ -105,7 +105,7 @@ void SceneGraph::render(SceneRenderer *renderer){
 
 /// Dispatch an event through the scene graph
 bool SceneGraph::dispatchEvent(const Event &event){
-	if(event.Type == Event::MouseButtonPressed){
+	if(event.type == Event::MouseButtonPressed){
 		cout<<"Got a mouse click."<<endl;
 	}
 	return false;

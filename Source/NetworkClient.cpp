@@ -53,14 +53,14 @@ bool NetworkClient::connect(const String &address, int port, int timeout){
 			//Signal_ConnectedToHost.emit();
 			//cout<<"A good connect, signal emited"<<endl;
 			unblock();
-			update(0.f);
+			update(0);
 			return true;
 		}
 
 		if(Event.type == ENET_EVENT_TYPE_DISCONNECT)
 			cout<<"Timed out"<<endl;
 
-		cout<<"EVENT TYPE: "<<Event.type<<endl<<endl;
+		//cout<<"EVENT TYPE: "<<Event.type<<endl<<endl;
 	}
 
 	//cout<<"failed to connect, no service"<<endl;
@@ -109,9 +109,9 @@ bool NetworkClient::send(const sf::Packet &packet, bool reliable){
 	ENetPacket* epacket;
 
 	if(reliable)
-		epacket = enet_packet_create(packet.GetData(), packet.GetDataSize(), ENET_PACKET_FLAG_RELIABLE);
+		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_RELIABLE);
 	else
-		epacket = enet_packet_create(packet.GetData(), packet.GetDataSize(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
+		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
 
 	enet_peer_send(myPeer, 0, epacket);
 	return true;

@@ -40,6 +40,9 @@ class GameCore;
 */
 class PARABOLA_API ContentBank{
 public:
+	/// Creates a loose content bank, destroys its resources on destruction
+	ContentBank();
+
 	/// Loads the entries of the ContentList into memory
 	/// All resources will be known as its alias
 	/// Resources with aliases already loaded are ignored, and a log warning is issued
@@ -49,6 +52,9 @@ public:
 	/// Unloads all resources that have entry in the ContentList
 	/// When unloading the list, the alias will be used to locate all the resources that belong to the list
 	void unloadContentList(ContentList &list);
+
+	/// Create a sound buffer
+	void createSoundBuffer(const String &name);
 
 	/// Get a previously loaded sound buffer
 	sf::SoundBuffer* getSoundBuffer(const String &name);
@@ -76,6 +82,7 @@ private:
 
 	//Resource Pools
 	std::map<String, Texture*> myTextureResources;
+	std::map<String, sf::SoundBuffer*> mySoundResources;
 
 	/// Owns a loader
 	ContentLoader myLoader;

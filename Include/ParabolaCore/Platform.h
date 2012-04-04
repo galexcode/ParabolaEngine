@@ -3,9 +3,9 @@
 
 	// Engine Version
 	#define PARABOLA_VERSION_MAJOR 0
-	#define PARABOLA_VERSION_MINOR 7
+	#define PARABOLA_VERSION_MINOR 8
 	#define PARABOLA_VERSION_PATCH 3
-	#define PARABOLA_VERSION_STAMP "ParabolaEngine v0.7.3"
+	#define PARABOLA_VERSION_STAMP "ParabolaEngine v0.8.3"
 
 	/**
 		\namespace pE

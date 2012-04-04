@@ -12,7 +12,7 @@
 #include "KinesisQueryCallback.h"
 
 PARABOLA_NAMESPACE_BEGIN
-
+class SceneRenderer;
 	
 /**
 	\ingroup Kinesis
@@ -33,6 +33,15 @@ public:
 	/// Get the number of pixels in a meter.		
 	float getPixelRatio();
 
+	/// Draw the simulation in test mode through a renderer
+	void drawDebug(SceneRenderer* renderer);
+			
+	/// Update the simulation
+	void update(float elapsedTime);
+
+	/// Destroy a body by its actor
+	void destroyBodyActor(KinesisBodyActor *actor);
+
 
 		/**
 			\brief Set the Velocity iteration count
@@ -51,10 +60,7 @@ public:
 		*/
 		int GetPositionIterationCount();
 
-		/**
-			\brief Updates the simulation by <UpdateStep>
-		*/
-		void Update(float UpdateStep);
+
 
 		float ToMeters(float amount);
 		float ToPixels(float amount);
@@ -70,10 +76,10 @@ public:
 		bool IsPickingEnabled();
 		void UpdatePicking(float x, float y);
 
-		void CreateQuickCircle(int x, int y, int r);
-		b2Body* CreateQuickBox(int x, int y, int width, int height);
-		void CreateQuickLine(int x, int y, int xx, int yy);
-		b2Body* CreateStaticBox(int x, int y, int width, int height);
+		void CreateQuickCircle(float x, float y, float r);
+		KinesisBodyActor* CreateQuickBox(float x, float y, float width, float height);
+		void CreateQuickLine(float x, float y, float xx, float yy);
+		b2Body* CreateStaticBox(float x, float y, float width, float height);
 
 
 	
@@ -99,7 +105,8 @@ public:
 		/// Amount of pixels in a meter
 		float myPixelRatio;
 		
-		KinesisDebugDraw DebugRenderer;
+		KinesisDebugDraw myDebugDraw;
+
 		KinesisContactListener contactListener;
 		mutable sf::Mutex mutex;
 

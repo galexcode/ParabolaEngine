@@ -19,7 +19,10 @@
 #include "ParabolaCore/KinesisDebugDraw.h"
 #include "ParabolaCore/Kinesis.h"
 #include "ParabolaCore/Text.h"
+#include "ParabolaCore/SceneRenderer.h"
+#ifdef PARABOLA_WINDOWS
 #include <windows.h>
+#endif
 #include <gl/Gl.h>
 #include <gl/Glu.h>
 #include <cstdio>
@@ -40,14 +43,6 @@ PARABOLA_NAMESPACE_BEGIN
 
 		myParent = NULL;
 		renderer = 0;
-	};
-
-
-	void KinesisDebugDraw::Draw(sf::RenderTarget& target, sf::RenderStates states) const{
-		//target.PushGLStates();
-		const_cast<sf::RenderTarget*>(this->myTarget) = &target;
-		myParent->DrawDebugData();
-		//target.PopGLStates();
 	};
 
 	void KinesisDebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
@@ -179,9 +174,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 	void KinesisDebugDraw::DrawString(int x, int y, const char *string, ...)
 	{
-
-		myTarget->Draw((sf::Drawable&)Text(String(string) , x, y));	
-	
+		renderer->draw(Text(String(string) , x, y));			
 	}
 
 	void KinesisDebugDraw::DrawAABB(b2AABB* aabb, const b2Color& c)

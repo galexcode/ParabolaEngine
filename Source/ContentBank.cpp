@@ -2,6 +2,11 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+/// Creates a loose content bank, destroys its resources on destruction
+ContentBank::ContentBank() : myLoader(this){
+
+};
+
 /// Private constructor - only friends can instance ContentBank
 ContentBank::ContentBank(GameCore *parent, const String &name) : myLoader(this){
 	myName = name;
@@ -22,9 +27,16 @@ void ContentBank::unloadContentList(ContentList &list){
 
 };
 
+/// Create a sound buffer
+void ContentBank::createSoundBuffer(const String &name){
+	sf::SoundBuffer *ss = new sf::SoundBuffer();
+	ss->loadFromFile(name);
+	mySoundResources[name] = ss;
+};
+
 /// Get a sound buffer
 sf::SoundBuffer* ContentBank::getSoundBuffer(const String &name){
-	return NULL;
+	return mySoundResources.find(name)->second;
 };
 
 /// Temp
@@ -37,7 +49,7 @@ Texture* ContentBank::createTexture(const String &fileName, const String &alias)
 	std::map<String, Texture*>::iterator it = myTextureResources.find(name);
 	if(it == myTextureResources.end()){
 		myTextureResources[name] = new Texture();
-		myTextureResources[name]->LoadFromFile(fileName);
+		myTextureResources[name]->loadFromFile(fileName);
 		return myTextureResources[name];
 	}
 	else{		

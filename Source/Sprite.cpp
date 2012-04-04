@@ -2,67 +2,44 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
-	void Sprite::SetPosition(Vec2f Position){
-		sf::Sprite::SetPosition(*(sf::Vector2f*)&Position);
+/// Default sprite
+Sprite::Sprite() : sf::Sprite(){
 
-	}
+};
 
-	void Sprite::SetPosition(float x, float y){
-		sf::Sprite::SetPosition(x, y);
-	};
+/// Set the position from a vec2f
+void Sprite::setPosition(Vec2f position){
+	sf::Sprite::setPosition(position.x, position.y);
+};
 
-	void Sprite::SetCenterPosition(float x, float y){
-		sf::Sprite::SetPosition(x - (GetLocalBounds().Width/2), y - (GetLocalBounds().Height/2));
-	};
+/// Set the position from a vec2f
+/// Position is the top-left coordinate
+void Sprite::setPosition(float x, float y){
+	sf::Sprite::setPosition(x, y);
+};
 
-	Vec2f Sprite::GetPosition(){
-		return (*(Vec2f*)&(sf::Sprite::GetPosition()));
-	}
+void Sprite::setCenterPosition(float x, float y){
+	sf::Sprite::setPosition(x - (getLocalBounds().width/2), y - (getLocalBounds().height/2));
+};
 
-	void Sprite::Resize(float x, float y){
-		SetScale((x / GetGlobalBounds().Width),(y / GetGlobalBounds().Height)); 
-	};
+/// Sets the position of the sprite, considering its center instead
+/// Is considered as the center the middle of the local bounding box
+void Sprite::setCenterPosition(Vec2f position){
+	sf::Sprite::setPosition(position.x - (getLocalBounds().width/2), position.y - (getLocalBounds().height/2));
+};
 
-	bool Sprite::ContainsPoint(Vec2f Point){
-		return (Point.x >= GetPosition().x
-				&& Point.x <= GetPosition().x + GetLocalBounds().Width
-				&& Point.y >= GetPosition().y
-				&& Point.y <= GetPosition().y + GetLocalBounds().Height);
-	}
+void Sprite::resize(float x, float y){
+	setScale((x / getGlobalBounds().width),(y / getGlobalBounds().height)); 
+};
 
-	/*GameSprite::GameSprite(){
-		StaticFlag = true;
-		CurrentAnimation = 0;
-	}
+/// Check if a point is contained in the sprite
+bool Sprite::containsPoint(Vec2f point){
+	return getGlobalBounds().contains(point.x, point.y);
+};
 
-	sf::Sprite& GameSprite::Get(){
-		return Sprite;
-	}
+/// Check if a point is contained in the sprite
+bool Sprite::containsPoint(float x, float y){
+	return getGlobalBounds().contains(x, y);
+};
 
-	KeyFrameAnimation* GameSprite::CreateAnimation(string AnimationName){
-		if(StaticFlag)StaticFlag = false;
-		KeyFrameAnimation* Animation = new KeyFrameAnimation(AnimationName);
-		Animations.insert(Animations.end(), Animation);
-		return Animation;
-	}
-
-	void GameSprite::SetActiveAnimation(KeyFrameAnimation *Animation){
-		if(Animation == 0)
-			return;
-
-		CurrentAnimation = Animation;
-		CurrentAnimation->SetTime(0);
-		Update(0);
-	}
-
-	void GameSprite::Update(float Time){
-		if(StaticFlag || CurrentAnimation == 0)
-			return;
-
-		if(CurrentAnimation->Update(Time)){
-			//Update the object because the keyframe changed
-			Sprite.SetImage(CurrentAnimation->GetKeyFrame(CurrentAnimation->GetFrameIndex())->Image());
-		}
-		
-	}*/
 PARABOLA_NAMESPACE_END

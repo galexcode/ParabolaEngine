@@ -9,7 +9,7 @@ PARABOLA_NAMESPACE_BEGIN
 /// Similar to Window->GetEvent() but if send_to_handlers is true
 /// it sends the event to all handlers
 bool EventDispatcher::catchEvent(Event &event, bool send_to_handlers){
-	bool r = Parent->PollEvent(event);
+	bool r = Parent->pollEvent(event);
 
 	if(r && send_to_handlers){
 		//dispatch
@@ -20,38 +20,40 @@ bool EventDispatcher::catchEvent(Event &event, bool send_to_handlers){
 };
 
 
+
+
 /// Dispatches the event to the handlers, which will callback the right event
 void EventDispatcher::dispatch(const Event &event){
 	if(myHandlers.size() == 0)return;
 
-	switch(event.Type){
+	switch(event.type){
 			case Event::MouseButtonPressed:
 				for(unsigned int i = 0; i < myHandlers.size(); i++){
-					myHandlers[i]->OnMouseButtonDown(event.MouseButton.Button, event.MouseButton.X, event.MouseButton.Y, 0);
+					myHandlers[i]->OnMouseButtonDown(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y, 0);
 				}break;
 			case Event::MouseButtonReleased:
 				for(unsigned int i = 0; i < myHandlers.size(); i++){
-					myHandlers[i]->OnMouseButtonUp(event.MouseButton.Button, event.MouseButton.X, event.MouseButton.Y, 0);				
+					myHandlers[i]->OnMouseButtonUp(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y, 0);				
 				}break;
 			case Event::MouseMoved:				
 				for(unsigned int i = 0; i < myHandlers.size(); i++){
-					myHandlers[i]->OnMouseMove(event.MouseMove.X, event.MouseMove.Y, 0);
+					myHandlers[i]->OnMouseMove(event.mouseMove.x, event.mouseMove.y, 0);
 				}break;
 			case Event::MouseWheelMoved:
 				for(unsigned int i = 0; i < myHandlers.size(); i++){
-					myHandlers[i]->OnMouseWheel(event.MouseWheel.Delta, 0);
+					myHandlers[i]->OnMouseWheel(event.mouseWheel.delta, 0);
 				}break;
 			case Event::KeyPressed:
 				for(unsigned int i = 0; i < myHandlers.size(); i++){
-					myHandlers[i]->OnKeyPress(event.Key.Code, 0);				
+					myHandlers[i]->OnKeyPress(event.key.code, 0);				
 				}break;
 			case Event::KeyReleased:
 				for(unsigned int i = 0; i < myHandlers.size(); i++){
-					myHandlers[i]->OnKeyReleased(event.Key.Code, 0);
+					myHandlers[i]->OnKeyReleased(event.key.code, 0);
 				}break;
 			case Event::TextEntered:
 				for(unsigned int i = 0; i < myHandlers.size(); i++){
-					myHandlers[i]->OnTextEntered(event.Text.Unicode);
+					myHandlers[i]->OnTextEntered(event.text.unicode);
 				}break;
 	}
 };
@@ -75,7 +77,7 @@ int EventDispatcher::handlerCount(){
 };
 /// Get the handler at index
 EventHandler* EventDispatcher::handlerAt(int index){
-	if(index < 0 || index <= myHandlers.size())return NULL;
+	if(index < 0 || (unsigned int)index <= myHandlers.size())return NULL;
 	else{
 		return myHandlers[index];
 	}
@@ -84,12 +86,12 @@ EventHandler* EventDispatcher::handlerAt(int index){
 
 /// Get real time state of a key
 bool EventDispatcher::isKeyPressed(Keyboard::Key key){
-	return sf::Keyboard::IsKeyPressed((sf::Keyboard::Key)key);
+	return sf::Keyboard::isKeyPressed((sf::Keyboard::Key)key);
 };
 
 /// Get real time state of a mouse button
 bool EventDispatcher::isMouseButtonPressed(Mouse::Button button){
-	return sf::Mouse::IsButtonPressed((sf::Mouse::Button)button);
+	return sf::Mouse::isButtonPressed((sf::Mouse::Button)button);
 };
 
 /// Translates a key into libRocket key
@@ -331,28 +333,53 @@ Event::Event() : sf::Event(){
 
 }
 
+/// Get the x position of the mouse in a mouse move or mouse press/release event
+int Event::mouseX(){
+	if(type == MouseMoved)
+		return (int)mouseMove.x;
+	else
+		return (int)mouseButton.x;
+}
+/// Get the y position of the mouse in a mouse move or mouse press/release event
+int Event::mouseY(){
+	if(type == MouseMoved)
+		return (int)mouseMove.y;
+	else
+		return (int)mouseButton.y;
+}
+
+/// Get the key code for the current event
+int Event::getKeyCode(){
+	return (int)key.code;
+};
+
+int Event::mouse(){
+	return (int)mouseButton.button;
+};
+
+
 void Event::dispatch(EventHandler *handler){
-	switch(Type){
+	switch(type){
 			case Event::MouseButtonPressed:				
-				handler->OnMouseButtonDown(MouseButton.Button, MouseButton.X, MouseButton.Y, 0);				
+				handler->OnMouseButtonDown(mouseButton.button, mouseButton.x, mouseButton.y, 0);				
 				break;
 			case Event::MouseButtonReleased:
-				handler->OnMouseButtonUp(MouseButton.Button, MouseButton.X, MouseButton.Y, 0);				
+				handler->OnMouseButtonUp(mouseButton.button, mouseButton.x, mouseButton.y, 0);				
 				break;
 			case Event::MouseMoved:				
-				handler->OnMouseMove(MouseMove.X, MouseMove.Y, 0);
+				handler->OnMouseMove(mouseMove.x, mouseMove.y, 0);
 				break;
 			case Event::MouseWheelMoved:
-				handler->OnMouseWheel(this->MouseWheel.Delta, 0);
+				handler->OnMouseWheel(mouseWheel.delta, 0);
 				break;
 			case Event::KeyPressed:
-				handler->OnKeyPress(Key.Code, 0);				
+				handler->OnKeyPress(key.code, 0);				
 				break;
 			case Event::KeyReleased:
-				handler->OnKeyReleased(Key.Code, 0);
+				handler->OnKeyReleased(key.code, 0);
 				break;
 			case Event::TextEntered:
-				handler->OnTextEntered(Text.Unicode);
+				handler->OnTextEntered(text.unicode);
 				break;
 	}
 };

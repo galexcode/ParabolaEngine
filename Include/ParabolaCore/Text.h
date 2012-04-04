@@ -8,6 +8,7 @@
 PARABOLA_NAMESPACE_BEGIN
 
 	typedef sf::Color Color;
+	typedef sf::Font Font;
 
 	/**
 		\ingroup Graphics
@@ -20,14 +21,16 @@ PARABOLA_NAMESPACE_BEGIN
 	class PARABOLA_API Text : public sf::Text{
 	public:		
 		/// Creates a text with default font and content text positioned at (x,y) as top-left coordinate
-		Text(String text, int x, int y);
-		/// Creates an empty text
+		Text(String text, float x, float y);
+		/// Creates a text with the desired font at the specified position
+		Text(const Font &font, String text, float x, float y);
+		/// Default text
 		Text();
 
 		/// Align the text to be centered between x and y - Horizontal Coordinates
-		void alignCenterH(int x, int y);
+		void alignCenterH(float x, float y);
 		/// Align the text to be centered between x and y - Vertical Coordinates
-		void alignCenterV(int x, int y);
+		void alignCenterV(float x, float y);
 	};
 
 PARABOLA_NAMESPACE_END

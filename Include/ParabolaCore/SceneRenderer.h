@@ -49,41 +49,26 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Creates a renderer with no render target
 		SceneRenderer();
 		/// Creates a renderer bound to [target]
-		/// Version uses a raw pointer. Internally it is converted to a smart pointer
-		/// Though, it will be invalid if the pointer is destroyed with delete.
-		/// Recommended use: SceneRenderer renderer(new RenderTarget());
-		/// In order to assure safety
 		SceneRenderer(RenderTarget &target);
-		/// Creates a renderer bound to [target]
-		/// Version uses smart pointers, so it is just another
-		/// safe reference to that target.
-		SceneRenderer(linked_ptr<RenderTarget> &target);
-
 
 		/// Returns the bound render target or NULL if none is assigned
-		linked_ptr<RenderTarget> renderTarget();
+		RenderTarget* getRenderTarget();
 
 		/// Binds the target to the renderer
-		/// Version uses a raw pointer. Internally it is converted to a smart pointer
-		/// Though, it will be invalid if the pointer is destroyed with delete.
-		/// Recommended use: SceneRenderer renderer(new RenderTarget());
-		/// In order to assure safety
-		void setRenderTarget(RenderTarget *target);
-
-		/// Binds the target to the renderer
-		/// Creates a renderer bound to [target]
-		/// Version uses smart pointers, so it is just another
-		/// safe reference to that target.
-		void setRenderTarget(linked_ptr<RenderTarget> &target);
+		void setRenderTarget(RenderTarget &target);
 
 		/// Get the size of the target
-		Vec2i getSize();
+		Vec2i getTargetSize();
 
-		/// Sets a default camera to the target
-		/// View port is all the render target
-		/// The size of the view is equal to the render size(resolution) and has (0,0) origin
-		/// The center of the view is (target width)/2 and (target height)/2
-		void setFullView();
+		/// Draw a text in the screen
+		void drawDebugText(const String &text, float x, float y);
+
+		/// Draws a debug circle
+		void drawDebugCircle(float x, float y, float r);
+
+		/// Activate the window
+		void activateRenderTarget();
+
 
 		/// Assign the view to the target directly
 		void setView(const View &view);
@@ -115,7 +100,7 @@ PARABOLA_NAMESPACE_BEGIN
 		void drawAt(RenderTarget &target, Drawable &drawable, bool keepView);
 
 	private:
-		linked_ptr<RenderTarget> myTarget;
+		RenderTarget* myTarget;
 	};
 
 	

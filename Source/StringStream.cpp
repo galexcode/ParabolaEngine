@@ -17,7 +17,7 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 	bool StringStream::atEnd(){
-		if(! str || pos >= str->length()){
+		if(! str || (unsigned int)pos >= str->length()){
 			return true;
 		}
 		else return false;
@@ -30,14 +30,14 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 	char StringStream::readChar(){
-		if(pos >= str->length())return EOF;
+		if((unsigned int)pos >= str->length())return EOF;
 		else return (*str).at(pos++);
 	};
 
 	void StringStream::seekOffset(int byteCount){
 		pos += byteCount;
 		if(pos < 0)pos = 0;
-		if(pos >= str->length() ) pos = str->length();		
+		if((unsigned int)pos >= str->length() ) pos = str->length();		
 	};
 
 	String StringStream::readAll(){

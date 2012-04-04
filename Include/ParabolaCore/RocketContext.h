@@ -30,7 +30,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		It is a common approach and will work well if you have one context per game screen, for example.
 	*/
-	class PARABOLA_API RocketContext : public Rocket::Core::Context, public Drawable, public EventHandler{
+	class PARABOLA_API RocketContext : public Rocket::Core::Context, public EventHandler{
 	public:
 		/// Safely destroys the context on destruction
 		~RocketContext();
@@ -97,7 +97,7 @@ PARABOLA_NAMESPACE_BEGIN
 		
 	protected:
 		/// Virtual method implementation. Called when a RenderTarget is trying to render this context
-		virtual void Draw(sf::RenderTarget& target, sf::RenderStates states) const;
+		//virtual void Draw(sf::RenderTarget& target, sf::RenderStates states) const;
 
 		/// Virtual method implementation. 
 		void OnMouseButtonDown(unsigned int MouseButton, int x, int y, int keyMod);

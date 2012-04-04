@@ -22,13 +22,7 @@ class ParticleSystem;
 	\brief Wrapper for a SPARK renderer. Scripting convenience.
 */
 class PARABOLA_API ParticleRenderer{
-public:
-	
-
-	void dummy(){
-
-	}
-
+public:	
 	SPK::Ref<SPK::GL::GLRenderer> myRenderer;
 };
 
@@ -39,29 +33,8 @@ public:
 */
 class PARABOLA_API ParticleTexture{
 public:
-	bool loadTexture(const String &path){
-		
-		GLuint texture = 0;
-		{
-			Image image;
-			if (!image.LoadFromFile(path))
-				return false;
-
-			glGenTextures(1, &texture);
-			glBindTexture(GL_TEXTURE_2D, texture);
-			gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, image.GetWidth(), image.GetHeight(), GL_RGBA, GL_UNSIGNED_BYTE, image.GetPixelsPtr());
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-		}
-
-		myTextureID = texture;
-		return true;
-	}
-
-	void dummy(){}
-
+	bool loadTexture(const String &path);
 	GLuint myTextureID;
-
 };
 
 /**
@@ -71,11 +44,6 @@ public:
 */
 class PARABOLA_API ParticleModifier{
 public:
-
-	void dummy(){
-
-	}
-
 	SPK::Ref<SPK::Modifier> myModifier;
 };
 
@@ -86,12 +54,7 @@ public:
 */
 class PARABOLA_API ParticleZone{
 public:
-
 	SPK::Ref<SPK::Zone> myZone;
-
-	void dummy(){
-
-	}
 };
 
 /**
@@ -101,11 +64,6 @@ public:
 */
 class PARABOLA_API ParticleEmitter{
 public:
-
-	void dummy(){
-
-	}
-
 	SPK::Ref<SPK::Emitter> myEmitter;
 };
 
@@ -149,12 +107,7 @@ public:
 		myGroup->setRenderer(pRenderer.myRenderer);
 	}
 
-	void dummy(){
-
-	}
-
 	SPK::Ref<SPK::Group> myGroup;
-
 	ParticleSystem *myParent;
 };
 
@@ -176,9 +129,8 @@ public:
 	/// Adds a new group to the system
 	ParticleGroup& addGroup(const String &name, int capacity);
 
-	String getName(){
-			return myName;
-	}
+	/// Get the name of this particle system
+	String getName();
 
 	ParticleTexture& createTexture(const String &name, const String &path){
 		ParticleTexture *pRend = new ParticleTexture();
@@ -187,12 +139,8 @@ public:
 		return *pRend;
 	}
 
-	ParticleRenderer& createPointRenderer(const String &name, int pointSize){
-		ParticleRenderer *pRend = new ParticleRenderer();
-		pRend->myRenderer = SPK::GL::GLPointRenderer::create(pointSize);
-		myRenderers[name] = pRend;
-		return *pRend;
-	}
+	/// Creates a point renderer directly
+	ParticleRenderer& createPointRenderer(const String &name, float pointSize);
 
 	ParticleZone& createSphereZone(const String &name, float x, float y, float z, float radius){
 		ParticleZone *pRend = new ParticleZone();

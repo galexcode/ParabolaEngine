@@ -114,18 +114,12 @@ public:
 	/// Do not DELETE this yourself, rather call the appropriate function.
 	ASScript* findScript(const String &name);
 
+	/// Export a type as reference, that means it can only be instanced through C++
+	int exportReferenceDataType(const String &name);
 
-	/// Wrapper for exporting reference only data types, that means they cannot be instantiated in scripts.
-	/// name will be the name to be known from scripts
-	/// typeSize is just sizeof(MyClassType)
-	/// dummyMethod must contain the name of a useless method from your class, because of an internal detail. 
-	/// Such as "dummy", if you have a function void dummy() that does nothing .
-	int exportReferenceDataType(const String &name, size_t typeSize, const String &dummyMethod);
-
-	/// Wrapper for exporting global properties
-	/// dataType could be "const int" or "MyClass", or anything valid for the script context
-	/// varName could be anything under the common constraints of variable naming.
-	int exportGlobalProperty(const String &dataType, const String &varName);
+	/// Declare a global property in the scripts
+	/// Data can be NULL if the type will be instanced by the script
+	int exportGlobalProperty(const String &declaration, void* data);
 
 	/// Compiles all scripts in the search directories
 	/// All files found in the directories ending with .sourceextension will be compiled into byte code.
@@ -171,6 +165,18 @@ public:
 	/// Exports math support
 	bool exportMath();
 
+	/// Exports events as a reference type
+	bool exportEvents();
+
+	/// Exports physics functionality
+	bool exportKinesis();
+	
+	/// Exports the renderer and a few more things
+	bool exportBasicGraphics();
+
+	/// Exports the content banks
+	bool exportContentBanks();
+
 	//////////////////////////////////////////////////////////////////////////
 
 	/// Exports everything necessary to make this engine a particle loader
@@ -200,6 +206,9 @@ private:
 	bool gameCoreExported;
 	bool scriptBasic;
 	bool engineBasic;
+	bool exportedKinesis;
+	bool exportedRenderer;
+	bool exportedContentBanks;
 
 	/// Profile
 	ScriptProfiles::Profiles myScriptingProfile;

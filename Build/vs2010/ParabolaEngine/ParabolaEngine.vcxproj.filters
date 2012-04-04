@@ -59,9 +59,6 @@
     <Filter Include="Engine\Scene\EntityFramework\Components">
       <UniqueIdentifier>{d6abd746-1262-474f-8b66-e931627a38e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\LetThereBeLight">
-      <UniqueIdentifier>{d1c987b5-425c-490e-86c7-3c038c8214fe}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\Animation.cpp">
@@ -361,38 +358,17 @@
     <ClCompile Include="..\..\..\Source\ComponentKinesis.cpp">
       <Filter>Engine\Scene\EntityFramework\Components</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\Constructs.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    <ClCompile Include="..\..\..\Source\ASConstructs.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\ConvexHull.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    <ClCompile Include="..\..\..\Source\ASKinesis.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\EmissiveLight.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    <ClCompile Include="..\..\..\Source\ASGraphics.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\Light.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\Light_Point.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\LightSystem.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\QuadTree.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\QuadTreeNode.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\QuadTreeOccupant.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\SFML_OpenGL.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Lighting\ShadowFin.cpp">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
+    <ClCompile Include="..\..\..\Source\ASContent.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -718,39 +694,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\ComponentKinesis.h">
       <Filter>Engine\Scene\EntityFramework\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\Constructs.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\ConvexHull.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\EmissiveLight.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\Light.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\Light_Point.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\LightSystem.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\QuadTree.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\QuadTreeNode.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\QuadTreeOccupant.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\SFML_OpenGL.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Source\Lighting\ShadowFin.h">
-      <Filter>Engine\Graphics\LetThereBeLight</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

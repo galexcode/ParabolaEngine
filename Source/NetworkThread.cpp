@@ -21,7 +21,7 @@ void NetworkThread::add(NetworkSocket *socket){
 	if(mySleeping && myCanLaunch){
 		// Should launch thread
 		myThread = new sf::Thread(&NetworkThread::threadFunc, this);
-		myThread->Launch();
+		myThread->launch();
 	}
 };
 
@@ -31,7 +31,7 @@ void NetworkThread::threadFunc(){
 		sf::Lock lock(myMutex);
 		for(unsigned int i = 0; i < mySockets.size(); i++){
 			if(! mySockets[i]->isBlocked())
-				mySockets[i]->update(0.f);
+				mySockets[i]->update(0);
 		}
 	}
 

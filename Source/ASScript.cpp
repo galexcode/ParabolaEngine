@@ -14,6 +14,7 @@ ASScript::ASScript(){
 	myExecutionContext = NULL;
 	myEnableContextDestruction = true;
 	myCallPending = false;
+	myPreserveGlobals = true;
 };
 
 /// Safely destruct the script
@@ -23,6 +24,18 @@ ASScript::~ASScript(){
 
 /// Prepare the context to call the function with the selected id
 bool ASScript::prepareMethod(int funcid){
+	if(myModule){
+		myPreparedMethod = funcid;
+		if(myPreparedMethod > 0){
+			requestContext();
+			myExecutionContext->Prepare(myPreparedMethod);
+			myCallPending = true;
+			return true;
+		}
+		else{
+			cout<<"Tried to prepare an invalid function"<<endl;
+		}
+	}
 	return false;
 };
 
@@ -46,7 +59,9 @@ bool ASScript::prepareMethod(const String &funcName){
 /// \param argumentType must be a valid exportable argument type.
 /// Use with care, incorrect use may lead to crashes.
 void ASScript::prepareMethodArgument(int index, void* data, ScriptArgumentTypes::ArgTypes argumentType){
-	int result;
+	if(!myExecutionContext)return;
+
+	int result = asINVALID_ARG;
 	switch(argumentType){
 		case ScriptArgumentTypes::Object:
 			result = myExecutionContext->SetArgObject(index, data);
@@ -54,10 +69,19 @@ void ASScript::prepareMethodArgument(int index, void* data, ScriptArgumentTypes:
 		case ScriptArgumentTypes::Ptr:
 			result = myExecutionContext->SetArgAddress(index, data);
 		break;
+		case ScriptArgumentTypes::Float:
+			result = myExecutionContext->SetArgFloat(index, *((float*)data));
+		break;
 	}
 
 	if(result == asINVALID_ARG){
 		cout<<"ARGUMENT NUMBER INVALID"<<endl;
+	}
+	else if(result == asINVALID_TYPE){
+		cout<<"ARGUMENT TYPE INVALID"<<endl;
+	}
+	else if(result == asCONTEXT_NOT_PREPARED){
+		cout<<"CONTEXT NOT READY"<<endl;
 	}
 };
 
@@ -73,7 +97,9 @@ void ASScript::prepareMethodTimeout(float timeoutSeconds){
 bool ASScript::call(void *data, ScriptArgumentTypes::ArgTypes returnType){
 	if(myCallPending && myModule){
 		//requestContext();
-		myModule->ResetGlobalVars(myExecutionContext);
+		if(!myPreserveGlobals)
+			myModule->ResetGlobalVars(myExecutionContext);
+
 		//myExecutionContext->Prepare(myPreparedMethod);
 		int r = myExecutionContext->Execute();
 		if(r == asEXECUTION_FINISHED){
@@ -90,14 +116,28 @@ bool ASScript::call(void *data, ScriptArgumentTypes::ArgTypes returnType){
 
 /// Call immediately the selected function
 bool ASScript::call(const String &funcName){
-	return false;
-
+	prepareMethod(funcName);
+	return call();
 };
 
 /// Call the selected function right away
 bool ASScript::call(int funcid){
-	return false;
+	prepareMethod(funcid);
+	return call();
+};
 
+/// Get function id by its name
+int ASScript::getFunctionIdByName(const String &name){
+	if(myModule){
+		int id;
+		id = myModule->GetFunctionIdByDecl(name.c_str());
+		/*if(id > 0){
+			
+		}*/
+		return id;
+	}
+	else
+		return -1;
 };
 
 /// Get the last return value, if the context is still alive
@@ -112,6 +152,10 @@ void ASScript::requestContext(){
 	if(!myExecutionContext){
 		if(myParent){
 			myExecutionContext = myParent->getASEngine()->CreateContext();
+			if(myExecutionContext && myPreserveGlobals){
+				//just start globals now				
+				myModule->ResetGlobalVars(myExecutionContext);
+			}
 		}
 	}
 };

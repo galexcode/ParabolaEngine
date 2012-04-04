@@ -21,7 +21,7 @@ void ComponentPhysicsCompound::onAttach(){
 
 /// Make this compound a bridge (a few bodies, connected by joints)
 void ComponentPhysicsCompound::createBridge(Vec2f bridgeStart, Vec2f bridgeEnd, int stepCount){
-	KinesisWorld *sim = this->getParentEntity()->getParentSceneNode()->getLayerNode()->getKinesisWorld();
+	/*KinesisWorld *sim = this->getParentEntity()->getParentSceneNode()->getLayerNode()->getKinesisWorld();
 	if(sim){
 		// A proper tree will always have the remaining calls valid.
 
@@ -65,12 +65,12 @@ void ComponentPhysicsCompound::createBridge(Vec2f bridgeStart, Vec2f bridgeEnd, 
 		b2RevoluteJointDef def;
 		def.Initialize(right_support, body, b2Vec2(sim->ToMeters(bridgeEnd.x),sim->ToMeters(bridgeEnd.y)));
 		sim->CreateJoint(&def);
-	}
+	}*/
 };
 
 /// Make this compound own a bridge
 void ComponentPhysicsCompound::createRope(Vec2f ropeStart,float fraglen, int fragments){
-	KinesisWorld *sim = this->getParentEntity()->getParentSceneNode()->getLayerNode()->getKinesisWorld();
+	/*KinesisWorld *sim = this->getParentEntity()->getParentSceneNode()->getLayerNode()->getKinesisWorld();
 	if(sim){
 		// A proper tree will always have the remaining calls valid.
 	
@@ -107,7 +107,7 @@ void ComponentPhysicsCompound::createRope(Vec2f ropeStart,float fraglen, int fra
 			xoffset += fraglen;		
 		}
 
-	}
+	}*/
 };
 
 PARABOLA_NAMESPACE_END

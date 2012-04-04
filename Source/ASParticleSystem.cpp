@@ -5,6 +5,10 @@
 #include <iostream>
 using namespace std;
 
+void dummy(void*){
+
+}
+
 PARABOLA_NAMESPACE_BEGIN
 /// Exports everything necessary to make this engine a particle loader
 void ASEngine::activateParticleLoaderProfile(){
@@ -20,26 +24,26 @@ void ASEngine::activateParticleLoaderProfile(){
 
 
 	int r;
-	r = asEngine->RegisterObjectBehaviour("ParticleEffect", asBEHAVE_ADDREF, "void f()", asMETHOD(ParticleSystem,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("ParticleEffect", asBEHAVE_RELEASE, "void f()", asMETHOD(ParticleSystem,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleEffect", asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleEffect", asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
 
-	r = asEngine->RegisterObjectBehaviour("ParticleGroup", asBEHAVE_ADDREF, "void f()", asMETHOD(ParticleGroup,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("ParticleGroup", asBEHAVE_RELEASE, "void f()", asMETHOD(ParticleGroup,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleGroup", asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleGroup", asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
 	
-	r = asEngine->RegisterObjectBehaviour("ParticleRenderer", asBEHAVE_ADDREF, "void f()", asMETHOD(ParticleRenderer,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("ParticleRenderer", asBEHAVE_RELEASE, "void f()", asMETHOD(ParticleRenderer,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleRenderer", asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleRenderer", asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
 
-	r = asEngine->RegisterObjectBehaviour("ParticleZone", asBEHAVE_ADDREF, "void f()", asMETHOD(ParticleZone,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("ParticleZone", asBEHAVE_RELEASE, "void f()", asMETHOD(ParticleZone,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleZone", asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleZone", asBEHAVE_RELEASE, "void f()",asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
 	
-	r = asEngine->RegisterObjectBehaviour("ParticleEmitter", asBEHAVE_ADDREF, "void f()", asMETHOD(ParticleEmitter,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("ParticleEmitter", asBEHAVE_RELEASE, "void f()", asMETHOD(ParticleEmitter,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleEmitter", asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleEmitter", asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
 	
-	r = asEngine->RegisterObjectBehaviour("ParticleTexture", asBEHAVE_ADDREF, "void f()", asMETHOD(ParticleTexture,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("ParticleTexture", asBEHAVE_RELEASE, "void f()", asMETHOD(ParticleTexture,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleTexture", asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleTexture", asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
 
-	r = asEngine->RegisterObjectBehaviour("ParticleModifier", asBEHAVE_ADDREF, "void f()", asMETHOD(ParticleModifier,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("ParticleModifier", asBEHAVE_RELEASE, "void f()", asMETHOD(ParticleModifier,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleModifier", asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("ParticleModifier", asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
 
 
 	//////////////////////////////////////////////////////////////////////////
@@ -48,7 +52,7 @@ void ASEngine::activateParticleLoaderProfile(){
 
 	r = asEngine->RegisterObjectMethod("ParticleEffect", "string getName()", asMETHOD(ParticleSystem, getName) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("ParticleEffect", "ParticleGroup@ addGroup(const string &in, int capacity)", asMETHOD(ParticleSystem, addGroup) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("ParticleEffect", "ParticleRenderer@ createPointRenderer(const string &in, int pointSize)", asMETHOD(ParticleSystem, createPointRenderer) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectMethod("ParticleEffect", "ParticleRenderer@ createPointRenderer(const string &in, float pointSize)", asMETHOD(ParticleSystem, createPointRenderer) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("ParticleEffect", "ParticleZone@ createSphereZone(const string &in, float x, float y, float z, float radius)", asMETHOD(ParticleSystem, createSphereZone) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("ParticleEffect", "ParticleEmitter@ createSphericEmitter(const string &in, float direction_x, float direction_y, float direction_z, float angleMin, float angleMax, ParticleZone &zone, bool full, int tank, float flow, float forceMin, float forceMax)", asMETHOD(ParticleSystem, createSphericEmitter) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("ParticleEffect", "ParticleTexture@ createTexture(const string &in, const string &in)", asMETHOD(ParticleSystem, createTexture) , asCALL_THISCALL);if(r < 0)printf("r %d", r);

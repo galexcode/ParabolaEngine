@@ -43,16 +43,16 @@ void GetHttpTask::run(const String &calledAs, String arguments){
 	else if(args.size() >= 1){
 		sf::Http http;
 
-		http.SetHost(args[0]);
+		http.setHost(args[0]);
 
 		// Prepare a request to get the 'features.php' page
 		sf::Http::Request request("");
 
 		// Send the request
-		sf::Http::Response response = http.SendRequest(request);
+		sf::Http::Response response = http.sendRequest(request);
 
 		// Check the status code and display the result
-		sf::Http::Response::Status status = response.GetStatus();
+		sf::Http::Response::Status status = response.getStatus();
 		if (status == sf::Http::Response::Ok)
 		{
 			//std::cout << response.GetBody() << std::endl;
@@ -60,12 +60,12 @@ void GetHttpTask::run(const String &calledAs, String arguments){
 			if(args.size() == 2){
 				TextFileStream out(args[1], StreamMode::WriteOnly);
 				if(out.valid()){
-					out << response.GetBody();
+					out << response.getBody();
 				}
 				cout<<"saved file ["<<args[1]<<"].";
 			}
 			else{
-				cout<<"no file, printing."<<endl<<response.GetBody();
+				cout<<"no file, printing."<<endl<<response.getBody();
 			}
 			cout<<endl;
 		}

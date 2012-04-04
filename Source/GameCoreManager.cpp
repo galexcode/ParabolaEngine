@@ -39,7 +39,7 @@ void GameCoreManager::checkEvents(){
 
 /// Make the games update
 void GameCoreManager::update(){
-	Uint32 elapsed = clock.GetElapsedTime().AsMilliseconds(); // elapsed time since last frame
+	Uint32 elapsed = clock.getElapsedTime().asMilliseconds(); // elapsed time since last frame
 
 	std::list<linked_ptr<GameCore> >::iterator it;
 	for(it = myExecutionList.begin(); it != myExecutionList.end(); it++){
@@ -70,7 +70,7 @@ void GameCoreManager::update(){
 	}
 	eraseList.clear();
 
-	clock.Restart();
+	clock.restart();
 };
 
 /// Make the active drawing game render itself

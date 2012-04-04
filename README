@@ -1,11 +1,14 @@
-Parabola Engine SDK - Currently in 0.8.2 version
+Parabola Engine SDK - Currently in 0.8.3 version
 ------------------------------------------------
 
 Check the main website for information, documentation and other things, such as stable packed releases.
-http://parabolaengine.comlu.com/
+	http://parabolaengine.comlu.com/
+I vividly encourage the use of the forum to report issues/request help/contribute somehow.
+	http://parabolaengine.comlu.com/forum/
 
 
-Note: This is a test release. Next ones will be more decent! Promise!
+
+Disclaimer: until the engine reaches alpha state, its API may change quite a few, and some features may still not be working as intended!
 
 Here you can get the latest version of the source. Building projects available for VS2010 only, for now.
 
@@ -15,3 +18,4 @@ Besides the main library the engine produces, you will need the dependencies, wh
 Just care to download the dependencies for the latest version!
 
 It should be already usable, but feel free to report any issues you may have.
+Email me at artturmoreira@gmail.com if you need anything!

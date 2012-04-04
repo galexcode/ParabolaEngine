@@ -2,6 +2,8 @@
 #include "ParabolaCore/SceneGraph.h"
 #include "ParabolaCore/RocketContext.h"
 #include "ParabolaCore/Logger.h"
+#include "ParabolaCore/Text.h"
+#include "ParabolaCore/Window.h"
 
 #ifdef PARABOLA_WINDOWS
 #include <Windows.h>
@@ -10,7 +12,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
-SceneRenderer::SceneRenderer(){		
+SceneRenderer::SceneRenderer(){	
 	myTarget = NULL;
 }
 
@@ -18,50 +20,44 @@ SceneRenderer::SceneRenderer(RenderTarget &target){
 	myTarget = &target;
 }
 
-SceneRenderer::SceneRenderer(linked_ptr<RenderTarget> &target){
-	myTarget = target;
-};
-
-
 /// Returns the bound render target or NULL if none is assigned
-linked_ptr<RenderTarget> SceneRenderer::renderTarget(){
+RenderTarget* SceneRenderer::getRenderTarget(){
 	return myTarget;
-}
-
-void SceneRenderer::setRenderTarget(RenderTarget *target){
-	myTarget = target;
 };
 
-void SceneRenderer::setRenderTarget(linked_ptr<RenderTarget> &target){
-	myTarget = target;
+void SceneRenderer::setRenderTarget(RenderTarget &target){
+	myTarget = &target;
 };
 
-Vec2i SceneRenderer::getSize(){
-	if(myTarget)return Vec2i(myTarget->GetWidth(),myTarget->GetHeight());
+Vec2i SceneRenderer::getTargetSize(){
+	if(myTarget)return Vec2i(myTarget->getSize().x,myTarget->getSize().y);
 	else return Vec2i(0,0);
 };
 
-/// Sets a default camera to the target
-/// View port is all the render target
-/// The size of the view is equal to the render size(resolution) and has (0,0) origin
-/// The center of the view is (target width)/2 and (target height)/2
-void SceneRenderer::setFullView(){
-	if(myTarget){
-		sf::View view = myTarget->GetView();
-		view.Reset(sf::FloatRect(0.f, 0.f, myTarget->GetWidth(), myTarget->GetHeight()));
-		view.SetViewport(sf::FloatRect(0.f,0.f,1.f,1.f));
-	}
+/// Activate the window
+void SceneRenderer::activateRenderTarget(){
+	((Window*)getRenderTarget())->setActive(true);
 };
+
+/// Draws a debug circle
+void SceneRenderer::drawDebugCircle(float x, float y, float r){
+	sf::CircleShape c;
+	c.setPosition(x,y);
+	c.setRadius(r);
+	c.setFillColor(Color::Red);
+	draw(c);
+};
+
 
 /// Get the currently applied view
 const View& SceneRenderer::getView(){
-	return static_cast<const View&>(myTarget->GetView());
+	return static_cast<const View&>(myTarget->getView());
 };
 
 /// Assign the view to the target directly
 void SceneRenderer::setView(const View &view){
 	if(myTarget){
-		myTarget->SetView(view);
+		myTarget->setView(view);
 	}
 };
 
@@ -69,8 +65,8 @@ void SceneRenderer::setView(const View &view){
 /// in world coordinates
 void SceneRenderer::setViewEye(Vec2f position){
 	if(myTarget){
-		sf::View view = myTarget->GetView();
-		view.SetCenter(sf::Vector2f(position.x, position.y));
+		sf::View view = myTarget->getView();
+		view.setCenter(sf::Vector2f(position.x, position.y));
 	}
 };
 
@@ -78,21 +74,26 @@ void SceneRenderer::setViewEye(Vec2f position){
 /// In degrees
 void SceneRenderer::setViewRotation(float angle){
 	if(myTarget){
-		sf::View view = myTarget->GetView();
-		view.SetRotation(angle);
+		sf::View view = myTarget->getView();
+		view.setRotation(angle);
 	}
+};
+
+/// Draw a text in the screen
+void SceneRenderer::drawDebugText(const String &text, float x, float y){
+	draw(Text(text,x,y));
 };
 
 /// Draws any SFML drawable or any inherited drawable into the target
 void SceneRenderer::draw(sf::Drawable &drawable){
 	if(myTarget){
-		myTarget->Draw(drawable);
+		myTarget->draw(drawable);
 	}
 };
 
 /// Draws a rocket context
 void SceneRenderer::draw(RocketContext *rContext){
-	rContext->Render();
+	//rContext->render();
 	DEBUG_MESSAGE("WHAT THE FUCK");
 };
 
@@ -107,19 +108,19 @@ void SceneRenderer::draw(SceneGraph &scene){
 /// Use keepView to determine if the target will be used with the current target view
 void SceneRenderer::drawAt(RenderTarget &target, Drawable &drawable, bool keepView){
 	// backup the view
-	View v = (View&)target.GetView();
+	View v = (View&)target.getView();
 
 	if(keepView){
 		if(myTarget){
-			v = (View&)myTarget->GetView();
-			target.SetView(v);
+			v = (View&)myTarget->getView();
+			target.setView(v);
 		}
 	}	
 	
-	target.Draw(drawable);
+	target.draw(drawable);
 
 	//restore the view
-	target.SetView(v);
+	target.setView(v);
 };
 
 

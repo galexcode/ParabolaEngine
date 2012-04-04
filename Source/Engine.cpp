@@ -113,8 +113,8 @@ void Engine::configureWindow(){
 
 		//configure it and launch
 
-		myWindow->Create(sf::VideoMode(1024, 768, 32), "Engine !");
-		myWindow->EnableVerticalSync(true);
+		myWindow->create(sf::VideoMode(1024, 768, 32), "Engine !");
+		myWindow->setVerticalSyncEnabled(true);
 	}
 	else{
 		if(myWindow){

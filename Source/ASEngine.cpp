@@ -2,6 +2,7 @@
 #include "ParabolaCore/GameCore.h"
 #include "ParabolaCore/Engine.h"
 #include "ParabolaCore/SoundPlayer.h"
+#include "ParabolaCore/Vectors.h"
 
 #include "AS/scriptbuilder.h"
 #include "AS/scriptstdstring.h"
@@ -13,6 +14,10 @@
 #include <iostream>
 
 PARABOLA_NAMESPACE_BEGIN
+
+void dummy(void*){
+
+}
 
 void scriptstdprint(const std::string &in){
 	std::cout<<in;
@@ -30,17 +35,22 @@ void ASMessageCallback(const asSMessageInfo *msg, void *param){
 
 };
 
-ASEngine::ASEngine(){
-		asEngine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
-		asEngine->SetMessageCallback(asFUNCTION(ASMessageCallback), 0, asCALL_CDECL);
-		asEngine->SetEngineProperty(asEP_INIT_GLOBAL_VARS_AFTER_BUILD, false);
 
-		gameCoreBasic = false;
-		gameCoreAdvanced = false;
-		gameCoreSound = false;
-		gameCoreExported = false;
-		scriptBasic = false;
-		engineBasic = false;
+
+ASEngine::ASEngine(){
+	asEngine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
+	asEngine->SetMessageCallback(asFUNCTION(ASMessageCallback), 0, asCALL_CDECL);
+	asEngine->SetEngineProperty(asEP_INIT_GLOBAL_VARS_AFTER_BUILD, false);
+
+	gameCoreBasic = false;
+	gameCoreAdvanced = false;
+	gameCoreSound = false;
+	gameCoreExported = false;
+	scriptBasic = false;
+	engineBasic = false;
+	exportedRenderer = false;
+	exportedKinesis = false;
+	exportedContentBanks = false;
 };
 
 /// Ensures proper destruction of the engine
@@ -160,15 +170,22 @@ ASScript* ASEngine::findScript(const String &name){
 /// typeSize is just sizeof(MyClassType)
 /// dummyMethod must contain the name of a useless method from your class, because of an internal detail. 
 /// Such as "dummy", if you have a function void dummy() that does nothing .
-int ASEngine::exportReferenceDataType(const String &name, size_t typeSize, const String &dummyMethod){
-	return 0;
+int ASEngine::exportReferenceDataType(const String &name){
+	asEngine->RegisterObjectType(name.c_str(), 0, asOBJ_REF);
+
+	int r;
+
+	r = asEngine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+
+	return r;
 };
 
-/// Wrapper for exporting global properties
-/// dataType could be "const int" or "MyClass", or anything valid for the script context
-/// varName could be anything under the common constraints of variable naming.
-int ASEngine::exportGlobalProperty(const String &dataType, const String &varName){
-	return 0;
+/// Declare a global property in the scripts
+/// Data can be NULL if the type will be instanced by the script
+int ASEngine::exportGlobalProperty(const String &declaration, void* data){
+	int r = asEngine->RegisterGlobalProperty(declaration.c_str(), data);
+	return r;
 };
 
 /// Compiles all scripts in the search directories
@@ -268,8 +285,15 @@ bool ASEngine::exportSoundGameCore(){
 	r = asEngine->RegisterObjectBehaviour("SoundPlayer", asBEHAVE_ADDREF, "void f()", asMETHOD(SoundPlayer,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectBehaviour("SoundPlayer", asBEHAVE_RELEASE, "void f()", asMETHOD(SoundPlayer,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
 
+	if(exportedContentBanks)
+		r = asEngine->RegisterObjectMethod("SoundPlayer", "void setContentBank(ContentBank@)", asMETHOD(SoundPlayer, setContentBank) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectMethod("SoundPlayer", "bool playSound(const string &in)", asMETHOD(SoundPlayer, playSound) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectMethod("SoundPlayer", "bool playMusic(const string &in)", asMETHOD(SoundPlayer, playMusic) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
+
+
 	r = asEngine->RegisterObjectMethod("GameCore", "SoundPlayer& getSoundPlayer(const string &in)", asMETHOD(GameCore, getSoundPlayer) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("GameCore", "void removeSoundPlayer(const string &in)", asMETHOD(GameCore, removeSoundPlayer) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
+	
 
 
 	//r = asEngine->RegisterObjectMethod("SoundPlayer", "void say(const string &in)", asMETHOD(SoundPlayer, say) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
@@ -282,6 +306,19 @@ bool ASEngine::exportSoundGameCore(){
 bool ASEngine::exportBasicScriptInformation(){
 	return false;
 };
+
+void Vec2fCTOR(void* memory){
+	new(memory) Vec2f();
+}
+void Vec2fCTOR2(float x, float y, void* memory){
+	new(memory) Vec2f(x,y);
+}
+void Vec2fCCTOR(const Vec2f &in, void* memory){
+	new(memory) Vec2f(in);
+}
+void Vec2fDTOR(void* memory){
+	((Vec2f*)memory)->~Vec2f();
+}
 
 /// Exports basic functionality and access to the global engine
 /// By default, it will be known as Engine, change at will.
@@ -299,6 +336,16 @@ bool ASEngine::exportBasicEngine(const String &varName){
 	r = asEngine->RegisterObjectMethod("EngineSDK", "void loadGame(const string &in, const string &in)", asMETHOD(Engine, as_createScriptGame) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 
 	asEngine->RegisterGlobalProperty(String(String("EngineSDK ") + varName).c_str(), Engine::instance());
+
+
+	asEngine->RegisterObjectType("Vec2f", sizeof(Vec2f), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
+	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2fCTOR), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", asFUNCTION(Vec2fCTOR2), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2fDTOR), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(const Vec2f &in)", asFUNCTION(Vec2fCCTOR), asCALL_CDECL_OBJLAST);
+	
+	asEngine->RegisterObjectProperty("Vec2f", "float x", asOFFSET(Vec2f, x));
+	asEngine->RegisterObjectProperty("Vec2f", "float y", asOFFSET(Vec2f, y));
 
 	engineBasic = true;
 	return engineBasic;
@@ -323,12 +370,15 @@ bool ASEngine::exportStrings(){
 
 /// Exports file support
 bool ASEngine::exportFiles(){
+	RegisterScriptFile(asEngine);
 	return true;
 };
 
 /// Exports math support
 bool ASEngine::exportMath(){
+	RegisterScriptMath(asEngine);
 	return true;
 };
-	
+
+
 PARABOLA_NAMESPACE_END

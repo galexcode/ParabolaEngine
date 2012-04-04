@@ -35,11 +35,15 @@
     <ClCompile Include="..\..\..\Include\AS\ASAddonMathComplex.cpp" />
     <ClCompile Include="..\..\..\Include\AS\ASAddonString.cpp" />
     <ClCompile Include="..\..\..\Include\AS\ASAddonStringUtils.cpp" />
+    <ClCompile Include="..\..\..\Source\ASConstructs.cpp" />
+    <ClCompile Include="..\..\..\Source\ASContent.cpp" />
     <ClCompile Include="..\..\..\Source\ASEngine.cpp" />
     <ClCompile Include="..\..\..\Source\ASCommon.cpp" />
     <ClCompile Include="..\..\..\Source\Animation.cpp" />
     <ClCompile Include="..\..\..\Source\AnimationSprite.cpp" />
     <ClCompile Include="..\..\..\Source\AnimationView.cpp" />
+    <ClCompile Include="..\..\..\Source\ASGraphics.cpp" />
+    <ClCompile Include="..\..\..\Source\ASKinesis.cpp" />
     <ClCompile Include="..\..\..\Source\ASParticleSystem.cpp" />
     <ClCompile Include="..\..\..\Source\ASScript.cpp" />
     <ClCompile Include="..\..\..\Source\BoundingBox.cpp" />
@@ -75,17 +79,6 @@
     <ClCompile Include="..\..\..\Source\KinesisWorld.cpp" />
     <ClCompile Include="..\..\..\Source\KinesisForge.cpp" />
     <ClCompile Include="..\..\..\Source\Lighting.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\Constructs.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\ConvexHull.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\EmissiveLight.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\Light.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\LightSystem.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\Light_Point.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\QuadTree.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\QuadTreeNode.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\QuadTreeOccupant.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\SFML_OpenGL.cpp" />
-    <ClCompile Include="..\..\..\Source\Lighting\ShadowFin.cpp" />
     <ClCompile Include="..\..\..\Source\LinkedPointer.cpp" />
     <ClCompile Include="..\..\..\Source\Localization.cpp" />
     <ClCompile Include="..\..\..\Source\Logger.cpp" />
@@ -248,17 +241,6 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\Vectors.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Views.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Window.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\Constructs.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\ConvexHull.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\EmissiveLight.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\Light.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\LightSystem.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\Light_Point.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\QuadTree.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\QuadTreeNode.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\QuadTreeOccupant.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\SFML_OpenGL.h" />
-    <ClInclude Include="..\..\..\Source\Lighting\ShadowFin.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{4292CC22-598F-4CEE-A397-41C4740CDE1A}</ProjectGuid>

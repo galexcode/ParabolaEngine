@@ -169,10 +169,10 @@ namespace pE{
 	String DynamicKeyBinding::GetActionByEvent(Event &e){
 		String resultAction;
 		if(e.Type == Event::KeyPressed){
-			resultAction = KeyActions[e.Key.Code];
+			resultAction = KeyActions[e.key.code];
 		}
 		else if(e.Type == Event::KeyReleased){
-			resultAction = KeyActions[e.Key.Code] + "_END";
+			resultAction = KeyActions[e.key.code] + "_END";
 		}
 		else if(e.Type == Event::MouseButtonPressed || e.Type == Event::MouseButtonReleased){
 			//look for mouse action

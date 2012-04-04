@@ -59,7 +59,7 @@ KinesisWorld* SceneLayer::getKinesisWorld(){
 void SceneLayer::updateGraph(float elapsedTime){
 	//draw physics
 	if(mySimulation && mySimulation->owner == this){		
-		mySimulation->resource->Update(elapsedTime);
+		mySimulation->resource->update(elapsedTime);
 	}
 
 	for(NodeIterator it = myChildren.begin(); it != myChildren.end(); it++){
@@ -69,22 +69,22 @@ void SceneLayer::updateGraph(float elapsedTime){
 
 /// Renders the layer
 void SceneLayer::render(SceneRenderer* renderer){
-	renderer->draw(Text(name(),120,10*name().size()));
+	renderer->draw(Text(name(),120.f,10.f*name().size()));
 
-	renderer->renderTarget()->PushGLStates();
+	//renderer->renderTarget()->PushGLStates();
 
 	//draw physics
 	if(mySimulation && mySimulation->owner == this){
-		//cout<<"draw physc"<<endl;		
-		renderer->draw(*mySimulation->resource->GetDebugRenderer());		
+		//cout<<"draw physc"<<endl;
+		mySimulation->resource->drawDebug(renderer);
 	}
 
 	
-	renderer->renderTarget()->ResetGLStates();
+	/*renderer->renderTarget()->ResetGLStates();
 	for(NodeIterator it = myChildren.begin(); it != myChildren.end(); it++){
 		static_cast<SceneNode*>(*it)->render(renderer);
 	};
-	renderer->renderTarget()->PopGLStates();
+	renderer->renderTarget()->PopGLStates();*/
 };
 
 PARABOLA_NAMESPACE_END

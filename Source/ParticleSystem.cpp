@@ -7,15 +7,37 @@ using namespace std;
 #include "SPARK_GL.h"
 
 PARABOLA_NAMESPACE_BEGIN
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////// TEXTURE
+
+bool ParticleTexture::loadTexture(const String &path){
+
+	GLuint texture = 0;
+	{
+		Image image;
+		if (!image.loadFromFile(path))
+			return false;
+
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, image.getSize().x, image.getSize().y, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	}
+
+	myTextureID = texture;
+	return true;
+}
+
+//////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////// SYSTEM
 
 ParticleSystem::ParticleSystem(){
-		SPK::System::setClampStep(true,0.1f);			// clamp the step to 100 ms
-		SPK::System::useAdaptiveStep(0.001f,0.01f);
-		sparkSystem = SPK::System::create(true);
-
-	//	sparkSystem->setCameraPosition(SPK::Vector3D(300,300, -200));
-
-		//LoadBinary("test.spk");
+	SPK::System::setClampStep(true,0.1f);			// clamp the step to 100 ms
+	SPK::System::useAdaptiveStep(0.001f,0.01f);
+	sparkSystem = SPK::System::create(true);
 };
 
 /// Overload of the assignment operator, for copying systems
@@ -30,6 +52,18 @@ ParticleGroup& ParticleSystem::addGroup(const String &name, int capacity){
 	group->setName(name);
 	return *(new ParticleGroup(group, this));
 };
+
+String ParticleSystem::getName(){
+	return myName;
+}
+
+ParticleRenderer& ParticleSystem::createPointRenderer(const String &name, float pointSize){
+	ParticleRenderer *pRend = new ParticleRenderer();
+	pRend->myRenderer = SPK::GL::GLPointRenderer::create(pointSize);
+	myRenderers[name] = pRend;
+	return *pRend;
+}
+
 
 /// A simple system
 void ParticleSystem::createBasicSystem(){
@@ -47,7 +81,7 @@ void ParticleSystem::createBasicSystem(){
 	mySphere = SPK::Sphere::create(SPK::Vector3D(300.f,300.f,0.f),4.0f);
 
 	//effectgroup->setRenderer(renderer);
-	effectgroup->setLifeTime(0.9,1.7);
+	effectgroup->setLifeTime(0.9f,1.7f);
 	effectgroup->setColorInterpolator(SPK::ColorRandomInterpolator::create(SPK::Color(0,0,0,255),SPK::Color(0,15,0,255),SPK::Color(0,30,40,255),SPK::Color(50,0,0,255)));
 	effectgroup->addEmitter(SPK::SphericEmitter::create(SPK::Vector3D(1.0f,0.0f,0.0f),0.0f,2*3.14159f,mySphere,true,-1,3000.0f,70.2f,100.5f));
 

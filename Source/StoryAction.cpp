@@ -50,7 +50,7 @@ int StoryActionShowSub::onUpdate(double deltaTime){
 void StoryActionShowSub::onDraw(){
 	SceneRenderer* renderer = getRenderer();
 	if(renderer){
-		renderer->draw(Text(message,x,y));
+//		renderer->draw(Text(message,x,y));
 	}
 }
 

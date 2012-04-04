@@ -1,5 +1,6 @@
 #include "ParabolaCore/SoundPlayer.h"
 #include "ParabolaCore/SoundSharedDevice.h"
+#include "ParabolaCore/ContentBank.h"
 
 #include <iostream>
 
@@ -11,6 +12,7 @@ SoundPlayer::SoundPlayer(GameCore *parent, const String &name){
 
 	myIdentification = -1; //invalid
 	myName = name;
+	myContentBank = NULL;
 
 	SoundSharedDevice::sign(this);
 };
@@ -26,15 +28,25 @@ SoundPlayer::~SoundPlayer(){
 bool SoundPlayer::playMusic(const String &fileName){
 	bool r;
 	sf::Music *m = new sf::Music();
-	r = m->OpenFromFile(fileName);
+	r = m->openFromFile(fileName);
 	myMusicList.push_back(m);
 	return r;
+};
+
+/// Associate a content bank
+void SoundPlayer::setContentBank(ContentBank* contentBank){
+	myContentBank = contentBank;
 };
 
 
 /// Starts playing a sound
 bool SoundPlayer::playSound(const String &fileName){
-	return false;
+	if(myContentBank){
+		sf::Sound *s = new sf::Sound(*myContentBank->getSoundBuffer(fileName));
+		s->play();
+		mySoundList.push_back(s);
+	}
+	return true;
 };
 
 

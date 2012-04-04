@@ -32,6 +32,9 @@ public:
 	/// Called when an event is fired.
 	void onEvent(const Event &event);
 
+	/// Called when the game is updating
+	void onUpdate(float elapsedTime);
+
 	/// Draws the configured scene graph
 	/// If the direct render script is enabled, it is rendered after the other objects.
 	void onRender();
@@ -45,9 +48,13 @@ public:
 	/// Render script
 	String renderScriptName, renderScriptFunc;
 	bool renderScriptEnabled;
+
 private:
 	ASEngine asEngine;
 	linked_ptr<SceneRenderer> renderer;
+
+	ASScript* myMainScript;
+	int myRenderFunc, myEventFunc, myUpdateFunc, myCreateFunc;
 };
 
 /**

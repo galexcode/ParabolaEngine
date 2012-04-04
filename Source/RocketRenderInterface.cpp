@@ -15,134 +15,52 @@
 
 using namespace std;
 
-#define GL_CLAMP_TO_EDGE 0x812F
-
 PARABOLA_NAMESPACE_BEGIN
 
-	/*class RocketOpenGLRendererGeometryHandler
-	{
-	public:
-		unsigned int VertexID, IndexID, ImageID;
-		int NumVertices;
-	    Rocket::Core::TextureHandle Image;
+RocketRenderInterface::RocketRenderInterface(){
+	states = NULL;
+	target = NULL;
+}
 
-		RocketOpenGLRendererGeometryHandler() : VertexID(0), IndexID(0), ImageID(0), NumVertices(0)
-		{
-		};
-
-		~RocketOpenGLRendererGeometryHandler()
-		{
-			if(VertexID)
-				glDeleteBuffers(1, &VertexID);
-
-			if(IndexID)
-				glDeleteBuffers(1, &IndexID);
-
-			VertexID = IndexID = 0;
-		};
-	};*/
-
-	/*class RocketOpenGLRendererVertex
-	{
-	public:
-		RocketOpenGLRendererVertex(){}
-		Vec2f Position, TexCoord;
-		Vec4f Color;
-	};*/
-
-
-	RocketRenderInterface::RocketRenderInterface(){
-		states = NULL;
-		target = NULL;
-	}
-
-	RocketRenderInterface::~RocketRenderInterface(){
+RocketRenderInterface::~RocketRenderInterface(){
 		
-	};
+};
 
 
-	// Called by Rocket when it wants to render geometry that it does not wish to optimise.
-	void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, const Rocket::Core::TextureHandle Image, const Rocket::Core::Vector2f& translation)
+// Called by Rocket when it wants to render geometry that it does not wish to optimise.
+void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, const Rocket::Core::TextureHandle Image, const Rocket::Core::Vector2f& translation)
 	{
-	
 
 		if(!target)return;
 
-		target->SetView(target->GetDefaultView());
+		target->setView(target->getDefaultView());
 
-		target->PushGLStates();
+		target->pushGLStates();
 		//glPushMatrix();
 		
 		sf::VertexArray v(sf::Triangles, num_indices);
 		for(int j = 0; j < num_indices; j++){ //iterate indices
 			int i = indices[j]; //i is the vertex position.
-			v[j].Position = sf::Vector2f(vertices[i].position.x, vertices[i].position.y);
-			v[j].Color = sf::Color(vertices[i].colour.red,vertices[i].colour.green,vertices[i].colour.blue, vertices[i].colour.alpha);
+			v[j].position = sf::Vector2f(vertices[i].position.x, vertices[i].position.y);
+			v[j].color = sf::Color(vertices[i].colour.red,vertices[i].colour.green,vertices[i].colour.blue, vertices[i].colour.alpha);
 			if(Image){
-				v[j].TexCoords = sf::Vector2f(vertices[i].tex_coord.x*((sf::Texture*)Image)->GetWidth(), vertices[i].tex_coord.y*((sf::Texture*)Image)->GetHeight());
+				v[j].texCoords = sf::Vector2f(vertices[i].tex_coord.x*((sf::Texture*)Image)->getSize().x, vertices[i].tex_coord.y*((sf::Texture*)Image)->getSize().y);
 			}
 			//std::cout<<"tx: "<<v[j].TexCoords.x<<";"<<v[j].TexCoords.y<<std::endl;
 		}
-		states->BlendMode = sf::BlendAlpha;
-		states->Texture = (sf::Texture*)Image;
-		states->Transform = sf::Transform::Identity;
-		states->Transform.Translate(translation.x, translation.y);
+		states->blendMode = sf::BlendAlpha;
+		states->texture = (sf::Texture*)Image;
+		states->transform = sf::Transform::Identity;
+		states->transform.translate(translation.x, translation.y);
 
-		target->Draw(v, *states);
+		target->draw(v, *states);
 
-		target->PopGLStates();
+		target->popGLStates();
 		
-
-
-	/*	glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, 1024, 768,0, -1, 1 );
-		glMatrixMode(GL_MODELVIEW);
-		glViewport(0, 0, 1024, 768);*/
-
-
-		/*
-		glPushMatrix();
-		glLoadIdentity();
-		glEnableClientState(GL_COLOR_ARRAY);
-		glEnableClientState(GL_VERTEX_ARRAY);
-		
-		glTranslatef(translation.x, translation.y, 0);		
-
-		glVertexPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &vertices[0].position);
-		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Rocket::Core::Vertex), &vertices[0].colour);
-
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-		if (Image == NULL)
-		{
-			glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-			glBindTexture(GL_TEXTURE_2D, 0);
-		}
-		else
-		{
-			sf::Texture *image = (sf::Texture *)Image;
-			image->Bind();
-			glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-			glTexCoordPointer(2, GL_FLOAT, sizeof(Rocket::Core::Vertex), &vertices[0].tex_coord);
-		}
-		
-		glDrawElements(GL_TRIANGLES, num_indices, GL_UNSIGNED_INT, indices);
-		glDisable(GL_BLEND);
-
-
-		glBindTexture(GL_TEXTURE_2D, 0);
-		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-		glDisableClientState(GL_COLOR_ARRAY);
-		glDisableClientState(GL_VERTEX_ARRAY);
-
-		glPopMatrix();*/
-
-	}
+}
  
-	// Called by Rocket when it wants to compile geometry it believes will be static for the forseeable future.		
-	Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, const Rocket::Core::TextureHandle Image)
+// Called by Rocket when it wants to compile geometry it believes will be static for the forseeable future.		
+Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, const Rocket::Core::TextureHandle Image)
 	{
 	
 		//if(!GLEE_VERSION_2_0)			
@@ -256,7 +174,7 @@ PARABOLA_NAMESPACE_BEGIN
 		
 		sf::Texture *texture = new sf::Texture();
 
-		if(!texture->LoadFromFile(source.CString()))
+		if(!texture->loadFromFile(source.CString()))
 		{
 			delete texture;
 
@@ -264,7 +182,7 @@ PARABOLA_NAMESPACE_BEGIN
 		};
 
 		Image_handle = (Rocket::Core::TextureHandle) texture;
-		Image_dimensions = Rocket::Core::Vector2i(texture->GetWidth(), texture->GetHeight());
+		Image_dimensions = Rocket::Core::Vector2i(texture->getSize().x, texture->getSize().y);
 
 		return true;
 	}
@@ -275,9 +193,9 @@ PARABOLA_NAMESPACE_BEGIN
 		sf::Image *image = new sf::Image();
 		sf::Texture *texture = new sf::Texture();
 
-		image->Create(source_dimensions.x, source_dimensions.y, source);
+		image->create(source_dimensions.x, source_dimensions.y, source);
 
-		texture->LoadFromImage(*image);
+		texture->loadFromImage(*image);
 		Image_handle = (Rocket::Core::TextureHandle)texture;
 
 		return true;

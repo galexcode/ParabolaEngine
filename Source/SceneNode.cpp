@@ -81,10 +81,10 @@ void SceneNode::update(float elapsedTime){
 
 /// Updates the node and its children
 void SceneNode::render(SceneRenderer *renderer){
-	sf::CircleShape c;
+	/*sf::CircleShape c;
 	c.SetFillColor(sf::Color::Red);
 	c.SetRadius(4);
-	c.SetPosition(getGlobalPosition().x, getGlobalPosition().y);
+	c.SetPosition(getGlobalPosition().x, getGlobalPosition().y);*/
 	//renderer->draw(c);
 
 	for(ItemIterator it = myItems.begin(); it != myItems.end(); it++){

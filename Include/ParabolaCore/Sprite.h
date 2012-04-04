@@ -8,44 +8,49 @@
 #include <SFML/Graphics/Sprite.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
+
 /**
 		\ingroup Graphics
 		\class Sprite
-		\brief A Drawable sprite.
+		\brief Extends sf::Sprite and implements more functionality.
 */
 class PARABOLA_API Sprite: public sf::Sprite{
 public:
-		//Sprite();
+	/// Default sprite
+	Sprite();
 
-		void SetPosition(Vec2f Position);
-		void SetPosition(float x, float y);
+	/// Set the position from a vec2f
+	/// Position is the top-left coordinate
+	void setPosition(Vec2f position);
 
-		void SetCenterPosition(float x, float y);
+	/// Set the position from a vec2f
+	/// Position is the top-left coordinate
+	void setPosition(float x, float y);
 
-		Vec2f GetPosition();
+	/// Sets the position of the sprite, considering its center instead
+	/// Is considered as the center the middle of the local bounding box
+	void setCenterPosition(float x, float y);
 
-		void Resize(float x, float y);
+	/// Sets the position of the sprite, considering its center instead
+	/// Is considered as the center the middle of the local bounding box
+	void setCenterPosition(Vec2f position);
+
+	/// Resizes the sprite to the selected dimensions using the scale.
+	void resize(float x, float y);
 	
-		bool ContainsPoint(Vec2f Point);
+	/// Check if a point is contained in the sprite
+	bool containsPoint(Vec2f point);
 
-		//void SetActiveAnimation(KeyFrameAnimation *Animation);
-		//KeyFrameAnimation* CreateAnimation(string AnimationName);
+	/// Check if a point is contained in the sprite
+	bool containsPoint(float x, float y);
 
-	private:
-
-		//KeyFrameAnimation *CurrentAnimation;
-		//vector<KeyFrameAnimation*> Animations;
-
-		//bool StaticFlag;
-	};
+};
 
 
 /**
 	\ingroup Graphics
 	\class SpriteExt
 	\brief Represents a special kind of sprite, that has animation support by default
-
-
 */
 class PARABOLA_API SpriteExt{
 public:
@@ -61,29 +66,6 @@ private:
 	//std::vector<Texture*> myTextures;
 
 };
-
-
-	/**
-		\class MultiSprite
-		\brief A special Sprite with the ability to draw big images
-
-		This class exists to go around GPU texture size limitations.
-		Since in some older laptops and equivalent hardware the gpu won't support textures bigger than 1024x1024 or worse, this class provides a easy way to take a few smaller images and render them as if they were one.
-
-		This is useful to support older graphic cards when deploying an application. 
-
-	*/
-	class MultiSprite{
-	public:
-		/**
-			\brief Loads and prepares a Sprite to draw
-
-		*/
-		//bool LoadSprite(string FileName, int RowCount, int ColumnCount);
-		//bool LoadSprite(string MultiSpriteFileName);
-	};
-
-
 
 PARABOLA_NAMESPACE_END
 #endif

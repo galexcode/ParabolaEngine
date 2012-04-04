@@ -56,10 +56,10 @@ void Entity::attachComponent(EntityComponent* component){
 
 /// Called when the scene item is supposed to render
 void Entity::onRender(SceneRenderer* renderer){
-	sf::CircleShape c;
+/*	sf::CircleShape c;
 	c.SetFillColor(sf::Color::Blue);
 	c.SetRadius(30);
-	c.SetPosition(getParentSceneNode()->getGlobalPosition().x, getParentSceneNode()->getGlobalPosition().y);
+	c.SetPosition(getParentSceneNode()->getGlobalPosition().x, getParentSceneNode()->getGlobalPosition().y);*/
 	//renderer->draw(c);
 };
 
