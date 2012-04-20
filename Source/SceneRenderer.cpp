@@ -1,6 +1,8 @@
 #include "ParabolaCore/SceneRenderer.h"
 #include "ParabolaCore/SceneGraph.h"
 #include "ParabolaCore/RocketContext.h"
+#include "ParabolaCore/RocketPlugin.h"
+#include "ParabolaCore/RocketRenderInterface.h"
 #include "ParabolaCore/Logger.h"
 #include "ParabolaCore/Text.h"
 #include "ParabolaCore/Window.h"
@@ -34,9 +36,31 @@ Vec2i SceneRenderer::getTargetSize(){
 	else return Vec2i(0,0);
 };
 
+/// Get the size of the window
+Vec2i SceneRenderer::getWindowSize(){
+	if(myWindow)return Vec2i(myWindow->getSize().x,myWindow->getSize().y);
+	else return Vec2i(0,0);
+};
+
 /// Activate the window
 void SceneRenderer::activateRenderTarget(){
 	((Window*)getRenderTarget())->setActive(true);
+};
+
+/// Convert local coordinates to global ones
+Vec2f SceneRenderer::convertLocalCoordinates(Vec2f localCoordinates){
+	Vec2f v;
+	v.x = getRenderTarget()->convertCoords(sf::Vector2i(localCoordinates.x, localCoordinates.y), getView()).x;
+	v.y = getRenderTarget()->convertCoords(sf::Vector2i(localCoordinates.x, localCoordinates.y), getView()).y;
+	return v;
+};
+
+/// Convert local coordinates to global ones from a view
+Vec2f SceneRenderer::convertLocalCoordinates(Vec2f localCoordinates, View& v){
+	Vec2f v2;
+	v2.x = getRenderTarget()->convertCoords(sf::Vector2i(localCoordinates.x, localCoordinates.y), v).x;
+	v2.y = getRenderTarget()->convertCoords(sf::Vector2i(localCoordinates.x, localCoordinates.y), v).y;
+	return v2;
 };
 
 /// Draws a debug circle
@@ -44,7 +68,7 @@ void SceneRenderer::drawDebugCircle(float x, float y, float r){
 	sf::CircleShape c;
 	c.setPosition(x,y);
 	c.setRadius(r);
-	c.setFillColor(Color::Red);
+	c.setFillColor(Color(40,40,50));
 	draw(c);
 };
 
@@ -94,7 +118,14 @@ void SceneRenderer::draw(sf::Drawable &drawable){
 /// Draws a rocket context
 void SceneRenderer::draw(RocketContext *rContext){
 	//rContext->render();
-	DEBUG_MESSAGE("WHAT THE FUCK");
+	//DEBUG_MESSAGE("WHAT THE FUCK");
+	getRenderTarget()->resetGLStates();
+	sf::RenderStates s;
+	RocketPlugin::instance().renderInterface()->target = getRenderTarget();
+	RocketPlugin::instance().renderInterface()->states = &s;
+	rContext->Render();
+	getRenderTarget()->resetGLStates();
+
 };
 
 /// Draws recursively a SceneGraph

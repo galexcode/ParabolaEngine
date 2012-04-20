@@ -23,9 +23,28 @@ public:
 
 	void setVelocity(Vec2f velocity);
 
+	Vec2f getVelocity();
+
 	Vec2f getPosition();
 
+	/// Set the angle of rotation of the body, it is 0.f by default and is facing right, expressed in radians
+	void setAngle(float radians);
+
+	/// Choose whether this body is allowed to rotate
+	void setFixedRotation(bool fixedRotation);
+
 	b2Body* myBody;
+};
+
+/**
+	\ingroup Kinesis
+	\class KinesisBodyShape
+	\brief Represents a shape(fixture) contained within a body.
+*/
+class KinesisBodyShape{
+public:
+	/// Construct the shape from the fixture
+	KinesisBodyShape(b2Fixture* fix);
 };
 
 PARABOLA_NAMESPACE_END

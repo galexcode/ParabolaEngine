@@ -8,7 +8,9 @@
 */
 
 #include "Platform.h"
+#include "Vectors.h"
 #include "Signals.h"
+#include "AnimationEasing.h"
 
 #include <vector>
 
@@ -20,10 +22,28 @@ namespace PlayModes{
 		Stopped,
 		Paused
 	};
+};
 
-	enum Type{
+/**
+	\ingroup Animation
+	\class Animable
+	\brief Base class for all objects that can be animated.
+*/
+class PARABOLA_API Animable{
+public:
 
-	};
+	/// Virtual destructor, for detaching running animations.
+	virtual ~Animable();
+
+	/// Signal to stop animations that are depending on this animable
+	sigc::signal<void, Animable*> onDetachAnimation;
+
+	virtual void animable_set_position(float x, float y) {};
+	virtual Vec2f animable_get_position() {return Vec2f();};
+	virtual void animable_set_color(int r, int g, int b, int a){}
+	virtual Vec2f animable_get_size(){return Vec2f();}
+	virtual void animable_set_size(float x, float y){}
+	virtual void animable_add_character(char c){}
 };
 
 /**
@@ -33,12 +53,21 @@ namespace PlayModes{
 
 	Any animation class inherits
 */
-class PARABOLA_API AnimationInterface{
+class PARABOLA_API AnimationInterface : public sigc::trackable{
 public:
 	/// Creates the animation default states
 	AnimationInterface();
 
 	sigc::signal<void> onEnd;
+
+	/// Add a new object to this animation
+	void addAnimable(Animable* animable);
+
+	/// Remove animable from the list
+	void removeAnimable(Animable* animable);
+
+	/// Get the number of objects being animated
+	int getAnimableCount();
 
 	/// Get the total time elapsed since this animation has started
 	float getElapsedTime();
@@ -59,9 +88,10 @@ public:
 	/// Checks if the animation is set to loop
 	bool looping();
 
-protected:
 	/// Updates the state of the animation
 	virtual void update(float elapsedTime) = 0;
+
+protected:
 
 	/// Restores the animated object(s) to their original state
 	virtual void restore();
@@ -69,10 +99,13 @@ protected:
 	/// Adds time to the total duration of this animation execution
 	void addTime(float elapsedTime);
 
+	/// Registered objects for animation update
+	std::vector<Animable*> myAnimables;
+
 private:
 	float totalElapsedTime;
 	int myStatus;
-	bool myLooping;
+	bool myLooping;	
 };
 
 PARABOLA_NAMESPACE_END

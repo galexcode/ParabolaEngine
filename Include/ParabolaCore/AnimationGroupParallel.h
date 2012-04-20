@@ -1,20 +1,24 @@
-#ifndef ANIMATIONGROUPPARALLEL_H
-#define ANIMATIONGROUPPARALLEL_H
+#ifndef PARABOLA_ANIMATIONGROUPPARALLEL_H
+#define PARABOLA_ANIMATIONGROUPPARALLEL_H
 
 #include "Platform.h"
 #include "AnimationGroup.h"
 
-namespace pE{
-	/**
-		\class AnimationGroupParallel
-		\brief Represents a mechanism to hold multiple animation, and play them simultaneously.
-	*/
-	class PARABOLA_API AnimationGroupParallel: public AnimationGroup{
-	public:
-		
-	private:
+PARABOLA_NAMESPACE_BEGIN
 
-	};
+/**
+	\ingroup Animation
+	\class AnimationGroupParallel
+	\brief Can hold and play multiple animations simultaneously, including other groups.
+*/
+class PARABOLA_API AnimationGroupParallel: public AnimationGroup{
+public:
+	/// Update the group all at once
+	void update(float elapsedTime);
+
+private:
+
 };
 
+PARABOLA_NAMESPACE_END
 #endif

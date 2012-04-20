@@ -5,6 +5,8 @@
 #include "Drawable.h"
 #include "Strings.h"
 #include "Textures.h"
+#include "Animation.h"
+#include "ReferenceCountable.h"
 
 #include <windows.h>
 #include <GL/GL.h>
@@ -15,7 +17,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 class ParticleSystem;
-
+class SceneRenderer;
 /**
 	\ingroup Graphics
 	\class ParticleRenderer
@@ -52,8 +54,17 @@ public:
 	\class ParticleZone
 	\brief Wrapper for a SPARK zones. Scripting convenience.
 */
-class PARABOLA_API ParticleZone{
+class PARABOLA_API ParticleZone : public Animable{
 public:
+
+	void animable_set_position(float x, float y){
+		myZone->setPosition(SPK::Vector3D(x,y,0.f));
+	}
+
+	Vec2f animable_get_position(){
+		return Vec2f(myZone->getPosition().x, myZone->getPosition().y);
+	};
+
 	SPK::Ref<SPK::Zone> myZone;
 };
 
@@ -74,8 +85,7 @@ public:
 */
 class PARABOLA_API ParticleGroup{
 public:
-	ParticleGroup(SPK::Ref<SPK::Group> group, ParticleSystem *parent){
-		myGroup = group;
+	ParticleGroup(ParticleSystem* parent){
 		myParent = parent;
 	}
 
@@ -114,80 +124,83 @@ public:
 /**
 	\ingroup Graphics
 	\class ParticleSystem
-	\brief A particle system, to provide effects that can be rendered.
+	\brief A configurable particle effect
 
+	\todo Remove the clamp step from constructor
 	...
 */
-class PARABOLA_API ParticleSystem{
+class PARABOLA_API ParticleSystem: public RefCountable{
 public:
 	/// Creates an empty Particle System
 	ParticleSystem();
-		
-	/// Overload of the assignment operator, for copying systems
-	ParticleSystem& operator=(const ParticleSystem &other);
 
+	/// Create a named, empty particle system 
+	ParticleSystem(const String &name);
+
+	/// Loads from a script
+	bool loadFromScript(const String &filePath);
+	
 	/// Adds a new group to the system
-	ParticleGroup& addGroup(const String &name, int capacity);
+	ParticleGroup* addGroup(const String &name, int capacity);
+
+	/// Remove group from the system
+	void removeGroup(const String &name);
+
+	/// Get a group in the system
+	ParticleGroup* getGroup(const String &name);
+
+	/// Remove the renderer with the right name
+	void removeRenderer(const String &name);
+
+	/// Erases everything in this system
+	void clear();
+
+	/// Update the state of the particles.
+	void update(float elapsedTime);
+
+	/// Draw the system
+	void draw(SceneRenderer* renderer);
+
+	/// Get the internal spark system
+	SPK::Ref<SPK::System> getSparkSystem();
 
 	/// Get the name of this particle system
 	String getName();
 
-	ParticleTexture& createTexture(const String &name, const String &path){
-		ParticleTexture *pRend = new ParticleTexture();
-		pRend->loadTexture(path);
-		myTextures[name] = pRend;
-		return *pRend;
-	}
+	/// Set a new name to the particle system
+	void setName(const String &newName);
 
-	/// Creates a point renderer directly
+	/// Create a texture to be used within the particle system
+	ParticleTexture& createTexture(const String &name, const String &path);
+
+	/// Create a point renderer, further configurable later.
 	ParticleRenderer& createPointRenderer(const String &name, float pointSize);
 
-	ParticleZone& createSphereZone(const String &name, float x, float y, float z, float radius){
-		ParticleZone *pRend = new ParticleZone();
-		pRend->myZone = SPK::Sphere::create(SPK::Vector3D(x,y,z), radius);
-		myZones[name] = pRend;
-		return *pRend;
-	}
+	/// Create a sphere type zone, further configurable later.
+	ParticleZone& createSphereZone(const String &name, float x, float y, float z, float radius);
 
-	ParticleModifier& createGravityModifier(const String &name, float x, float y, float z){
-		ParticleModifier *pRend = new ParticleModifier();
-		pRend->myModifier = SPK::Gravity::create(SPK::Vector3D(x,y,z));
-		myModifiers[name] = pRend;
-		return *pRend;
-	}
+	/// Create a gravity modifier
+	ParticleModifier& createGravityModifier(const String &name, float x, float y, float z);
 
-	ParticleEmitter& createSphericEmitter(const String &name, float direction_x, float direction_y, float direction_z,
-											float angleMin, float angleMax, ParticleZone &zone,
-												bool full, int tank, float flow, float forceMin, float forceMax){
+	/// Create a spheric type emitter, configurable later.
+	ParticleEmitter& createSphericEmitter(const String &name, float direction_x, float direction_y, float direction_z,float angleMin, float angleMax, ParticleZone &zone,
+											bool full, int tank, float flow, float forceMin, float forceMax);
 
-		ParticleEmitter *pRend = new ParticleEmitter();
-		pRend->myEmitter = SPK::SphericEmitter::create(SPK::Vector3D(direction_x, direction_y, direction_z),angleMin, angleMax, zone.myZone , full, tank, flow, forceMin, forceMax);
-		
-		myEmitters[name] = pRend;
-		return *pRend;
-	}
+	/// Cleans all renderers, zones, emitters, textures and modifiers that are not being used
+	void cleanUnusedResources();
 
+	/// Creates a sample system directly with the given zone name for possibly animating it later or other uses.
+	void createSampleSparkles(const String &zoneName);
 
+private:
+	/// Internal spark system
+	SPK::Ref<SPK::System> mySystem;
 
-
-	// Static, default systems
-	/// A simple system
-	void createBasicSystem();
-
-	SPK::Ref<SPK::Sphere> mySphere;
-
-	void render();
-
-	void UpdateSystem(float DeltaTime);
-
-	void dummy(){}
-
-		//void Render(sf::RenderTarget &renderTarget, sf::Renderer &renderer) const;
-	SPK::Ref<SPK::System> sparkSystem;
-	SPK::Ref<SPK::GL::GLQuadRenderer> renderer;
-
+	/// Particle system name, or effect name
 	String myName;
 
+	/// All resources this system has
+	std::map<String, ParticleGroup*> myGroups;
 	std::map<String, ParticleRenderer*> myRenderers;
 	std::map<String, ParticleZone*> myZones;
 	std::map<String, ParticleEmitter*> myEmitters;

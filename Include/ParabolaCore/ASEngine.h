@@ -17,6 +17,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 class GameCore;
 class ParticleSystem;
+class RocketDocument;
 
 /// Namespace contains profiles that can be set directly.
 namespace ScriptProfiles{
@@ -77,6 +78,9 @@ public:
 
 	/// Reset will reinitialize everything.
 	void reset();
+
+	/// Loads a script from a null terminated char buffer
+	ASScript* loadScriptFromMemory(const char* buffer, const String &scriptName);
 
 	/// Loads a script into the engine
 	/// Any functionality the script requires must be exported before loading it
@@ -177,6 +181,18 @@ public:
 	/// Exports the content banks
 	bool exportContentBanks();
 
+	/// Exports access to rocket ui
+	bool exportRocketUi();
+
+	/// Exports as rocket scripting tools
+	bool exportRocketScripting(RocketDocument* document);
+
+	/// Exports animation support
+	bool exportAnimations();
+
+	/// Exports support for particle effects(systems), usage and not specification of them
+	bool exportParticleSystems();
+
 	//////////////////////////////////////////////////////////////////////////
 
 	/// Exports everything necessary to make this engine a particle loader
@@ -206,9 +222,12 @@ private:
 	bool gameCoreExported;
 	bool scriptBasic;
 	bool engineBasic;
+	bool exportedParticles;
 	bool exportedKinesis;
 	bool exportedRenderer;
 	bool exportedContentBanks;
+	bool exportedRocket;
+	bool exportedRocketInternal;
 
 	/// Profile
 	ScriptProfiles::Profiles myScriptingProfile;

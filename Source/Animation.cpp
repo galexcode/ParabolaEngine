@@ -1,9 +1,35 @@
 #include "ParabolaCore/Animation.h"
+#include <algorithm>
+
+#include <iostream>
 
 PARABOLA_NAMESPACE_BEGIN
+
+/// Virtual destructor, for detaching running animations.
+Animable::~Animable(){
+	onDetachAnimation(this);
+};
+
 /// Creates the animation default states
 AnimationInterface::AnimationInterface() : totalElapsedTime(0.f), myStatus(PlayModes::Stopped), myLooping(false){
 	
+};
+
+/// Add a new object to this animation
+void AnimationInterface::addAnimable(Animable* animable){
+	myAnimables.push_back(animable);
+	animable->onDetachAnimation.connect(MAKE_SLOT_LOCAL(AnimationInterface, removeAnimable));
+};
+
+/// Remove animable from the list
+void AnimationInterface::removeAnimable(Animable* animable){
+	myAnimables.erase(std::find(myAnimables.begin(), myAnimables.end(), animable));
+	//std::cout<<"removing animable because it was destroyed"<<std::endl;
+};
+
+/// Get the number of objects being animated
+int AnimationInterface::getAnimableCount(){
+	return (int)myAnimables.size();
 };
 
 /// Get the total time elapsed since this animation has started

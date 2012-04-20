@@ -26,9 +26,14 @@ bool ASEngine::exportEvents(){
 	r = asEngine->RegisterObjectMethod("Event", "int mouseY()", asMETHOD(Event, mouseY), asCALL_THISCALL); if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("Event", "int key()", asMETHOD(Event, getKeyCode), asCALL_THISCALL); if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("Event", "int mouse()", asMETHOD(Event, mouse), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectMethod("Event", "int delta()", asMETHOD(Event, getWheelDelta), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectMethod("Event", "int getJoystickAxis()", asMETHOD(Event, getJoystickAxis), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectMethod("Event", "int getJoystickId()", asMETHOD(Event, getJoystickId), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectMethod("Event", "float getJoystickMovePosition()", asMETHOD(Event, getJoystickMovePosition), asCALL_THISCALL); if(r < 0)printf("r %d", r);
 
-
-
+	r = asEngine->RegisterGlobalFunction("Vec2i getGlobalMousePosition()", asFUNCTION(Event::getGlobalMousePosition), asCALL_CDECL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterGlobalFunction("Vec2i getMousePosition()", asFUNCTION(Event::getLocalMousePosition), asCALL_CDECL); if(r < 0)printf("r %d", r);
+	
 
 	// Accessors
 	asEngine->RegisterEnum("Events");
@@ -55,6 +60,16 @@ bool ASEngine::exportEvents(){
 	asEngine->RegisterEnumValue("Events", "JoystickConnected", Event::JoystickConnected);
 	asEngine->RegisterEnumValue("Events", "JoystickDisconnected", Event::JoystickDisconnected);
 	asEngine->RegisterEnumValue("Events", "JoystickMoved", Event::JoystickMoved);
+
+	asEngine->RegisterEnum("JoystickAxis");
+	asEngine->RegisterEnumValue("JoystickAxis", "X", sf::Joystick::X);
+	asEngine->RegisterEnumValue("JoystickAxis", "Y", sf::Joystick::Y);
+	asEngine->RegisterEnumValue("JoystickAxis", "Z", sf::Joystick::Z);
+	asEngine->RegisterEnumValue("JoystickAxis", "R", sf::Joystick::R);
+	asEngine->RegisterEnumValue("JoystickAxis", "U", sf::Joystick::U);
+	asEngine->RegisterEnumValue("JoystickAxis", "V", sf::Joystick::V);
+	asEngine->RegisterEnumValue("JoystickAxis", "PX", sf::Joystick::PovX);
+	asEngine->RegisterEnumValue("JoystickAxis", "PY", sf::Joystick::PovY);
 
 	asEngine->RegisterEnum("Keyboard");
 	asEngine->RegisterEnumValue("Keyboard", "A", Keyboard::A);

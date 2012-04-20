@@ -3,21 +3,27 @@
 
 #include "Platform.h"
 #include "Strings.h"
+#include "Animation.h"
 #include "Vectors.h"
+#include "Drawable.h"
 #include <vector>
 #include <SFML/Graphics/Sprite.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
 
+class ContentBank;
 /**
 		\ingroup Graphics
 		\class Sprite
 		\brief Extends sf::Sprite and implements more functionality.
 */
-class PARABOLA_API Sprite: public sf::Sprite{
+class PARABOLA_API Sprite: public sf::Sprite,public Animable{
 public:
 	/// Default sprite
 	Sprite();
+
+	/// Safe destruction
+	virtual ~Sprite();
 
 	/// Set the position from a vec2f
 	/// Position is the top-left coordinate
@@ -44,27 +50,29 @@ public:
 	/// Check if a point is contained in the sprite
 	bool containsPoint(float x, float y);
 
-};
+	/// Check if the scale factor is negative
+	bool isFlippedHorizontally();
 
+	/// Flip the sprite horizontally
+	void flipHorizontal();
 
-/**
-	\ingroup Graphics
-	\class SpriteExt
-	\brief Represents a special kind of sprite, that has animation support by default
-*/
-class PARABOLA_API SpriteExt{
-public:
-	/// Creates a ready sprite, that is only a colored square
-	SpriteExt();
+	/// Check if the scale factor is negative
+	bool isFlippedVertically();
 
-	bool bake(const String &fileName, bool bakeTextures);
+	/// Flip the sprite horizontally
+	void flipVertical();
 
-private:
-	Sprite mySprite;
+	void animable_set_position(float x, float y){
+		setPosition(x,y);
+	}
 
-	/// Holds private textures, loaded from a baked sprite, cannot be shared with anyone else
-	//std::vector<Texture*> myTextures;
+	Vec2f animable_get_position(){
+		return Vec2f(getPosition().x, getPosition().y);
+	};
 
+	void animable_set_color(int r, int g, int b, int a){
+		//setColor(Color(r,g,b,a));
+	}
 };
 
 PARABOLA_NAMESPACE_END

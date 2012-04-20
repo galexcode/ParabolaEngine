@@ -2,6 +2,7 @@
 #define PARABOLA_IMAGETEXTURE_H
 
 #include "Platform.h"
+#include "Vectors.h"
 #include <SFML/Graphics/Image.hpp>
 #include <SFML/Graphics/RenderTexture.hpp>
 #include <SFML/Graphics/Texture.hpp>
@@ -29,6 +30,9 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Converts all the pixels with the specified to color to the desired alpha
 		/// In practice, it converts the texture to an Image, applies changes and brings it back to a Texture
 		void maskColor(const Color &color, unsigned char alpha = 0 );
+
+		/// Get the size of the texture
+		Vec2f getSize();
 	};
 
 	/**

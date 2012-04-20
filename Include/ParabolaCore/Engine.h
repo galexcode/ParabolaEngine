@@ -94,7 +94,7 @@ PARABOLA_NAMESPACE_BEGIN
 		GameCoreManager& gameManager();
 
 		/// Get the window the engine currently owns
-		linked_ptr<Window>& getWindow();
+		Window* getWindow();
 
 	protected:
 		/// Clears the environment allocated resources

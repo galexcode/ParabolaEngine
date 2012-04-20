@@ -53,6 +53,18 @@ PARABOLA_NAMESPACE_BEGIN
 		return out;
 	};
 
+/// Reads a alphabetic-only composed string, skips all characters until the first alpha char
+String StringStream::readWord(){
+	String res;
+	char c;
+	while(!isalpha((c = readChar())) && !atEnd());
+	while(isalpha(c) && !atEnd()){
+		res += c;
+		c = readChar();
+	}
+	return res;
+};
+
 	String StringStream::readBlock(char begin, char end){
 		if(!str)return "";
 		String output;

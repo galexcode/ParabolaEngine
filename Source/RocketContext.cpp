@@ -7,6 +7,7 @@
 #include <Rocket/Debugger.h>
 #include <vector>
 #include <iostream>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -29,8 +30,21 @@ RocketContext* RocketContext::create(String contextName, Vec2i dimensions){
 	return context;
 };
 
+/// Loads a font globally in rocket, scripting convenience
+void RocketContext::loadFont(String fontName){
+	RocketPlugin::instance().loadFont(fontName);
+};
+
 void RocketContext::update(){
 	Update();
+
+	// now update animations
+	for(unsigned int i = 0; i < GetNumDocuments(); i++){
+		RocketDocument* document = (RocketDocument*)GetDocument(i);
+		if(document){
+			document->myAnimationFactory.update(1 / 60.f);
+		}
+	}
 };
 
 
@@ -59,6 +73,9 @@ RocketDocument* RocketContext::showDocument(String documentName){
 	else{
 		RocketDocument* document = loadDocument(documentName.c_str());
 		if(document){
+
+			
+
 			document->Show();
 			return document;
 		}
@@ -88,12 +105,51 @@ String RocketContext::contextName(){
 /// If you specify an alias different than the empty string
 /// It becomes the document identifier
 RocketDocument* RocketContext::loadDocument(String documentPath, String alias){
-	RocketDocument *document = LoadDocument(documentPath.c_str());
+	RocketDocument *document = (RocketDocument*)LoadDocument(documentPath.c_str());
 	if(document){
 		if(alias.empty())
 			documents[documentPath] = document;
 		else
 			documents[alias] = document;
+
+		// Finish the script loading
+		//cout<<"header scripts:"<<document->headerScripts.CString()<<endl;
+		
+		document->myScriptEngine.exportGlobalProperty("RocketContext context", this);
+		ASScript *script = document->myScriptEngine.loadScriptFromMemory(document->headerScripts.CString(), "rocketscript");
+		if(script){
+			cout<<"sucessfully loaded!"<<endl;
+			
+			//document->DispatchEvent("hide", Rocket::Core::Dictionary(), false);
+			//document->myScriptEngine.exportGlobalProperty("RocketElement element", document);
+
+			Rocket::Core::ElementList list;
+
+			document->GetElementsByTagName(list, "script");
+
+			//cout<<"Read "<<list.size()<<" script elements"<<endl;
+
+			Rocket::Core::String resultFunction = "void rocketScriptStartupCode(){";
+			for(unsigned int j = 0; j < list.size(); j++){
+				//cout<<"Script: "<<list[j]->GetInnerRML().CString()<<endl;
+				resultFunction += list[j]->GetInnerRML(); 
+				
+			}
+			resultFunction += " }";	
+			script->compileCode(resultFunction.CString(), "rocketScriptStartupCode");
+
+			if(script->call(String("void rocketScriptStartupCode()"))){
+				cout<<"Called function"<<endl;
+			}
+			else cout<<"NOT CALLED"<<endl;
+
+			document->myMainScript = script;
+
+		}
+
+		//parse script tags
+			
+	
 
 		return document;
 	}

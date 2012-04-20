@@ -92,6 +92,12 @@ public:
 	/// Clears the function cache (optimization, internal use)
 	void clearCache();
 
+	/// Compile additional code to this script
+	void compileCode(const char* code, const String &sectionName);
+
+	/// Get the module of this script
+	asIScriptModule* getModule();
+
 private:
 	friend class ASEngine;
 

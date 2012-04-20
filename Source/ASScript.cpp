@@ -41,16 +41,25 @@ bool ASScript::prepareMethod(int funcid){
 
 /// Prepare the context to call 
 bool ASScript::prepareMethod(const String &funcName){
-	if(myModule){
+	if(myModule != NULL){
 		myPreparedMethod = myModule->GetFunctionIdByDecl(funcName.c_str());
 		if(myPreparedMethod > 0){
 			requestContext();
 			myExecutionContext->Prepare(myPreparedMethod);
 			myCallPending = true;
+			//cout<<"ASScript: prepared module"<<endl;
 			return true;
 		}
+		else{
+			cout<<"ASScript: could not prepare method: "<<funcName<<endl;
+			return false;
+		}
 	}
-	return false;
+	else{
+		cout<<"ASScript: Could not prepare module:" <<myModule<<endl;
+		return false;
+	}
+	
 };
 
 /// Pass an argument to the function
@@ -95,7 +104,7 @@ void ASScript::prepareMethodTimeout(float timeoutSeconds){
 /// If you want the return value, pass your object address and specify the type you want to get.
 /// Be careful when using the return values, incorrect use may cause crashes.
 bool ASScript::call(void *data, ScriptArgumentTypes::ArgTypes returnType){
-	if(myCallPending && myModule){
+	if(myCallPending == true && myModule != NULL){
 		//requestContext();
 		if(!myPreserveGlobals)
 			myModule->ResetGlobalVars(myExecutionContext);
@@ -107,11 +116,16 @@ bool ASScript::call(void *data, ScriptArgumentTypes::ArgTypes returnType){
 			releaseContext();
 			return true;
 		}
+		else{
+			cout<<"Failed to run function"<<endl;
+		}
 		releaseContext();
 		return true;
 	}
-	else
+	else{
+		cout<<"No module: "<<myModule<<endl;
 		return false;
+	}
 };
 
 /// Call immediately the selected function
@@ -177,6 +191,27 @@ void ASScript::clearCache(){
 
 };
 
+/// Compile additional code to this script
+void ASScript::compileCode(const char* code, const String &sectionName){
+	if(myModule){
+		//myModule->AddScriptSection("xxx", code);
+		//myModule->Build();
+		asIScriptFunction *func = 0;
+		myModule->CompileFunction(sectionName.c_str(), code, 0, asCOMP_ADD_TO_MODULE, &func);
+		if(func){
+			//cout<<"will now call new function"<<endl;			
+		}
+
+		if(!myModule){
+			cout<<"Module died"<<endl;
+		}
+	}
+};
+
+/// Get the module of this script
+asIScriptModule* ASScript::getModule(){
+	return myModule;
+};
 
 
 //////////////////////////////////////////////////////////////////////////////////////////

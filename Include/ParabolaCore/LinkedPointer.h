@@ -232,7 +232,7 @@ PARABOLA_NAMESPACE_BEGIN
 					(*it)->refList = NULL;
 					it++;
 				}
-
+				
 				delete link;
 			}
 		};

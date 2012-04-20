@@ -1,5 +1,6 @@
 #include "ParabolaCore/RocketEventInterface.h"
 #include "ParabolaCore/RocketPlugin.h"
+#include "ParabolaCore/RocketDocument.h"
 #include <iostream>
 
 PARABOLA_NAMESPACE_BEGIN
@@ -16,6 +17,15 @@ PARABOLA_NAMESPACE_BEGIN
 	void RocketEventListener::ProcessEvent(Rocket::Core::Event& event)
 	{
 		//std::cout<<"Event: "<<value.CString()<<std::endl;		
+
+		// oh well, script it.
+		Rocket::Core::Element *elem = event.GetCurrentElement();
+		RocketDocument* doc = (RocketDocument*)elem->GetOwnerDocument();
+		
+		//doc->myScriptEngine.getASEngine()->Re
+		//void* ptr = doc->myMainScript->getModule()->GetAddressOfGlobalVar(doc->myMainScript->getModule()->GetGlobalVarIndexByName("element"));
+	
+		doc->processInlineEvent(value.CString(), event);
 		if(myDispatcher){
 			myDispatcher->onEventTriggered.emit(value.CString());
 		}

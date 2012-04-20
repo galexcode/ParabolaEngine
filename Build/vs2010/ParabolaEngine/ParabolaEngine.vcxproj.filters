@@ -256,9 +256,6 @@
     <ClCompile Include="..\..\..\Source\StateMachine.cpp">
       <Filter>Engine\Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\StateMachineNode.cpp">
-      <Filter>Engine\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Source\SceneGraph.cpp">
       <Filter>Engine\Scene\SceneGraph</Filter>
     </ClCompile>
@@ -334,9 +331,6 @@
     <ClCompile Include="..\..\..\Source\ASEngine.cpp">
       <Filter>Engine\Scripting\AngelScript</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\ASCommon.cpp">
-      <Filter>Engine\Scripting\AngelScript</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Source\KinesisActors.cpp">
       <Filter>Engine\Kinesis</Filter>
     </ClCompile>
@@ -370,10 +364,55 @@
     <ClCompile Include="..\..\..\Source\ASContent.cpp">
       <Filter>Engine\Scripting\AngelScript</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationPosition.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationEasing.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationGroupParallel.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationGroupSequential.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationFactory.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationColor.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ParticleSystemWrapper.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketAnimationController.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationDimension.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationTextWriter.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\SpriteExt.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StateMachineNode.cpp">
+      <Filter>Engine\Graphics\RenderTree</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketDocument.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ASAnimation.cpp">
+      <Filter>Engine\Scripting\AngelScript</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Include\ParabolaCore\Vectors.inl">
       <Filter>Engine\Foundation</Filter>
+    </None>
+    <None Include="..\..\..\Include\ParabolaCore\GameCoreManager.inl">
+      <Filter>Engine\Core</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -694,6 +733,42 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\ComponentKinesis.h">
       <Filter>Engine\Scene\EntityFramework\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationEasing.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationFactory.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroup.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroupParallel.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroupSequential.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationPosition.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationColor.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketAnimationController.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationDimension.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationTextWriter.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SpriteExt.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketDocument.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -6,13 +6,14 @@
 
 PARABOLA_NAMESPACE_BEGIN	
 	using sigc::ptr_fun;
+	using sigc::mem_fun;
+	using sigc::signal;
 
-	typedef sigc::signal<void> void_signal;
-	typedef sigc::signal<int> int_signal;
-	typedef sigc::signal<float> float_signal;
-	typedef sigc::signal<double> double_signal;
-	typedef sigc::signal<unsigned long> unsigned_long_signal;
-	typedef sigc::signal<bool> bool_signal;
+/// Document a define?!
+#define MAKE_SLOT_LOCAL(classname, funcname) (mem_fun(this, &classname::funcname))
+#define MAKE_SLOT_OBJECT(classname, objectname, funcname) (mem_fun(objectname, &classname::funcname))
+#define MAKE_SLOT_FUNCTION(funcname) (ptr_fun(&funcname))
+
 
 PARABOLA_NAMESPACE_END
 

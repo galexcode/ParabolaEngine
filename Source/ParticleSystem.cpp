@@ -1,4 +1,5 @@
 #include "ParabolaCore/ParticleSystem.h"
+#include "ParabolaCore/ASEngine.h"
 
 #include <iostream>
 using namespace std;
@@ -35,27 +36,92 @@ bool ParticleTexture::loadTexture(const String &path){
 ////////////////////////////////////////////////////////////////////////// SYSTEM
 
 ParticleSystem::ParticleSystem(){
-	SPK::System::setClampStep(true,0.1f);			// clamp the step to 100 ms
+	SPK::System::setClampStep(true,0.1f);		// clamp the step to 100 ms
 	SPK::System::useAdaptiveStep(0.001f,0.01f);
-	sparkSystem = SPK::System::create(true);
+	mySystem = SPK::System::create(true);
 };
 
-/// Overload of the assignment operator, for copying systems
-ParticleSystem& ParticleSystem::operator=(const ParticleSystem &other){
-	sparkSystem = other.sparkSystem;
-	return *this;
+/// Create a named, empty particle system 
+ParticleSystem::ParticleSystem(const String &name){
+	myName = name;
+	SPK::System::setClampStep(true,0.1f);		// clamp the step to 100 ms
+	SPK::System::useAdaptiveStep(0.001f,0.01f);
+	mySystem = SPK::System::create(true);
+};
+
+
+/// Get the internal spark system
+SPK::Ref<SPK::System> ParticleSystem::getSparkSystem(){
+	return mySystem;
+};
+
+/// Loads from a script
+bool ParticleSystem::loadFromScript(const String &filePath){
+	ASEngine::loadParticleSystem(filePath, this, false);
+	return true;
 };
 
 /// Adds a new group to the system
-ParticleGroup& ParticleSystem::addGroup(const String &name, int capacity){
-	SPK::Ref<SPK::Group> group = sparkSystem->createGroup(capacity);
-	group->setName(name);
-	return *(new ParticleGroup(group, this));
+ParticleGroup* ParticleSystem::addGroup(const String &name, int capacity){
+	ParticleGroup* group = new ParticleGroup(this);
+	group->myGroup = mySystem->createGroup(capacity);
+	group->myGroup->setName(name);
+	myGroups[name] = group;
+	return group;
+};
+
+/// Remove group from the system
+void ParticleSystem::removeGroup(const String &name){
+	std::map<String, ParticleGroup*>:: iterator it = myGroups.find(name);
+	if(it != myGroups.end()){
+		ParticleGroup* group = it->second;
+		mySystem->removeGroup(group->myGroup);
+		delete group;
+		myGroups.erase(it);
+	}
+};
+
+/// Get a group in the system
+ParticleGroup* ParticleSystem::getGroup(const String &name){
+	std::map<String, ParticleGroup*>:: iterator it = myGroups.find(name);
+	if(it != myGroups.end()){
+		return it->second;
+	}
+	else return NULL;
+};
+
+/// Remove the renderer with the right name
+void ParticleSystem::removeRenderer(const String &name){
+	std::map<String, ParticleRenderer*>:: iterator it = myRenderers.find(name);
+	if(it != myRenderers.end()){
+		ParticleRenderer* r = it->second;
+		delete r;
+		myRenderers.erase(it);
+	}
+};
+
+/// Erases everything in this system
+void ParticleSystem::clear(){
+	for(std::map<String,ParticleGroup*>::iterator it = myGroups.begin(); it != myGroups.end(); it++){
+		removeGroup(it->first);
+	}
+
+	for(std::map<String,ParticleRenderer*>::iterator it = myRenderers.begin(); it != myRenderers.end(); it++){
+		removeRenderer(it->first);
+	}
+
+	//...
 };
 
 String ParticleSystem::getName(){
 	return myName;
 }
+
+/// Set a new name to the particle system
+void ParticleSystem::setName(const String &newName){
+	myName = newName;
+};
+
 
 ParticleRenderer& ParticleSystem::createPointRenderer(const String &name, float pointSize){
 	ParticleRenderer *pRend = new ParticleRenderer();
@@ -64,50 +130,57 @@ ParticleRenderer& ParticleSystem::createPointRenderer(const String &name, float 
 	return *pRend;
 }
 
+ParticleEmitter& ParticleSystem::createSphericEmitter(const String &name, float direction_x, float direction_y, float direction_z,
+	float angleMin, float angleMax, ParticleZone &zone,
+	bool full, int tank, float flow, float forceMin, float forceMax){
+
+		ParticleEmitter *pRend = new ParticleEmitter();
+		pRend->myEmitter = SPK::SphericEmitter::create(SPK::Vector3D(direction_x, direction_y, direction_z),angleMin, angleMax, zone.myZone , full, tank, flow, forceMin, forceMax);
+
+		myEmitters[name] = pRend;
+		return *pRend;
+}
+
+ParticleTexture& ParticleSystem::createTexture(const String &name, const String &path){
+	ParticleTexture *pRend = new ParticleTexture();
+	pRend->loadTexture(path);
+	myTextures[name] = pRend;
+	return *pRend;
+}
+
+
+ParticleZone& ParticleSystem::createSphereZone(const String &name, float x, float y, float z, float radius){
+	ParticleZone *pRend = new ParticleZone();
+	pRend->myZone = SPK::Sphere::create(SPK::Vector3D(x,y,z), radius);
+	myZones[name] = pRend;
+	return *pRend;
+}
+
+ParticleModifier& ParticleSystem::createGravityModifier(const String &name, float x, float y, float z){
+	ParticleModifier *pRend = new ParticleModifier();
+	pRend->myModifier = SPK::Gravity::create(SPK::Vector3D(x,y,z));
+	myModifiers[name] = pRend;
+	return *pRend;
+}
 
 /// A simple system
-void ParticleSystem::createBasicSystem(){
-	renderer = SPK::GL::GLQuadRenderer::create(5,5);
-
-	SPK::Ref<SPK::Group> effectgroup = sparkSystem->createGroup(4000);
-
-	effectgroup->setName("Cool");
-	SPK::Ref<SPK::GL::GLPointRenderer> rn = SPK::GL::GLPointRenderer::create(9);	
-	rn->setType(SPK::POINT_TYPE_CIRCLE);
-	rn->setBlendMode(SPK::BLEND_MODE_ADD);
-	effectgroup->setRenderer(rn);
-	//effectgroup->setRenderer(SPK::GL::GLLineRenderer::create(10, 5));
-
-	mySphere = SPK::Sphere::create(SPK::Vector3D(300.f,300.f,0.f),4.0f);
-
-	//effectgroup->setRenderer(renderer);
-	effectgroup->setLifeTime(0.9f,1.7f);
-	effectgroup->setColorInterpolator(SPK::ColorRandomInterpolator::create(SPK::Color(0,0,0,255),SPK::Color(0,15,0,255),SPK::Color(0,30,40,255),SPK::Color(50,0,0,255)));
-	effectgroup->addEmitter(SPK::SphericEmitter::create(SPK::Vector3D(1.0f,0.0f,0.0f),0.0f,2*3.14159f,mySphere,true,-1,3000.0f,70.2f,100.5f));
-
-	effectgroup->addModifier(SPK::Gravity::create(SPK::Vector3D(0.0f, -1,0.0f)));
-	//effectgroup->addParticles(100, SPK::Vector3D(200,200,0), SPK::Vector3D(0,0,0));
-	//effectgroup->addParticles(100, SPK::Vector3D(200,200,0), SPK::Vector3D(20,30,0));
-
-	//effectgroup->addParticles(100, SPK::Vector3D(500,200,0), SPK::Vector3D(200,30,0));
-
+void ParticleSystem::createSampleSparkles(const String &zoneName){
 
 };
 
-
-void ParticleSystem::render(){
+/// Draw the system
+void ParticleSystem::draw(SceneRenderer* renderer){
 	SPK::GL::GLRenderer::saveGLStates();
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	sparkSystem->renderParticles();
+	mySystem->renderParticles();
 	SPK::GL::GLRenderer::restoreGLStates();
-};	
+};
 	
-
-	
-void ParticleSystem::UpdateSystem(float DeltaTime){
-	sparkSystem->updateParticles(DeltaTime);
+/// Update the state of the particles.
+void ParticleSystem::update(float elapsedTime){
+	mySystem->updateParticles(elapsedTime);
 };
 
 
@@ -116,7 +189,7 @@ void ParticleSystem::UpdateSystem(float DeltaTime){
 
 void ParticleGroup::defaultGroup1(){
 
-	ParticleTexture *tt = new ParticleTexture();
+	/*ParticleTexture *tt = new ParticleTexture();
 	if(!tt->loadTexture("part.png"))cout<<"COULD NOT LOAD TEXTURE"<<endl;
 
 	SPK::Ref<SPK::GL::GLPointRenderer> rn = SPK::GL::GLPointRenderer::create(50);
@@ -171,7 +244,7 @@ void ParticleGroup::defaultGroup1(){
 	//myGroup->setRenderer(rnquad2);
 
 	
-	//myGroup->set
+	//myGroup->set*/
 }
 
 

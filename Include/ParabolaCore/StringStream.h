@@ -44,6 +44,9 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Nested blocks with the same characters will be accounted for.
 		String readBlock(char begin, char end);
 
+		/// Reads a alphabetic-only composed string, skips all characters until the first alpha char
+		String readWord();
+
 	private:
 		int pos;
 		String *str;

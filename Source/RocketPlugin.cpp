@@ -91,6 +91,14 @@ void RocketPlugin::startLibRocket(){
 	Rocket::Core::Factory::RegisterContextInstancer(context_instancer);
 	context_instancer->RemoveReference();
 
+	Rocket::Core::ElementInstancerGeneric<RocketDocument> *documentinstancer = new Rocket::Core::ElementInstancerGeneric<RocketDocument>();
+	Rocket::Core::Factory::RegisterElementInstancer("body", documentinstancer);
+	documentinstancer->RemoveReference();
+
+	Rocket::Core::ElementInstancerGeneric<RocketElement> *elementinstancer = new Rocket::Core::ElementInstancerGeneric<RocketElement>();
+	Rocket::Core::Factory::RegisterElementInstancer("*", elementinstancer);
+	elementinstancer->RemoveReference();
+
 
 	//Custom event instancer
 	myDispatcher = new RocketEventDispatcher();
@@ -223,11 +231,11 @@ void RocketPlugin::OnDocumentOpen(Rocket::Core::Context* context, const Rocket::
 }
 void RocketPlugin::OnDocumentLoad(Rocket::Core::ElementDocument* document){
 	num_documents++;
-	((RocketContext*)document->GetContext())->insert(document);
+	((RocketContext*)document->GetContext())->insert((RocketDocument*)document);
 }
 void RocketPlugin::OnDocumentUnload(Rocket::Core::ElementDocument* document){
 	num_documents--;
-	((RocketContext*)document->GetContext())->remove(document);
+	((RocketContext*)document->GetContext())->remove((RocketDocument*)document);
 }
 void RocketPlugin::OnContextCreate(Rocket::Core::Context* context){
 	contexts[context->GetName().CString()] = (RocketContext*)context;

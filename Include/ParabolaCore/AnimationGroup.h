@@ -1,24 +1,24 @@
-#ifndef ANIMATIONGROUP_H
-#define ANIMATIONGROUP_H
+#ifndef PARABOLA_ANIMATIONGROUP_H
+#define PARABOLA_ANIMATIONGROUP_H
 
 #include "Platform.h"
 #include "Animation.h"
 #include <vector>
-using namespace std;
 
-namespace pE{
-	/**
-		\class AnimationGroup
-		\brief Base class for animation grouping utilities.
+PARABOLA_NAMESPACE_BEGIN
+/**
+	\ingroup Animation
+	\class AnimationGroup
+	\brief Base grouping class for animations
+*/
+class PARABOLA_API AnimationGroup : public AnimationInterface{
+public:
 
+	/// Mandatory implementation for the update method in a group
+	virtual void update(float elapsedTime) = 0;
 
-	*/
-	class PARABOLA_API AnimationGroup : public AbstractAnimation{
-	public:
-
-	private:
-		vector<AbstractAnimation*> Animations;
-	};
+	std::vector<AnimationInterface*> myAnimations;
 };
 
+PARABOLA_NAMESPACE_END
 #endif

@@ -18,7 +18,6 @@ PARABOLA_NAMESPACE_BEGIN
 	class RocketRenderInterface;
 	class RocketSystemInterface;
 
-	typedef Rocket::Core::Element RocketElement;
 	/**
 		\ingroup libRocket
 		\ingroup Graphics

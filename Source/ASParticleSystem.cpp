@@ -9,7 +9,33 @@ void dummy(void*){
 
 }
 
+
+
 PARABOLA_NAMESPACE_BEGIN
+
+ParticleSystem& ParticleSystemFactory(){
+		return *new ParticleSystem();
+}
+
+/// Exports support for particle systems, usage and not specification of them
+bool ASEngine::exportParticleSystems(){
+
+	asEngine->RegisterObjectType("ParticleEffect", sizeof(ParticleSystem), asOBJ_REF);
+
+	asEngine->RegisterObjectBehaviour("ParticleEffect", asBEHAVE_FACTORY, "ParticleEffect@ f()", asFUNCTION(ParticleSystemFactory), asCALL_CDECL);
+	asEngine->RegisterObjectBehaviour("ParticleEffect", asBEHAVE_ADDREF, "void f()", asMETHOD(RefCountable, addReference), asCALL_THISCALL);
+	asEngine->RegisterObjectBehaviour("ParticleEffect", asBEHAVE_RELEASE, "void f()", asMETHOD(RefCountable, removeReference), asCALL_THISCALL);
+
+	//asEngine->RegisterObjectMethod("ParticleEffect", ")
+
+	if(exportedRenderer){
+		asEngine->RegisterObjectMethod("ParticleEffect", "void draw(SceneRenderer@)", asMETHOD(ParticleSystem, draw), asCALL_THISCALL);
+	}
+
+	exportedParticles = true;
+	return true;
+};
+
 /// Exports everything necessary to make this engine a particle loader
 void ASEngine::activateParticleLoaderProfile(){
 	exportStrings();

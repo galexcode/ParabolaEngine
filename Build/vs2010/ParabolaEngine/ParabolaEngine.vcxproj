@@ -35,10 +35,18 @@
     <ClCompile Include="..\..\..\Include\AS\ASAddonMathComplex.cpp" />
     <ClCompile Include="..\..\..\Include\AS\ASAddonString.cpp" />
     <ClCompile Include="..\..\..\Include\AS\ASAddonStringUtils.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationColor.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationDimension.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationEasing.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationFactory.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationGroupParallel.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationGroupSequential.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationPosition.cpp" />
+    <ClCompile Include="..\..\..\Source\AnimationTextWriter.cpp" />
     <ClCompile Include="..\..\..\Source\ASConstructs.cpp" />
     <ClCompile Include="..\..\..\Source\ASContent.cpp" />
     <ClCompile Include="..\..\..\Source\ASEngine.cpp" />
-    <ClCompile Include="..\..\..\Source\ASCommon.cpp" />
+    <ClCompile Include="..\..\..\Source\ASAnimation.cpp" />
     <ClCompile Include="..\..\..\Source\Animation.cpp" />
     <ClCompile Include="..\..\..\Source\AnimationSprite.cpp" />
     <ClCompile Include="..\..\..\Source\AnimationView.cpp" />
@@ -93,10 +101,13 @@
     <ClCompile Include="..\..\..\Source\Node.cpp" />
     <ClCompile Include="..\..\..\Source\Packages.cpp" />
     <ClCompile Include="..\..\..\Source\ParticleSystem.cpp" />
+    <ClCompile Include="..\..\..\Source\ParticleSystemWrapper.cpp" />
     <ClCompile Include="..\..\..\Source\QuadTree.cpp" />
     <ClCompile Include="..\..\..\Source\ReferenceCountable.cpp" />
     <ClCompile Include="..\..\..\Source\ResourceTable.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketAnimationController.cpp" />
     <ClCompile Include="..\..\..\Source\RocketContext.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketDocument.cpp" />
     <ClCompile Include="..\..\..\Source\RocketEventBox.cpp" />
     <ClCompile Include="..\..\..\Source\RocketEventInterface.cpp" />
     <ClCompile Include="..\..\..\Source\RocketPlugin.cpp" />
@@ -114,6 +125,7 @@
     <ClCompile Include="..\..\..\Source\SoundPlayer.cpp" />
     <ClCompile Include="..\..\..\Source\SoundSharedDevice.cpp" />
     <ClCompile Include="..\..\..\Source\Sprite.cpp" />
+    <ClCompile Include="..\..\..\Source\SpriteExt.cpp" />
     <ClCompile Include="..\..\..\Source\StateMachine.cpp" />
     <ClCompile Include="..\..\..\Source\StateMachineNode.cpp" />
     <ClCompile Include="..\..\..\Source\StoryAction.cpp" />
@@ -132,11 +144,21 @@
     <ClCompile Include="..\..\..\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\Include\ParabolaCore\GameCoreManager.inl" />
     <None Include="..\..\..\Include\ParabolaCore\Vectors.inl" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Library.h" />
     <ClInclude Include="..\..\..\Include\Parabola.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationColor.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationDimension.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationEasing.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationFactory.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroup.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroupParallel.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroupSequential.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationPosition.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationTextWriter.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ASEngine.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Animation.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationSprite.h" />
@@ -200,8 +222,10 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\QuadTree.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ReferenceCountable.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ResourceTable.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketAnimationController.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketContext.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketDecoratorAnimator.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketDocument.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketEventBox.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketEventInterface.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketPlugin.h" />
@@ -223,6 +247,7 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\SoundPlayer.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\SoundSharedDevice.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Sprite.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\SpriteExt.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\StateMachine.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\StateMachineNode.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\StoryAction.h" />
@@ -254,7 +279,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Android'" Label="Configuration">
-    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>

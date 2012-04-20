@@ -1,6 +1,12 @@
+SDK Version 0.8.4 - "20/04/2012"
+--------------------------------
+ -> Prototype tool uploaded
+ -> Animation framework greatly improved
+ -> libRocket has now scripting with AngelScript, allows easy animations to elements
+ -> General fixes, organization and improvements.
+
 SDK Version 0.8.3 - "04/04/2012"
 --------------------------------
- -> Prototype Tool introduced. Downloadable in the website.
  -> Internal improvements with the graphics API
  -> Started the exporting of the API for the scripts, specially the Prototype Tool
  -> Removed lighting completely until a proper version is published again

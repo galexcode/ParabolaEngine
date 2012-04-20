@@ -7,6 +7,8 @@ PARABOLA_NAMESPACE_BEGIN
 	/************************************************************************/
 	void KinesisContactListener::BeginContact (b2Contact *contact){
 		//std::cout<<"Started a colision"<<std::endl;
+		
+		//std::cout<<"disabled col"<<std::endl;
 	};
 
 	void KinesisContactListener::EndContact(b2Contact *contact){
@@ -15,7 +17,7 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 	void KinesisContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold){
-
+		//contact->SetEnabled(false);
 	};
 
 	void KinesisContactListener::PostSolve(b2Contact *contact, const b2ContactImpulse *impulse){

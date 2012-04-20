@@ -157,8 +157,8 @@ GameCoreManager& Engine::gameManager(){
 	return myGames;
 };
 /// Get the window the engine currently owns
-linked_ptr<Window>& Engine::getWindow(){
-	return myWindow;
+Window* Engine::getWindow(){
+	return myWindow.get();
 };
 
 /// Begins destruction of the engine

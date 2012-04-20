@@ -13,15 +13,20 @@
 #include "Text.h"
 #include "ParticleSystem.h"
 #include "Lighting.h"
+#include "SpriteExt.h"
 
 // Rocket
 #include "RocketContext.h"
 #include "RocketPlugin.h"
 #include "RocketEventInterface.h"
+#include "RocketAnimationController.h"
 
 //Animation
 #include "AnimationSprite.h"
 #include "AnimationView.h"
+#include "AnimationPosition.h"
+#include "AnimationDimension.h"
+#include "AnimationTextWriter.h"
 
 
 

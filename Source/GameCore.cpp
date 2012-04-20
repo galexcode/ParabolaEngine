@@ -14,14 +14,14 @@ GameCore::GameCore() : fixedUpdateStep(1.f / 60.f), myParent(NULL), accumulatedT
 
 /// Get the assigned window
 /// Returns a NULL smart pointer if no window exists
-linked_ptr<Window>& GameCore::getWindow(){
+Window* GameCore::getWindow(){
 	return myWindow;
 };
 
 /// Sets the primary window
 /// It is mandatory that a window is set for onRender to be called.
-void GameCore::setWindow(linked_ptr<Window> &window_ptr){
-	myWindow = window_ptr;
+void GameCore::setWindow(Window* window){
+	myWindow = window;
 };
 
 /// Get the name of this game
@@ -158,7 +158,7 @@ SceneRenderer* GameCore::createRenderer(RenderTarget *target){
 		renderer->setRenderTarget(*target);
 	}
 	else if(getWindow()){
-		renderer->setRenderTarget(*getWindow().get());
+		renderer->setRenderTarget(*getWindow());
 	}
 
 	return renderer;

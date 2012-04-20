@@ -6,19 +6,20 @@ using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
-void KWConstructor(void *memory)
+KinesisWorld* KWFactory()
 {
 	// Initialize the pre-allocated memory by calling the
 	// object constructor with the placement-new operator
-	new(memory) KinesisWorld();
-
+	return new KinesisWorld();
 }
 
-void KWDestructor(void *memory)
+void KWAddRef(void *memory)
 {
-	// Uninitialize the memory by calling the object destructor
-	((KinesisWorld*)memory)->~KinesisWorld();
-	
+		
+}
+
+void KWRelease(void* memory){
+
 }
 
 /// Exports physics functionality
@@ -28,14 +29,22 @@ bool ASEngine::exportKinesis(){
 
 	asEngine->RegisterObjectMethod("KinesisBodyActor", "Vec2f getPosition()", asMETHOD(KinesisBodyActor, getPosition), asCALL_THISCALL);
 	asEngine->RegisterObjectMethod("KinesisBodyActor", "void setVelocity(Vec2f)", asMETHOD(KinesisBodyActor, setVelocity), asCALL_THISCALL);
+	asEngine->RegisterObjectMethod("KinesisBodyActor", "Vec2f getVelocity()", asMETHOD(KinesisBodyActor, getVelocity), asCALL_THISCALL);
+	asEngine->RegisterObjectMethod("KinesisBodyActor", "void setAngle(float)", asMETHOD(KinesisBodyActor, setAngle), asCALL_THISCALL);
+	asEngine->RegisterObjectMethod("KinesisBodyActor", "void setFixedRotation(bool)", asMETHOD(KinesisBodyActor, setFixedRotation), asCALL_THISCALL);
 
-	asEngine->RegisterObjectType("KinesisWorld", sizeof(KinesisWorld), asOBJ_VALUE | asOBJ_APP_CLASS_CD);
 
+
+	exportReferenceDataType("b2PrismaticJointDef");
+
+	asEngine->RegisterObjectType("KinesisWorld", sizeof(KinesisWorld), asOBJ_REF);
 	
-	// Register the behaviours
-	r = asEngine->RegisterObjectBehaviour("KinesisWorld", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(KWConstructor), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("KinesisWorld", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(KWDestructor), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
-	
+
+	// Registering the factory behaviour
+	r = asEngine->RegisterObjectBehaviour("KinesisWorld", asBEHAVE_FACTORY, "KinesisWorld@ f()", asFUNCTION(KWFactory), asCALL_CDECL); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("KinesisWorld", asBEHAVE_ADDREF, "void f()", asFUNCTION(KWAddRef), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	r = asEngine->RegisterObjectBehaviour("KinesisWorld", asBEHAVE_RELEASE, "void f()", asFUNCTION(KWRelease), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+
 	r = asEngine->RegisterObjectMethod("KinesisWorld", "void update(float)", asMETHOD(KinesisWorld,update), asCALL_THISCALL); if(r < 0)printf("r %d", r);;
 	r = asEngine->RegisterObjectMethod("KinesisWorld", "void createStaticBox(float, float, float, float)", asMETHOD(KinesisWorld,CreateStaticBox), asCALL_THISCALL); if(r < 0)printf("r %d", r);;
 	r = asEngine->RegisterObjectMethod("KinesisWorld", "KinesisBodyActor@ createDynamicBox(float, float, float, float)", asMETHOD(KinesisWorld,CreateQuickBox), asCALL_THISCALL); if(r < 0)printf("r %d", r);;

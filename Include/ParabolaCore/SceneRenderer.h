@@ -6,6 +6,7 @@
 #include "LinkedPointer.h"
 #include "Strings.h"
 #include "Drawable.h"
+#include "Window.h"
 #include "Vectors.h"
 #include "Views.h"
 
@@ -16,10 +17,10 @@ PARABOLA_NAMESPACE_BEGIN
 	typedef sf::RenderTarget RenderTarget;
 	typedef sf::RenderStates RenderStates;
 
-	/**
-		\ingroup Graphics
-		\class SceneRenderer
-		\brief Responsible to draw everything in the scene
+/**
+	\ingroup Graphics
+	\class SceneRenderer
+	\brief Responsible to draw everything in the scene
 
 		Renderers need to point to a RenderTarget in order to be able to draw anything.
 
@@ -43,9 +44,9 @@ PARABOLA_NAMESPACE_BEGIN
 		while complex scenes would certainly take advantage of
 		using SceneGraph structures.
 
-	*/
-	class PARABOLA_API SceneRenderer{
-	public:
+*/
+class PARABOLA_API SceneRenderer{
+public:
 		/// Creates a renderer with no render target
 		SceneRenderer();
 		/// Creates a renderer bound to [target]
@@ -60,6 +61,9 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Get the size of the target
 		Vec2i getTargetSize();
 
+		/// Get the size of the window
+		Vec2i getWindowSize();
+
 		/// Draw a text in the screen
 		void drawDebugText(const String &text, float x, float y);
 
@@ -68,6 +72,12 @@ PARABOLA_NAMESPACE_BEGIN
 
 		/// Activate the window
 		void activateRenderTarget();
+
+		/// Convert local coordinates to global ones from the current view
+		Vec2f convertLocalCoordinates(Vec2f localCoordinates);
+
+		/// Convert local coordinates to global ones from a view
+		Vec2f convertLocalCoordinates(Vec2f localCoordinates, View& v);
 
 
 		/// Assign the view to the target directly
@@ -99,9 +109,11 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Use keepView to determine if the target will be used with the current target view
 		void drawAt(RenderTarget &target, Drawable &drawable, bool keepView);
 
-	private:
-		RenderTarget* myTarget;
-	};
+private:
+	RenderTarget* myTarget;
+	Window* myWindow;
+	std::vector<View*> myViewStack;
+};
 
 	
 	

@@ -11,6 +11,7 @@
 #include "AS/scriptfile.h"
 #include "AS/scriptmath.h"
 
+using namespace std;
 #include <iostream>
 
 PARABOLA_NAMESPACE_BEGIN
@@ -51,6 +52,9 @@ ASEngine::ASEngine(){
 	exportedRenderer = false;
 	exportedKinesis = false;
 	exportedContentBanks = false;
+	exportedRocket = false;
+	exportedRocketInternal = false;
+	exportedParticles = false;
 };
 
 /// Ensures proper destruction of the engine
@@ -69,6 +73,41 @@ asIScriptEngine* ASEngine::getASEngine(){
 /// Destroys a script from the engine
 void ASEngine::unloadScript(const String &name){
 
+};
+
+/// Loads a script from a null terminated char buffer
+ASScript* ASEngine::loadScriptFromMemory(const char* buffer, const String &scriptName){
+	ASScript* asScript = NULL;	
+
+	CScriptBuilder Builder;
+	int r;
+	r = Builder.StartNewModule(asEngine, scriptName.c_str());
+	if(r<0){
+		//pLogger::Log(LogLevel::Critical, "Could not create a new Script Module.", "[ScriptEngine]");
+		return NULL;
+	}
+
+	r = Builder.AddSectionFromMemory(buffer, scriptName.c_str());
+	if(r<0){
+				//pLogger::Log(LogLevel::Critical, "Could not stream file data into the Script Module.", "[ScriptEngine]");
+				return NULL;
+	}
+
+	r = Builder.BuildModule();
+	if(r<0){
+				//pLogger::Log(LogLevel::Critical, "Could not compile the script file.", "[ScriptEngine]");
+				return NULL;
+	}
+
+	asScript = new ASScript();
+	asScript->myParent = this;
+	asScript->myModule = asEngine->GetModule(scriptName.c_str());
+	if(!asEngine->GetModule(scriptName.c_str())){
+		cout<<"Failed to acquire module"<<endl;
+	}
+	else cout<<"Module: "<<asScript->myModule<<endl;
+
+	return asScript;
 };
 
 /// Loads a script into the engine
@@ -319,33 +358,65 @@ void Vec2fCCTOR(const Vec2f &in, void* memory){
 void Vec2fDTOR(void* memory){
 	((Vec2f*)memory)->~Vec2f();
 }
+void Vec2iCTOR(void* memory){
+	new(memory) Vec2i();
+}
+void Vec2iCTOR2(int x, int y, void* memory){
+	new(memory) Vec2i(x,y);
+}
+void Vec2iCCTOR(const Vec2i &in, void* memory){
+	new(memory) Vec2i(in);
+}
+void Vec2iDTOR(void* memory){
+	((Vec2i*)memory)->~Vec2i();
+}
 
 /// Exports basic functionality and access to the global engine
 /// By default, it will be known as Engine, change at will.
 bool ASEngine::exportBasicEngine(const String &varName){
 	if(engineBasic)return true;
 
+	int r;
+	asEngine->RegisterObjectType("Vec2f", sizeof(Vec2f), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
+	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2fCTOR), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", asFUNCTION(Vec2fCTOR2), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2fDTOR), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(const Vec2f &in)", asFUNCTION(Vec2fCCTOR), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectMethod("Vec2f", "Vec2f &opAssign(const Vec2f &in)", asMETHODPR(Vec2f, operator=, (const Vec2f &), Vec2f&), asCALL_THISCALL);
+
+	asEngine->RegisterObjectProperty("Vec2f", "float x", asOFFSET(Vec2f, x));
+	asEngine->RegisterObjectProperty("Vec2f", "float y", asOFFSET(Vec2f, y));
+
+	asEngine->RegisterObjectType("Vec2i", sizeof(Vec2i), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
+	asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2iCTOR), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(int x, int y)", asFUNCTION(Vec2iCTOR2), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2iDTOR), asCALL_CDECL_OBJLAST);
+	asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(const Vec2i &in)", asFUNCTION(Vec2iCCTOR), asCALL_CDECL_OBJLAST);
+
+	asEngine->RegisterObjectProperty("Vec2i", "int x", asOFFSET(Vec2i, x));
+	asEngine->RegisterObjectProperty("Vec2i", "int y", asOFFSET(Vec2i, y));
+
+
+	exportReferenceDataType("Window");
+
+	//r = asEngine->RegisterObjectMethod("Window", "Vec2f getGameName(int)", asMETHOD(Engine, as_gameNameAt) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
+
+
+
 	asEngine->RegisterObjectType("EngineSDK", sizeof(Engine), asOBJ_REF);
 
-	int r;
 	r = asEngine->RegisterObjectBehaviour("EngineSDK", asBEHAVE_ADDREF, "void f()", asMETHOD(Engine,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectBehaviour("EngineSDK", asBEHAVE_RELEASE, "void f()", asMETHOD(Engine,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
 
 	r = asEngine->RegisterObjectMethod("EngineSDK", "string getGameName(int)", asMETHOD(Engine, as_gameNameAt) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("EngineSDK", "int gameCount()", asMETHOD(Engine, as_gameCount) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("EngineSDK", "void loadGame(const string &in, const string &in)", asMETHOD(Engine, as_createScriptGame) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
-
+	r = asEngine->RegisterObjectMethod("EngineSDK", "Window@ getWindow()", asMETHOD(Engine, getWindow) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
+	
 	asEngine->RegisterGlobalProperty(String(String("EngineSDK ") + varName).c_str(), Engine::instance());
 
 
-	asEngine->RegisterObjectType("Vec2f", sizeof(Vec2f), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
-	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2fCTOR), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", asFUNCTION(Vec2fCTOR2), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2fDTOR), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(const Vec2f &in)", asFUNCTION(Vec2fCCTOR), asCALL_CDECL_OBJLAST);
-	
-	asEngine->RegisterObjectProperty("Vec2f", "float x", asOFFSET(Vec2f, x));
-	asEngine->RegisterObjectProperty("Vec2f", "float y", asOFFSET(Vec2f, y));
+
 
 	engineBasic = true;
 	return engineBasic;

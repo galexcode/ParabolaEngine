@@ -50,13 +50,14 @@ PARABOLA_NAMESPACE_BEGIN
 
 			/// Remove all occurrences of c
 			void removeCharacter(char c);
-
+#ifdef PARABOLA_WINDOWS
 			/// Converts the string to a wide string
 			std::wstring toWide();
 
+
 			/// Converts a wide string and sets this string with its content
 			void fromWide(std::wstring &wide);
-
+#endif
 			/// Convert to integer
 			int toInt();
 

@@ -9,12 +9,14 @@
 #include <map>
 #include "LinkedPointer.h"
 #include "Localization.h"
-
+#include <iostream>
+using namespace std; //to ge tout
 #include <Rocket/Core.h>
+#include "RocketDocument.h"
+#include "ASEngine.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
-	typedef Rocket::Core::ElementDocument RocketDocument;
 	class RocketPlugin;
 	class RocketContextInstancer;
 
@@ -91,6 +93,9 @@ PARABOLA_NAMESPACE_BEGIN
 		/// When loading a document, it will be used to translate any tokens.
 		void setLocalization(linked_ptr<Localization> &localization);
 
+		/// Loads a font globally in rocket, scripting convenience
+		void loadFont(String fontName);
+
 		/// Get the context name
 		String contextName();
 
@@ -128,7 +133,6 @@ PARABOLA_NAMESPACE_BEGIN
 		friend class RocketPlugin; //for access
 		friend class RocketContextInstancer; //for exclusive instancing
 	};
-	
 		
 
 PARABOLA_NAMESPACE_END

@@ -4,6 +4,9 @@
 #include "ParabolaCore/Sprite.h"
 #include "ParabolaCore/Sound.h"
 #include "ParabolaCore/Kinesis.h"
+#include "ParabolaCore/RocketContext.h"
+#include "ParabolaCore/RocketPlugin.h"
+
 
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -50,6 +53,10 @@ void ScriptGame::onCreate(){
 	asEngine.exportKinesis();	
 	asEngine.exportContentBanks();
 	asEngine.exportSoundGameCore();
+	asEngine.exportRocketUi();
+	asEngine.exportAnimations();
+	asEngine.exportParticleSystems();
+
 	asEngine.exportGameAs("myGame", this);
 
 	asEngine.exportGlobalProperty("SceneRenderer Renderer", renderer.get());
@@ -57,6 +64,8 @@ void ScriptGame::onCreate(){
 	//p->drawDebug(renderer.get());
 	exportScripts();
 
+	//RocketContext *c = RocketContext::create("core_ui", Vec2i(1024,768));
+	RocketPlugin::instance().loadFont("pirulen.ttf");
 	myMainScript = asEngine.loadScript("main.as");
 	if(myMainScript){
 		myCreateFunc = myMainScript->getFunctionIdByName("void onCreate()");
@@ -82,14 +91,14 @@ void ScriptGame::onRender(){
 	v.reset(sf::FloatRect(0,0,1024,768));
 	renderer->setView(v);
 
-	renderer->draw(Text(")sf", 0,0));
+	//renderer->draw(Text(")sf", 0,0));
 
 	renderer->getRenderTarget()->resetGLStates();
-	renderer->draw(Text(")sf", 0,0));
+	//renderer->draw(Text(")sf", 0,0));
 
 	
 	myMainScript->call(myRenderFunc);
-	renderer->draw(Text(")sf", 0,0));
+	//renderer->draw(Text(")sf", 0,0));
 
 
 

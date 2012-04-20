@@ -200,17 +200,20 @@ PARABOLA_NAMESPACE_BEGIN
 		b2BodyDef def;
 		def.position = b2Vec2(ToMeters(x), ToMeters(y));
 		def.type = b2_dynamicBody;
+		
 
 		b2PolygonShape box;
 		box.SetAsBox(ToMeters(width/2), ToMeters(height/2));
+	
 
 		b2Body *body = CreateBody(&def);
 
 		b2FixtureDef fixDef;
 		fixDef.shape = &box;
-		fixDef.density = 1.0f;
+		fixDef.density = 2.0f;
 		fixDef.friction = 0.5f;
-		fixDef.restitution = 0.5f;
+		fixDef.restitution = 0.f;
+
 
 		body->CreateFixture(&fixDef);
 
@@ -234,7 +237,7 @@ PARABOLA_NAMESPACE_BEGIN
 		fixDef.shape = &box;
 		//fixDef.density = 1.0f;
 		fixDef.friction = 0.5f;
-		fixDef.restitution = 0.5f;
+		fixDef.restitution = 0.1f;
 
 		body->CreateFixture(&fixDef);
 

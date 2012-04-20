@@ -1,10 +1,18 @@
 #include "ParabolaCore/Sprite.h"
+#include "ParabolaCore/ContentBank.h"
+
+#include <iostream>
 
 PARABOLA_NAMESPACE_BEGIN
 
 /// Default sprite
 Sprite::Sprite() : sf::Sprite(){
 
+};
+
+/// Safe destruction
+Sprite::~Sprite(){
+	
 };
 
 /// Set the position from a vec2f
@@ -41,5 +49,28 @@ bool Sprite::containsPoint(Vec2f point){
 bool Sprite::containsPoint(float x, float y){
 	return getGlobalBounds().contains(x, y);
 };
+
+/// Check if the scale factor is negative
+bool Sprite::isFlippedHorizontally(){
+	if(getScale().x < 0.f)return true;
+	else return false;
+};
+
+/// Flip the sprite horizontally
+void Sprite::flipHorizontal(){
+	scale(-1, 1);
+};
+
+/// Check if the scale factor is negative
+bool Sprite::isFlippedVertically(){
+	if(getScale().y < 0.f)return true;
+	else return false;
+};
+
+/// Flip the sprite horizontally
+void Sprite::flipVertical(){
+	scale(1, -1);
+};
+
 
 PARABOLA_NAMESPACE_END

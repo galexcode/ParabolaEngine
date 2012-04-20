@@ -3,6 +3,7 @@
 
 #include "Platform.h"
 #include "Strings.h"
+#include "Vectors.h"
 #include <vector>
 
 #include <SFML/Window/Event.hpp>
@@ -214,6 +215,12 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Creates an empty event to be filled later
 		Event();
 
+		/// Get the current position of the mouse, globally
+		static Vec2i getGlobalMousePosition();
+
+		/// Get the current position of the mouse based on the engine window
+		static Vec2i getLocalMousePosition();
+
 		/// Dispatches the event to the handler, which will have a callback for the specific kind of event
 		void dispatch(EventHandler *handler);
 
@@ -225,6 +232,18 @@ PARABOLA_NAMESPACE_BEGIN
 		int getKeyCode();
 		/// Get the mouse button code for the current event
 		int mouse();
+
+		/// Get the joystick id
+		int getJoystickId();
+
+		/// Get the joystick move position
+		float getJoystickMovePosition();
+
+		/// Get the joystick axis
+		int getJoystickAxis();
+
+		/// Get the wheel delta
+		int getWheelDelta();
 
 		/**
 			\brief Enum lists all the types the event can be of

@@ -1,60 +1,56 @@
 #include "ParabolaCore/AnimationSprite.h"
 #include <iostream>
+#include <algorithm>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 	AnimationSprite::AnimationSprite(){
 		currentTime = 0.f;
-		totalTime = 0.f;
+		totalDuration = 0.f;
 		frameIndex = -1;
 	};
 
-	void AnimationSprite::addSprite(Sprite &animatedSprite){
-		animationSprites.push_back(&animatedSprite);
-	};
+	void AnimationSprite::update(float elapsedTime){		
+		if(playing()){		
+			
+			currentTime += elapsedTime; //perform calculation on newest time
 
-	void AnimationSprite::update(float elapsedTime){
-		if(playing()){
-			currentTime += elapsedTime;
+		//	cout<<"currentTime = "<<currentTime<<endl;
 
-			if(currentTime > totalTime){
-				//animation finished.
-				//cout<<"ANIMATION ENDED"<<endl<<endl;
+			if(currentTime > totalDuration){
+				// all frames are over, what to do now?!
 				if(looping()){
-					stop();
-					play();	
-					return;
+					//just start over
+					currentTime = 0.f + currentTime - totalDuration;
 				}
 				else{
 					stop();
-					return;
 				}
 			}
-			
-			//if i got here, there is something to do
-			
-			localTime += elapsedTime;
-			if(localTime >= frames[frameIndex].time){
-				//time to apply a new frame
-				applyFrame(frameIndex+1);
-			}
 
-			
-			
+			//find the right frame
+			float aTime = 0.f;
+			for(unsigned int i = 0; i < frames.size(); i++){
+				if((currentTime >= aTime) && (currentTime <= (aTime + frames[i].time))){
+					//found the right frame
+					//cout<<"applying frame:"<<i<<endl;
+					for(unsigned int j = 0; j < myAnimables.size(); j++){
+						// apply the frame
+						static_cast<Sprite*>(myAnimables[j])->setTexture(*frames[i].myTexture);
+						static_cast<Sprite*>(myAnimables[j])->setTextureRect(sf::IntRect(frames[i].myRect.Position.x,frames[i].myRect.Position.y,frames[i].myRect.Size.x,frames[i].myRect.Size.y));
+					}
+
+					break;
+				}
+				aTime += frames[i].time;
+			}
 		}
 		//else, we don't have interest in updating anything
 	};
 
 	void AnimationSprite::play(){
 		AnimationInterface::play();
-		if(frameIndex == -1){
-			if(frames.size() == 0){
-				stop();
-				//will not play at all because there are no frames.
-			}
-			else{
-				applyFrame(0); //apply the first frame so the animation starts.
-			}
-		}
+
 	};
 
 	void AnimationSprite::stop(){
@@ -77,10 +73,10 @@ PARABOLA_NAMESPACE_BEGIN
 			if(animationSprites[i] == NULL){
 				std::cout<<"USING A NULL SPRITE:"<<std::endl;
 			}
-			if(animationSprites[i]->getTexture() != frames[index].texture){
+/*			if(animationSprites[i]->getTexture() != frames[index].texture){
 			//if(animationSprites[i]->GetTexture() == NULL && index > 0){
 				animationSprites[i]->setTexture(*frames[index].texture, true);
-			}
+			}*/
 				//animationSprites[i]->SetTextureRect(sf::IntRect(0,0,6,6));
 				//cout<<"Resized sprite to: "<<frames[index].subRect.BottomRight.x - frames[index].subRect.TopLeft.x<<endl;
 				//animationSprites[i]->SetTextureRect(sf::IntRect(frames[index].subRect.TopLeft.x,frames[index].subRect.TopLeft.y, frames[index].subRect.BottomRight.x, frames[index].subRect.BottomRight.y));
@@ -126,9 +122,9 @@ PARABOLA_NAMESPACE_BEGIN
 				else{
 					//there is room and i want the frame
 					
-					AnimationSpriteFrame frame;
-					frame.texture = texture;
-					frame.subRect.set(offset, 0.f, /*offset +*/ (float)frameWidth, (float)texture_height);
+					AnimationFrame frame;
+//					frame.texture = texture;
+				//	frame.subRect.set(offset, 0.f, /*offset +*/ (float)frameWidth, (float)texture_height);
 					frame.time = frame_length;
 
 					std::cout<<"made a frame with width: ";
@@ -150,23 +146,35 @@ PARABOLA_NAMESPACE_BEGIN
 		applyFrame(0);
 	};
 
-	void AnimationSprite::addFrame(AnimationSpriteFrame &frame){
-		totalTime += frame.time;
+	void AnimationSprite::addFrame(AnimationFrame &frame){
+		totalDuration += frame.time;
 		frames.push_back(frame);
 	};
 
 
-	/************************************************************************/
-	/* ANIMATION SPRITE FRAME                                               */
-	/************************************************************************/
-	AnimationSpriteFrame::AnimationSpriteFrame(){
+/************************************************************************/
+/* ANIMATION SPRITE FRAME                                               */
+/************************************************************************/
+AnimationSprite::AnimationFrame::AnimationFrame(){
 		this->time = 0.f;
-		this->texture = NULL;
-	};
+		this->myTexture = NULL;
+		this->myRect.Position = Vec2f(-1.f,-1.f); // this will mean undefined rect, whole
+};
 
-	AnimationSpriteFrame::AnimationSpriteFrame(BoundingBox &box, Texture *texture, double time){
+AnimationSprite::AnimationFrame::AnimationFrame(BoundingBox &box, Texture *texture, double time){
 		this->time = time;
-		this->texture = texture;
-		this->subRect = box;
-	};
+		this->myTexture = texture;
+		this->myRect = box;
+};
+
+/// Define the texture wanted, if the rect is still undefined (positioned at -1 -1), it becomes the full texture rect
+void AnimationSprite::AnimationFrame::setTexture(Texture* texture){
+	myTexture = texture;
+
+	if(myRect.Position == Vec2f(-1,-1)){
+		myRect.Position = Vec2f(0.f,0.f);
+		myRect.Size = Vec2f(myTexture->getSize().x,myTexture->getSize().y);
+	}
+};
+
 PARABOLA_NAMESPACE_END

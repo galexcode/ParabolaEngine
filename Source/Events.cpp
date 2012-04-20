@@ -1,6 +1,7 @@
 #include "ParabolaCore/Events.h"
 #include "ParabolaCore/Window.h"
 #include "ParabolaCore/EventHandler.h"
+#include "ParabolaCore/Engine.h"
 #include <Rocket/Core/Input.h>
 
 PARABOLA_NAMESPACE_BEGIN
@@ -355,6 +356,45 @@ int Event::getKeyCode(){
 
 int Event::mouse(){
 	return (int)mouseButton.button;
+};
+
+/// Get the wheel delta
+int Event::getWheelDelta(){
+	return mouseWheel.delta;
+};
+
+/// Get the joystick id
+int Event::getJoystickId(){
+	if(type == Event::JoystickConnected || type == Event::JoystickDisconnected){
+		return joystickConnect.joystickId;
+	}	
+	else if(type == Event::JoystickMoved){
+		return joystickMove.joystickId;
+	}
+	else if(type == Event::JoystickButtonPressed || type == Event::JoystickButtonReleased){
+		return joystickButton.joystickId;
+	}
+	else return -1;
+};
+
+/// Get the current position of the mouse, globally
+Vec2i Event::getGlobalMousePosition(){
+	return Vec2i(sf::Mouse::getPosition().x,sf::Mouse::getPosition().y);
+};
+
+/// Get the current position of the mouse based on the engine window
+Vec2i Event::getLocalMousePosition(){
+	return Vec2i(sf::Mouse::getPosition(*Engine::instance()->getWindow()).x,sf::Mouse::getPosition(*Engine::instance()->getWindow()).y);
+};
+
+/// Get the joystick move position
+float Event::getJoystickMovePosition(){
+	return joystickMove.position;
+}
+
+/// Get the joystick axis
+int Event::getJoystickAxis(){
+	return joystickMove.axis;
 };
 
 

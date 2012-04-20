@@ -34,11 +34,11 @@ class PARABOLA_API GameCore{
 public:
 	/// Get the assigned window
 	/// Returns a NULL smart pointer if no window exists
-	linked_ptr<Window>& getWindow();
+	Window* getWindow();
 
 	/// Sets the primary window
 	/// It is mandatory that a window is set for onRender to be called.
-	void setWindow(linked_ptr<Window> &window_ptr);
+	void setWindow(Window* window);
 
 	/// Get the name of this game
 	String& name();
@@ -146,7 +146,7 @@ private:
 	String mySystemLocale, mySelectedLocale;
 	/// Current drawing window
 	/// If there is an engine window, it is assigned here by default
-	linked_ptr<Window> myWindow;
+	Window* myWindow;
 	/// True if this game is allowed to render
 	bool activeDrawing;
 	/// Each game owns a intern script engine
