@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/ASEngine.h"
 #include "ParabolaCore/Content.h"
 
@@ -38,3 +40,4 @@ bool ASEngine::exportContentBanks(){
 };
 
 PARABOLA_NAMESPACE_END
+#endif

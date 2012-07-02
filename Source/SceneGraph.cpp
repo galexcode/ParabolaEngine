@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/SceneGraph.h"
 #include "ParabolaCore/SceneRenderer.h"
 #include "ParabolaCore/Text.h"
@@ -112,3 +114,5 @@ bool SceneGraph::dispatchEvent(const Event &event){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

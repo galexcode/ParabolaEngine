@@ -1,11 +1,11 @@
-#include "ParabolaCore/FileStream.h"
-#include <stdio.h>
-#include <cstdlib>
+//#include "ParabolaCore/FileStream.h"
+//#include <stdio.h>
+//#include <cstdlib>
 
-PARABOLA_NAMESPACE_BEGIN
+//PARABOLA_NAMESPACE_BEGIN
 
-FILE* fopen_alt(const String &str, StreamMode::AccessModes mode){
-	using namespace StreamMode;
+//FILE* fopen_alt(const String &str, IODevice::OpenModes mode){
+	/*using namespace StreamMode;
 	String res;
 	switch(mode){
 		case 0: res = "rb";break;
@@ -23,9 +23,9 @@ FILE* fopen_alt(const String &str, StreamMode::AccessModes mode){
 		case 11: res = "a+";break;
 	}
 
-	return fopen(str.c_str(), res.c_str());
-};
-
+	return fopen(str.c_str(), res.c_str());*///return NULL;
+//};
+/*
 FileStream::FileStream(){
 	file_handle = NULL;
 	open_mode = -1;
@@ -40,7 +40,7 @@ FileStream::FileStream(FILE* filePointer){
 FileStream::FileStream(String fileName, unsigned int openMode){
 	file_handle = NULL;
 
-	open(fileName, (StreamMode::AccessModes)openMode);
+	open(fileName, (IODevice::OpenModes)openMode);
 };
 
 /// Destroys the stream and releases its handle if any exists.
@@ -122,11 +122,11 @@ void FileStream::setFileName(String fileName){
 	file_name = file_name;
 };
 
-StreamMode::AccessModes FileStream::openMode(){
-	return (StreamMode::AccessModes)open_mode;
+IODevice::OpenModes FileStream::openMode(){
+	return (IODevice::OpenModes)open_mode;
 };
 
-void FileStream::setOpenMode(StreamMode::AccessModes mode){
+void FileStream::setOpenMode(IODevice::OpenModes mode){
 	if(valid()){
 		close();
 
@@ -153,7 +153,7 @@ bool FileStream::open(){
 };
 
 /// Attempts to load the file specified with in the mode specified
-bool FileStream::open(String fileName, StreamMode::AccessModes openMode){
+bool FileStream::open(String fileName, IODevice::OpenModes openMode){
 	if(valid())close();
 
 	setFileName(fileName);
@@ -166,7 +166,7 @@ bool FileStream::open(String fileName, StreamMode::AccessModes openMode){
 
 /// Becomes a valid stream if the raw FILE* passed in is valid.
 bool FileStream::open(FILE* fp){
-	setOpenMode(StreamMode::Unknown);
+	setOpenMode(IODevice::BinaryRead);
 	file_handle = fp;
 	return valid();
 };
@@ -176,14 +176,13 @@ void FileStream::close(){
 	if(valid()){
 		fclose(file_handle);
 		file_handle = NULL;
-		setOpenMode(StreamMode::Unknown);
+		setOpenMode(IODevice::BinaryRead);
 	}	
 };
 
 /// Deletes the file from the file system.
-bool FileStream::remove(){
-	close();
-	if(::remove(fileName().c_str()) > 0)
+bool FileStream::remove(String fileName){
+	if(::remove(fileName.c_str()) > 0)
 		return false;
 	else return true;
 };
@@ -423,6 +422,6 @@ FileStream& FileStream::operator>>(Int8 &value){
 FileStream& FileStream::operator>>(Uint8 &value){
 	fread(&value, sizeof(Uint8), 1, handle());
 	return *this;
-};
+};*/
 
-PARABOLA_NAMESPACE_END
+//PARABOLA_NAMESPACE_END

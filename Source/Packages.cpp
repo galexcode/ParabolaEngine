@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/Packages.h"
 #include "ParabolaCore/Sizes.h"
 #include "ParabolaCore/FileSystem.h"
@@ -360,3 +362,5 @@ Int64 PackageStream::GetSize(){
 
 
 PARABOLA_NAMESPACE_END
+
+#endif

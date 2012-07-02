@@ -6,8 +6,11 @@
 #include "Animation.h"
 #include "Vectors.h"
 #include "Drawable.h"
+#include "Transformable.h"
+#include "VertexArray.h"
+#include "Textures.h"
 #include <vector>
-#include <SFML/Graphics/Sprite.hpp>
+
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -17,7 +20,7 @@ class ContentBank;
 		\class Sprite
 		\brief Extends sf::Sprite and implements more functionality.
 */
-class PARABOLA_API Sprite: public sf::Sprite,public Animable{
+class PARABOLA_API Sprite: public Drawable, public Animable, public Transformable{
 public:
 	/// Default sprite
 	Sprite();
@@ -25,7 +28,31 @@ public:
 	/// Safe destruction
 	virtual ~Sprite();
 
-	/// Set the position from a vec2f
+	/// Called to order rendering, when the drawing was issued in the traditional way ( m_renderer->draw(m_sprite) )
+	virtual void onDraw(Renderer* renderer);
+
+	/// Set the texture of the sprite
+	void setTexture(const Texture &texture, bool resetRect = false);
+
+	/// Set the texture rect to show
+	void setTextureRect(const BoundingBox &rect);
+
+	BoundingBox getGlobalBounds() const;
+
+	/// Get the binded texture
+	const Texture& getTexture();
+
+	/// Resizes the sprite to the selected dimensions using the scale.
+	void resize(float x, float y);
+
+	BoundingBox getLocalBounds() const;
+
+	const Texture* m_texture;
+	VertexArray m_vertices;
+	BoundingBox m_textureRect;
+
+
+	/*/// Set the position from a vec2f
 	/// Position is the top-left coordinate
 	void setPosition(Vec2f position);
 
@@ -41,8 +68,7 @@ public:
 	/// Is considered as the center the middle of the local bounding box
 	void setCenterPosition(Vec2f position);
 
-	/// Resizes the sprite to the selected dimensions using the scale.
-	void resize(float x, float y);
+
 	
 	/// Check if a point is contained in the sprite
 	bool containsPoint(Vec2f point);
@@ -72,7 +98,7 @@ public:
 
 	void animable_set_color(int r, int g, int b, int a){
 		//setColor(Color(r,g,b,a));
-	}
+	}*/
 };
 
 PARABOLA_NAMESPACE_END

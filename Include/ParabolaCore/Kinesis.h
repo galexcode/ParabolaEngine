@@ -6,6 +6,7 @@
 /************************************************************************/
 
 #include "KinesisWorld.h"
+#include "KinesisForge.h"
 
 /**
 	\defgroup Kinesis

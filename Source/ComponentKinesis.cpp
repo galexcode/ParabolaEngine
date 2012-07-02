@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/ComponentKinesis.h"
 #include "ParabolaCore/KinesisWorld.h"
 #include "ParabolaCore/MathTools.h"
@@ -111,3 +113,5 @@ void ComponentPhysicsCompound::createRope(Vec2f ropeStart,float fraglen, int fra
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

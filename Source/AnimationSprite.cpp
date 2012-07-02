@@ -25,6 +25,7 @@ PARABOLA_NAMESPACE_BEGIN
 				}
 				else{
 					stop();
+					return;
 				}
 			}
 
@@ -36,8 +37,11 @@ PARABOLA_NAMESPACE_BEGIN
 					//cout<<"applying frame:"<<i<<endl;
 					for(unsigned int j = 0; j < myAnimables.size(); j++){
 						// apply the frame
+						
 						static_cast<Sprite*>(myAnimables[j])->setTexture(*frames[i].myTexture);
-						static_cast<Sprite*>(myAnimables[j])->setTextureRect(sf::IntRect(frames[i].myRect.Position.x,frames[i].myRect.Position.y,frames[i].myRect.Size.x,frames[i].myRect.Size.y));
+						static_cast<Sprite*>(myAnimables[j])->setTextureRect(BoundingBox(frames[i].myRect.Position.x,frames[i].myRect.Position.y,frames[i].myRect.Size.x,frames[i].myRect.Size.y));
+
+						onFrameChange.emit(frames[i].myTexture,BoundingBox(frames[i].myRect.Position.x,frames[i].myRect.Position.y,frames[i].myRect.Size.x,frames[i].myRect.Size.y) );
 					}
 
 					break;
@@ -129,7 +133,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 					std::cout<<"made a frame with width: ";
 
-					addFrame(frame);
+					//addFrame(frame);
 
 					
 					offset += frameWidth;
@@ -146,11 +150,16 @@ PARABOLA_NAMESPACE_BEGIN
 		applyFrame(0);
 	};
 
-	void AnimationSprite::addFrame(AnimationFrame &frame){
+	void AnimationSprite::addFrame2(AnimationFrame &frame){
 		totalDuration += frame.time;
 		frames.push_back(frame);
 	};
 
+/// Add a frame
+void AnimationSprite::addFrame(Texture* texture, BoundingBox rect, float duration){
+	totalDuration += duration;
+	frames.push_back(AnimationFrame(rect, texture, duration));
+};
 
 /************************************************************************/
 /* ANIMATION SPRITE FRAME                                               */

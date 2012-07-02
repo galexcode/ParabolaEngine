@@ -74,14 +74,14 @@ PARABOLA_NAMESPACE_BEGIN
 			void toLowerCase();
 
 			/// Splits into a StringList, by the string splitBy.
-			StringList split(String splitBy, int limitCount = 0);
+			StringList split(String splitBy, int limitCount,  StringList &storage);
 
 			/// Splits
-			StringList& split(const String &s, char delim, StringList &elems);
+			void split(String s, char delim, StringList &elems);
 
 			/// Splits into a StringList by the character c.
 			/// untested
-			StringList split(char c, int limitCount = 0);
+			StringList split(char c, int limitCount, StringList &storage);
 
 			/// Checks if the string starts with str
 			bool startsWith(const String &str);

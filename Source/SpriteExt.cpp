@@ -1,15 +1,19 @@
 #include "ParabolaCore/SpriteExt.h"
-#include "ParabolaCore/TextFileStream.h"
+#include "ParabolaCore/TextStream.h"
 #include "ParabolaCore/StringStream.h"
 #include <ParabolaCore/StringList.h>
+#include <ParabolaCore/Renderer.h>
+#include <ParabolaCore/FileInterface.h>
+#include <ParabolaCore/Application.h>
+#include <ParabolaCore/Logger.h>
 
 #include <iostream>
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
-void skiptonextword(TextFileStream &in){	
-	bool found = false;
+void skiptonextword(TextStream &in){	
+	/*bool found = false;
 	bool skip = false;
 	while(!found && !in.atEnd()){
 		char c = in.readChar();
@@ -19,22 +23,22 @@ void skiptonextword(TextFileStream &in){
 
 		if(!skip){
 			if(isalpha(c)){
-				in.seekOffset(-1);
+				in.seekByOffset(-1);
 				return;
 			}
 		}
-	}
+	}*/
 
 }
 
 void strip_comments(String &content){
-	while(content.find_first_of('#') != content.npos){
+	/*while(content.find_first_of('#') != content.npos){
 		content.erase(content.begin() + content.find_first_of('#'), content.begin() + content.find_first_of('\n', content.find_first_of('#')));
-	}
+	}*/
 }
 
 void strip_tabs(String &content){
-	while(content.find_first_of('\t') != content.npos){
+	/*while(content.find_first_of('\t') != content.npos){
 		content.erase(content.begin() + content.find_first_of('\t'), content.begin() + content.find_first_of('\t') + 1);
 	}
 	
@@ -56,11 +60,11 @@ void strip_tabs(String &content){
 		c = (*it);
 	}
 
-
+	*/
 }
 
 void trim_and_wasps(String &content){
-	if(content.find_first_of('"') != content.npos){
+	/*if(content.find_first_of('"') != content.npos){
 		//there are wasps
 		content.erase(content.begin(), content.begin() + content.find_first_of('"') + 1);
 	}
@@ -68,7 +72,7 @@ void trim_and_wasps(String &content){
 	if(content.find_last_of('"') != content.npos){
 		//there are wasps
 		content.erase(content.begin() + content.find_last_of('"'), content.end());
-	}
+	}*/
 }
 
 /// Creates a ready sprite, that is only a colored square
@@ -76,6 +80,41 @@ SpriteExt::SpriteExt(){
 	myCurrentAnimation = NULL;
 };
 
+/// Get the name of the current animation playing
+String SpriteExt::getCurrentAnimation(){
+	return m_currentAnimation;
+};
+
+/// Load a texture
+Texture* SpriteExt::addTexture(const String &path, const String &name, Color maskColor){
+	Image img;
+	img.loadFromFile(path);
+	img.createMaskFromColor(maskColor);
+
+	m_textures[name] = new Texture();
+	m_textures[name]->loadFromImage(img);
+
+	return m_textures[name];
+};
+
+/// Add a new animation
+AnimationSprite* SpriteExt::addAnimation(const String &name){
+	m_animations[name].addAnimable(&mySprite);
+	m_animations[name].onFrameChange.connect(MAKE_SLOT_LOCAL(SpriteExt, onFrameChangedCallback));
+	return &m_animations[name];
+};
+
+/// Set the origin of the sprite, relative to the top-left
+void SpriteExt::setOrigin(float x, float y){
+	mySprite.setOrigin(x,y);
+};
+
+/// Set the origin of the sprite, relative to the top-left
+void SpriteExt::setOrigin(Vec2f origin){
+	mySprite.setOrigin(origin.x, origin.y);
+};
+
+/*
 /// Check if the sprite contains a point within its rect
 bool SpriteExt::containsPoint(float x, float y){
 	return mySprite.containsPoint(x,y);
@@ -103,16 +142,8 @@ void SpriteExt::flip(bool flipX, bool flipY){
 	if(flipY) mySprite.scale(1, -1);
 };
 
-/// Set the origin of the sprite, relative to the top-left
-void SpriteExt::setOrigin(float x, float y){
-	mySprite.setOrigin(x,y);
-};
 
-/// Set the origin of the sprite, relative to the top-left
-void SpriteExt::setOrigin(Vec2f origin){
-	mySprite.setOrigin(origin.x, origin.y);
-};
-
+*/
 /// Set the position of the sprite
 void SpriteExt::setPosition(Vec2f position){
 	mySprite.setPosition(position);
@@ -130,21 +161,37 @@ void SpriteExt::resize(float x, float y){
 
 /// Orders the start of a new animation
 void SpriteExt::triggerAnimation(const String &name){
-	if(myAnimations.find(name) != myAnimations.end()){
-		myCurrentAnimation = &myAnimations.find(name)->second;
+	if(m_animations.find(name) != m_animations.end()){
+		myCurrentAnimation = &m_animations.find(name)->second;
 		myCurrentAnimation->play();
+		m_currentAnimation = name;
+		//cout<<"Triggered " << name << endl;
 	}
 	else{
 		cout<<"Attempting to start an invalid animation."<<endl;
 	}
 };
 
+void SpriteExt::scale(float x, float y){
+	mySprite.scale(x, y);
+};
+
+Vec2f SpriteExt::getScale(){
+	return mySprite.getScale();
+};
+
 /// Update the sprite state
 void SpriteExt::update(float elapsedTime){
-	if(myCurrentAnimation){
+	if(myCurrentAnimation && myCurrentAnimation->playing()){
 		myCurrentAnimation->update(elapsedTime);
 	}
 };
+
+void SpriteExt::onFrameChangedCallback(Texture* t, BoundingBox b){
+	onFrameChange.emit(t, b);
+};
+
+
 
 /// Same as the other overload, with no option to load with content banks
 bool SpriteExt::loadFromTextFile(const String &path){
@@ -153,7 +200,38 @@ bool SpriteExt::loadFromTextFile(const String &path){
 
 /// Loads the sprite from a text definition
 bool SpriteExt::loadFromTextFile(const String &path, ContentBank *bank){
-	TextFileStream in(path, StreamMode::ReadOnly);
+//#ifdef PARABOLA_ANDROID
+	/*//Make temp copy
+	ScopedFile* fp = FileInterface::getAssetFile(path);
+	if(fp){
+		char *buffer = new char [fp->getSize()];
+		fp->read(buffer, fp->getSize());
+		
+
+		//now store
+		String storein = Application::myInstance->myDataDirectory;
+
+		FileStream tout(storein + "/tmpfile.txt", StreamMode::WriteOnly);
+		if(tout.valid()){
+			tout.write(buffer, fp->getSize() );
+
+			TESTLOG("Written test file for sprite extension")
+				TESTLOG(String(storein + "/tmpfile.txt").c_str())
+		}
+
+		delete fp;
+		delete buffer;
+	}
+	else return false;
+
+
+	TextStream in(Application::myInstance->myDataDirectory + "/tmpfile.txt", StreamMode::ReadOnly);
+#else
+	TextStream in(path, StreamMode::ReadOnly);
+#endif
+
+	TESTLOG("Starting to read a SpriteEXT")
+	
 
 	if(!in.valid())return false;
 
@@ -163,8 +241,15 @@ bool SpriteExt::loadFromTextFile(const String &path, ContentBank *bank){
 		content += in.readChar();		
 	}
 
+	TESTLOG("Cached file into memory SpriteEXT")
+
 	strip_comments(content);
+
+	TESTLOG("Stripped comments SpriteEXT")
+
 	strip_tabs(content);
+
+	TESTLOG("Prepared file info SpriteEXT")
 	StringStream ss(content);
 
 	while(!ss.atEnd()){
@@ -181,12 +266,19 @@ bool SpriteExt::loadFromTextFile(const String &path, ContentBank *bank){
 		else if(parse_type == "animation"){
 			String block = ss.readBlock('{', '}');
 			parseAnimation(block);
+		}else{
+			TESTLOG("BUllcrap word SpriteEXT")
 		}
+
+
 
 
 		//cout<<parse_type<<endl;
 	}
 	
+	TESTLOG("Finished parsing a SpriteEXT")
+
+
 	if(myAnimations.size() > 0 && !myDefaultAnimation.empty()){
 		// can activate the starting animation
 		if(myAnimations.find(myDefaultAnimation) != myAnimations.end()){
@@ -199,12 +291,17 @@ bool SpriteExt::loadFromTextFile(const String &path, ContentBank *bank){
 		}
 	}	
 
+#ifdef PARABOLA_ANDROID
+	//delete temp
+	remove(String(Application::myInstance->myDataDirectory + "/tmpfile.txt").c_str());
+#endif
+	*/
 	return true;
 };
 
 /// Parse sprite settings from the code
 void SpriteExt::parseSettings(String &code){
-	StringStream ss(code);
+	/*StringStream ss(code);
 
 	while(!ss.atEnd()){
 		String parse_type = ss.readWord();
@@ -250,8 +347,11 @@ void SpriteExt::parseTexture(String &code, ContentBank* bank){
 
 	}
 
-	myTextures[texName] = std::make_shared<Texture>();
-	myTextures[texName]->loadFromFile(texFile);
+	Image temp_img;
+	temp_img.loadFromFile(texFile);
+
+	myTextures[texName] = new Texture();
+	//myTextures[texName]->loadFromFile(texFile);
 
 	for(unsigned int i = 0; i < masks.size(); i++){
 		//rect of the texture, on absence, its full
@@ -260,16 +360,18 @@ void SpriteExt::parseTexture(String &code, ContentBank* bank){
 
 		if(values.size() == 3){
 			// i have three color floats
-			myTextures[texName]->maskColor(Color(values[0].toInt(),values[1].toInt(),values[2].toInt()));
+			temp_img.createMaskFromColor(Color(values[0].toInt(),values[1].toInt(),values[2].toInt()));
 		}
 	}
 
-	cout<<"Parsed texture: "<<texName<<endl;
+	myTextures[texName]->loadFromImage(temp_img);
+
+	cout<<"Parsed texture: "<<texName<<endl;*/
 };
 
 /// Parse an animation from the code
 void SpriteExt::parseAnimation(String &code){
-	StringStream ss(code);
+/*	StringStream ss(code);
 
 	String animName;
 	AnimationSprite animation;
@@ -306,7 +408,7 @@ void SpriteExt::parseAnimation(String &code){
 								//throw error
 							}
 							else{
-								newFrame.setTexture(it->second.get());
+								newFrame.setTexture(it->second);
 							}
 						}
 						else if(proptype == "rect"){
@@ -352,12 +454,12 @@ void SpriteExt::parseAnimation(String &code){
 	myAnimations[animName] = animation;
 	cout<<"Parsed animation: "<<animName<<endl;
 	myAnimations[animName].addAnimable(&mySprite);
-	if(loop) myAnimations[animName].setLoop(true);
+	if(loop) myAnimations[animName].setLoop(true);*/
 };
 
-/// Making the sprite a drawable
-void SpriteExt::draw(sf::RenderTarget &target, sf::RenderStates states) const{
-	target.draw(mySprite, states);
-};
+/// Called to order rendering, when the drawing was issued in the traditional way ( m_renderer->draw(m_sprite) )
+void SpriteExt::onDraw(Renderer* renderer){
+	renderer->draw(mySprite);
+}
 
 PARABOLA_NAMESPACE_END

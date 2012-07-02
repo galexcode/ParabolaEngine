@@ -2,45 +2,66 @@
 #define PARABOLA_WINDOW_H
 
 #include "Platform.h"
-#include "Strings.h"
-#include "Events.h"
-#include <SFML/Graphics/RenderWindow.hpp>
+#include "Vectors.h"
+#include "InputEvent.h"
+#include "Views.h"
 
-PARABOLA_NAMESPACE_BEGIN	
+PARABOLA_NAMESPACE_BEGIN
 
-	typedef sf::VideoMode VideoMode;
-	/**
-		\ingroup Graphics
+/**
+	\ingroup Graphics
 
-		\class Window
-		\brief Represents a window of the underlying OS.
+	\class Window
+	\brief Represents a screen or window where the engine is able to draw graphics
 
-		Besides the ability to create a window, it also makes it ready for imeddiate OpenGL rendering.
-	*/
-	class PARABOLA_API Window : public sf::RenderWindow{
-	public:
-		/// Creates a uninitialized window
-		Window();
-		/// Creates a window out of some settings
-		/// \param mode is the window size and color depth
-		/// \param title is the text on the top of the window
-		/// \param style is the configurable style of the window
-		/// \param settings is the configuration of the OpenGL version and parameters such as antialiasing
-		Window(VideoMode mode, const String &title, Uint32 style = sf::Style::Default, const sf::ContextSettings &settings = sf::ContextSettings());
-		/// Creates a window out of another window
-		/// This normally means to take the client space of another window and adopt it
-		/// Common use is to make this window rendering appear as a specific frame in another application
-		Window(sf::WindowHandle handle, const sf::ContextSettings &settings = sf::ContextSettings());
-		/// Safely destructs this window resource
-		~Window();
+*/
+class PARABOLA_API Window{
+public:
+	/// Default constructor
+	Window();		
+		
+	/// Destroy the window
+	~Window();
 
-		/// Get the event dispatcher for this window
-		EventDispatcher& eventDispatcher();
+	/// Attempts to launch a window if applicable
+	void create(int screenWidth, int screenHeight);
 
-	private:
-		EventDispatcher myDispatcher;
-	};
+	/// Convert a point from target coordinates to the view coordinates
+	Vec2f convertCoords(const Vec2i &point, const View &view);
+
+	/// Get the width of the screen/window
+	int getWidth();
+
+	/// Get the height of the screen/window
+	int getHeight();
+
+	/// Get the size of the window
+	Vec2i getSize();
+
+	/// Discard all pending events
+	void discardEvents();
+
+	/// Enable/Disable fullscreen mode
+	void setFullscreen(bool enable);
+
+	/// Get the fullscreen mode
+	bool getFullscreen();
+
+	/// Swaps buffers
+	void swapBuffers();
+
+	/// Check if there is a pending event
+	bool pollEvent(InputEvent &event);
+
+	void setFramerateLimit(int limit);
+
+
+private:
+	class WindowImplementation;
+	WindowImplementation* myWindowImpl;		
+
+	bool m_fullscreen;
+};
 
 PARABOLA_NAMESPACE_END
-
 #endif

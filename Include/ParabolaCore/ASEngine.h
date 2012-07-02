@@ -32,6 +32,16 @@ namespace ScriptProfiles{
 	};
 };
 
+template<typename T>
+void ObjectCopyConstructor(const T &in, void* address){
+	new(address) T(in);
+}
+
+template<typename T>
+void constructObject(void* address){
+	new(address) T();
+}
+
 /**
 	\ingroup Scripting
 	\class ASEngine
@@ -100,6 +110,9 @@ public:
 
 	/// Get the list of paths for searching scripts
 	const StringList& getSearchPaths();
+
+	/// Returns true if compiling in the max compatibility profile, for mobile devices etc
+	bool getPortableMode();
 
 	/// Add a new search path
 	void addSearchPath(const String &path);

@@ -1,3 +1,4 @@
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/ScriptEngineTask.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -25,3 +26,4 @@ void ScriptEngineTaskGeneric::run(const String &calledAs, String arguments){
 }
 
 PARABOLA_NAMESPACE_END
+#endif

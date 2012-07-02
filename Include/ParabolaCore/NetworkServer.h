@@ -3,12 +3,13 @@
 
 #include "Platform.h"
 #include "NetworkSocket.h"
+#include <vector>
 #include "Signals.h"
 #include "Strings.h"
 #include "NetworkServerPeer.h"
 #include "NetworkPacket.h"
 
-#include <SFML/Network/Packet.hpp>
+//#include <SFML/Network/Packet.hpp>
 
 #include <enet/enet.h>
 
@@ -32,7 +33,7 @@ public:
 	NetworkServer();
 
 	/// Creates a network server and registers it
-	NetworkServer(NetworkThread &network);
+	//NetworkServer(NetworkThread &network);
 
 	/// Starts listening for connections
 	/// \param address will be in which network interface to listen,
@@ -67,7 +68,7 @@ public:
 	/// Broadcasts a SFML Packet to all clients connected
 	/// If reliable is true, the packet will be delivered safely
 	/// Otherwise, it may be lost.
-	bool send(const sf::Packet &packet, bool reliable = true);
+	//bool send(const sf::Packet &packet, bool reliable = true);
 
 	/// Broadcasts a ENET packet to all clients connected
 	/// If reliable is true, the packet will be delivered safely
@@ -88,7 +89,7 @@ public:
 	sigc::signal<void, NetworkServerPeer*> onClientConnect;
 
 	/// Fired when a client disconnects
-	sigc::signal<void, NetworkServerPeer*> onClientDisconnect;
+	//sigc::signal<void, NetworkServerPeer*> onClientDisconnect;
 
 	/// Fired when data is received from a client
 	sigc::signal<void, NetworkServerPeer*, NetworkPacket*> onDataReceived;

@@ -23,6 +23,8 @@ PARABOLA_NAMESPACE_BEGIN
 	public:
 		/// Testing \todo make
 		static String loadFileDialog();
+		/// Testing \todo make
+		static String saveFileDialog();
 
 		/**
 			\brief Scan a directory for files

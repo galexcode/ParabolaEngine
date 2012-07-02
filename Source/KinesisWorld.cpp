@@ -1,7 +1,5 @@
 #include "ParabolaCore/KinesisWorld.h"
-#include "ParabolaCore/SceneRenderer.h"
-#include "ParabolaCore/Text.h"
-#include "ParabolaCore/Window.h"
+#include "ParabolaCore/Renderer.h"
 
 #include <iostream>
 using namespace std;
@@ -16,7 +14,7 @@ PARABOLA_NAMESPACE_BEGIN
 		pickerMouseJoint = NULL;
 		defaultGroundBody = NULL;
 
-		SetContactListener(&contactListener);
+		//SetContactListener(&contactListener);
 	};
 
 	KinesisWorld::KinesisWorld(Vec2f gravityForce) : b2World(b2Vec2(gravityForce.x, gravityForce.y)){
@@ -28,27 +26,24 @@ PARABOLA_NAMESPACE_BEGIN
 		pickerMouseJoint = NULL;
 		defaultGroundBody = NULL;
 
-		SetContactListener(&contactListener);
+		//SetContactListener(&contactListener);
 	};
+
 
 	/// Draw the simulation in test mode through a renderer
-	void KinesisWorld::drawDebug(SceneRenderer* renderer){
-		renderer->getRenderTarget()->resetGLStates();
-		((Window*)renderer->getRenderTarget())->setActive(true);
+	void KinesisWorld::drawDebugShapes(Renderer* renderer){
 		myDebugDraw.renderer = renderer;
 		myDebugDraw.PixelsPerMeter = myPixelRatio;
-	//	renderer->draw(Text("hdsyhshsdhsdh",0,0));
-		//cout<<"bodies: "<<GetBodyCount()<<endl;
 		DrawDebugData();
-		renderer->getRenderTarget()->resetGLStates();
 	};
+	
 
 	/// Destroy a body by its actor
-	void KinesisWorld::destroyBodyActor(KinesisBodyActor *actor){
-		if(actor && actor->myBody){
-			DestroyBody(actor->myBody);
-		}
-	};
+	//void KinesisWorld::destroyBodyActor(KinesisBodyActor *actor){
+	//	if(actor && actor->myBody){
+	//		DestroyBody(actor->myBody);
+	//	}
+	//};
 
 
 
@@ -102,22 +97,23 @@ PARABOLA_NAMESPACE_BEGIN
 
 	bool KinesisWorld::LoadFromFile(String FileName){
 		
-		KinesisWorldDefinition WorldDef;
+		/*KinesisWorldDefinition WorldDef;
 
 		if(!WorldDef.LoadFromFile(FileName, this))
 			return false;
 
-		return true;
+		return true;*/
+		return false;
 	};
 
 
 	void KinesisWorld::update(float elapsedTime){
-		sf::Lock lock(mutex);
+		//sf::Lock lock(mutex);
 		Step(elapsedTime, VelocityIterations, PositionIterations);		
 	};
 
 	bool KinesisWorld::StartPicking(float x, float y){
-
+		/*
 		if(pickerMouseJoint)
 			StopPicking();
 
@@ -155,6 +151,7 @@ PARABOLA_NAMESPACE_BEGIN
 			}
 		}
 
+		return false;*/
 		return false;
 	};
 
@@ -176,7 +173,7 @@ PARABOLA_NAMESPACE_BEGIN
 		}
 	};
 
-	void KinesisWorld::CreateQuickCircle(float x, float y, float r){
+	b2Body* KinesisWorld::CreateQuickCircle(float x, float y, float r){
 		b2BodyDef def;
 		def.position = b2Vec2(ToMeters(x),ToMeters(y));
 		def.type = b2_dynamicBody;
@@ -194,6 +191,8 @@ PARABOLA_NAMESPACE_BEGIN
 		fixDef.restitution = 0.5f;
 
 		body->CreateFixture(&fixDef);
+
+		return body;
 	};
 
 	KinesisBodyActor* KinesisWorld::CreateQuickBox(float x, float y, float width, float height){
@@ -210,7 +209,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		b2FixtureDef fixDef;
 		fixDef.shape = &box;
-		fixDef.density = 2.0f;
+		fixDef.density = 0.5f;
 		fixDef.friction = 0.5f;
 		fixDef.restitution = 0.f;
 
@@ -219,7 +218,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		KinesisBodyActor *bodyActor = new KinesisBodyActor(body);
 		body -> SetUserData(bodyActor);
-		bodyActor->myBody = body;
+		bodyActor->m_body = body;
 		return bodyActor;
 	};
 
@@ -240,6 +239,9 @@ PARABOLA_NAMESPACE_BEGIN
 		fixDef.restitution = 0.1f;
 
 		body->CreateFixture(&fixDef);
+
+		KinesisBodyActor* Actor = new KinesisBodyActor(body);
+		body->SetUserData(Actor);
 
 		return body;
 	};
@@ -267,9 +269,9 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 
-	KinesisDebugDraw* KinesisWorld::GetDebugRenderer(){
+	/*KinesisDebugDraw* KinesisWorld::GetDebugRenderer(){
 		return &myDebugDraw;
-	};
+	};*/
 
 	float KinesisWorld::getPixelRatio(){
 		return myPixelRatio;

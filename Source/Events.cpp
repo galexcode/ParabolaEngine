@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/Events.h"
 #include "ParabolaCore/Window.h"
 #include "ParabolaCore/EventHandler.h"
@@ -425,3 +427,5 @@ void Event::dispatch(EventHandler *handler){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

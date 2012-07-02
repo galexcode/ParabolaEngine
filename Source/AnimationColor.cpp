@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/AnimationColor.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -8,3 +10,5 @@ void AnimationColor::update(float elapsedTime){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

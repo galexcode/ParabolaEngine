@@ -2,7 +2,8 @@
 #include "ParabolaCore/RocketRenderInterface.h"
 #include "ParabolaCore/RocketSystemInterface.h"
 #include "ParabolaCore/RocketEventInterface.h"
-#include "ParabolaCore/RocketEventBox.h"
+#include "ParabolaCore/RocketFileInterface.h"
+//#include "ParabolaCore/RocketEventBox.h"
 #include <Rocket/Controls.h>
 
 PARABOLA_NAMESPACE_BEGIN
@@ -74,10 +75,12 @@ void RocketPlugin::startLibRocket(){
 	//Instance the interfaces
 	RenderInterface = new RocketRenderInterface();
 	SystemInterface = new RocketSystemInterface();
+	RocketFileInterface* file_interface = new RocketFileInterface("");
 
 	//Assign the interfaces
 	Rocket::Core::SetRenderInterface(RenderInterface);
 	Rocket::Core::SetSystemInterface(SystemInterface);
+	Rocket::Core::SetFileInterface(file_interface);
 
 	// Initialise the rocket library
 	Rocket::Core::Initialise();
@@ -141,7 +144,7 @@ void RocketPlugin::stopLibRocket(){
 /// This is used to have a specific element in your document fetching input and sending it through the event dispatcher
 /// Returns an element that you can configure to taste.
 /// This must be done before the document is loaded, or the tag with this name will not be any special
-bool RocketPlugin::registerEventCatcher(String tag_name){
+/*bool RocketPlugin::registerEventCatcher(String tag_name){
 	if(myEventCatchers.find(tag_name) != myEventCatchers.end())return false; //already exists
 
 	Rocket::Core::String str = tag_name.c_str();
@@ -150,17 +153,17 @@ bool RocketPlugin::registerEventCatcher(String tag_name){
 	if(!tagInstancer)return false;
 	tagInstancer->RemoveReference();
 	return true;
-};
+};*/
 
 /// Get an already created event catcher
-RocketEventBox* RocketPlugin::getEventCatcher(const String &tagName){
+/*RocketEventBox* RocketPlugin::getEventCatcher(const String &tagName){
 	if(myEventCatchers.find(tagName) == myEventCatchers.end()){
 		return NULL;
 	}
 	else{
 		return myEventCatchers.find(tagName)->second;
 	}
-};
+};*/
 
 /// Updates all contexts created globally
 void RocketPlugin::updateAll(){

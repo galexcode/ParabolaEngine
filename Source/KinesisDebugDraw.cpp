@@ -17,18 +17,15 @@
 */
 
 #include "ParabolaCore/KinesisDebugDraw.h"
-#include "ParabolaCore/Kinesis.h"
-#include "ParabolaCore/Text.h"
-#include "ParabolaCore/SceneRenderer.h"
+#include "ParabolaCore/KinesisWorld.h"
+#include "ParabolaCore/Renderer.h"
+
 #ifdef PARABOLA_WINDOWS
 #include <windows.h>
 #endif
-#include <gl/Gl.h>
-#include <gl/Glu.h>
-#include <cstdio>
-#include <cstdarg>
-#include <cstring>
+
 #include <iostream>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -47,42 +44,35 @@ PARABOLA_NAMESPACE_BEGIN
 
 	void KinesisDebugDraw::DrawPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
 	{
-		glColor3f(color.r, color.g, color.b);
+	/*	glColor3f(color.r, color.g, color.b);
 		glBegin(GL_LINE_LOOP);
 		for (int32 i = 0; i < vertexCount; ++i)
 		{
 			glVertex2f(vertices[i].x*PixelsPerMeter, vertices[i].y*PixelsPerMeter);
 		}
-		glEnd();
+		glEnd();*/
+		
 	}
 
 	void KinesisDebugDraw::DrawSolidPolygon(const b2Vec2* vertices, int32 vertexCount, const b2Color& color)
-	{
-		glPushMatrix();
-		glEnable(GL_BLEND);
-		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glColor4f(0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f);
-		glBegin(GL_TRIANGLE_FAN);
-		for (int32 i = 0; i < vertexCount; ++i)
-		{
-			glVertex2f(vertices[i].x*PixelsPerMeter, vertices[i].y*PixelsPerMeter);
+	{		
+		Vec2f* vlist = new Vec2f[vertexCount];
+		for(int i = 0; i < vertexCount; i++){
+			vlist[i].x = myParent->ToPixels(vertices[i].x);
+			vlist[i].y = myParent->ToPixels(vertices[i].y);
 		}
-		glEnd();
-		glDisable(GL_BLEND);
-
-		glColor4f(color.r, color.g, color.b, 1.0f);
-		glBegin(GL_LINE_LOOP);
-		for (int32 i = 0; i < vertexCount; ++i)
-		{
-			glVertex2f(vertices[i].x*PixelsPerMeter, vertices[i].y*PixelsPerMeter);
-		}
-		glEnd();
-		glPopMatrix();
+		Color finalColor;
+		finalColor.r = (color.r * 255) / 1;
+		finalColor.g = (color.g * 255) / 1;
+		finalColor.b = (color.b * 255) / 1;
+		finalColor.a = 150;
+		renderer->drawDebugTriangleFan(vlist, vertexCount, finalColor);
+		delete[] vlist;
 	}
 
 	void KinesisDebugDraw::DrawCircle(const b2Vec2& center, float32 radius, const b2Color& color)
 	{
-		const float32 k_segments = 16.0f;
+		/*const float32 k_segments = 16.0f;
 		const float32 k_increment = 2.0f * b2_pi / k_segments;
 		float32 theta = 0.0f;
 		glColor3f(color.r, color.g, color.b);
@@ -93,59 +83,31 @@ PARABOLA_NAMESPACE_BEGIN
 			glVertex2f(v.x*PixelsPerMeter, v.y*PixelsPerMeter);
 			theta += k_increment;
 		}
-		glEnd();
+		glEnd();*/
 	}
 
 	void KinesisDebugDraw::DrawSolidCircle(const b2Vec2& center, float32 radius, const b2Vec2& axis, const b2Color& color)
 	{
-		const float32 k_segments = 16.0f;
-		const float32 k_increment = 2.0f * b2_pi / k_segments;
-		float32 theta = 0.0f;
-		glEnable(GL_BLEND);
-		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glColor4f(0.5f * color.r, 0.5f * color.g, 0.5f * color.b, 0.5f);
-		glBegin(GL_TRIANGLE_FAN);
-		for (int32 i = 0; i < k_segments; ++i)
-		{
-			b2Vec2 v = center + radius * b2Vec2(cosf(theta), sinf(theta));
-			glVertex2f(v.x*PixelsPerMeter, v.y*PixelsPerMeter);
-			theta += k_increment;
-		}
-		glEnd();
-		glBlendFunc (GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-
-		glDisable(GL_BLEND);
-
-		theta = 0.0f;
-		glColor4f(color.r, color.g, color.b, 1.0f);
-		glBegin(GL_LINE_LOOP);
-		for (int32 i = 0; i < k_segments; ++i)
-		{
-			b2Vec2 v = center + radius * b2Vec2(cosf(theta), sinf(theta));
-			glVertex2f(v.x*PixelsPerMeter, v.y*PixelsPerMeter);
-			theta += k_increment;
-		}
-		glEnd();
-
-		b2Vec2 p = center + radius * axis;
-		glBegin(GL_LINES);
-		glVertex2f(center.x*PixelsPerMeter, center.y*PixelsPerMeter);
-		glVertex2f(p.x*PixelsPerMeter, p.y*PixelsPerMeter);
-		glEnd();
+		Color finalColor;
+		finalColor.r = (color.r * 255) / 1;
+		finalColor.g = (color.g * 255) / 1;
+		finalColor.b = (color.b * 255) / 1;
+		finalColor.a = 150;
+		renderer->drawDebugCircle(Vec2f(myParent->ToPixels(center.x), myParent->ToPixels(center.y)), myParent->ToPixels(radius), Vec2f(axis.x, axis.y), finalColor);
 	}
 
 	void KinesisDebugDraw::DrawSegment(const b2Vec2& p1, const b2Vec2& p2, const b2Color& color)
 	{
-		glColor3f(color.r, color.g, color.b);
+		/*glColor3f(color.r, color.g, color.b);
 		glBegin(GL_LINES);
 		glVertex2f(p1.x*PixelsPerMeter, p1.y*PixelsPerMeter);
 		glVertex2f(p2.x*PixelsPerMeter, p2.y*PixelsPerMeter);
-		glEnd();
+		glEnd();*/
 	}
 
 	void KinesisDebugDraw::DrawTransform(const b2Transform& xf)
 	{
-		b2Vec2 p1 = xf.p, p2;
+		/*b2Vec2 p1 = xf.p, p2;
 		const float32 k_axisScale = 0.4f;
 		glBegin(GL_LINES);
 		
@@ -159,33 +121,33 @@ PARABOLA_NAMESPACE_BEGIN
 		p2 = p1 + k_axisScale * xf.q.GetYAxis();
 		glVertex2f(p2.x*PixelsPerMeter, p2.y*PixelsPerMeter);
 
-		glEnd();
+		glEnd();*/
 	}
 
 	void KinesisDebugDraw::DrawPoint(const b2Vec2& p, float32 size, const b2Color& color)
 	{
-		glPointSize(size);
+		/*glPointSize(size);
 		glBegin(GL_POINTS);
 		glColor3f(color.r, color.g, color.b);
 		glVertex2f(p.x*PixelsPerMeter, p.y*PixelsPerMeter);
 		glEnd();
-		glPointSize(1.0f);
+		glPointSize(1.0f);*/
 	}
 
 	void KinesisDebugDraw::DrawString(int x, int y, const char *string, ...)
 	{
-		renderer->draw(Text(String(string) , x, y));			
+		//renderer->draw(Text(String(string) , x, y));			
 	}
 
 	void KinesisDebugDraw::DrawAABB(b2AABB* aabb, const b2Color& c)
 	{
-		glColor3f(c.r, c.g, c.b);
-		glBegin(GL_LINE_LOOP);
+		/*glColor3f(c.r, c.g, c.b);
+		glBegin(GL_LINE_LOOP); 
 		glVertex2f(aabb->lowerBound.x*PixelsPerMeter, aabb->lowerBound.y*PixelsPerMeter);
 		glVertex2f(aabb->upperBound.x*PixelsPerMeter, aabb->lowerBound.y*PixelsPerMeter);
 		glVertex2f(aabb->upperBound.x*PixelsPerMeter, aabb->upperBound.y*PixelsPerMeter);
 		glVertex2f(aabb->lowerBound.x*PixelsPerMeter, aabb->upperBound.y*PixelsPerMeter);
-		glEnd();
+		glEnd();*/
 	}
 
 PARABOLA_NAMESPACE_END

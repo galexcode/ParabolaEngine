@@ -859,5 +859,3 @@ static const char *GetCurrentDir(char *buf, size_t size)
 }
 
 END_AS_NAMESPACE
-
-

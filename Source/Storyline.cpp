@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/Storyline.h"
 #include "ParabolaCore/StoryPlayer.h"
 
@@ -20,3 +22,5 @@ void Storyline::append(StoryAction *action){
 
 
 PARABOLA_NAMESPACE_END
+
+#endif

@@ -5,6 +5,8 @@
 #include "Drawable.h"
 #include "AnimationSprite.h"
 
+#include <map>
+
 
 PARABOLA_NAMESPACE_BEGIN
 /**
@@ -17,6 +19,15 @@ public:
 	/// Creates a ready sprite, that is only a colored square
 	SpriteExt();
 
+	/// Load a texture
+	Texture* addTexture(const String &path, const String &name, Color maskColor);
+
+	/// Add a new animation
+	AnimationSprite* addAnimation(const String &name);
+
+	/// Get the name of the current animation playing
+	String getCurrentAnimation();
+
 	/// Check if the sprite contains a point within its rect
 	bool containsPoint(float x, float y);
 
@@ -28,6 +39,9 @@ public:
 
 	/// Check if the sprite is flipped in y axis
 	bool getFlippedY();
+
+	void scale(float x, float y);
+	Vec2f getScale();
 
 	/// Flip both axes optionally
 	/// Flipping is simply multiplying the scale by -1
@@ -69,19 +83,24 @@ public:
 	/// Parse a texture from the code
 	void parseTexture(String &code, ContentBank* bank);
 
+	void onFrameChangedCallback(Texture* t, BoundingBox b);
+
 
 	bool bake(const String &fileName, bool bakeTextures);
 
+	sigc::signal<void, Texture*, BoundingBox> onFrameChange;
+
 protected:
-	/// Making the sprite a drawable
-	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+	/// Called to order rendering, when the drawing was issued in the traditional way ( m_renderer->draw(m_sprite) )
+	virtual void onDraw(Renderer* renderer);
 
 private:
 	Sprite mySprite;
 	AnimationSprite* myCurrentAnimation;
-	std::map<String, AnimationSprite> myAnimations;
-	std::map<String, std::shared_ptr<Texture> > myTextures;
-	typedef std::map<String, std::shared_ptr<Texture> >::iterator TextureIterator;
+	std::map<String, AnimationSprite> m_animations;
+	std::map<String, Texture* > m_textures;
+	typedef std::map<String, Texture* >::iterator TextureIterator;
+	String m_currentAnimation;
 	String myDefaultAnimation;
 
 };

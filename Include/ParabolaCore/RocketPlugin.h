@@ -4,7 +4,7 @@
 #include "Platform.h"
 #include "RocketContext.h"
 #include "Strings.h"
-#include "RocketEventBox.h"
+//#include "RocketEventBox.h"
 
 
 /**
@@ -58,7 +58,7 @@ PARABOLA_NAMESPACE_BEGIN
 		bool registerEventCatcher(String tag_name);
 
 		/// Get an already created event catcher
-		RocketEventBox* getEventCatcher(const String &tagName);
+//		RocketEventBox* getEventCatcher(const String &tagName);
 
 		/// Updates all contexts created globally
 		void updateAll();
@@ -120,8 +120,8 @@ PARABOLA_NAMESPACE_BEGIN
 
 		static RocketEventDispatcher* myDispatcher;
 
-		friend class RocketEventBox;
-		std::map<String, RocketEventBox*> myEventCatchers;
+	//	friend class RocketEventBox;
+		//std::map<String, RocketEventBox*> myEventCatchers;
 
 		int num_documents;
 	};

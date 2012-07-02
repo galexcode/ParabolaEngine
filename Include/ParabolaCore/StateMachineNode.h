@@ -3,12 +3,13 @@
 
 #include "Platform.h"
 #include "Strings.h"
+#include "Clock.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
-	class StateMachine;
-	class SceneRenderer;
-	class Event;
+class StateMachine;
+class Renderer;
+class InputEvent;
 
 	/**
 		\ingroup Core
@@ -50,17 +51,17 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Delivers an event to the state
 		/// If returns true, it will be propagated to the rest of the stack
 		/// Otherwise it will remain under this.
-		virtual bool onEvent(const Event &event);
+		virtual bool onEvent(InputEvent &event);
 
 		/// Tells the state how much time it should update itself
 		/// Must return false if updating lesser states is not wanted
 		/// Returning true will update other stack states.
-		virtual bool onUpdate(float elapsedTime);
+		virtual bool onUpdate(Time &time);
 
 		/// Draws the state with the current renderer
 		/// If returns true, other states in the stack will be rendered
 		/// Otherwise this state has exclusivity over drawing
-		virtual bool onDraw(SceneRenderer *renderer);
+		virtual bool onDraw(Renderer *renderer);
 
 		/// Adds a reference to the state
 		/// Reference count is 0 on instancing, this means that the state machine will add one reference to it

@@ -1,5 +1,6 @@
 #include "ParabolaCore/ASScript.h"
 #include "ParabolaCore/ASEngine.h"
+#include "ParabolaCore/Logger.h"
 
 #include <iostream>
 using namespace std;
@@ -51,12 +52,12 @@ bool ASScript::prepareMethod(const String &funcName){
 			return true;
 		}
 		else{
-			cout<<"ASScript: could not prepare method: "<<funcName<<endl;
+			TESTLOG("ASScript: could not prepare method")
 			return false;
 		}
 	}
 	else{
-		cout<<"ASScript: Could not prepare module:" <<myModule<<endl;
+		TESTLOG("ASScript: Could not prepare module")
 		return false;
 	}
 	
@@ -117,13 +118,13 @@ bool ASScript::call(void *data, ScriptArgumentTypes::ArgTypes returnType){
 			return true;
 		}
 		else{
-			cout<<"Failed to run function"<<endl;
+			TESTLOG("Failed to run function")
 		}
 		releaseContext();
 		return true;
 	}
 	else{
-		cout<<"No module: "<<myModule<<endl;
+		TESTLOG("Module not found")
 		return false;
 	}
 };
@@ -220,7 +221,7 @@ asIScriptModule* ASScript::getModule(){
 
 
 /// Initializes the stream on the desired script
-ASBinaryStream::ASBinaryStream(const String &fileName, StreamMode::AccessModes openMode){
+/*ASBinaryStream::ASBinaryStream(const String &fileName, IODevice::OpenModes openMode){
 	stream.open(fileName, openMode);
 };
 
@@ -238,5 +239,5 @@ void ASBinaryStream::Read(void *ptr, asUINT size){
 			stream.read((char*)ptr, size);
 		}
 	}
-};
+};*/
 PARABOLA_NAMESPACE_END

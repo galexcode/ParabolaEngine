@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/SoundPlayer.h"
 #include "ParabolaCore/SoundSharedDevice.h"
 #include "ParabolaCore/ContentBank.h"
@@ -60,4 +62,7 @@ void SoundPlayer::refreshMusicList(){
 	
 };
 
+
+
 PARABOLA_NAMESPACE_END
+#endif

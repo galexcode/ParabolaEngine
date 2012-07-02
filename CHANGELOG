@@ -1,3 +1,11 @@
+SDK Version 0.8.5 - "02/07/2012"
+--------------------------------
+
+ -> Android support and improved portability
+ -> Few broken parts of the engine
+ -> Prototype tool broken
+ -> Now compiles for android without changes to code, with vs-android
+
 SDK Version 0.8.4 - "20/04/2012"
 --------------------------------
  -> Prototype tool uploaded

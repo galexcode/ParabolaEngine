@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#include <SFML/System/Thread.hpp>
+//#include <SFML/System/Thread.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -41,7 +41,7 @@ public:
 	void start(bool parallelLoading);
 
 	/// Fired when a loading reaches end
-	sigc::signal<void> onLoadFinish;
+	//sigc::signal<void> onLoadFinish;
 protected:
 	/// Protected constructor - Only ContentBank should instance loaders.
 	ContentLoader(ContentBank *parent);
@@ -64,7 +64,7 @@ private:
 	/// Progress in %
 	int myProgress;
 	/// The thread 
-	sf::Thread* myThread;
+	//sf::Thread* myThread;
 	/// thread function
 	void threadFunction();
 

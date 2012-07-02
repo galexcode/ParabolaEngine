@@ -64,7 +64,7 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 
-	void StateMachine::propagateEvent(const Event &event){
+	void StateMachine::propagateEvent(InputEvent &event){
 		if(nodeStack.size() == 0){
 			return;
 		}
@@ -110,7 +110,7 @@ PARABOLA_NAMESPACE_BEGIN
 			return false;
 	};
 
-	void StateMachine::drawStates(SceneRenderer *renderer){
+	void StateMachine::drawStates(Renderer *renderer){
 		if(nodeStack.size() == 0){
 			return;
 		}
@@ -124,7 +124,7 @@ PARABOLA_NAMESPACE_BEGIN
 		}
 	};
 
-	void StateMachine::updateStates(float elapsedTime){
+	void StateMachine::updateStates(Time &time){
 		if(nodeStack.size() == 0){
 			return;
 		}
@@ -133,7 +133,7 @@ PARABOLA_NAMESPACE_BEGIN
 		bool stop = false;
 
 		while(index != -1 && stop == false){
-			stop = !nodeStack[index]->onUpdate(elapsedTime);
+			stop = !nodeStack[index]->onUpdate(time);
 			index--;
 		}
 	};

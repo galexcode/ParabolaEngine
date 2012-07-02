@@ -2,8 +2,8 @@
 #define PARABOLA_NETWORKSOCKET_H
 
 #include "Platform.h"
-#include <SFML/System/Mutex.hpp>
-
+//#include <SFML/System/Mutex.hpp>
+//
 PARABOLA_NAMESPACE_BEGIN
 
 class NetworkThread;
@@ -81,7 +81,7 @@ public:
 
 protected:
 	/// Locked when this socket is protected from access
-	sf::Mutex myMutex;
+	//sf::Mutex myMutex;
 
 private:
 	friend class NetworkThread;

@@ -9,7 +9,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
-class TextFileStream;
+class TextStream;
 
 typedef vector<unsigned long> KeyList;
 typedef map<StringID, KeyList> BindList;

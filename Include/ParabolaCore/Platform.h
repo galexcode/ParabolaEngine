@@ -31,6 +31,8 @@
         #endif
 		#define PARABOLA_WINDOWS
 		#define PARABOLA_OS "win"
+		#define PARABOLA_DESKTOP
+		//#define MINIMAL_BUILD // until its not refactored.
 
 		#ifndef WIN32_LEAN_AND_MEAN
 		#define WIN32_LEAN_AND_MEAN
@@ -44,7 +46,11 @@
         #define PARABOLA_COMPILER "gcc"
         #define PARABOLA_COMPILER_GCC
 
-    #else
+    #elif defined ANDROID_NDK || defined ANDROID
+		#define PARABOLA_ANDROID
+		#define PARABOLA_COMPILER "ndk"	
+		//#define MINIMAL_BUILD // for now build minimally for android
+	#else
         #define PARABOLA_UNIX
         #define PARABOLA_LINUX
         #define PARABOLA_OS "linux"
@@ -101,6 +107,9 @@ PARABOLA_NAMESPACE_BEGIN
 	
 PARABOLA_NAMESPACE_END
 
+#ifndef NULL
 #define NULL 0
+#endif
+
 
 #endif

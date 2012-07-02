@@ -2,7 +2,6 @@
 #define PARABOLA_FILESTREAM_H
 
 #include "Platform.h"
-#include "Stream.h"
 #include "Strings.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -34,7 +33,7 @@ PARABOLA_NAMESPACE_BEGIN
 			These operators >> and << are configured for binary files serialization specifically,
 			that means even a String boundaries will be known if read in the right order.
 		*/
-		class PARABOLA_API FileStream: public DataStream{
+		/*class PARABOLA_API FileStream{
 		public:
 			/// Creates an empty object
 			FileStream();
@@ -67,7 +66,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 			/// Get the access mode currently in use
 			/// Causes the stream to reset to the new mode if it was already open
-			StreamMode::AccessModes openMode();
+			IODevice::OpenModes openMode();
 
 			/// Checks if the file has reached the end
 			bool atEnd();
@@ -83,12 +82,12 @@ PARABOLA_NAMESPACE_BEGIN
 			void setFileName(String fileName);
 
 			/// Sets the mode of file access
-			void setOpenMode(StreamMode::AccessModes mode);
+			void setOpenMode(IODevice::OpenModes mode);
 
 			/// Attempts to load a file, assuming that the Stream open mode and the filename were already passed.
 			bool open();
 			/// Attempts to load the file specified with in the mode specified
-			bool open(String fileName, StreamMode::AccessModes openMode);
+			bool open(String fileName, IODevice::OpenModes openMode);
 			/// Becomes a valid stream if the raw FILE* passed in is valid.
 			bool open(FILE* fp);
 
@@ -96,7 +95,7 @@ PARABOLA_NAMESPACE_BEGIN
 			void close();
 
 			/// Deletes the file from the file system.
-			bool remove();
+			static bool remove(String fileName);
 
 			/// Renames the file to a new name
 			bool rename(String name);
@@ -191,7 +190,7 @@ PARABOLA_NAMESPACE_BEGIN
 			String file_name;
 			FILE* file_handle;
 			unsigned long open_mode;
-		};
+		};*/
 
 PARABOLA_NAMESPACE_END
 #endif

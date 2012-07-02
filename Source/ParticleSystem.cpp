@@ -4,15 +4,13 @@
 #include <iostream>
 using namespace std;
 
-#include "SPARK.h"
-#include "SPARK_GL.h"
 
 PARABOLA_NAMESPACE_BEGIN
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////// TEXTURE
 
-bool ParticleTexture::loadTexture(const String &path){
+/*bool ParticleTexture::loadTexture(const String &path){
 
 	GLuint texture = 0;
 	{
@@ -29,7 +27,7 @@ bool ParticleTexture::loadTexture(const String &path){
 
 	myTextureID = texture;
 	return true;
-}
+}*/
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -125,8 +123,8 @@ void ParticleSystem::setName(const String &newName){
 
 ParticleRenderer& ParticleSystem::createPointRenderer(const String &name, float pointSize){
 	ParticleRenderer *pRend = new ParticleRenderer();
-	pRend->myRenderer = SPK::GL::GLPointRenderer::create(pointSize);
-	myRenderers[name] = pRend;
+/*	pRend->myRenderer = SPK::GL::GLPointRenderer::create(pointSize);
+	myRenderers[name] = pRend;*/
 	return *pRend;
 }
 
@@ -143,8 +141,8 @@ ParticleEmitter& ParticleSystem::createSphericEmitter(const String &name, float 
 
 ParticleTexture& ParticleSystem::createTexture(const String &name, const String &path){
 	ParticleTexture *pRend = new ParticleTexture();
-	pRend->loadTexture(path);
-	myTextures[name] = pRend;
+//	pRend->loadTexture(path);
+	//myTextures[name] = pRend;
 	return *pRend;
 }
 
@@ -168,15 +166,20 @@ void ParticleSystem::createSampleSparkles(const String &zoneName){
 
 };
 
-/// Draw the system
-void ParticleSystem::draw(SceneRenderer* renderer){
-	SPK::GL::GLRenderer::saveGLStates();
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisable(GL_TEXTURE_2D);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	mySystem->renderParticles();
-	SPK::GL::GLRenderer::restoreGLStates();
+/// Called to order rendering, when the drawing was issued in the traditional way ( m_renderer->draw(m_sprite) )
+void ParticleSystem::onDraw(Renderer* renderer){
+
 };
+
+/// Draw the system
+/*void ParticleSystem::draw(SceneRenderer* renderer){
+	//SPK::GL::GLRenderer::saveGLStates();
+	//glDisableClientState(GL_COLOR_ARRAY);
+	//glDisable(GL_TEXTURE_2D);
+	//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	//mySystem->renderParticles();
+	//SPK::GL::GLRenderer::restoreGLStates();
+};*/
 	
 /// Update the state of the particles.
 void ParticleSystem::update(float elapsedTime){
@@ -189,58 +192,59 @@ void ParticleSystem::update(float elapsedTime){
 
 void ParticleGroup::defaultGroup1(){
 
-	/*ParticleTexture *tt = new ParticleTexture();
-	if(!tt->loadTexture("part.png"))cout<<"COULD NOT LOAD TEXTURE"<<endl;
+	//ParticleTexture *tt = new ParticleTexture();
+	//if(!tt->loadTexture("part.png"))cout<<"COULD NOT LOAD TEXTURE"<<endl;
 
-	SPK::Ref<SPK::GL::GLPointRenderer> rn = SPK::GL::GLPointRenderer::create(50);
-	rn->setTexture(tt->myTextureID);
-
-	rn->setBlendMode(SPK::BLEND_MODE_ADD);
+	SPK::Ref<ParticlePointRenderer> rn = ParticlePointRenderer::create(10);
+	//rn->setTexture(tt->myTextureID);
+	//rn->setType(SPK::POINT_TYPE_SQUARE);
+	//rn->setScreenSize(20);
+	//rn->setBlendMode(SPK::BLEND_MODE_ALPHA);
 	//rn->setAlphaTestThreshold()
-	rn->setType(SPK::POINT_TYPE_SPRITE);
+	//rn->setType(SPK::POINT_TYPE_SPRITE);
 	myGroup->setRenderer(rn);
 	//effectgroup->setRenderer(SPK::GL::GLLineRenderer::create(10, 5));
 	
 	//mySphere = SPK::Sphere::create(SPK::Vector3D(300.f,300.f,0.f),4.0f);
 
-	myParent->mySphere = SPK::Sphere::create(SPK::Vector3D(500.f,700.f,0.f),4.0f);
+	SPK::Ref<SPK::Sphere> m_sphere = SPK::Sphere::create(SPK::Vector3D(400.f,400.f,0.f),20.0f);
 
 	//effectgroup->setRenderer(renderer);
 	myGroup->setLifeTime(3,6);
 	myGroup->setColorInterpolator(SPK::ColorRandomInterpolator::create(SPK::Color(255,0,0,255),SPK::Color(255,50,0,255),SPK::Color(255,30,40,255),SPK::Color(255,0,160,255)));
-	myGroup->addEmitter(SPK::SphericEmitter::create(SPK::Vector3D(1.0f,0.0f,0.0f),0.0f,2*3.14159f,myParent->mySphere,true,-1,300.0f,70.2f,100.5f));
-	myGroup->setParamInterpolator(SPK::PARAM_TEXTURE_INDEX,SPK::FloatRandomInitializer::create(0.0f,4.0f));
+	myGroup->addEmitter(SPK::SphericEmitter::create(SPK::Vector3D(1.0f,0.0f,0.0f),0.0f,2*3.14159f,m_sphere,true,-1,300.0f,1.2f,2.5f));
+	//myGroup->setParamInterpolator(SPK::PARAM_TEXTURE_INDEX,SPK::FloatRandomInitializer::create(0.0f,4.0f));
 	myGroup->setParamInterpolator(SPK::PARAM_ROTATION_SPEED,SPK::FloatRandomInitializer::create(-0.1f,1.0f));
 	myGroup->setParamInterpolator(SPK::PARAM_ANGLE,SPK::FloatRandomInitializer::create(0.0f,2.0f * 3.14159f));
 	myGroup->addModifier(SPK::Gravity::create(SPK::Vector3D(0.0f, -1,0.0f)));
 	myGroup->setColorInterpolator(SPK::ColorSimpleInterpolator::create(0xFF802080,0xFF000000));
-	myGroup->setRadius(30.f);
+	myGroup->setRadius(20.f);
 	myGroup->setPhysicalRadius(1);
-	myGroup->addModifier(SPK::Rotator::create());
-	myGroup->setGraphicalRadius(50);
+	//myGroup->addModifier(SPK::Rotator::create());
+	myGroup->setGraphicalRadius(20);
 	//myGroup->set
 
-	ParticleTexture *tt2 = new ParticleTexture();
-	if(!tt2->loadTexture("explosion.png"))cout<<"COULD NOT LOAD TEXTURE"<<endl;
-
+	//ParticleTexture *tt2 = new ParticleTexture();
+	//if(!tt2->loadTexture("explosion.png"))cout<<"COULD NOT LOAD TEXTURE"<<endl;
+/*
 	SPK::Ref<SPK::GL::GLQuadRenderer> rnquad = SPK::GL::GLQuadRenderer::create();
 	rnquad->setTexture(tt2->myTextureID);
 	rnquad->setAtlasDimensions(2,2);
 	rnquad->setBlendMode(SPK::BLEND_MODE_NONE);
 	rnquad->setTexturingMode(SPK::TEXTURE_MODE_2D);
-	rnquad->enableBlending(true);
-	rnquad->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE, false);
+	rnquad->enableBlending(true);*
+	rnquad->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE, false);*/
 	//rnquad->setOrientation(SPK::OrientationPreset::);
 	//myGroup->setRenderer(rnquad);
 
-	SPK::Ref<SPK::GL::GLQuadRenderer> rnquad2 = SPK::GL::GLQuadRenderer::create(10,10);
+	/*SPK::Ref<SPK::GL::GLQuadRenderer> rnquad2 = SPK::GL::GLQuadRenderer::create(10,10);
 	//rnquad2->setBlendMode(SPK::BLEND_MODE_ADD);
 	rnquad2->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
 	rnquad2->setTexture(tt2->myTextureID);
 	rnquad2->setTexturingMode(SPK::TEXTURE_MODE_2D);
-	rnquad2->setAtlasDimensions(2,2);
+	rnquad2->setAtlasDimensions(2*,2);
 	rnquad2->setScale(20,20);
-//	rnquad2->
+//	rnquad2->*/
 	//myGroup->setRenderer(rnquad2);
 
 	

@@ -1,16 +1,18 @@
-#pragma once
+#ifndef PARABOLA_ROCKETFILEINTERFACE_H
+#define PARABOLA_ROCKETFILEINTERFACE_H
 
+#include "Platform.h"
+#include "Strings.h"
 #include <Rocket/Core/String.h>
 #include <Rocket/Core/FileInterface.h>
 
-namespace pE{
+PARABOLA_NAMESPACE_BEGIN
 
-	/**
-		\class RocketFileInterface
-		\brief The Custom Rocket File Interface - Disabled
-	*/
-	class RocketFileInterface : public Rocket::Core::FileInterface
-	{
+/**
+	\class RocketFileInterface
+	\brief The Custom Rocket File Interface - Disabled
+*/
+class RocketFileInterface : public Rocket::Core::FileInterface{
 	public:
 		RocketFileInterface(const Rocket::Core::String& root);
 		virtual ~RocketFileInterface();
@@ -18,7 +20,7 @@ namespace pE{
 		/// Opens a file.		
 		virtual Rocket::Core::FileHandle Open(const Rocket::Core::String& path);
 
-		/// Closes a previously opened file.		
+		/// Closes a previously opened file.
 		virtual void Close(Rocket::Core::FileHandle file);
 
 		/// Reads data from a previously opened file.		
@@ -32,6 +34,7 @@ namespace pE{
 
 	private:
 		Rocket::Core::String root;
-	};
-
 };
+
+PARABOLA_NAMESPACE_END
+#endif

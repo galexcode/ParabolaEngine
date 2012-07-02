@@ -1,3 +1,6 @@
+#include "ParabolaCore/Platform.h"
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/ScriptGame.h"
 #include "ParabolaCore/Text.h"
 #include "ParabolaCore/Window.h"
@@ -165,3 +168,5 @@ GameCore* ScriptGameInstancer::Instance(){
 
 
 PARABOLA_NAMESPACE_END
+
+#endif

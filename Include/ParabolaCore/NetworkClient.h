@@ -8,7 +8,6 @@
 #include "NetworkPacket.h"
 
 #include <enet/enet.h>
-#include <SFML/Network/Packet.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -27,7 +26,7 @@ public:
 	NetworkClient();
 
 	/// Creates a network client and registers it
-	NetworkClient(NetworkThread &network);
+	//NetworkClient(NetworkThread &network);
 
 	/// Safely disconnects the socket
 	virtual ~NetworkClient(){
@@ -56,7 +55,7 @@ public:
 	/// Sends a sfml packet to the remote server
 	/// If reliable is true, the packet will be delivered safely
 	/// Otherwise, it may be lost.
-	bool send(const sf::Packet &packet, bool reliable = true);
+	//bool send(const sf::Packet &packet, bool reliable = true);
 
 	/// Sends a ENET packet to the remote host
 	/// If reliable is true, the packet will be delivered safely
@@ -76,7 +75,7 @@ public:
 	/// Fired when the client was accepted by a server
 	sigc::signal<void, NetworkClient*> onConnected;
 	/// Fired when the client is disconnected from a server
-	sigc::signal<void, NetworkClient*> onDisconnected;
+	//sigc::signal<void, NetworkClient*> onDisconnected;
 	/// Fired when a packet was received from the server
 	sigc::signal<void, NetworkClient*, NetworkPacket*> onDataReceived;
 

@@ -1,25 +1,27 @@
-
 #include "ParabolaCore/RocketRenderInterface.h"
+#include "ParabolaCore/Logger.h"
+#include "ParabolaCore/Renderer.h"
 #include "ParabolaCore/Vectors.h"
-#include "ParabolaCore/SceneRenderer.h"
+#include "ParabolaCore/Textures.h"
+//#include "ParabolaCore/SceneRenderer.h"
 
 #include <iostream>
 #include <vector>
 
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 
 #ifdef PARABOLA_WINDOWS
 #include <windows.h>
-#endif
 #include <GL/GL.h>
+#endif
+
 
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
 RocketRenderInterface::RocketRenderInterface(){
-	states = NULL;
-	target = NULL;
+	myRenderer = NULL;
 }
 
 RocketRenderInterface::~RocketRenderInterface(){
@@ -30,7 +32,46 @@ RocketRenderInterface::~RocketRenderInterface(){
 // Called by Rocket when it wants to render geometry that it does not wish to optimise.
 void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int num_vertices, int* indices, int num_indices, const Rocket::Core::TextureHandle Image, const Rocket::Core::Vector2f& translation)
 	{
+		//TESTLOG("Rendering of librocket document is happenign\n")
 
+		
+
+		if(myRenderer){
+
+			//draw geometry
+			VertexArray v(Triangles, num_indices);
+			for(int j = 0; j < num_indices; j++){ //iterate indices
+				int i = indices[j]; //i is the vertex position.
+				v[j].position = Vec2f(vertices[i].position.x, vertices[i].position.y);
+				v[j].color = Color(vertices[i].colour.red,vertices[i].colour.green,vertices[i].colour.blue, vertices[i].colour.alpha);
+				if(Image){
+					v[j].texCoords = Vec2f(vertices[i].tex_coord.x/**((Texture*)Image)->getSize().x*/, vertices[i].tex_coord.y/**((Texture*)Image)->getSize().y*/);
+				}			
+			}
+			/*states->blendMode = sf::BlendAlpha;
+			states->texture = (sf::Texture*)Image;
+			states->transform = sf::Transform::Identity;
+			states->transform.translate(translation.x, translation.y);
+			*/
+			glPushMatrix();
+			glLoadIdentity();
+			glTranslatef(translation.x, translation.y, 0.f);
+			glEnable(GL_BLEND);
+			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			if(Image){
+				glEnable(GL_TEXTURE_2D);
+				((Texture*)Image)->bind();
+			}
+
+			myRenderer->drawVertexArray(v);	
+
+			glDisable(GL_TEXTURE_2D);
+			glDisable(GL_BLEND);
+
+			glPopMatrix();
+		//	glColor4f(1,1,1,1);
+		}
+/*
 		if(!target)return;
 
 		target->setView(target->getDefaultView());
@@ -38,6 +79,7 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int n
 		target->pushGLStates();
 		//glPushMatrix();
 		
+
 		sf::VertexArray v(sf::Triangles, num_indices);
 		for(int j = 0; j < num_indices; j++){ //iterate indices
 			int i = indices[j]; //i is the vertex position.
@@ -55,7 +97,7 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int n
 
 		target->draw(v, *states);
 
-		target->popGLStates();
+		target->popGLStates();*/
 		
 }
  
@@ -168,16 +210,11 @@ Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rock
 
 	// Called by Rocket when a Image is required by the library.		
 	bool RocketRenderInterface::LoadTexture(Rocket::Core::TextureHandle& Image_handle, Rocket::Core::Vector2i& Image_dimensions, const Rocket::Core::String& source)
-	{
-		
-
-		
-		sf::Texture *texture = new sf::Texture();
-
+	{	
+		Texture *texture = new Texture();
 		if(!texture->loadFromFile(source.CString()))
 		{
 			delete texture;
-
 			return false;
 		};
 
@@ -190,21 +227,18 @@ Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rock
 	// Called by Rocket when a Image is required to be built from an internally-generated sequence of pixels.
 	bool RocketRenderInterface::GenerateTexture(Rocket::Core::TextureHandle& Image_handle, const Rocket::Core::byte* source, const Rocket::Core::Vector2i& source_dimensions)
 	{
-		sf::Image *image = new sf::Image();
-		sf::Texture *texture = new sf::Texture();
-
-		image->create(source_dimensions.x, source_dimensions.y, source);
-
-		texture->loadFromImage(*image);
-		Image_handle = (Rocket::Core::TextureHandle)texture;
-
+		Image image;
+		image.create(source_dimensions.x, source_dimensions.y, source);
+		Texture* tex = new Texture();
+		tex->loadFromImage(image);
+		Image_handle = (Rocket::Core::TextureHandle)tex;
 		return true;
 	}
 
 	// Called by Rocket when a loaded Image is no longer required.		
 	void RocketRenderInterface::ReleaseTexture(Rocket::Core::TextureHandle Image_handle)
 	{
-		delete (sf::Texture*)Image_handle;
+		//delete (sf::Texture*)Image_handle;
 	}
 
 PARABOLA_NAMESPACE_END

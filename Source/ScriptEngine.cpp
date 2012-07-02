@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/ScriptEngine.h"
 #include "ParabolaCore/GameCore.h"
 #include "ParabolaCore/ScriptEngineDefault.h"
@@ -95,3 +97,4 @@ void ScriptEngine::showTask(const String &task_name){
 };
 
 PARABOLA_NAMESPACE_END
+#endif

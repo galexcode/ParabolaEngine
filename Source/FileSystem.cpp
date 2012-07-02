@@ -1,4 +1,5 @@
 #include "ParabolaCore/FileSystem.h"
+#include "ParabolaCore/Application.h"
 
 #ifdef PARABOLA_WINDOWS
 #include <windows.h>
@@ -12,7 +13,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 /// Load a dialog
 String FileSystem::loadFileDialog(){
-		//char Filestring[256];
+#ifdef PARABOLA_WINDOWS
 		wchar_t Filestring[256];
 		String returnstring;
 
@@ -34,7 +35,7 @@ String FileSystem::loadFileDialog(){
 		opf.lpstrDefExt = L"*.*";
 		opf.lpfnHook = NULL;
 		opf.lCustData = 0;
-		opf.Flags = (OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT) & ~OFN_ALLOWMULTISELECT;
+		opf.Flags = (OFN_PATHMUSTEXIST | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR) & ~OFN_ALLOWMULTISELECT ;
 		opf.lStructSize = sizeof(OPENFILENAME);
 
 		if(GetOpenFileName(&opf))
@@ -43,6 +44,40 @@ String FileSystem::loadFileDialog(){
 		}
 
 		return returnstring;
+#else
+	return "";
+#endif
+};
+
+/// Testing \todo make
+String FileSystem::saveFileDialog(){
+#ifdef PARABOLA_WINDOWS
+	OPENFILENAME ofn;
+	String result;
+
+	wchar_t saveFileName[MAX_PATH] = L"";
+
+	ZeroMemory( &ofn, sizeof( ofn ) );
+
+	ofn.lStructSize = sizeof(OPENFILENAME);
+	ofn.hwndOwner = NULL;
+	ofn.lpstrFilter = L"Script file (*.as)\0*.as\0";
+	ofn.lpstrFile = saveFileName;
+	ofn.nMaxFile = MAX_PATH;
+	ofn.lpstrDefExt = L"as";
+	ofn.Flags  = OFN_EXPLORER | OFN_PATHMUSTEXIST | OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_NOCHANGEDIR;
+	ofn.lpstrTitle = L"Save File";
+	
+
+	if(GetSaveFileName(&ofn)){
+		result.fromWide(static_cast<std::wstring>(ofn.lpstrFile));
+	}
+
+	return result;
+	//	wcscpy(file,saveFileName);
+#else
+	return "";
+#endif
 };
 
 	StringList FileSystem::scanDirectory(const String &Directory, const String &Extension, bool Recursive){
@@ -140,8 +175,10 @@ String FileSystem::loadFileDialog(){
 			}
 
 			closedir(Root);
-	#else
-		#error ParabolaEngine doesn't know this filesystem.
+	#elif defined PARABOLA_ANDROID
+		Files = Application::myInstance->getAssetList(Directory);
+#else 
+#error Platform filesystem unsupported
 
 	#endif
 		}
@@ -276,9 +313,12 @@ String FileSystem::loadFileDialog(){
 				Entry = readdir(Root);
 			}
 
-			closedir(Root);
-	#else
-		#error ParabolaEngine doesn't know this filesystem.
+			closedir(Root); 
+#elif defined PARABOLA_ANDROID
+			 
+#else
+
+		#error 
 
 	#endif
 		}

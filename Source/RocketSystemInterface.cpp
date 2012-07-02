@@ -1,12 +1,14 @@
 #include "ParabolaCore/RocketSystemInterface.h"
 #include "ParabolaCore/Strings.h"
+#include "ParabolaCore/Logger.h"
 
 PARABOLA_NAMESPACE_BEGIN
 	
 	// Get the number of seconds elapsed since the start of the application
 	float RocketSystemInterface::GetElapsedTime()
 	{
-		return timer.getElapsedTime().asSeconds() / 1000.f;
+		//return timer.getElapsedTime().asSeconds() / 1000.f;
+		return 0.f;
 	}
 
 	bool RocketSystemInterface::LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String& message)
@@ -35,7 +37,9 @@ PARABOLA_NAMESPACE_BEGIN
 			break;
 		};
 
-		printf("%s - %s\n", Type.c_str(), message.CString());
+		//printf("%s - %s\n", Type.c_str(), message.CString());
+		PRINTLOG("[LibRocket]","%s - %s\n", Type.c_str(), message.CString())
+
 		//pLogger::Log(2, String(" ") + Type + message.CString(), "[libRocket]");
 
 		return true;

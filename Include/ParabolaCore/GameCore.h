@@ -2,36 +2,69 @@
 #define PARABOLA_GAMECORE_H
 
 #include "Platform.h"
-#include "LinkedPointer.h"
-#include "Strings.h"
-#include "ScriptEngine.h"
-#include "SoundPlayer.h"
-#include "ContentBank.h"
+#include "Clock.h"
+#include "Logger.h"
+#include "Renderer.h"
 #include "Window.h"
-
-#include <SFML/Graphics/Color.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
+#include "InputEvent.h"
+#include "StringList.h"
+#include "Application.h"
+#include "StateMachine.h"
 
 PARABOLA_NAMESPACE_BEGIN
-typedef sf::Color Color;
-typedef sf::RenderTarget RenderTarget;
 class GameCoreManager;
-class Event;
-class SceneRenderer;
-class ASEngine;
-
 /**
 	\ingroup Core
 	\class GameCore
-	\brief Represents a game. All games shall inherit this base class.
-
-	The GameCore class also works as a factory,
-	or a repository of objects and actually handles their destruction if so is needed.
-
-	Implement the virtual methods to make your game logic.
+	\brief Base class for all games and applications.
+	
 */
 class PARABOLA_API GameCore{
 public:
+	/// Construct the game, its mandatory to call this base constructor when implementing GameCore
+	GameCore();
+
+	/// Get the window/screen handler
+	Window& getWindow();
+
+	/// Shutdown this game immediately
+	void close();
+
+	/// Set the fixed update step, or, the amount of time, in seconds, that will take between each update.
+	void setUpdateStep(float step);
+	
+protected:
+	/// Callback for updating the game
+	virtual void onUpdate(Time time);
+
+	/// Callback for rendering a frame
+	virtual void onRender();
+
+	/// Callback when starting to execute the game
+	virtual void onCreate();
+
+	/// Callback when an event happens
+	virtual void onEvent(InputEvent &event);
+	
+private:
+	friend class GameCoreManager;
+
+	/// Inner update of the game
+	/// Will handle fixed update steps
+	/// Callbacks to onUpdate(Time time) when appropriate
+	void innerUpdate(Time time);
+
+	/// Inner render of the game
+	/// Callbacks to onRender()
+	void innerRender();
+
+	/// Fixed update step
+	float m_updateStep;
+	float m_stackedTime;
+	
+	
+	
+	/*
 	/// Get the assigned window
 	/// Returns a NULL smart pointer if no window exists
 	Window* getWindow();
@@ -161,7 +194,7 @@ private:
 	/// Scripting interface functions - all defined in AngelScriptInterfaces.cpp
 	friend class ASEngine;
 
-	void dummy();
+	void dummy();*/
 };
 
 PARABOLA_NAMESPACE_END

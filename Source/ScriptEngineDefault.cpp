@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/ScriptEngineDefault.h"
 #include "ParabolaCore/ScriptEngine.h"
 #include "ParabolaCore/TextFileStream.h"
@@ -21,7 +23,7 @@ void ParseTask::run(const String &calledAs, String arguments){
 		cout<<"Invalid use of Parse."<<endl;
 	}
 	else if(args.size() >= 1){
-		TextFileStream in(args[0], StreamMode::ReadOnly);
+		TextStream in(args[0], StreamMode::ReadOnly);
 
 		if(in){
 			while(!in.atEnd()){
@@ -58,7 +60,7 @@ void GetHttpTask::run(const String &calledAs, String arguments){
 			//std::cout << response.GetBody() << std::endl;
 			cout<<"GetHttp was sucessfull: ";
 			if(args.size() == 2){
-				TextFileStream out(args[1], StreamMode::WriteOnly);
+				TextStream out(args[1], StreamMode::WriteOnly);
 				if(out.valid()){
 					out << response.getBody();
 				}
@@ -79,3 +81,5 @@ void GetHttpTask::run(const String &calledAs, String arguments){
 }
 
 PARABOLA_NAMESPACE_END
+
+#endif

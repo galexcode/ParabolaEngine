@@ -29,7 +29,7 @@ bool ASEngine::exportParticleSystems(){
 	//asEngine->RegisterObjectMethod("ParticleEffect", ")
 
 	if(exportedRenderer){
-		asEngine->RegisterObjectMethod("ParticleEffect", "void draw(SceneRenderer@)", asMETHOD(ParticleSystem, draw), asCALL_THISCALL);
+//		asEngine->RegisterObjectMethod("ParticleEffect", "void draw(SceneRenderer@)", asMETHOD(ParticleSystem, draw), asCALL_THISCALL);
 	}
 
 	exportedParticles = true;

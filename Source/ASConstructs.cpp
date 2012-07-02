@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/ASEngine.h"
 #include "ParabolaCore/Events.h"
 
@@ -10,7 +12,7 @@ void dummy2(void*){
 /// Exports events as a reference type
 bool ASEngine::exportEvents(){
 	// Event type
-	asEngine->RegisterObjectType("Event", sizeof(Event), asOBJ_REF);
+	/*asEngine->RegisterObjectType("Event", sizeof(Event), asOBJ_REF);
 
 	int r;
 	//r = asEngine->RegisterObjectBehaviour("Event", asBEHAVE_ADDREF, "void f()", asMETHOD(Event,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
@@ -184,9 +186,11 @@ bool ASEngine::exportEvents(){
 	asEngine->RegisterEnumValue("Mouse", "Right", Mouse::Right);
 	asEngine->RegisterEnumValue("Mouse", "Middle", Mouse::Middle);
 	asEngine->RegisterEnumValue("Mouse", "XButton1", Mouse::XButton1);
-	asEngine->RegisterEnumValue("Mouse", "XButton2", Mouse::XButton2);
+	asEngine->RegisterEnumValue("Mouse", "XButton2", Mouse::XButton2);*/
 
 	return true;
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

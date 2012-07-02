@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/NetworkThread.h"
 #include "ParabolaCore/NetworkSocket.h"
 
@@ -41,3 +43,5 @@ void NetworkThread::threadFunc(){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

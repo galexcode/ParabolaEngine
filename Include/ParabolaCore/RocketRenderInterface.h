@@ -6,10 +6,11 @@
 #include <Rocket/Core.h>
 #include <Rocket/Core/RenderInterface.h>
 
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
 
+class Renderer;
 	/**
 		\ingroup libRocket
 		\ingroup Graphics
@@ -30,10 +31,11 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Destructs the renderer
 		~RocketRenderInterface();
 
+		Renderer* myRenderer;
 
 		//temp
-		sf::RenderTarget *target;
-		sf::RenderStates *states;
+		//sf::RenderTarget *target;
+		//sf::RenderStates *states;
 
 
 	protected:

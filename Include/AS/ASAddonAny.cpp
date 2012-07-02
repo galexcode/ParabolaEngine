@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "scriptany.h"
 #include <new>
 #include <assert.h>
@@ -462,3 +464,5 @@ bool CScriptAny::GetFlag()
 
 
 END_AS_NAMESPACE
+
+#endif

@@ -2,32 +2,18 @@
 #define PARABOLA_DRAWABLE_H
 
 #include "Platform.h"
-#include <SFML/Graphics.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
 
-typedef sf::Color Color;
-
+class Renderer;
 /**	
 	\ingroup Graphics
 	Typedef of sf::Drawable to belong to the engine's namespace
- */
-typedef sf::Drawable Drawable;
-
-/**
-	\ingroup Graphics
-	\class PainterDrawable
-	\brief Graphics API base class for drawable objects.
-
-	Every class that can be drawn to the quad tree structure
-	must implement this interface.
-
-	Different than the SFML drawables. Under development. Ignore.
-
-*/	
-class PARABOLA_API PainterDrawable{
+*/
+class Drawable{
 public:
-
+	/// Called to order rendering, when the drawing was issued in the traditional way ( m_renderer->draw(m_sprite) )
+	virtual void onDraw(Renderer* renderer) = 0;
 };
 
 PARABOLA_NAMESPACE_END

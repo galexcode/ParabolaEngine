@@ -2,7 +2,7 @@
 #define PARABOLA_STRINGSTREAM_H
 
 #include "Platform.h"
-#include "FileStream.h"
+//#include "FileStream.h"
 #include "Strings.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -11,7 +11,7 @@ PARABOLA_NAMESPACE_BEGIN
 		\class StringStream
 		\brief Stream to parse content from a String object
 	*/
-	class PARABOLA_API StringStream: public DataStream{
+/*	class PARABOLA_API StringStream: public DataStream{
 	public:
 		/// Creates a StringStream pointing to nowhere
 		StringStream();
@@ -50,7 +50,7 @@ PARABOLA_NAMESPACE_BEGIN
 	private:
 		int pos;
 		String *str;
-	};
+	};*/
 
 PARABOLA_NAMESPACE_END
 #endif

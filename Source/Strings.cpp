@@ -1,6 +1,7 @@
 #include "ParabolaCore/Strings.h"
 #include "ParabolaCore/StringList.h"
 #include <sstream>
+#include <stdlib.h>
 
 #ifdef PARABOLA_WINDOWS
 #include <windows.h>
@@ -47,6 +48,7 @@ PARABOLA_NAMESPACE_BEGIN
 		erase(ocurr, npos);
 	};
 
+#ifdef PARABOLA_WINDOWS
 	std::wstring String::toWide(){
 		int len;
 		int slength = (int)(*this).length() + 1;
@@ -57,6 +59,12 @@ PARABOLA_NAMESPACE_BEGIN
 		delete[] buf;
 		return r;
 	}
+
+	/// Converts a wide string and sets this string with its content
+	void String::fromWide(std::wstring &wide){
+		this->assign(wide.begin(), wide.end());
+	};
+#endif
 
 	void String::removeCharacter(char c){	
 		size_type it;
@@ -89,7 +97,7 @@ PARABOLA_NAMESPACE_BEGIN
 		else return false;
 	}
 
-	StringList String::split(String splitBy, int limitCount){
+	StringList String::split(String splitBy, int limitCount, StringList &storage){
 		StringList MyStrList;
 		unsigned int Iter = 0;
 		String MyStr = *this;
@@ -111,6 +119,7 @@ PARABOLA_NAMESPACE_BEGIN
 					continue;
 				Current.erase(Current.length() - Iter, Current.length());
 				MyStrList.push_back(Current);
+				storage.push_back(Current);
 				Current.clear();
 				Iter = 0; 
 			}
@@ -123,25 +132,24 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 	/// Splits
-	StringList& String::split(const String &s, char delim, StringList &elems){
+	void String::split(String s, char delim, StringList &elems){
 		std::stringstream ss(s);
 		String item;
 		while(std::getline(ss, item, delim)) {
 			if(!item.empty())
 				elems.push_back(item);
 		}
+
+	};
+
+	StringList String::split(char c, int limitCount, StringList &storage){
+		StringList elems;
+		String mm = *this;
+		split(mm, c, storage);
 		return elems;
 	};
 
-	StringList String::split(char c, int limitCount){
-		StringList elems;
-		return split(*this, c, elems);
-	};
 
-	/// Converts a wide string and sets this string with its content
-	void String::fromWide(std::wstring &wide){
-		this->assign(wide.begin(), wide.end());
-	};
 
 	bool String::startsWith(const String &str){
 		size_t result = find(str);

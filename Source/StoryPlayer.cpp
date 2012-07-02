@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/StoryPlayer.h"
 #include "ParabolaCore/StringStream.h"
 #include <iostream>
@@ -25,7 +27,7 @@ void clean_command(String c){
 	}*/
 }
 
-bool travel_to_next_valid(TextFileStream &stream){
+bool travel_to_next_valid(TextStream &stream){
 	char c = stream.readChar();
 
 	bool comment = false;
@@ -54,7 +56,7 @@ bool travel_to_next_valid(TextFileStream &stream){
 
 };
 
-void StoryPlayer::parseBlock(String token, String args, String styles, TextFileStream &stream, bool hasBlock, String parentFileName){
+void StoryPlayer::parseBlock(String token, String args, String styles, TextStream &stream, bool hasBlock, String parentFileName){
 	token.toLowerCase();
 
 	if(token == "include"){
@@ -68,7 +70,7 @@ void StoryPlayer::parseBlock(String token, String args, String styles, TextFileS
 			path = parentFileName + args;
 		}
 
-		TextFileStream in(path, StreamMode::ReadOnly);
+		TextStream in(path, StreamMode::ReadOnly);
 		if(in.valid()){
 			loadFromStream(in, path);
 			std::cout<<"Include: "<<path<<std::endl;
@@ -92,21 +94,21 @@ void StoryPlayer::parseBlock(String token, String args, String styles, TextFileS
 	}
 };
 
-void StoryPlayer::parseTable(String token, String args, String styles, TextFileStream &stream, bool hasBlock){
+void StoryPlayer::parseTable(String token, String args, String styles, TextStream &stream, bool hasBlock){
 	char c;
 	if(hasBlock){
 		while((c = stream.readChar()) != '}');
 	}
 };
 
-void StoryPlayer::parseStyle(String token, String args, String styles, TextFileStream &stream, bool hasBlock){
+void StoryPlayer::parseStyle(String token, String args, String styles, TextStream &stream, bool hasBlock){
 	char c;
 	if(hasBlock){
 		while((c = stream.readChar()) != '}');
 	}
 };
 
-void StoryPlayer::parseStory(String token, String args, String styles, TextFileStream &stream, bool hasBlock){
+void StoryPlayer::parseStory(String token, String args, String styles, TextStream &stream, bool hasBlock){
 	args.removeCharacter('"');
 	stories[args] = Storyline();
 	Storyline& story = stories[args];
@@ -199,7 +201,7 @@ void StoryPlayer::parseStoryCommand(Storyline &story, String command){
 	};
 
 	bool StoryPlayer::loadStoryFromFile(String fileName){
-		TextFileStream in(fileName, StreamMode::ReadOnly);
+		TextStream in(fileName, StreamMode::ReadOnly);
 
 		if(in.valid()){
 			return loadFromStream(in, fileName);
@@ -210,7 +212,7 @@ void StoryPlayer::parseStoryCommand(Storyline &story, String command){
 		return false;
 	};
 
-	bool StoryPlayer::loadFromStream(TextFileStream &stream, String parentFileName){
+	bool StoryPlayer::loadFromStream(TextStream &stream, String parentFileName){
 		
 		while(!stream.atEnd()){ //while there is file to read
 			if(!travel_to_next_valid(stream)) //travel to the next block beginning
@@ -329,3 +331,5 @@ printf("Read args %s\n", args.c_str());
 	};
 
 PARABOLA_NAMESPACE_END
+
+#endif

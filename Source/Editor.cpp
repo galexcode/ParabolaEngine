@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/Editor.h"
 #include "ParabolaCore/Network.h"
 
@@ -138,3 +140,5 @@ void Editor::runSimulation(){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

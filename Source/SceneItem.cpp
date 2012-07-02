@@ -1,3 +1,4 @@
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/SceneItem.h"
 #include "ParabolaCore/SceneNode.h"
 #include "ParabolaCore/SceneRenderer.h"
@@ -37,3 +38,5 @@ void SceneItem::onRender(SceneRenderer* renderer){
 
 };
 PARABOLA_NAMESPACE_END
+
+#endif

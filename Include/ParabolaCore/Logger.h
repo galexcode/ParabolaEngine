@@ -4,7 +4,19 @@
 #include "Platform.h"
 #include "Strings.h"
 
+#ifdef PARABOLA_ANDROID
+#include "AndroidInterface.h"
+#endif
+
 PARABOLA_NAMESPACE_BEGIN
+
+#ifdef PARABOLA_ANDROID
+#define TESTLOG(x) __android_log_print(ANDROID_LOG_INFO, "ParabolaLogger", (x));
+#define PRINTLOG(tag, formats, ...) __android_log_print(ANDROID_LOG_INFO, tag, formats, __VA_ARGS__);
+#else
+#define TESTLOG(x) printf(x);
+#define PRINTLOG(tag, formats, ...) printf("[%s] ", tag);printf(formats, __VA_ARGS__);
+#endif
 
 namespace LoggerSettings{
 	/// Verbose modes of the logger

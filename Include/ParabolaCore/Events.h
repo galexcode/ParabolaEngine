@@ -1,4 +1,4 @@
-#ifndef PARABOLA_EVENTS_H
+/*#ifndef PARABOLA_EVENTS_H
 #define PARABOLA_EVENTS_H
 
 #include "Platform.h"
@@ -22,7 +22,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		Basically a rip-off from SFML 2
 	*/
-	namespace Keyboard{
+	/*namespace Keyboard{
 		enum  	Key { 
 			A, 
 			B, 
@@ -127,7 +127,7 @@ PARABOLA_NAMESPACE_BEGIN
 			Pause, 
 			KeyCount 
 		};
-	};
+	};*/
 
 	/**
 		\namespace Mouse
@@ -135,7 +135,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		Basically a rip-off from SFML 2
 	*/
-	namespace Mouse{
+	/*namespace Mouse{
 		enum  	Button { 
 			Left, 
 			Right, 
@@ -144,7 +144,7 @@ PARABOLA_NAMESPACE_BEGIN
 			XButton2, 
 			ButtonCount
 		};
-	};
+	};*/
 
 
 
@@ -160,7 +160,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		\todo fix key modifiers on handler dispatching
 	*/
-	class PARABOLA_API EventDispatcher{
+	/*class PARABOLA_API EventDispatcher{
 	public:
 		/// Catches one event from the window event queue.
 		/// Similar to Window->GetEvent() but if send_to_handlers is true
@@ -200,7 +200,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		std::vector<EventHandler*> myHandlers; // For dispatching events
 		Window *Parent;
-	};
+	};*/
 
 	/**
 		\ingroup Core
@@ -210,7 +210,7 @@ PARABOLA_NAMESPACE_BEGIN
 		You can feed your event handlers manually from an event, but that may be not desirable when you own more than one. 
 		Check the EventDispatcher documentation.
 	*/
-	class PARABOLA_API Event : public sf::Event{
+	/*class PARABOLA_API Event : public sf::Event{
 	public:
 		/// Creates an empty event to be filled later
 		Event();
@@ -245,9 +245,6 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Get the wheel delta
 		int getWheelDelta();
 
-		/**
-			\brief Enum lists all the types the event can be of
-		*/
 		enum EventType{
 			Closed,                 
 			Resized,                
@@ -276,4 +273,4 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 PARABOLA_NAMESPACE_END
-#endif
+#endif*/

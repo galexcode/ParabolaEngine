@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/Lighting.h"
 #include "Lighting/LightSystem.h"
 #include "Lighting/Light_Point.h"
@@ -100,3 +102,5 @@ bool LightingEffects::ready(){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

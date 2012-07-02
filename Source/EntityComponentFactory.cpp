@@ -1,3 +1,4 @@
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/EntityComponentFactory.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -21,3 +22,4 @@ EntityComponent* EntityComponentFactory::spawnComponent(const String &componentN
 };
 
 PARABOLA_NAMESPACE_END
+#endif

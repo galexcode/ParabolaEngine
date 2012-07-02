@@ -23,8 +23,10 @@ public:
 	/// Creates a default sprite animation
 	AnimationSprite();
 
+	/// Add a frame
+	void addFrame(Texture* texture, BoundingBox rect, float duration);
 	/// Add a new frame to the animation
-	void addFrame(AnimationFrame &frame);
+	void addFrame2(AnimationFrame &frame);
 
 	/// Get the number of frames in this animation
 	int getFrameCount();
@@ -49,6 +51,8 @@ public:
 		Just specify the width of each frame, and how many you want, and from what texture, and it will do the work.
 	*/
 	int buildFromHorizontalSheet(float frameWidth, int frameCount, Texture* texture);
+
+	sigc::signal<void, Texture*, BoundingBox> onFrameChange;
 
 	class PARABOLA_API AnimationFrame{
 	public:

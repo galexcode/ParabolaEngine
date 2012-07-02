@@ -20,14 +20,14 @@
 #define PARABOLA_KINESISDEBUGDRAW_H
 
 #include "Platform.h"
-#include "Drawable.h"
+//#include "Drawable.h"
 #include <Box2D/Box2D.h>
 
 struct b2AABB;
 PARABOLA_NAMESPACE_BEGIN
 
 class KinesisWorld;
-class SceneRenderer;
+class Renderer;
 
 /**
 	\ingroup Kinesis
@@ -62,9 +62,9 @@ private:
 
 	float PixelsPerMeter;
 	KinesisWorld* myParent;
-	SceneRenderer* renderer;
+	Renderer* renderer;
 
-	sf::RenderTarget *myTarget;
+//	sf::RenderTarget *myTarget;
 };
 
 PARABOLA_NAMESPACE_END

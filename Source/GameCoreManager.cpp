@@ -1,11 +1,42 @@
 #include "ParabolaCore/GameCoreManager.h"
-#include "ParabolaCore/Window.h"
-#include "ParabolaCore/Engine.h"
+//#include "ParabolaCore/Window.h"
+//#include "ParabolaCore/Engine.h"
 
 #include <iostream>
 
 PARABOLA_NAMESPACE_BEGIN
 
+
+/// Construct the default game core manager settings
+GameCoreManager::GameCoreManager(){
+	allowBackgroundUpdates = false;
+};
+
+/// Push an input event into the games
+void GameCoreManager::pushInputEvent(InputEvent &event){
+	for(unsigned int i = 0; i < myExecutionList.size(); i++){
+		myExecutionList[i]->onEvent(event);
+	}
+};
+
+/// Update the state of all games applicable
+void GameCoreManager::update(Time time){
+	for(unsigned int i = 0; i < myExecutionList.size(); i++){
+		myExecutionList[i]->innerUpdate(time);
+		myExecutionList[i]->innerRender();
+	}
+};
+
+/// Simply adds an instance of a game to execution
+/// It will delete the game when appropriate
+void GameCoreManager::addGameForExecution(GameCore* instancedGame){
+	if(instancedGame){
+		myExecutionList.push_back(instancedGame);
+		instancedGame->onCreate();
+	}
+};
+
+	/*
 std::vector<GameCore*> eraseList;
 
 /// Private constructor - can only be instanced by the engine
@@ -117,5 +148,5 @@ GameCore* GameCoreManager::launchFromInstancer(const String &name){
 	else
 		return NULL;
 };
-
+*/
 PARABOLA_NAMESPACE_END

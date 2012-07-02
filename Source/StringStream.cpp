@@ -3,7 +3,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
-
+	/*
 	StringStream::StringStream(){
 		str = NULL;
 	};
@@ -105,6 +105,6 @@ String StringStream::readWord(){
 
 		};
 		return "";
-	};	
+	};	*/
 
 PARABOLA_NAMESPACE_END

@@ -28,16 +28,16 @@ void ContentBank::unloadContentList(ContentList &list){
 };
 
 /// Create a sound buffer
-void ContentBank::createSoundBuffer(const String &name){
+/*void ContentBank::createSoundBuffer(const String &name){
 	sf::SoundBuffer *ss = new sf::SoundBuffer();
 	ss->loadFromFile(name);
 	mySoundResources[name] = ss;
-};
+};*/
 
 /// Get a sound buffer
-sf::SoundBuffer* ContentBank::getSoundBuffer(const String &name){
+/*sf::SoundBuffer* ContentBank::getSoundBuffer(const String &name){
 	return mySoundResources.find(name)->second;
-};
+};*/
 
 /// Temp
 /// Creates a texture from a file

@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include <assert.h>
 #include <string.h> // strstr
 #include <new> // new()
@@ -201,4 +203,5 @@ void RegisterScriptMathComplex(asIScriptEngine *engine)
 
 END_AS_NAMESPACE
 
+#endif
 

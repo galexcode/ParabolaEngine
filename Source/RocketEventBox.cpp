@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/RocketEventBox.h"
 #include "ParabolaCore/Events.h"
 #include "ParabolaCore/RocketPlugin.h"
@@ -6,7 +8,7 @@
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
-	Event convertRocketToEvent(Rocket::Core::Event &event){
+	/*Event convertRocketToEvent(Rocket::Core::Event &event){
 		Event sevent;		
 
 		if(event == "keydown"){
@@ -57,13 +59,13 @@ PARABOLA_NAMESPACE_BEGIN
 		}
 	
 		return sevent;
-	}
+	}*/
 
 RocketEventBox::RocketEventBox(const Rocket::Core::String &tag) : Rocket::Core::Element(tag){
-		if(RocketPlugin::instance().myEventCatchers.find(tag.CString()) == RocketPlugin::instance().myEventCatchers.end())
+		/*if(RocketPlugin::instance().myEventCatchers.find(tag.CString()) == RocketPlugin::instance().myEventCatchers.end())
 			RocketPlugin::instance().myEventCatchers[tag.CString()] = this;
 
-		myTagName = tag.CString();
+		myTagName = tag.CString();*/
 
 		//Rocket::Core::Element::Focus();
 };
@@ -76,7 +78,7 @@ RocketEventBox::~RocketEventBox(){
 // Called for every event sent to this element or one of its descendants.
 // @param[in] event The event to process.
 void RocketEventBox::ProcessEvent(Rocket::Core::Event& event){
-		Rocket::Core::Element::ProcessEvent(event);
+	/*	Rocket::Core::Element::ProcessEvent(event);
 		
 		onRawEvent(event);
 
@@ -84,8 +86,10 @@ void RocketEventBox::ProcessEvent(Rocket::Core::Event& event){
 			//translate
 
 			onTranslatedEvent.emit(convertRocketToEvent(event));
-		}
+		}*/
 		//Rocket::Core::Element::Focus();
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

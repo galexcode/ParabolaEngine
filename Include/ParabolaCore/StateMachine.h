@@ -9,7 +9,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
-	class SceneRenderer;
+	class Renderer;
 	class Event;
 
 	/**
@@ -61,13 +61,13 @@ PARABOLA_NAMESPACE_BEGIN
 		bool deliverData(int stateID, String dataID, void* data);
 
 		/// Updates the right states 
-		void updateStates(float elapsedTime);
+		void updateStates(Time &time);
 
 		/// Delivers the event to the right events
-		void propagateEvent(const Event &event);
+		void propagateEvent(InputEvent &event);
 
 		/// Draws the right states
-		void drawStates(SceneRenderer *renderer);
+		void drawStates(Renderer *renderer);
 
 	private:
 		std::map<int, StateMachineNode*> nodes;

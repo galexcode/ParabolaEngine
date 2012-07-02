@@ -1,3 +1,4 @@
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/Localization.h"
 
 #ifdef PARABOLA_WINDOWS
@@ -123,3 +124,5 @@ String Localization::getUserLanguage(){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

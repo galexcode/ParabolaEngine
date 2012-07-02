@@ -30,7 +30,7 @@ void BoundingBox::set(float left, float top, float width, float height){
 
 void BoundingBox::move(float x, float y){
 	Position.x += x;
-	Position.y += y;		
+	Position.y += y;	
 };
 
 /// Set the box position

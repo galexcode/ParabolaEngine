@@ -6,7 +6,6 @@
 #include "ContentList.h"
 #include "ContentLoader.h"
 #include "Textures.h"
-#include <SFML/Audio/SoundBuffer.hpp>
 #include <map>
 
 PARABOLA_NAMESPACE_BEGIN
@@ -57,7 +56,7 @@ public:
 	void createSoundBuffer(const String &name);
 
 	/// Get a previously loaded sound buffer
-	sf::SoundBuffer* getSoundBuffer(const String &name);
+//	sf::SoundBuffer* getSoundBuffer(const String &name);
 
 	/// Temp
 	/// Creates a texture from a file
@@ -82,7 +81,7 @@ private:
 
 	//Resource Pools
 	std::map<String, Texture*> myTextureResources;
-	std::map<String, sf::SoundBuffer*> mySoundResources;
+	//std::map<String, sf::SoundBuffer*> mySoundResources;
 
 	/// Owns a loader
 	ContentLoader myLoader;

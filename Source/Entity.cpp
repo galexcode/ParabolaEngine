@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/Entity.h"
 #include "ParabolaCore/SceneNode.h"
 #include "ParabolaCore/SceneRenderer.h"
@@ -75,3 +77,5 @@ void Entity::resetPosition(){
 		myPosition = getParentSceneNode()->getGlobalPosition();
 };
 PARABOLA_NAMESPACE_END
+
+#endif

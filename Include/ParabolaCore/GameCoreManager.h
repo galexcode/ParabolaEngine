@@ -2,25 +2,16 @@
 #define PARABOLA_GAMECOREMANAGER_H
 
 #include "Platform.h"
-#include "LinkedPointer.h"
-
 #include "GameCore.h"
-#include "GameCoreInstancer.h"
-
-#include <SFML/System/Clock.hpp>
-
-#include <list>
-#include <map>
+#include "InputEvent.h"
+#include <vector>
 
 PARABOLA_NAMESPACE_BEGIN
 
-	class Engine;
-	class Event;
-
-	/**
-		\ingroup Core
-		\class GameCoreManager
-		\brief Represents the multi task manager that an Engine contains.
+/**
+	\ingroup Core
+	\class GameCoreManager
+	\brief Manager for multi tasking of games
 
 		It manages the execution of concurrent games. There are two dualities to note:
 
@@ -41,91 +32,29 @@ PARABOLA_NAMESPACE_BEGIN
 		otherwise the engine destroys itself.
 
 		\note Cannot be instantiated, it comes only with the engine instance.
-	*/
-	class PARABOLA_API GameCoreManager{
-	public:
-		/// Safely destroys the game manager
-		~GameCoreManager();
+*/
+class PARABOLA_API GameCoreManager{
+public:
+	/// Construct the default game core manager settings
+	GameCoreManager();
 
-		/// Pushes the event to the active drawing game
-		void pushEvent(const Event &event);
+	/// Push an input event into the games
+	void pushInputEvent(InputEvent &event);
 
-		/// Normally called when the engine has no window, therefore the game has to fetch events itself
-		void checkEvents();
+	/// Update the state of all games applicable
+	void update(Time time);
 
-		/// Make the games update
-		void update();
+	/// Simply adds an instance of a game to execution
+	/// It will delete the game when appropriate
+	void addGameForExecution(GameCore* instancedGame);
 
-		/// Make the active drawing game render itself
-		void draw();
+private:
+	/// All games currently running, not necessarily updating or rendering
+	std::vector<GameCore*> myExecutionList;
 
-		/// Schedules the destruction of the game for when the update step ends.
-		void destroy(GameCore *game);
-
-		/// Instances the game of type T
-		/// execute boolean will decide if the game also executes directly or not.
-		template<typename T>
-		GameCore* instance(const String &name, bool execute = true);
-
-		/// Registers an instancer so it can launch games later 
-		/// using for example launchFromInstancer(name) by passing the same name used here
-		/// In a home application, you would see this name as the icon label,
-		/// and when clicking it, it would launch your game, the way you want to.
-		/// Returns the name that the instancer was registered under,
-		/// It will be equal to the string passed, unless it was already taken.
-		String registerInstancer(GameInstancerInterface *instancer, const String &name);
-
-		/// Searches for the desired instancer and launches the game
-		GameCore* launchFromInstancer(const String &name);
-
-		/// Get the number of alive games, the ones instantiated
-		int aliveGameCount();
-
-	private:
-		/// Private constructor - can only be instanced by the engine
-		GameCoreManager(Engine *parent);
-
-		/// All games alive in memory.
-		/// Uses smart pointers so it can be destroyed anywhere
-		std::list<linked_ptr<GameCore> > myGameList;
-
-		/// The games actually running
-		std::list<linked_ptr<GameCore> > myExecutionList;
-
-		/// Game instancers
-		std::map<String, GameInstancerInterface* > myGameInstancers;
-
-		/// A possible home app
-		linked_ptr<GameCore> myHomeApp;
-
-		/// Clock for updating games
-		sf::Clock clock;
-
-		/// Parent Engine
-		Engine *myParent;
-		friend class Engine;
-	};
-
-	/// Instances the game of type T
-	/// execute boolean will decide if the game also executes directly or not.
-	template<typename T>
-	GameCore* GameCoreManager::instance(const String &name, bool execute){
-		linked_ptr<GameCore> game;
-		game = reinterpret_cast<GameCore*>(new T());
-		game->myName = name;
-		game->myParent = this;
-		game->setWindow(myParent->getWindow());
-		myGameList.push_back(game);
-
-		game->innerCreate();
-
-		if(execute){
-			myExecutionList.push_front(game);
-			game->innerActivate();
-		}
-
-		return game.get();
-	};
+	/// Variable decides whether a game can be updated without being the active one
+	bool allowBackgroundUpdates;
+};
 
 PARABOLA_NAMESPACE_END
 #endif

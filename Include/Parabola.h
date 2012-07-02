@@ -20,11 +20,4 @@
 #include "ParabolaCore/Scripting.h"
 #include "ParabolaCore/Sound.h"
 
-/************************************************************************/
-/* Including the external libraries                                     */
-/************************************************************************/
-
-#include <SFML/System.hpp>
-#include <SFML/Network.hpp>
-
 #endif

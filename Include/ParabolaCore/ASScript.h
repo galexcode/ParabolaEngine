@@ -120,11 +120,11 @@ private:
 	\brief Implementation of the AngelScript binary stream.
 
 	Used to read/write byte code to files.
-*/
+*//*
 class PARABOLA_API ASBinaryStream : public asIBinaryStream{
 public:
 	/// Initializes the stream on the desired script
-	ASBinaryStream(const String &fileName, StreamMode::AccessModes openMode);
+	ASBinaryStream(const String &fileName, IODevice::OpenModes openMode);
 
 	/// Writes data to the stream
 	void Write(const void *ptr, asUINT size);
@@ -135,6 +135,6 @@ public:
 private:
 	FileStream stream;
 };
-
+*/
 PARABOLA_NAMESPACE_END
 #endif

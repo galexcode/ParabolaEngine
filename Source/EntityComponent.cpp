@@ -1,3 +1,4 @@
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/EntityComponent.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -24,3 +25,5 @@ Entity* EntityComponent::getParentEntity(){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

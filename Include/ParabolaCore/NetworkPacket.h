@@ -5,7 +5,7 @@
 #include "NetworkSocket.h"
 #include "Strings.h"
 #include <enet/enet.h>
-#include <SFML/Network/Packet.hpp>
+//#include <SFML/Network/Packet.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
 /**
@@ -33,7 +33,7 @@ public:
 	String toString();
 
 	/// Get the packet as an SFML packet
-	sf::Packet asSFMLPacket();
+	//sf::Packet asSFMLPacket();
 
 private:
 	ENetPacket *myPacket;

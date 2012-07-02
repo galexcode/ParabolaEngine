@@ -8,16 +8,15 @@
 #include "Animation.h"
 #include "ReferenceCountable.h"
 
-#include <windows.h>
-#include <GL/GL.h>
-#include <GL/GLU.h>
+#include "ParticlePointRenderer.h"
 
 #include "SPARK.h"
-#include "SPARK_GL.h"
 
 PARABOLA_NAMESPACE_BEGIN
+
 class ParticleSystem;
-class SceneRenderer;
+
+
 /**
 	\ingroup Graphics
 	\class ParticleRenderer
@@ -25,7 +24,7 @@ class SceneRenderer;
 */
 class PARABOLA_API ParticleRenderer{
 public:	
-	SPK::Ref<SPK::GL::GLRenderer> myRenderer;
+	//SPK::Ref<SPK::GL::GLRenderer> myRenderer;
 };
 
 /**
@@ -35,8 +34,8 @@ public:
 */
 class PARABOLA_API ParticleTexture{
 public:
-	bool loadTexture(const String &path);
-	GLuint myTextureID;
+	//bool loadTexture(const String &path);
+	//GLuint myTextureID;
 };
 
 /**
@@ -114,7 +113,7 @@ public:
 	}
 
 	void setRenderer(ParticleRenderer &pRenderer){
-		myGroup->setRenderer(pRenderer.myRenderer);
+//		myGroup->setRenderer(pRenderer.myRenderer);
 	}
 
 	SPK::Ref<SPK::Group> myGroup;
@@ -129,13 +128,16 @@ public:
 	\todo Remove the clamp step from constructor
 	...
 */
-class PARABOLA_API ParticleSystem: public RefCountable{
+class PARABOLA_API ParticleSystem: public RefCountable, public Drawable{
 public:
 	/// Creates an empty Particle System
 	ParticleSystem();
 
 	/// Create a named, empty particle system 
 	ParticleSystem(const String &name);
+
+	/// Called to order rendering, when the drawing was issued in the traditional way ( m_renderer->draw(m_sprite) )
+	void onDraw(Renderer* renderer);
 
 	/// Loads from a script
 	bool loadFromScript(const String &filePath);
@@ -159,7 +161,7 @@ public:
 	void update(float elapsedTime);
 
 	/// Draw the system
-	void draw(SceneRenderer* renderer);
+//	void draw(SceneRenderer* renderer);
 
 	/// Get the internal spark system
 	SPK::Ref<SPK::System> getSparkSystem();

@@ -49,7 +49,7 @@ namespace Math{
 	/// Computes the radian angle between two points (x1,y1) and (x2,y2)
 	PARABOLA_API double computeAngle(int x1, int y1, int x2, int y2);
 	/// Computes the radian angle between two points (x1,y1) and (x2,y2)
-	PARABOLA_API double computeAngle(double x1, double y1, double x2, double y2);
+	PARABOLA_API double computeAngle(float x1, float y1, float x2, float y2);
 
 
 	/**

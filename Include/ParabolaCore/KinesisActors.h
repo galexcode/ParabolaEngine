@@ -21,11 +21,19 @@ public:
 	/// Creates a body actor from a body
 	KinesisBodyActor(b2Body *body);
 
+	/// Get the angle of rotation of the body
+	float getAngle();
+
+	/// Get angle in degrees, directly compatible with SFML
+	float getDegreeAngle();
+
 	void setVelocity(Vec2f velocity);
 
 	Vec2f getVelocity();
 
 	Vec2f getPosition();
+
+	void setPosition(Vec2f position);
 
 	/// Set the angle of rotation of the body, it is 0.f by default and is facing right, expressed in radians
 	void setAngle(float radians);
@@ -33,7 +41,8 @@ public:
 	/// Choose whether this body is allowed to rotate
 	void setFixedRotation(bool fixedRotation);
 
-	b2Body* myBody;
+	b2Body* m_body;
+	void* m_userdata;
 };
 
 /**

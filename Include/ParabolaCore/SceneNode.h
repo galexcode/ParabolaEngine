@@ -9,8 +9,6 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
-typedef sf::Transform Transform;
-
 class SceneGraph;
 class SceneItem;
 class SceneLayer;

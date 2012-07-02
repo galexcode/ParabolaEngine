@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/ConfigurationFile.h"
 #include "ParabolaCore/TextFileStream.h"
 #include "ParabolaCore/Strings.h"
@@ -35,7 +37,7 @@ namespace pE{
 	};
 
 	bool ConfigurationFile::SaveToFile(String File){
-		TextFileStream out(File, StreamMode::WriteOnly);
+		TextStream out(File, StreamMode::WriteOnly);
 		if(!out.valid()){
 			//failed to load for writing
 			return false;
@@ -231,3 +233,5 @@ namespace pE{
 
 	}
 };
+
+#endif

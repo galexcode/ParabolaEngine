@@ -101,7 +101,7 @@ namespace SPK
 			if (file)
 			{
 				std::vector<BlockInfo> sortedBlocks(blocks.begin(),blocks.end());
-				std::sort(sortedBlocks.begin(),sortedBlocks.end(),compareAllocTime);
+			//	std::sort(sortedBlocks.begin(),sortedBlocks.end(),compareAllocTime); ///LOOKUP
 
 				time_t currentTime = time(NULL);
 				tm* timeinfo = localtime(&currentTime);

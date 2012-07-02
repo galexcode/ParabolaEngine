@@ -2,17 +2,18 @@
 #define PARABOLA_KINESISWORLD_H
 
 #include "Platform.h"
+#include "Strings.h"
 #include <Box2D/Box2D.h>
 #include "Vectors.h"
 #include "KinesisDebugDraw.h"
 #include "KinesisActors.h"
-#include <SFML/System.hpp>
-#include "KinesisForge.h"
-#include "KinesisContactListener.h"
-#include "KinesisQueryCallback.h"
+
+//#include "KinesisForge.h"
+//#include "KinesisContactListener.h"
+//#include "KinesisQueryCallback.h"
 
 PARABOLA_NAMESPACE_BEGIN
-class SceneRenderer;
+class Renderer;
 	
 /**
 	\ingroup Kinesis
@@ -34,13 +35,13 @@ public:
 	float getPixelRatio();
 
 	/// Draw the simulation in test mode through a renderer
-	void drawDebug(SceneRenderer* renderer);
+	void drawDebugShapes(Renderer* renderer);
 			
 	/// Update the simulation
 	void update(float elapsedTime);
 
 	/// Destroy a body by its actor
-	void destroyBodyActor(KinesisBodyActor *actor);
+//	void destroyBodyActor(KinesisBodyActor *actor);
 
 
 		/**
@@ -76,7 +77,7 @@ public:
 		bool IsPickingEnabled();
 		void UpdatePicking(float x, float y);
 
-		void CreateQuickCircle(float x, float y, float r);
+		b2Body* CreateQuickCircle(float x, float y, float r);
 		KinesisBodyActor* CreateQuickBox(float x, float y, float width, float height);
 		void CreateQuickLine(float x, float y, float xx, float yy);
 		b2Body* CreateStaticBox(float x, float y, float width, float height);
@@ -96,7 +97,7 @@ public:
 		/**
 			\brief d
 		*/
-		KinesisDebugDraw* GetDebugRenderer();
+		//KinesisDebugDraw* GetDebugRenderer();
 		
 
 	private:
@@ -107,13 +108,13 @@ public:
 		
 		KinesisDebugDraw myDebugDraw;
 
-		KinesisContactListener contactListener;
-		mutable sf::Mutex mutex;
+		//KinesisContactListener contactListener;
+//		mutable sf::Mutex mutex;
 
 		b2MouseJoint* pickerMouseJoint;
 		b2Body* defaultGroundBody;
 		
-		friend class SceneRenderer;
+		//friend class SceneRenderer;
 		
 	};
 

@@ -74,11 +74,11 @@ namespace PlayModes{
 		
 
 	private:
-		bool loadFromStream(TextFileStream &stream, String parentFileName);
-		void parseBlock(String token, String args, String styles, TextFileStream &stream, bool hasBlock, String parentFileName);
-		void parseTable(String token, String args, String styles, TextFileStream &stream, bool hasBlock);
-		void parseStyle(String token, String args, String styles, TextFileStream &stream, bool hasBlock);
-		void parseStory(String token, String args, String styles, TextFileStream &stream, bool hasBlock);
+		bool loadFromStream(TextStream &stream, String parentFileName);
+		void parseBlock(String token, String args, String styles, TextStream &stream, bool hasBlock, String parentFileName);
+		void parseTable(String token, String args, String styles, TextStream &stream, bool hasBlock);
+		void parseStyle(String token, String args, String styles, TextStream &stream, bool hasBlock);
+		void parseStory(String token, String args, String styles, TextStream &stream, bool hasBlock);
 
 		void parseStoryCommand(Storyline &story, String command);
 

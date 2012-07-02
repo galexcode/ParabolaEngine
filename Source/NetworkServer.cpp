@@ -13,15 +13,17 @@ NetworkServer::NetworkServer() : NetworkSocket(){
 	myListeningState = true;
 	myClientCount = 0;
 	myMaxClientCount = 100;
+
+	enet_initialize();
 };
 
 /// Creates a network server and registers it
-NetworkServer::NetworkServer(NetworkThread &network) : NetworkSocket(network){
+/*NetworkServer::NetworkServer(NetworkThread &network) : NetworkSocket(network){
 	myHost = NULL;
 	myListeningState = true;
 	myClientCount = 0;
 	myMaxClientCount = 100;
-};
+};*/
 
 /// Starts listening for connections
 bool NetworkServer::start(const String &address, int port){
@@ -97,8 +99,8 @@ bool NetworkServer::send(const String &message, bool reliable){
 
 	if(reliable)
 		packet = enet_packet_create(message.c_str(), message.size(), ENET_PACKET_FLAG_RELIABLE);
-	else
-		packet = enet_packet_create(message.c_str(), message.size(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
+	/*else
+		packet = enet_packet_create(message.c_str(), message.size(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);*/
 
 	enet_host_broadcast(myHost, 0, packet);
 	return true;
@@ -107,7 +109,7 @@ bool NetworkServer::send(const String &message, bool reliable){
 /// Broadcasts a SFML Packet to all clients connected
 /// If reliable is true, the packet will be delivered safely
 /// Otherwise, it may be lost.
-bool NetworkServer::send(const sf::Packet &packet, bool reliable){
+/*bool NetworkServer::send(const sf::Packet &packet, bool reliable){
 	if(!myHost) return false;
 
 	ENetPacket* epacket;
@@ -119,7 +121,7 @@ bool NetworkServer::send(const sf::Packet &packet, bool reliable){
 
 	enet_host_broadcast(myHost, 0, epacket);
 	return true;
-};
+};*/
 
 /// Broadcasts raw data
 /// If reliable is true, the packet will be delivered safely
@@ -130,8 +132,8 @@ bool NetworkServer::send(void * data, Uint32 dataSize, bool reliable){
 
 	if(reliable)
 		packet = enet_packet_create(data, dataSize, ENET_PACKET_FLAG_RELIABLE);
-	else
-		packet = enet_packet_create(data, dataSize, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
+/*	else
+		packet = enet_packet_create(data, dataSize, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);*/
 
 	enet_host_broadcast(myHost, 0, packet);
 	return true;
@@ -178,7 +180,7 @@ void NetworkServer::handleEvent(ENetEvent *event){
 			{
 				if(event->peer->data){
 					// its a known peer
-					onClientDisconnect((NetworkServerPeer*)event->peer->data);
+					//onClientDisconnect((NetworkServerPeer*)event->peer->data);
 					myPeers.erase(std::find(myPeers.begin(), myPeers.end(), (NetworkServerPeer*)event->peer->data ));
 					myClientCount --;
 				}
@@ -188,8 +190,11 @@ void NetworkServer::handleEvent(ENetEvent *event){
 			{
 				if(event->peer->data){
 					NetworkPacket pack(event);
+					//event->packet->data
+					String ss((const char*)event->packet->data, event->packet->dataLength);
 
-					// its a known peer
+					//cout<<"Packet: "<<ss<<endl;
+					//// its a known peer
 					onDataReceived((NetworkServerPeer*)event->peer->data, &pack);
 				}
 

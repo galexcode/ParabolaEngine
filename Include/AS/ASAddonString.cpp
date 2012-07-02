@@ -769,7 +769,3 @@ void RegisterStdString(asIScriptEngine * engine)
 }
 
 END_AS_NAMESPACE
-
-
-
-

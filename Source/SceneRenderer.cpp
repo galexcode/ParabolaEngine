@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/SceneRenderer.h"
 #include "ParabolaCore/SceneGraph.h"
 #include "ParabolaCore/RocketContext.h"
@@ -156,3 +158,5 @@ void SceneRenderer::drawAt(RenderTarget &target, Drawable &drawable, bool keepVi
 
 
 PARABOLA_NAMESPACE_END
+
+#endif

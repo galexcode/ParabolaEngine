@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/EntityScript.h"
 #include "ParabolaCore/ASEngine.h"
 
@@ -25,3 +27,5 @@ void EntityScript::onAttach(){
 
 
 PARABOLA_NAMESPACE_END
+
+#endif

@@ -1,3 +1,5 @@
+
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/SceneNode.h"
 #include "ParabolaCore/SceneItem.h"
 #include "ParabolaCore/Entity.h"
@@ -119,3 +121,5 @@ void SceneNode::previewStructure(const String &data){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

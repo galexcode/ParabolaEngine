@@ -40,7 +40,7 @@ namespace Math{
 			return atan2((double)(y2 - y1), (double)(x2 - x1));
 		};
 
-		double computeAngle(double x1, double y1, double x2, double y2){
+		double computeAngle(float x1, float y1, float x2, float y2){
 			return atan2((y2 - y1), (x2 - x1));
 		};
 };

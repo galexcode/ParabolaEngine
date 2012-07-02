@@ -1,10 +1,73 @@
 #include "ParabolaCore/GameCore.h"
-#include "ParabolaCore/Window.h"
-#include "ParabolaCore/SceneRenderer.h"
-#include "ParabolaCore/GameCoreManager.h"
+#include "ParabolaCore/Engine.h"
+
+#include <iostream>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
+/// Construct the game, its mandatory to call this base constructor when implementing GameCore
+GameCore::GameCore() : m_stackedTime(0.f), m_updateStep(1.f / 60.f){
+#ifdef PARABOLA_ANDROID
+	m_updateStep = 1.f / 30.f;
+#endif
+};
+
+/// Get the window/screen handler
+Window& GameCore::getWindow(){
+	return Engine::instance()->getWindow();
+};
+
+/// Shutdown this game immediately
+void GameCore::close(){
+	//debug
+	Application::myInstance->m_running = false;
+};
+
+/// Set the fixed update step, or, the amount of time, in seconds, that will take between each update.
+void GameCore::setUpdateStep(float step){
+	m_updateStep = step;
+};
+
+/// Callback for updating the game
+void GameCore::onUpdate(Time time){
+
+};
+
+/// Callback for rendering a frame
+void GameCore::onRender(){
+
+};
+
+/// Callback when starting to execute the game
+void GameCore::onCreate(){
+
+};
+
+/// Callback when an event happens
+void GameCore::onEvent(InputEvent &event){
+
+};
+
+/// Inner update of the game
+/// Will handle fixed update steps
+/// Callbacks to onUpdate(Time time) when appropriate
+void GameCore::innerUpdate(Time time){
+	m_stackedTime += time.asSeconds();
+	while(m_stackedTime >= m_updateStep){
+		onUpdate(Time::fromSeconds(m_updateStep));
+		m_stackedTime -= m_updateStep;
+	}
+};
+
+/// Inner render of the game
+/// Callbacks to onRender()
+void GameCore::innerRender(){
+	onRender();
+};
+
+
+	/*
 /// Creates a fresh game
 /// Defaults at 60Hz update rate.
 GameCore::GameCore() : fixedUpdateStep(1.f / 60.f), myParent(NULL), accumulatedTime(0.f), myWindowTitle("Default Game Name"), activeDrawing(false){
@@ -210,6 +273,6 @@ void GameCore::removeContentBank(const String &name){
 		delete it->second;
 		myContentBanks.erase(it);
 	}
-};
+};*/
 
 PARABOLA_NAMESPACE_END

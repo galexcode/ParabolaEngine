@@ -6,6 +6,9 @@
 
 #include "ParabolaCore/RocketDocument.h"
 
+#include <iostream>
+using namespace std;
+
 PARABOLA_NAMESPACE_BEGIN
 
 void AnimationFactory::addAnimation(AnimationInterface* animation){
@@ -42,6 +45,7 @@ void AnimationFactory::addRocketElementContent(RocketElement* element, const Str
 void AnimationFactory::update(float elapsedTime){
 	for(std::vector<AnimationInterface*>::iterator it = myAnimations.begin(); it != myAnimations.end(); it++){
 		(*it)->update(elapsedTime);
+		//cout<<"Updating the animations.."<<endl;
 	}
 };
 

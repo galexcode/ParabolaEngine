@@ -22,30 +22,73 @@ freely, subject to the following restrictions:
 #define PARABOLA_ENGINE_H
 
 #include "Platform.h"
-#include "EngineProfile.h"
-#include "StringList.h"
-#include "LinkedPointer.h"
+#include "Clock.h"
+#include "Strings.h"
 #include "GameCoreManager.h"
+#include "Window.h"
 
 PARABOLA_NAMESPACE_BEGIN
-	class Window;
-	/**
-		\ingroup Core
-		\class Engine
-		\brief Represents the engine itself as the environment to run games.
 
-		\note Only one instance is allowed.
+/**
+	\ingroup Core
+	\class Engine
+	\brief Game engine environment. Handles everything in the application.	
 
-		...
+	@author Artur Moreira
+*/
+class PARABOLA_API Engine{
+public:
+	/// Default construction
+	Engine();
 
-		@author Artur Moreira
-	*/
-	class PARABOLA_API Engine{
+	/// Safely destructs the engine
+	virtual ~Engine();
+
+	/// Automatic update of the engine state
+	/// Will fetch pending events, update the games at fixed steps and do rendering
+	void update();
+
+	/// Launches the necessary services, like the window, if on a pc
+	void create();
+
+	/// Get the window/screen of this environment
+	Window& getWindow();
+
+	/// Get the game manager
+	GameCoreManager& getGameManager();
+
+	class Settings{
 	public:
-		/// Safely destructs the engine
-		virtual ~Engine();
+		Settings(){
+			windowWidth = 1024;
+			windowHeight = 768;
+		}
+		/// Window dimensions in the applicable platforms
+		int windowWidth;
+		int windowHeight;
+	};	
 
-		/// Begins destruction of the engine
+	/// Get the instance of the engine
+	static Engine* instance();
+
+private:
+	GameCoreManager myGameManager;
+	/// The engine always runs on a graphic area
+	/// That may be the mobile phone screen, or an application window
+	Window myWindow;
+	/// Clock of the engine
+	Clock myClock;
+	Int64 myLastUpdate;
+	/// Startup settings
+	Settings mySettings;
+	/// The unique instance of the engine
+	static Engine *myInstance;
+};
+
+
+
+
+		/*/// Begins destruction of the engine
 		void close();
 
 		/// Creates the engine if it was not created already
@@ -129,8 +172,8 @@ PARABOLA_NAMESPACE_BEGIN
 		int as_gameCount();
 		String as_gameNameAt(int i);
 		void dummy();
-		void as_createScriptGame(const String &name, const String &entry);
-	};
+		void as_createScriptGame(const String &name, const String &entry);*/
+
 
 PARABOLA_NAMESPACE_END
 #endif

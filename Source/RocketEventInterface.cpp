@@ -26,9 +26,9 @@ PARABOLA_NAMESPACE_BEGIN
 		//void* ptr = doc->myMainScript->getModule()->GetAddressOfGlobalVar(doc->myMainScript->getModule()->GetGlobalVarIndexByName("element"));
 	
 		doc->processInlineEvent(value.CString(), event);
-		if(myDispatcher){
+		/*if(myDispatcher){
 			myDispatcher->onEventTriggered.emit(value.CString());
-		}
+		}*/
 	}
 
 	// Destroys the event.

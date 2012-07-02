@@ -1,3 +1,4 @@
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/SoundSharedDevice.h"
 #include "ParabolaCore/SoundPlayer.h"
 
@@ -22,3 +23,5 @@ void SoundSharedDevice::unsign(SoundPlayer *player){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

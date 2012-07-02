@@ -56,18 +56,18 @@ PARABOLA_NAMESPACE_BEGIN
 	/// Delivers an event to the state
 	/// If returns true, it will be propagated to the rest of the stack
 	/// Otherwise it will remain under this.
-	bool StateMachineNode::onEvent(const Event &event){
+	bool StateMachineNode::onEvent(InputEvent &event){
 		return true;
 	};
 
-	bool StateMachineNode::onUpdate(float elapsedTime){
+	bool StateMachineNode::onUpdate(Time &time){
 		return true;
 	};
 
 	/// Draws the state with the current renderer
 	/// If returns true, other states in the stack will be rendered
 	/// Otherwise this state has exclusivity over drawing
-	bool StateMachineNode::onDraw(SceneRenderer *renderer){
+	bool StateMachineNode::onDraw(Renderer *renderer){
 		return true;
 	};
 

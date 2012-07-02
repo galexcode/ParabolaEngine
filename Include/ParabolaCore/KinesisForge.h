@@ -3,7 +3,8 @@
 
 #include "Platform.h"
 
-#include "SceneGraph.h"
+#include "KinesisActors.h"
+//#include "SceneGraph.h"
 #include <Box2D/Box2D.h>
 #include "Strings.h"
 #include "Vectors.h"
@@ -12,6 +13,21 @@
 
 PARABOLA_NAMESPACE_BEGIN
 	class KinesisWorld;
+
+
+class PARABOLA_API KinesisForge{
+public:
+	/// Builds the forge over a world, it must stay alive while the forge is doing any operations on it
+	KinesisForge(KinesisWorld* workWorld);
+
+	/// Creates a rope in the simulation, not attached to anything unless specified
+	std::vector<KinesisBodyActor*> createRope(const Vec2f &position, float angle, float ropeLength, int segmentCount, float segmentWidth);
+
+private:
+	KinesisWorld* m_world;
+};
+
+
 
 	/**
 		\class KinesisWorldDefinition

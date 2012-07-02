@@ -1,8 +1,70 @@
 #include "ParabolaCore/Engine.h"
 #include "ParabolaCore/Window.h"
+#include "ParabolaCore/Application.h"
+
+#include <iostream>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
+	
+/// The unique instance of the engine
+Engine* Engine::myInstance = NULL;
 
+/// Get the instance of the engine
+Engine* Engine::instance(){
+	return myInstance;
+};
+
+/// Default construction
+Engine::Engine(){
+	myInstance = this;
+	myLastUpdate = 0;
+};
+
+/// Safely destructs the engine
+Engine::~Engine(){
+	//	shutdownSubsystems();
+		//myInstance = NULL;
+};
+
+/// Get the game manager
+GameCoreManager& Engine::getGameManager(){
+	return myGameManager;
+};
+
+/// Get the window/screen of this environment
+Window& Engine::getWindow(){
+	return myWindow;
+};
+
+/// Automatic update of the engine state
+/// Will fetch pending events, update the games at fixed steps and do rendering
+void Engine::update(){
+	// Get application events
+	while(Application::myInstance->pendingEvents.size() > 0){
+		InputEvent ev = Application::myInstance->pendingEvents.back();
+		//send
+		myGameManager.pushInputEvent(ev);
+		//destroy
+		Application::myInstance->pendingEvents.pop_back();
+	}
+
+	InputEvent ev;
+	while(myWindow.pollEvent(ev)){
+		myGameManager.pushInputEvent(ev);
+	}
+	 
+	Int64 curr_time = myClock.getElapsedTime().asMicroseconds();
+	myGameManager.update(Time(curr_time - myLastUpdate));
+	myLastUpdate = curr_time;
+};
+
+/// Launches the necessary services, like the window, if on a pc
+void Engine::create(){
+	myWindow.create(mySettings.windowWidth,mySettings.windowHeight);
+};
+
+	/*
 /// Static instance of the engine, singleton
 Engine* Engine::myInstance = NULL;
 
@@ -14,11 +76,6 @@ Engine::Engine(const EngineProfile &profile) : myRunning(false), myGames(this) {
 	myProfile.myParent = this;
 };
 
-/// Safely destructs the engine
-Engine::~Engine(){
-	shutdownSubsystems();
-	myInstance = NULL;
-};
 
 /// Destroys the engine environment
 void Engine::destroy(){
@@ -165,6 +222,7 @@ Window* Engine::getWindow(){
 void Engine::close(){	
 	myRunning = false;
 };
-
+*/
 
 PARABOLA_NAMESPACE_END
+

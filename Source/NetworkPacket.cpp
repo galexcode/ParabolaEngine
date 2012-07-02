@@ -28,10 +28,10 @@ void* NetworkPacket::getRawData(){
 };
 
 /// Get the packet as an SFML packet
-sf::Packet NetworkPacket::asSFMLPacket(){
+/*sf::Packet NetworkPacket::asSFMLPacket(){
 	sf::Packet p;
 	p.append(myPacket->data, myPacket->dataLength);
 	return p;
-};
+};*/
 
 PARABOLA_NAMESPACE_END

@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/StoryAction.h"
 #include "ParabolaCore/StoryPlayer.h"
 #include "ParabolaCore/SoundPlayer.h"
@@ -92,3 +94,5 @@ int StoryActionPlaySound::onUpdate(double deltaTime){
 	return NO_LOCK;
 };
 PARABOLA_NAMESPACE_END
+
+#endif

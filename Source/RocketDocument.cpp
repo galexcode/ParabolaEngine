@@ -5,8 +5,17 @@ PARABOLA_NAMESPACE_BEGIN
 
 RocketDocument::RocketDocument(Rocket::Core::String tagName) : Rocket::Core::ElementDocument(tagName){
 		myMainScript = NULL;
-
+		scriptCallStack = 0;
+		 
 		myScriptEngine.exportStrings();
+		myScriptEngine.exportBasicGraphics();
+		myScriptEngine.exportBasicScriptInformation();
+		myScriptEngine.exportRocketUi();
+		myScriptEngine.exportAnimations();
+		myScriptEngine.exportRocketScripting(this);
+		 
+		/*
+		
 		myScriptEngine.exportFiles();
 		myScriptEngine.exportMath();
 		myScriptEngine.exportBasicEngine();
@@ -16,21 +25,10 @@ RocketDocument::RocketDocument(Rocket::Core::String tagName) : Rocket::Core::Ele
 		myScriptEngine.exportKinesis();	
 		myScriptEngine.exportContentBanks();
 		myScriptEngine.exportSoundGameCore();
-		myScriptEngine.exportRocketUi();
-		myScriptEngine.exportAnimations();
-		myScriptEngine.exportRocketScripting(this);
-
-		scriptCallStack = 0;
 		
-		//myScriptEngine.exportReferenceDataType("RocketContext");
-
-		//myScriptEngine.getASEngine()->RegisterObjectMethod("RocketContext", "RocketDocument@ showDocument(string)", asMETHOD(RocketContext, showDocument), asCALL_THISCALL);
-
-
+		*/
 
 		myScriptEngine.exportGlobalProperty("AnimationFactory animator", &myAnimationFactory);
-
-				
 }
 
 void RocketDocument::processInlineEvent(const String& eventValue, Rocket::Core::Event& event){

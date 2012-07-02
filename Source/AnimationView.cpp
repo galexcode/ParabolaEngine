@@ -1,3 +1,5 @@
+#ifndef MINIMAL_BUILD
+
 #include "ParabolaCore/AnimationView.h"
 #include <cmath>
 
@@ -115,3 +117,5 @@ void AnimationView::createEarthquake(float duration, float intensity){
 };
 
 PARABOLA_NAMESPACE_END
+
+#endif

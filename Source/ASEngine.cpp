@@ -1,8 +1,12 @@
 #include "ParabolaCore/ASEngine.h"
+#include "ParabolaCore/ScopedFile.h"
 #include "ParabolaCore/GameCore.h"
 #include "ParabolaCore/Engine.h"
 #include "ParabolaCore/SoundPlayer.h"
 #include "ParabolaCore/Vectors.h"
+#include "ParabolaCore/FileInterface.h"
+#include "ParabolaCore/Logger.h"
+
 
 #include "AS/scriptbuilder.h"
 #include "AS/scriptstdstring.h"
@@ -10,9 +14,11 @@
 #include "AS/scriptany.h"
 #include "AS/scriptfile.h"
 #include "AS/scriptmath.h"
+#include "AS/aswrappedcall.h"
 
 using namespace std;
 #include <iostream>
+#include <algorithm>
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -20,8 +26,8 @@ void dummy(void*){
 
 }
 
-void scriptstdprint(const std::string &in){
-	std::cout<<in;
+void scriptstdprint(std::string in){
+	TESTLOG(in.c_str())
 }
 
 void ASMessageCallback(const asSMessageInfo *msg, void *param){
@@ -32,8 +38,9 @@ void ASMessageCallback(const asSMessageInfo *msg, void *param){
 		else if( msg->type == asMSGTYPE_INFORMATION ) 
 			type = "INFO";
 
-		printf("%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message);
-
+		//printf("%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message);
+		PRINTLOG("AngelScript", "%s (%d, %d) : %s : %s\n", msg->section, msg->row, msg->col, type, msg->message)
+			 
 };
 
 
@@ -68,6 +75,10 @@ asIScriptEngine* ASEngine::getASEngine(){
 	return asEngine;
 };
 
+/// Returns true if compiling in the max compatibility profile, for mobile devices etc
+bool ASEngine::getPortableMode(){
+	return (strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY"));
+};
 
 
 /// Destroys a script from the engine
@@ -125,7 +136,7 @@ ASScript* ASEngine::loadScript(const String &name, const String &alias, bool isB
 	int r;
 	r = Builder.StartNewModule(asEngine, name.c_str());
 	if(r<0){
-		//pLogger::Log(LogLevel::Critical, "Could not create a new Script Module.", "[ScriptEngine]");
+		TESTLOG("Could not create a new Script Module.")
 		return NULL;
 	}
 
@@ -133,21 +144,51 @@ ASScript* ASEngine::loadScript(const String &name, const String &alias, bool isB
 		
 	}
 	else{
+#ifdef PARABOLA_ANDROID
+
+		ScopedFile* fp = new ScopedFile();
+		FileInterface::getAssetFile(fp, String(name), true);
+		if(fp && fp->canRead()){
+			fp->seek(0, SEEK_END);
+			Int64 size = fp->tell();
+			fp->seek(0); 
+			char *buffer = new char[size+1];
+			String ss = "Angelscript loading script with " + String::number((unsigned long)size) + " bytes";
+			TESTLOG(ss.c_str())
+			fp->read(buffer, size);
+			buffer[(unsigned int)size] = '\0';
+			
+			r = Builder.AddSectionFromMemory(buffer, name.c_str());
+			TESTLOG(String(buffer).c_str())
+			delete buffer;
+		}
+		else r = -1;
+
+		delete fp;
+#else 
 		r = Builder.AddSectionFromFile(name.c_str());
+#endif
+		
 		if(r<0){
-			//pLogger::Log(LogLevel::Critical, "Could not stream file data into the Script Module.", "[ScriptEngine]");
+			TESTLOG("Could not stream file data into the Script Module.")
 			return false;
 		}
 
 		r = Builder.BuildModule();
 		if(r<0){
-			//pLogger::Log(LogLevel::Critical, "Could not compile the script file.", "[ScriptEngine]");
+			TESTLOG("Could not compile the script file.")
 			return false;
 		}
 
 		asScript = new ASScript();
 		asScript->myParent = this;
 		asScript->myModule = asEngine->GetModule(name.c_str());
+
+		if(asScript->myModule == NULL){
+
+			TESTLOG("Module was not created properly.\n")
+			return NULL;
+		}  
 	}
 
 	return asScript;
@@ -214,8 +255,15 @@ int ASEngine::exportReferenceDataType(const String &name){
 
 	int r;
 
-	r = asEngine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	if (strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")){
+		r = asEngine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_ADDREF, "void f()", WRAP_OBJ_LAST(dummy), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		r = asEngine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_RELEASE, "void f()", WRAP_OBJ_LAST(dummy), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+
+	}
+	else{
+		r = asEngine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_ADDREF, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+		r = asEngine->RegisterObjectBehaviour(name.c_str(), asBEHAVE_RELEASE, "void f()", asFUNCTION(dummy), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+	}
 
 	return r;
 };
@@ -300,7 +348,7 @@ bool ASEngine::exportGameAs(const String &varName, GameCore* game){
 bool ASEngine::exportBasicGameCore(){
 	if(gameCoreBasic)return true;
 	asEngine->RegisterObjectType("GameCore", sizeof(GameCore), asOBJ_REF);
-
+/*
 	int r;
 	r = asEngine->RegisterObjectBehaviour("GameCore", asBEHAVE_ADDREF, "void f()", asMETHOD(GameCore,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectBehaviour("GameCore", asBEHAVE_RELEASE, "void f()", asMETHOD(GameCore,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
@@ -311,14 +359,14 @@ bool ASEngine::exportBasicGameCore(){
 	r = asEngine->RegisterObjectMethod("GameCore", "string& windowTitle()", asMETHOD(GameCore, windowTitle) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("GameCore", "void setWindowTitle(const string& in)", asMETHOD(GameCore, setWindowTitle) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 
-	gameCoreBasic = true;
+	gameCoreBasic = true;*/
 	return true;
 };
 
 /// Exports audio support from scripts. Only works if a game is known.
 bool ASEngine::exportSoundGameCore(){
 	if(!gameCoreBasic)return false;
-
+	/*
 	asEngine->RegisterObjectType("SoundPlayer", sizeof(SoundPlayer), asOBJ_REF);
 	int r;
 	r = asEngine->RegisterObjectBehaviour("SoundPlayer", asBEHAVE_ADDREF, "void f()", asMETHOD(SoundPlayer,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
@@ -332,7 +380,7 @@ bool ASEngine::exportSoundGameCore(){
 
 	r = asEngine->RegisterObjectMethod("GameCore", "SoundPlayer& getSoundPlayer(const string &in)", asMETHOD(GameCore, getSoundPlayer) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
 	r = asEngine->RegisterObjectMethod("GameCore", "void removeSoundPlayer(const string &in)", asMETHOD(GameCore, removeSoundPlayer) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
-	
+	*/
 
 
 	//r = asEngine->RegisterObjectMethod("SoundPlayer", "void say(const string &in)", asMETHOD(SoundPlayer, say) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
@@ -343,6 +391,17 @@ bool ASEngine::exportSoundGameCore(){
 
 /// Exports common script utilities
 bool ASEngine::exportBasicScriptInformation(){
+	asEngine->RegisterEnum("PlatformType");
+	asEngine->RegisterEnumValue("PlatformType", "Mobile", ApplicationSettings::Mobile);
+	asEngine->RegisterEnumValue("PlatformType", "Desktop", ApplicationSettings::Desktop);
+
+	if (strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")){
+		asEngine->RegisterGlobalFunction("int getPlatformType()", WRAP_FN(Application::getPlatformType), asCALL_GENERIC);		
+	}
+	else{
+		asEngine->RegisterGlobalFunction("int getPlatformType()", asFUNCTION(Application::getPlatformType), asCALL_CDECL);
+	}
+
 	return false;
 };
 
@@ -378,21 +437,44 @@ bool ASEngine::exportBasicEngine(const String &varName){
 
 	int r;
 	asEngine->RegisterObjectType("Vec2f", sizeof(Vec2f), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
-	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2fCTOR), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", asFUNCTION(Vec2fCTOR2), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2fDTOR), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(const Vec2f &in)", asFUNCTION(Vec2fCCTOR), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectMethod("Vec2f", "Vec2f &opAssign(const Vec2f &in)", asMETHODPR(Vec2f, operator=, (const Vec2f &), Vec2f&), asCALL_THISCALL);
 
+	if(getPortableMode()){
+		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f()", WRAP_OBJ_LAST(Vec2fCTOR), asCALL_GENERIC);
+		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", WRAP_OBJ_LAST(Vec2fCTOR2), asCALL_GENERIC);
+		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", WRAP_OBJ_LAST(Vec2fDTOR), asCALL_GENERIC);
+		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(const Vec2f &in)", WRAP_OBJ_LAST(Vec2fCCTOR), asCALL_GENERIC);
+		asEngine->RegisterObjectMethod("Vec2f", "Vec2f &opAssign(const Vec2f &in)", WRAP_MFN_PR(Vec2f, operator=, (const Vec2f &), Vec2f&), asCALL_GENERIC);
+
+	} 
+	else{
+		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2fCTOR), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", asFUNCTION(Vec2fCTOR2), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2fDTOR), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(const Vec2f &in)", asFUNCTION(Vec2fCCTOR), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectMethod("Vec2f", "Vec2f &opAssign(const Vec2f &in)", asMETHODPR(Vec2f, operator=, (const Vec2f &), Vec2f&), asCALL_THISCALL);
+
+	}
+	
 	asEngine->RegisterObjectProperty("Vec2f", "float x", asOFFSET(Vec2f, x));
 	asEngine->RegisterObjectProperty("Vec2f", "float y", asOFFSET(Vec2f, y));
 
 	asEngine->RegisterObjectType("Vec2i", sizeof(Vec2i), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
-	asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2iCTOR), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(int x, int y)", asFUNCTION(Vec2iCTOR2), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2iDTOR), asCALL_CDECL_OBJLAST);
-	asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(const Vec2i &in)", asFUNCTION(Vec2iCCTOR), asCALL_CDECL_OBJLAST);
 
+	if(getPortableMode()){
+		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f()", WRAP_OBJ_LAST(Vec2iCTOR), asCALL_GENERIC);
+		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(int x, int y)", WRAP_OBJ_LAST(Vec2iCTOR2), asCALL_GENERIC);
+		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_DESTRUCT, "void f()", WRAP_OBJ_LAST(Vec2iDTOR), asCALL_GENERIC);
+		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(const Vec2i &in)", WRAP_OBJ_LAST(Vec2iCCTOR), asCALL_GENERIC);
+
+	}
+	else{
+		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2iCTOR), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(int x, int y)", asFUNCTION(Vec2iCTOR2), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2iDTOR), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(const Vec2i &in)", asFUNCTION(Vec2iCCTOR), asCALL_CDECL_OBJLAST);
+
+	}
+	
 	asEngine->RegisterObjectProperty("Vec2i", "int x", asOFFSET(Vec2i, x));
 	asEngine->RegisterObjectProperty("Vec2i", "int y", asOFFSET(Vec2i, y));
 
@@ -400,7 +482,7 @@ bool ASEngine::exportBasicEngine(const String &varName){
 	exportReferenceDataType("Window");
 
 	//r = asEngine->RegisterObjectMethod("Window", "Vec2f getGameName(int)", asMETHOD(Engine, as_gameNameAt) , asCALL_THISCALL);if(r < 0)printf("r %d", r);
-
+	/*
 
 
 	asEngine->RegisterObjectType("EngineSDK", sizeof(Engine), asOBJ_REF);
@@ -416,7 +498,7 @@ bool ASEngine::exportBasicEngine(const String &varName){
 	asEngine->RegisterGlobalProperty(String(String("EngineSDK ") + varName).c_str(), Engine::instance());
 
 
-
+	*/
 
 	engineBasic = true;
 	return engineBasic;
@@ -431,10 +513,20 @@ bool ASEngine::exportStrings(){
 	RegisterStdStringUtils(asEngine);
 
 	int r;
-	r = asEngine->RegisterGlobalFunction("void print(const string &in)", asFUNCTION(scriptstdprint), asCALL_CDECL);
-	if(r < 0){
-		//pLogger::Log(LogLevel::Critical, "Failed to export a function.");
+
+	if (strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")){
+		r = asEngine->RegisterGlobalFunction("void print(string)", WRAP_FN(scriptstdprint), asCALL_GENERIC);
+		if(r < 0){
+			TESTLOG("FAILED TO REGISTER print(string)\n")
+		}
 	}
+	else
+	{
+		r = asEngine->RegisterGlobalFunction("void print(string)", asFUNCTION(scriptstdprint), asCALL_CDECL);
+		if(r < 0){
+			//pLogger::Log(LogLevel::Critical, "Failed to export a function.");
+		}
+	}	
 
 	return true;
 };

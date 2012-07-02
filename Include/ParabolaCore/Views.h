@@ -3,8 +3,8 @@
 
 #include "Platform.h"
 #include "Vectors.h"
-#include <SFML/Graphics/View.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
+#include "BoundingBox.h"
+#include "Transform.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -20,7 +20,6 @@ enum ViewportPreset{
 	WideScreen
 };
 
-typedef sf::RenderTarget RenderTarget;
 /**
 		\ingroup Graphics
 		\class View
@@ -28,8 +27,9 @@ typedef sf::RenderTarget RenderTarget;
 
 		In practice, it is a 2D projection of your scene, orthogonal, which you can configure to taste.
 */
-class PARABOLA_API View : public sf::View{
+class PARABOLA_API View{
 public:
+		View();
 		/// Set the view center as a position
 		void setCenter(Vec2f position);
 		/// Set the view center as a position
@@ -38,18 +38,43 @@ public:
 		/// Set the viewport from one of the presets
 		void setViewportPreset(int preset);
 
+		/// Get the dimensions of the view rect
+		Vec2f getSize();
+
+		/// Set the size of the view rect, perserving its center
+		void setSize(float width, float height);
+
+		void move(float x, float y);
+
+		/// Zoom the view by a factor
+		void zoom(float factor);
+
 		/// Set the viewport for the view.
 		/// (x,y) is the starting point of the viewport rect
 		/// width and height define the dimensions of the viewport rect
 		/// target is needed to know what are the total dimensions of the window/rendertexture/etc
-		void setViewportInPixels(float x, float y, float width, float height, RenderTarget &target);
+		//void setViewportInPixels(float x, float y, float width, float height, RenderTarget &target);
 
 		/// Get the view center
 		Vec2f getCenter();
 
+		BoundingBox getRect() const;
+
 		/// Reset the view to this rect
 		void setRect(float x, float y, float width, float height);
-	};
+
+		const Transform& getInverseTransform() const;
+		const Transform& getTransform() const;
+
+private:
+	BoundingBox m_rect;
+	mutable Transform m_transform;
+	mutable Transform m_inverseTransform;
+	float m_rotation;
+	mutable bool m_transformUpdated;
+	mutable bool m_invTransformUpdated;
+	mutable Vec2f m_center;
+};
 	
 	/// Typedef of View to Camera2D to suit tastes
 	typedef View Camera2D;

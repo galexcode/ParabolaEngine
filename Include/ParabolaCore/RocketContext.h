@@ -3,22 +3,24 @@
 
 #include "Platform.h"
 #include "Strings.h"
-#include "Drawable.h"
-#include "EventHandler.h"
+#include "Signals.h"
+//#include "Drawable.h"
+//#include "EventHandler.h"
 #include "Vectors.h"
 #include <map>
-#include "LinkedPointer.h"
+//#include "LinkedPointer.h"
 #include "Localization.h"
 #include <iostream>
 using namespace std; //to ge tout
 #include <Rocket/Core.h>
 #include "RocketDocument.h"
-#include "ASEngine.h"
+
 
 PARABOLA_NAMESPACE_BEGIN
 
-	class RocketPlugin;
-	class RocketContextInstancer;
+class RocketPlugin;
+class RocketContextInstancer;
+class InputEvent;
 
 	/**
 		\ingroup Graphics
@@ -32,7 +34,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		It is a common approach and will work well if you have one context per game screen, for example.
 	*/
-	class PARABOLA_API RocketContext : public Rocket::Core::Context, public EventHandler{
+	class PARABOLA_API RocketContext : public Rocket::Core::Context{
 	public:
 		/// Safely destroys the context on destruction
 		~RocketContext();
@@ -44,6 +46,9 @@ PARABOLA_NAMESPACE_BEGIN
 
 		/// Updates the context
 		void update();
+
+		/// Dispatches a string event, normally coming from the scripting
+		void generateEvent(String eventString);
 
 		/// Sets the document as visible
 		/// If the document wasn't loaded yet, it is loaded now.
@@ -91,7 +96,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 		/// Associates a language translator with the context.
 		/// When loading a document, it will be used to translate any tokens.
-		void setLocalization(linked_ptr<Localization> &localization);
+		//void setLocalization(linked_ptr<Localization> &localization);
 
 		/// Loads a font globally in rocket, scripting convenience
 		void loadFont(String fontName);
@@ -99,7 +104,12 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Get the context name
 		String contextName();
 
-		
+		/// Process the event
+		bool processEvent(InputEvent &event);
+
+		sigc::signal<void, String> onEvent;
+
+
 	protected:
 		/// Virtual method implementation. Called when a RenderTarget is trying to render this context
 		//virtual void Draw(sf::RenderTarget& target, sf::RenderStates states) const;
@@ -127,8 +137,10 @@ PARABOLA_NAMESPACE_BEGIN
 
 		std::map<String, RocketDocument*> documents;
 
+	
+
 		/// Translator
-		linked_ptr<Localization> myLocalization;
+		//linked_ptr<Localization> myLocalization;
 
 		friend class RocketPlugin; //for access
 		friend class RocketContextInstancer; //for exclusive instancing

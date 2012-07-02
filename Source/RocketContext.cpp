@@ -3,7 +3,8 @@
 #include "ParabolaCore/RocketRenderInterface.h"
 #include "ParabolaCore/RocketSystemInterface.h"
 #include "ParabolaCore/StringList.h"
-#include "ParabolaCore/Events.h"
+#include "ParabolaCore/InputEvent.h"
+//#include "ParabolaCore/Events.h"
 #include <Rocket/Debugger.h>
 #include <vector>
 #include <iostream>
@@ -37,7 +38,7 @@ void RocketContext::loadFont(String fontName){
 
 void RocketContext::update(){
 	Update();
-
+	
 	// now update animations
 	for(unsigned int i = 0; i < GetNumDocuments(); i++){
 		RocketDocument* document = (RocketDocument*)GetDocument(i);
@@ -45,6 +46,11 @@ void RocketContext::update(){
 			document->myAnimationFactory.update(1 / 60.f);
 		}
 	}
+};
+
+/// Dispatches a string event, normally coming from the scripting
+void RocketContext::generateEvent(String eventString){
+	onEvent(eventString);
 };
 
 
@@ -81,7 +87,7 @@ RocketDocument* RocketContext::showDocument(String documentName){
 		}
 		else 
 			return NULL;
-	}
+	} 
 };
 
 /// Hides the document
@@ -99,6 +105,43 @@ bool RocketContext::hideDocument(String documentName){
 /// Get the context name
 String RocketContext::contextName(){
 	return String(RocketContext::GetName().CString());
+};
+
+/// Process the event
+bool RocketContext::processEvent(InputEvent &event){
+	switch(event.type){
+		case InputEvent::MouseMoved:
+		{
+			OnMouseMove(event.mouseMove.x, event.mouseMove.y, 0);
+		}break;
+		case InputEvent::MouseButtonPressed:
+		{
+			OnMouseButtonDown(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y, 0);
+		}break;
+		case InputEvent::MouseButtonReleased:
+		{
+			OnMouseButtonUp(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y, 0);
+		}break;
+
+		case InputEvent::TouchPressed:
+			{
+	 			OnMouseMove(event.x, event.y,0);
+				OnMouseButtonDown(Mouse::Left, event.x, event.y, 0);
+				
+			}break;
+		case InputEvent::TouchReleased:
+			{
+				OnMouseButtonUp(Mouse::Left, event.x, event.y, 0);
+				OnMouseMove(0,0,0);
+			}break; 
+		case InputEvent::TouchMoved:
+			{ 
+				OnMouseMove(event.x, event.y, 0);			
+			}break;
+		
+	}
+
+	return true;
 };
 
 /// Loads a document from documentPath
@@ -189,18 +232,18 @@ RocketDocument* RocketContext::getDocument(String documentName){
 
 /// Shows a visual debugger
 void RocketContext::showDebugger(){
-	Rocket::Debugger::Initialise(this);
-	Rocket::Debugger::SetContext(this);
-	Rocket::Debugger::SetVisible(true);
+//	Rocket::Debugger::Initialise(this);
+	//Rocket::Debugger::SetContext(this);
+	//Rocket::Debugger::SetVisible(true);
 };
 /// Hides the debugger, while keeping it open
 void RocketContext::hideDebugger(){
-	Rocket::Debugger::SetVisible(false);
+	//Rocket::Debugger::SetVisible(false);
 };
 /// Closes the debugger
 void RocketContext::closeDebugger(){
-	Rocket::Debugger::Initialise(NULL);
-	Rocket::Debugger::SetContext(NULL);
+	//Rocket::Debugger::Initialise(NULL);
+	//Rocket::Debugger::SetContext(NULL);
 };
 
 /// Changes the identifier of a document to a new one
@@ -223,9 +266,9 @@ bool RocketContext::setDocumentAlias(String documentName, String newDocumentName
 
 /// Associates a language translator with the context.
 /// When loading a document, it will be used to translate any tokens.
-void RocketContext::setLocalization(linked_ptr<Localization> &localization){
+/*void RocketContext::setLocalization(linked_ptr<Localization> &localization){
 	myLocalization = localization;
-};
+};*/
 
 /// Reloads the document
 /// Returns true if sucessfull
@@ -244,7 +287,7 @@ bool RocketContext::reloadDocument(String documentName){
 
 /// Reloads all documents in the context
 void RocketContext::reloadAllDocuments(){
-	std::vector<String> v1,v2;
+	/*std::vector<String> v1,v2;
 	std::map<String, RocketDocument*>::iterator it;
 	for(it = documents.begin(); it != documents.end(); it++){
 		String url = it->second->GetSourceURL().CString();
@@ -258,7 +301,7 @@ void RocketContext::reloadAllDocuments(){
 
 	for(unsigned int i = 0; i < v1.size(); i++){
 		loadDocument(v1[i], v2[i]);
-	}
+	}*/
 };
 
 void RocketContext::insert(RocketDocument *document){
@@ -289,11 +332,11 @@ void RocketContext::OnMouseWheel(int delta, int keyMod){
 
 
 void RocketContext::OnKeyPress(unsigned int Key, int keyMod){
-	ProcessKeyDown((Rocket::Core::Input::KeyIdentifier)EventDispatcher::translateToRocketKey(Key), keyMod);
+	//ProcessKeyDown((Rocket::Core::Input::KeyIdentifier)EventDispatcher::translateToRocketKey(Key), keyMod);
 };
 
 void RocketContext::OnKeyReleased(unsigned int Key, int keyMod){
-	ProcessKeyUp((Rocket::Core::Input::KeyIdentifier)EventDispatcher::translateToRocketKey(Key), keyMod);
+	//ProcessKeyUp((Rocket::Core::Input::KeyIdentifier)EventDispatcher::translateToRocketKey(Key), keyMod);
 };
 
 void RocketContext::OnTextEntered(unsigned int Key){

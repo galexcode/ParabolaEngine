@@ -1,3 +1,4 @@
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/EntityManager.h"
 #include "ParabolaCore/ComponentKinesis.h"
 
@@ -35,3 +36,4 @@ Entity* EntityManager::createEntity(const String &name){
 	return myEntities.back();
 };
 PARABOLA_NAMESPACE_END
+#endif

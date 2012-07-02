@@ -1,22 +1,16 @@
-Parabola Engine SDK - Currently in 0.8.4 version (zlib license)
-------------------------------------------------
+Parabola Engine SDK - Currently in 0.8.5 version
+License: zlib
+Author: Artur Moreira (artturmoreira@gmail.com)
 
+This library is a game engine, designed to make 2D games using C++, and to publish to Desktop(PC/Linux/Mac) and to Mobile(iOS/Android) platforms. (iOS not yet integrated)
 
-Check the main website for information, documentation and other things, such as stable packed releases.
-	http://parabolaengine.comlu.com/
-I vividly encourage the use of the forum to report issues/request help/contribute somehow.
-	http://parabolaengine.comlu.com/forum/
+You are free to use the library for any purpose without any costs. Credits to the original author and library are appreciated but are not mandatory.
+----------------------------------------------------------------------------------------------------------------------------------------------------
 
+Software website: http://www.parabolaengine.com
 
+Any matters about the engine can be discussed in the forum.
 
-Disclaimer: until the engine reaches alpha state, its API may change quite a few, and some features may still not be working as intended!
+WARNING: While the software is not in its final state, API may break ocasionally.
 
-Here you can get the latest version of the source. Building projects available for VS2010 only, for now.
-
-Once downloaded, you may open the solution file of vs2010, and it should compile right away to the Bin directory.
-
-Besides the main library the engine produces, you will need the dependencies, which you can download from the github page.
-Just care to download the dependencies for the latest version!
-
-It should be already usable, but feel free to report any issues you may have.
-Email me at artturmoreira@gmail.com if you need anything!
+----------------------------------------------------------------------------------------------------------------------------------------------------

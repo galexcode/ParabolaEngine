@@ -1,3 +1,4 @@
+#ifndef MINIMAL_BUILD
 #include "ParabolaCore/QuadTree.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -25,3 +26,5 @@ int QuadTree::leafCount(){
 };
 
 PARABOLA_NAMESPACE_END
+
+	#endif

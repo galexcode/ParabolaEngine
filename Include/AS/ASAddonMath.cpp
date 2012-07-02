@@ -274,5 +274,3 @@ void RegisterScriptMath(asIScriptEngine *engine)
 }
 
 END_AS_NAMESPACE
-
-

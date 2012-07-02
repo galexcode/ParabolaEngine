@@ -2,6 +2,8 @@
 #define PARABOLA_LINKED_POINTER_H
 
 #include "Platform.h"
+
+#ifndef PARABOLA_ANDROID
 #include <list>
 
 /// \namespace pE
@@ -269,5 +271,5 @@ PARABOLA_NAMESPACE_BEGIN
 
 
 PARABOLA_NAMESPACE_END
-
+#endif
 #endif

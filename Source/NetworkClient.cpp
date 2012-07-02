@@ -1,3 +1,4 @@
+#ifndef PARABOLA_EXCLUDE_NETWORK
 #include "ParabolaCore/NetworkClient.h"
 #include "ParabolaCore/NetworkThread.h"
 
@@ -10,13 +11,15 @@ PARABOLA_NAMESPACE_BEGIN
 NetworkClient::NetworkClient() : NetworkSocket(){
 	myHost = NULL;
 	myPeer = NULL;
+
+	enet_initialize();
 };
 
 /// Creates a network client and registers it
-NetworkClient::NetworkClient(NetworkThread &network) : NetworkSocket(network){
+/*NetworkClient::NetworkClient(NetworkThread &network) : NetworkSocket(network){
 	myHost = NULL;
 	myPeer = NULL;
-};
+};*/
 /*
 /// Safely disconnects the socket
 NetworkClient::~NetworkClient(){
@@ -27,6 +30,7 @@ NetworkClient::~NetworkClient(){
 
 /// Starts listening for connections
 bool NetworkClient::connect(const String &address, int port, int timeout){
+	
 	cout<<"Connecting..."<<endl;
 	//sf::Lock lockMutex(myMutex);
 	myHost = enet_host_create(NULL, 10, 6, 0, 0);
@@ -94,7 +98,7 @@ bool NetworkClient::send(const String &message, bool reliable){
 	if(reliable)
 		packet = enet_packet_create(message.c_str(), message.size(), ENET_PACKET_FLAG_RELIABLE);
 	else
-		packet = enet_packet_create(message.c_str(), message.size(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
+		packet = enet_packet_create(message.c_str(), message.size(), ENET_PACKET_FLAG_UNSEQUENCED);
 
 	enet_peer_send(myPeer, 0, packet);
 	return true;
@@ -103,7 +107,7 @@ bool NetworkClient::send(const String &message, bool reliable){
 /// Broadcasts a SFML Packet to all clients connected
 /// If reliable is true, the packet will be delivered safely
 /// Otherwise, it may be lost.
-bool NetworkClient::send(const sf::Packet &packet, bool reliable){
+/*bool NetworkClient::send(const sf::Packet &packet, bool reliable){
 	if(!myPeer) return false;
 
 	ENetPacket* epacket;
@@ -111,11 +115,11 @@ bool NetworkClient::send(const sf::Packet &packet, bool reliable){
 	if(reliable)
 		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_RELIABLE);
 	else
-		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
+		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_UNSEQUENCED);
 
 	enet_peer_send(myPeer, 0, epacket);
 	return true;
-};
+};*/
 
 /// Broadcasts raw data
 /// If reliable is true, the packet will be delivered safely
@@ -128,7 +132,7 @@ bool NetworkClient::send(void * data, Uint32 dataSize, bool reliable){
 	if(reliable)
 		packet = enet_packet_create(data, dataSize, ENET_PACKET_FLAG_RELIABLE);
 	else
-		packet = enet_packet_create(data, dataSize, ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
+		packet = enet_packet_create(data, dataSize, ENET_PACKET_FLAG_UNSEQUENCED);
 
 	enet_peer_send(myPeer, 0, packet);
 	return true;
@@ -156,7 +160,7 @@ void NetworkClient::handleEvent(ENetEvent *event){
 	case ENET_EVENT_TYPE_DISCONNECT:
 		{		
 			// its a known peer
-			onDisconnected(this);			
+			//onDisconnected(this);			
 
 		}break;
 	case ENET_EVENT_TYPE_RECEIVE: 
@@ -174,3 +178,4 @@ void NetworkClient::handleEvent(ENetEvent *event){
 };
 
 PARABOLA_NAMESPACE_END
+#endif

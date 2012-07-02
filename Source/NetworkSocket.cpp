@@ -8,7 +8,7 @@ PARABOLA_NAMESPACE_BEGIN
 NetworkSocket::NetworkSocket(){
 	myRegistered = false;
 	myBlocked = true;
-	myMaximumPeerCount = 10;
+	myMaximumPeerCount = 400;
 	
 };
 
@@ -16,7 +16,7 @@ NetworkSocket::NetworkSocket(){
 NetworkSocket::NetworkSocket(NetworkThread &network){
 
 	if(&network != NULL){
-		network.add(this);
+		//network.add(this);
 		myRegistered = true;
 	}
 	else{
@@ -36,7 +36,7 @@ NetworkSocket::~NetworkSocket(){
 /// Register the socket
 void NetworkSocket::registerSocket(NetworkThread *network){
 	if(network != NULL){
-		network->add(this);
+		//network->add(this);
 		myRegistered = true;
 	}
 	else{

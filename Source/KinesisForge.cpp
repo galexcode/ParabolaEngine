@@ -1,6 +1,7 @@
 #include "ParabolaCore/KinesisForge.h"
+#include "ParabolaCore/MathTools.h"
 
-#include "ParabolaCore/TextFileStream.h"
+#include "ParabolaCore/TextStream.h"
 #include "ParabolaCore/StringStream.h"
 #include "ParabolaCore/Kinesis.h"
 
@@ -10,6 +11,74 @@
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
+
+/// Builds the forge over a world, it must stay alive while the forge is doing any operations on it
+KinesisForge::KinesisForge(KinesisWorld* workWorld) : m_world(workWorld){
+	
+};
+
+/// Creates a rope in the simulation, not attached to anything unless specified
+std::vector<KinesisBodyActor*> KinesisForge::createRope(const Vec2f &position, float angle, float ropeLength, int segmentCount, float segmentWidth){
+	std::vector<KinesisBodyActor*> actorList;
+
+	Vec2f pos(position); //store the new positions
+
+	// need to build n segments
+	for(int i = 0; i < segmentCount ; i++){
+		KinesisBodyActor* body = m_world->CreateQuickBox(pos.x, pos.y, ropeLength/segmentCount, segmentWidth);
+		
+		//KinesisBodyActor* body = new KinesisBodyActor(m_world->CreateQuickCircle(pos.x, pos.y, ropeLength/segmentCount/2));
+		body->setAngle(angle);
+		pos.x += cos(angle)*ropeLength/segmentCount;
+		pos.y += sin(angle)*ropeLength/segmentCount;
+		actorList.push_back(body);
+
+		//attach to previous
+		if(i > 0){
+			//there is a previous to attach to
+			b2RopeJointDef jdef;			
+			jdef.bodyA = actorList[i-1]->m_body;
+			jdef.bodyB = actorList[i]->m_body;
+			jdef.collideConnected = true;
+			jdef.localAnchorA = jdef.localAnchorB = b2Vec2(0,0);
+			//jdef.localAnchorA = b2Vec2( m_world->ToMeters((cos(angle)*ropeLength/segmentCount/2) - 1) , m_world->ToMeters((sin(angle)*ropeLength/segmentCount/2) - 1));
+			//jdef.localAnchorB = b2Vec2(- m_world->ToMeters(cos(angle)*ropeLength/segmentCount/2) ,-m_world->ToMeters(sin(angle)*ropeLength/segmentCount/2));
+			//jdef.localAnchorA = b2Vec2(m_world->ToMeters(cos(angle)*ropeLength/segmentCount/2) - 0.05f ,m_world->ToMeters(sin(angle)*ropeLength/segmentCount/2) - 0.05f);
+			//jdef.localAnchorB = -jdef.localAnchorA;
+			jdef.maxLength = m_world->ToMeters(15);
+			m_world->CreateJoint(&jdef);
+		}
+	}
+
+
+	b2Body* staticB = m_world->CreateStaticBox(position.x, position.y, 2,2);
+	b2RevoluteJointDef def;
+	def.Initialize(staticB, actorList[0]->m_body, staticB->GetWorldCenter());
+	def.collideConnected = false;
+	m_world->CreateJoint(&def);
+	
+
+	return actorList;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	KinesisWorldDefinition::KinesisWorldDefinition(){
 
 	};
@@ -67,7 +136,7 @@ PARABOLA_NAMESPACE_BEGIN
 		}
 		else{
 			//object specification
-			StringList objecttype = BlockName.split(".", 1);
+			StringList objecttype /*= BlockName.split(".", 1)*/;
 
 			if(objecttype[0] == "body"){
 				cout<<"Loading body: "<<objecttype[1]<<endl;
