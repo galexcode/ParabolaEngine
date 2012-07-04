@@ -5,12 +5,14 @@ Author: Artur Moreira (artturmoreira@gmail.com)
 This library is a game engine, designed to make 2D games using C++, and to publish to Desktop(PC/Linux/Mac) and to Mobile(iOS/Android) platforms. (iOS not yet integrated)
 
 You are free to use the library for any purpose without any costs. Credits to the original author and library are appreciated but are not mandatory.
-----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------
 
 Software website: http://www.parabolaengine.com
+
+You can download the manual here: http://parabolaengine.com/docs/Manual.pdf
 
 Any matters about the engine can be discussed in the forum.
 
 WARNING: While the software is not in its final state, API may break ocasionally.
 
-----------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------
