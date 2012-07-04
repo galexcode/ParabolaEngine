@@ -26,9 +26,11 @@ ScopedFile::ScopedFile(const String &path, IODevice::OpenModes accessMode){
 	m_handle = fopen(path.c_str(), mode.c_str());
 	m_offset = 0;
 
-	fseek(m_handle, 0, SEEK_END);
-	m_length = m_fileSize = ftell(m_handle);
-	fseek(m_handle, 0, SEEK_SET);
+	if(m_handle){
+		fseek(m_handle, 0, SEEK_END);
+		m_length = m_fileSize = ftell(m_handle);
+		fseek(m_handle, 0, SEEK_SET);
+	}	
 };
 
 /// Constructs a stream from already open file handle, restricted to a portion of it
@@ -146,6 +148,8 @@ Int64 ScopedFile::getSize(){
 /// Returns the amount of bytes read
 Int64 ScopedFile::read(char* buffer, Int64 len){
 	Int64 curPos = tell();
+	if(curPos >= m_length) return 0;
+
 	if(len > m_length - curPos) len = m_length - curPos; // if trying to read more than whats left, clamp
 
 	return (Int64)fread(buffer, sizeof(char), len, m_handle);

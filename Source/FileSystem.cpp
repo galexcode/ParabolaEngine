@@ -80,6 +80,24 @@ String FileSystem::saveFileDialog(){
 #endif
 };
 
+/// Get the path of the executable - could be similar to C:/Games/ or /home/games/
+String FileSystem::getExecutableDirectory(){
+	String path;
+#ifdef PARABOLA_WINDOWS
+	LPSTR lpStr = new char[2048];
+	GetModuleFileNameA(NULL,lpStr,2048 );
+	path = lpStr;
+	delete lpStr;
+
+	path.removeUntilReverse('\\');
+	path.replaceCharacter('\\', '/');
+
+	path += "/";
+#endif
+
+	return path;
+};
+
 	StringList FileSystem::scanDirectory(const String &Directory, const String &Extension, bool Recursive){
 		//std::vector<String> Files;
 

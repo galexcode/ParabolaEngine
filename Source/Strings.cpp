@@ -89,6 +89,13 @@ PARABOLA_NAMESPACE_BEGIN
 		}
 	}
 
+	/// Replaces all occurrences of a character
+	void String::replaceCharacter(char replace, char with){
+		for(unsigned int i = 0; i < length(); i++){
+			if((*this)[i] == replace) (*this)[i] = with;
+		}
+	};
+
 	bool String::toBoolean(){
 		String low = *this;
 		low.toLowerCase();

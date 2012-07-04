@@ -74,6 +74,9 @@ PARABOLA_NAMESPACE_BEGIN
 		*/
 		static String currentDirectory();
 
+		/// Get the path of the executable - could be similar to C:/Games/ or /home/games/
+		static String getExecutableDirectory();
+
 	private:
 		static String myCurrentDirectory;
 	};

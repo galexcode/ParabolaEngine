@@ -22,6 +22,8 @@ import android.hardware.SensorManager;
 import java.io.IOException;
 import android.telephony.gsm.SmsManager;
 import android.view.KeyEvent;
+import android.view.inputmethod.InputMethodManager;
+import android.media.MediaPlayer;
 
 %AIRPUSH_IMPORT%
 
@@ -29,7 +31,8 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 	/// Accelerometer related
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
-	private GLSurfaceView mGLView;
+	private static GLSurfaceView mGLView;
+	private static %ACTIVITY_CLASS% mGame;
 	
 	/// Content resolver, for interacting with systems such as SMS
 	public static ContentResolver contentResolver;
@@ -67,6 +70,16 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 		}
 		return fp;
 	}
+	
+	public static void requestFrameRender(){
+		mGLView.requestRender();
+	}
+	
+	public static void toggle_keyboard() {
+        InputMethodManager mgr = (InputMethodManager)mGame.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);      
+    }
+
 
 	/// JNI Function to send an SMS through the android device. Called from native code
 	public static void sendSMS(String number, String sms){
@@ -88,6 +101,9 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+		
+		mGame = this;
+		
         mGLView = new DemoGLSurfaceView(this);
         setContentView(mGLView);
 		contentResolver = getContentResolver();
@@ -125,7 +141,7 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 		float y = event.values[1];
 		float z = event.values[2];
 		
-		nativeAccel(x, y, z);		
+		//nativeAccel(x, y, z);		
 	}
 
 	@Override

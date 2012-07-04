@@ -56,6 +56,12 @@ public:
 	/// Request a frame render
 	static void requestFrameRender();
 
+	/// Toggle the software keyboard
+	static void toggleKeyboard();
+
+	/// Play a music in the android
+	static int playMusic(const String &name);
+
 	/// Set the android activity name
 	static void setActivityName(const String& name);
 

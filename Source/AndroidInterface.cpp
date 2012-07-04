@@ -177,12 +177,43 @@ void AndroidInterface::requestFrameRender(){
 	m_javaVM->AttachCurrentThread(&m_JNI, NULL);	
 
 	jclass cls = m_JNI->FindClass(m_JNIActivityName);
-	if(cls != NULL){
+	if(cls != NULL){ 
 		jmethodID method = m_JNI->GetStaticMethodID(cls, "requestFrameRender", "()V");
 		if(method != NULL){
 			m_JNI->CallStaticVoidMethod(cls, method);
 		}
-	}
+	} 
+};
+
+/// Toggle the software keyboard
+void AndroidInterface::toggleKeyboard(){
+	JNIEnv* m_JNI;
+	m_javaVM->AttachCurrentThread(&m_JNI, NULL);	
+
+	jclass cls = m_JNI->FindClass(m_JNIActivityName);
+	if(cls != NULL){ 
+		jmethodID method = m_JNI->GetStaticMethodID(cls, "toggle_keyboard", "()V");
+		if(method != NULL){
+			m_JNI->CallStaticVoidMethod(cls, method);
+		}
+	} 
+};
+
+/// Play a music in the android
+int AndroidInterface::playMusic(const String &name){
+	JNIEnv* m_JNI;
+	m_javaVM->AttachCurrentThread(&m_JNI, NULL);	
+
+	jclass cls = m_JNI->FindClass(m_JNIActivityName);
+	if(cls != NULL){ 
+		jmethodID method = m_JNI->GetStaticMethodID(cls, "playMusic", "(Ljava/lang/String;)V");
+		if(method != NULL){
+			jstring fpath = m_JNI->NewStringUTF(name.c_str());
+			m_JNI->CallStaticVoidMethod(cls, method, fpath);
+			m_JNI->DeleteLocalRef(fpath);
+		}
+	} 
+	return 0;
 };
 
  

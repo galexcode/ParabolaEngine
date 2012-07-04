@@ -19,6 +19,10 @@ public:
 	/// Please ensure you delete the handle when you are done
 	static bool getAssetFile(ScopedFile* file, const String &path, bool binaryMode = true);
 
+	/// Copies the contents of sourceFile to destinationFile
+	/// \return true or false whether the operation was successfully made
+	static bool copy(const String &sourceFile, const String &destinationFile);
+
 	/// The root for file access, empty by default, so the executable directory is used
 	static String m_root;
 };

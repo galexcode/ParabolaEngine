@@ -43,7 +43,7 @@ Window::~Window(){
 /// Attempts to launch a window if applicable
 void Window::create(int screenWidth, int screenHeight){
 #ifdef PARABOLA_DESKTOP
-	myWindowImpl->create(sf::VideoMode(screenWidth,screenHeight,32), "Hawkeye - Andre Ferreira", sf::Style::Default);
+	myWindowImpl->create(sf::VideoMode(screenWidth,screenHeight,32), "Parabola Engine SDK", sf::Style::Default);
 	m_fullscreen = false;
 	myWindowImpl->setVerticalSyncEnabled(true);
 	myWindowImpl->setFramerateLimit(60);

@@ -2,6 +2,9 @@
 #include "ParabolaCore/Application.h"
 #include "ParabolaCore/ScopedFile.h"
 
+#include <iostream>
+using namespace std;
+
 #ifdef PARABOLA_ANDROID
 #include "ParabolaCore/AndroidInterface.h"
 #endif
@@ -27,5 +30,29 @@ bool FileInterface::getAssetFile(ScopedFile* file, const String &path, bool bina
 	return true;
 #endif
 }
+
+/// Copies the contents of sourceFile to destinationFile
+/// \return true or false whether the operation was successfully made
+bool FileInterface::copy(const String &sourceFile, const String &destinationFile){
+	//cout<<"Copying: " <<sourceFile<<"\nTo: "<<destinationFile<<endl;
+
+	ScopedFile in(sourceFile, IODevice::BinaryRead);
+	ScopedFile out(destinationFile, IODevice::BinaryWrite);
+	if(!in.isReady() || !out.isReady() )return false;
+	 
+	const unsigned int buffer_size = sizeof(char)*1024*5;
+	char buffer[buffer_size];
+	Int64 bytes_read;
+	Int64 totalWritten = 0;
+	do{
+		bytes_read = in.read(&buffer[0], buffer_size);
+		out.write(&buffer[0], bytes_read);
+		totalWritten += bytes_read;
+	}while(bytes_read > 0);
+
+	//cout<<"Written copy of file: "<< destinationFile<<endl<<totalWritten<< "bytes."<<endl;
+
+	return true;
+};
 
 PARABOLA_NAMESPACE_END

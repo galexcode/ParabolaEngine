@@ -56,19 +56,26 @@ int TextStream::readInt(){
 /// Reads content until a line break is found
 String TextStream::getLine(){
 	String out;
-	char c = readChar();
-	while(c != '\n'  && !atEnd()){
+	char c;
+	while((c = readChar()) != EOF){
+		if(c == '\n') break; // finish cycle earlier
+
 		if(c != '\r')
-			out += c;
-		c = readChar();
+			out += c;   
 	}
+	//char c = readChar();
+// 	while(c != '\n' ){
+// 		if(c != '\r')
+// 			out += c;
+// 		c = readChar();
+// 	}
 	return out;
-};
+}; 
 
 TextStream& TextStream::operator<<(const String &value){
 	m_device->write(value.c_str(), value.size()*sizeof(char));
 	return *this;
-};
+}; 
 
 
 /*

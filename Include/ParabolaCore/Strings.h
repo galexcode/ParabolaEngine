@@ -41,6 +41,8 @@ PARABOLA_NAMESPACE_BEGIN
 			/// Content is initialized from a std::string
 			String(const std::string &s);
 
+			/// Replaces all occurrences of a character
+			void replaceCharacter(char replace, char with);
 			
 			/// Removes characters from beginning until it finds an occurrence of c.			
 			void removeUntil(char c);
