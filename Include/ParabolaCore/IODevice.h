@@ -9,7 +9,7 @@ PARABOLA_NAMESPACE_BEGIN
 /**
 	\ingroup Foundation
 	\class IODevice
-	\brief Base class for input/output devices, such as files and network sockets..
+	\brief Base class for input/output devices, such as files and network sockets.
 
 */
 class PARABOLA_API IODevice{
@@ -29,11 +29,12 @@ public:
 	/// Virtual function for all devices to write a byte buffer
 	virtual Int64 write(const char* buffer, Int64 length) = 0;
 
+	/// Possible modes for opening a device
 	enum OpenModes{
-		TextRead = 0,
-		TextWrite,
-		BinaryRead,
-		BinaryWrite
+		TextRead = 0, ///< Read mode for text files
+		TextWrite,	///< Write mode for text files
+		BinaryRead, ///< Read mode for binary files
+		BinaryWrite ///< Write mode for binary files
 	};
 };
 

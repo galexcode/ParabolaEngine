@@ -61,7 +61,7 @@ String TextStream::getLine(){
 		if(c == '\n') break; // finish cycle earlier
 
 		if(c != '\r')
-			out += c;   
+			out.append(1,c); 
 	}
 	//char c = readChar();
 // 	while(c != '\n' ){

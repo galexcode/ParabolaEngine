@@ -69,11 +69,11 @@ LightingEffects::LightingEffects(){
 	myReady = false;
 };
 
-void LightingEffects::create(BoundingBox &area, Window *window){
-	//myData = new LightingHolder(ltbl::AABB(ltbl::Vec2f(area.Position.x, area.Position.y), ltbl::Vec2f(area.Size.x, area.Size.y)), window);
+void LightingEffects::create(Rect &area, Window *window){
+	//myData = new LightingHolder(ltbl::AABB(ltbl::Vec2f(area.left, area.top), ltbl::Vec2f(area.width, area.height)), window);
 
 
-	//myData = new LightingHolder(ltbl::AABB(ltbl::Vec2f(area.Position.x, area.Position.y), ltbl::Vec2f( area.Position.x + area.Size.x , area.Position.y + area.Size.y)), window);
+	//myData = new LightingHolder(ltbl::AABB(ltbl::Vec2f(area.left, area.top), ltbl::Vec2f( area.left + area.width , area.top + area.height)), window);
 	myReady = true;
 	myBounds = area;
 };
@@ -84,13 +84,13 @@ void LightingEffects::setView(View &view){
 
 void LightingEffects::render(SceneRenderer* renderer){
 	View v;
-	v.reset(sf::FloatRect(myBounds.Position.x, myBounds.Position.y, myBounds.Size.x, myBounds.Size.y));
+	v.reset(sf::FloatRect(myBounds.left, myBounds.top, myBounds.width, myBounds.height));
 
 	//myData->myLightSystem.SetView(renderer->renderTarget()->GetDefaultView());
 	//myData->myLightSystem.viewAABB.IncCenter(ltbl::Vec2f(0,500));
 	//myData->myLightSystem.SetView()
 	//myData->myLightSystem.viewAABB.SetCenter(ltbl::Vec2f(400, 400));
-//	v.Reset(sf::FloatRect(myBounds.Position.x, myBounds.Position.y, myBounds.Size.x,myBounds.Size.y));
+//	v.Reset(sf::FloatRect(myBounds.left, myBounds.top, myBounds.width,myBounds.height));
 	/*myData->myLightSystem.SetView(v);
 	renderer->setView(v);
 	myData->myLightSystem.RenderLights();

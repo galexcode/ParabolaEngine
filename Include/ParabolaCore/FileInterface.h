@@ -3,6 +3,7 @@
 
 #include "Platform.h"
 #include "Strings.h"
+#include "Signals.h"
 #include "IODevice.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -22,6 +23,10 @@ public:
 	/// Copies the contents of sourceFile to destinationFile
 	/// \return true or false whether the operation was successfully made
 	static bool copy(const String &sourceFile, const String &destinationFile);
+
+	/// Called whenever a file was requested for opening
+	/// Possible use is to download the file to a cache before using it
+	static sigc::signal<void, const String &> onFileRequest;
 
 	/// The root for file access, empty by default, so the executable directory is used
 	static String m_root;

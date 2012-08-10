@@ -12,24 +12,39 @@ Animable::~Animable(){
 
 /// Creates the animation default states
 AnimationInterface::AnimationInterface() : totalElapsedTime(0.f), myStatus(PlayModes::Stopped), myLooping(false){
-	
+	m_duration = 0.f;
 };
 
 /// Add a new object to this animation
 void AnimationInterface::addAnimable(Animable* animable){
-	myAnimables.push_back(animable);
+	m_animables.push_back(animable);
 	animable->onDetachAnimation.connect(MAKE_SLOT_LOCAL(AnimationInterface, removeAnimable));
 };
 
 /// Remove animable from the list
 void AnimationInterface::removeAnimable(Animable* animable){
-	myAnimables.erase(std::find(myAnimables.begin(), myAnimables.end(), animable));
+	m_animables.erase(std::find(m_animables.begin(), m_animables.end(), animable));
 	//std::cout<<"removing animable because it was destroyed"<<std::endl;
 };
 
 /// Get the number of objects being animated
 int AnimationInterface::getAnimableCount(){
-	return (int)myAnimables.size();
+	return (int)m_animables.size();
+};
+
+/// Get animable at index
+Animable* AnimationInterface::getAnimable(unsigned int index){
+	return m_animables[index];
+};
+
+/// Get the duration of the animation
+float AnimationInterface::getDuration(){
+	return m_duration;
+};
+
+/// Set the duration of the animation
+void AnimationInterface::setDuration(float duration){
+	m_duration = duration;
 };
 
 /// Get the total time elapsed since this animation has started

@@ -42,18 +42,19 @@ public:
 	bool loadFromFile(const String &path);
 
 	bool loadFromStream(ScopedFile* stream);
-
+	void setPixel(unsigned int x, unsigned int y, const Color& color);
 	Vec2i getSize() const;
 
 	/// Sets the desired transparency on all pixels with the selected color
 	void createMaskFromColor(const Color &color, Uint8 alpha = 0);
 	
+	void create(unsigned int width, unsigned int height, const Color& color);
 
 	void create(unsigned int width, unsigned int height,const Uint8* pixels);
 
 	const Uint8* getPixelsPtr() const;
 
-#ifdef PARABOLA_ANDROID
+#ifdef PARABOLA_NOSFML
 	std::vector<Uint8> m_pixels;
 	Vec2i m_size;
 #elif defined PARABOLA_DESKTOP
@@ -71,9 +72,18 @@ public:
 	/// Create an uninitialised texture
 	Texture();
 
+	enum CoordinateType{
+		Pixels,
+		Normalized
+	};
+
 	/// RAII release of the texture
 	~Texture();
-
+	void update(const Uint8* pixels);
+	void update(const Image& image);
+	void setSmooth(bool smooth);
+	bool create(unsigned int width, unsigned int height);
+	unsigned int getValidSize(unsigned int size);
 	/// Copy the texture buffer to an image
 	Image copyToImage();
 
@@ -86,14 +96,19 @@ public:
 
 	Vec2i getSize() const;
 
-	void bind() const;
+	void bind(CoordinateType coordinateType = Pixels) const;
 
-private:
+	void update(const Uint8* pixels, unsigned int width, unsigned int height, unsigned int x, unsigned int y);
+
+	static unsigned int getMaximumSize();
+
+public:
 
 	unsigned int m_texture;
 	Vec2i m_size;
 	Vec2i m_actualSize;
 	bool m_pixelsFlipped;
+	bool m_isSmooth;
 };
 
 

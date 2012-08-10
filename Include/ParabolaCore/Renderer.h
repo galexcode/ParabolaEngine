@@ -7,6 +7,7 @@
 #include "Drawable.h"
 #include "VertexArray.h"
 #include "Views.h"
+#include "RenderTarget.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -30,6 +31,8 @@ public:
 	/// Clear the bound buffer
 	virtual void clearBuffers();
 
+	virtual void drawCube(float x, float y, float z, float len, Color color);
+
 
 	/// Anything that inherits Drawable can be drawn using a renderer
 	virtual void draw(Drawable &drawable) = 0;
@@ -45,7 +48,11 @@ public:
 	virtual void drawRocketContext(RocketContext* context);
 
 	/// Auto detects an appropriate renderer
-	static Renderer* createAutomaticRenderer();
+	static Renderer* createAutomaticRenderer(RenderTarget* target);
+
+//protected:
+	/// The bound render target, where geometry is drawn
+	RenderTarget* m_renderTarget;
 };
 
 PARABOLA_NAMESPACE_END

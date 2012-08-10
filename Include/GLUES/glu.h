@@ -55,8 +55,11 @@
 	#undef APIENTRY
 	#define APIENTRY
 	#define GLAPI
-#else
-   #error "Platform is unsupported"
+#elif defined PARABOLA_IPHONE
+#undef APIENTRY
+#define APIENTRY
+#define GLAPI
+#include <OpenGLES/ES1/gl.h>
 #endif
 
 #ifndef APIENTRYP

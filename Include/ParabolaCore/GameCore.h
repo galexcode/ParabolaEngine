@@ -13,6 +13,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 class GameCoreManager;
+class Engine;
 /**
 	\ingroup Core
 	\class GameCore
@@ -32,6 +33,12 @@ public:
 
 	/// Set the fixed update step, or, the amount of time, in seconds, that will take between each update.
 	void setUpdateStep(float step);
+
+	/// Get the game window title
+	String getWindowTitle();
+
+	/// Set the title of the window while the game is active
+	void setWindowTitle(const String &title);
 	
 protected:
 	/// Callback for updating the game
@@ -44,7 +51,7 @@ protected:
 	virtual void onCreate();
 
 	/// Callback when an event happens
-	virtual void onEvent(InputEvent &event);
+	virtual void onEvent(Event &event);
 	
 private:
 	friend class GameCoreManager;
@@ -61,8 +68,11 @@ private:
 	/// Fixed update step
 	float m_updateStep;
 	float m_stackedTime;
-	
-	
+
+	/// The title of the window when this game is active
+	String m_windowTitle;	
+
+	Engine* m_creator;
 	
 	/*
 	/// Get the assigned window

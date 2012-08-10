@@ -1,4 +1,4 @@
-#include "ParabolaCore/ASEngine.h"
+/*#include "ParabolaCore/ASEngine.h"
 #include "ParabolaCore/ParticleSystem.h"
 #include "ParabolaCore/FileSystem.h"
 
@@ -129,4 +129,4 @@ ParticleSystem* ASEngine::loadParticleSystem(const String &scriptName, ParticleS
 	return pSystem;	
 };
 
-PARABOLA_NAMESPACE_END
+PARABOLA_NAMESPACE_END*/

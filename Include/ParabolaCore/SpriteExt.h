@@ -83,12 +83,12 @@ public:
 	/// Parse a texture from the code
 	void parseTexture(String &code, ContentBank* bank);
 
-	void onFrameChangedCallback(Texture* t, BoundingBox b);
+	void onFrameChangedCallback(Texture* t, FloatRect b);
 
 
 	bool bake(const String &fileName, bool bakeTextures);
 
-	sigc::signal<void, Texture*, BoundingBox> onFrameChange;
+	sigc::signal<void, Texture*, FloatRect> onFrameChange;
 
 protected:
 	/// Called to order rendering, when the drawing was issued in the traditional way ( m_renderer->draw(m_sprite) )

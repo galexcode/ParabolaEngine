@@ -1,4 +1,4 @@
-#include "ParabolaCore/ParticleSystem.h"
+/*#include "ParabolaCore/ParticleSystem.h"
 #include "ParabolaCore/ASEngine.h"
 
 #include <iostream>
@@ -10,7 +10,7 @@ PARABOLA_NAMESPACE_BEGIN
 //////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////// TEXTURE
 
-/*bool ParticleTexture::loadTexture(const String &path){
+bool ParticleTexture::loadTexture(const String &path){
 
 	GLuint texture = 0;
 	{
@@ -27,7 +27,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 	myTextureID = texture;
 	return true;
-}*/
+}
 
 //////////////////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////////////////
@@ -123,8 +123,7 @@ void ParticleSystem::setName(const String &newName){
 
 ParticleRenderer& ParticleSystem::createPointRenderer(const String &name, float pointSize){
 	ParticleRenderer *pRend = new ParticleRenderer();
-/*	pRend->myRenderer = SPK::GL::GLPointRenderer::create(pointSize);
-	myRenderers[name] = pRend;*/
+
 	return *pRend;
 }
 
@@ -171,15 +170,7 @@ void ParticleSystem::onDraw(Renderer* renderer){
 
 };
 
-/// Draw the system
-/*void ParticleSystem::draw(SceneRenderer* renderer){
-	//SPK::GL::GLRenderer::saveGLStates();
-	//glDisableClientState(GL_COLOR_ARRAY);
-	//glDisable(GL_TEXTURE_2D);
-	//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	//mySystem->renderParticles();
-	//SPK::GL::GLRenderer::restoreGLStates();
-};*/
+
 	
 /// Update the state of the particles.
 void ParticleSystem::update(float elapsedTime){
@@ -226,30 +217,8 @@ void ParticleGroup::defaultGroup1(){
 
 	//ParticleTexture *tt2 = new ParticleTexture();
 	//if(!tt2->loadTexture("explosion.png"))cout<<"COULD NOT LOAD TEXTURE"<<endl;
-/*
-	SPK::Ref<SPK::GL::GLQuadRenderer> rnquad = SPK::GL::GLQuadRenderer::create();
-	rnquad->setTexture(tt2->myTextureID);
-	rnquad->setAtlasDimensions(2,2);
-	rnquad->setBlendMode(SPK::BLEND_MODE_NONE);
-	rnquad->setTexturingMode(SPK::TEXTURE_MODE_2D);
-	rnquad->enableBlending(true);*
-	rnquad->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE, false);*/
-	//rnquad->setOrientation(SPK::OrientationPreset::);
-	//myGroup->setRenderer(rnquad);
 
-	/*SPK::Ref<SPK::GL::GLQuadRenderer> rnquad2 = SPK::GL::GLQuadRenderer::create(10,10);
-	//rnquad2->setBlendMode(SPK::BLEND_MODE_ADD);
-	rnquad2->enableRenderingOption(SPK::RENDERING_OPTION_DEPTH_WRITE,false);
-	rnquad2->setTexture(tt2->myTextureID);
-	rnquad2->setTexturingMode(SPK::TEXTURE_MODE_2D);
-	rnquad2->setAtlasDimensions(2*,2);
-	rnquad2->setScale(20,20);
-//	rnquad2->*/
-	//myGroup->setRenderer(rnquad2);
-
-	
-	//myGroup->set*/
 }
 
 
-PARABOLA_NAMESPACE_END
+PARABOLA_NAMESPACE_END*/

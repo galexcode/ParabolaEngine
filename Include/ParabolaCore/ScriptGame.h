@@ -5,8 +5,8 @@
 #include "GameCore.h"
 #include "ASEngine.h"
 #include "GameCoreInstancer.h"
-
-#include "SceneRenderer.h"
+#include "Sprite.h"
+#include "Renderer.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -24,16 +24,16 @@ PARABOLA_NAMESPACE_BEGIN
 class PARABOLA_API ScriptGame : public GameCore{
 public:
 	/// Initializes the scripted game from a specific script
-	ScriptGame();
+	ScriptGame(const String& startupScript = "GameMain.as");
 	
 	/// Called when the game is instanced, calls int main() on the starter script
 	void onCreate();
 
-	/// Called when an event is fired.
-	void onEvent(const Event &event);
+	///Called when there is a new event
+	void onEvent(Event &event);
 
-	/// Called when the game is updating
-	void onUpdate(float elapsedTime);
+	/// Called when the game needs to be updated
+	void onUpdate(Time time);
 
 	/// Draws the configured scene graph
 	/// If the direct render script is enabled, it is rendered after the other objects.
@@ -49,12 +49,17 @@ public:
 	String renderScriptName, renderScriptFunc;
 	bool renderScriptEnabled;
 
+	Texture m_texture;
+	Sprite m_sprite;
 private:
-	ASEngine asEngine;
-	linked_ptr<SceneRenderer> renderer;
+	ASEngine m_engine;
+	ASScript* m_script;
+
+	Renderer *m_renderer;
 
 	ASScript* myMainScript;
 	int myRenderFunc, myEventFunc, myUpdateFunc, myCreateFunc;
+	String m_startupScript;
 };
 
 /**

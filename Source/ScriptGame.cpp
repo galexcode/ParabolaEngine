@@ -1,49 +1,28 @@
 #include "ParabolaCore/Platform.h"
-#ifndef MINIMAL_BUILD
-
 #include "ParabolaCore/ScriptGame.h"
-#include "ParabolaCore/Text.h"
+/*#include "ParabolaCore/Text.h"*/
 #include "ParabolaCore/Window.h"
 #include "ParabolaCore/Sprite.h"
 #include "ParabolaCore/Sound.h"
 #include "ParabolaCore/Kinesis.h"
 #include "ParabolaCore/RocketContext.h"
+#include "ParabolaCore/FileInterface.h"
+#include "ParabolaCore/TextStream.h"
 #include "ParabolaCore/RocketPlugin.h"
-
-
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 
 #include <iostream>
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
-
-ScriptGame *game;
-SceneRenderer *grenderer;
-
-void enableRenderScript(const String &script, const String &func){
-	cout<<"enabled rendering"<<endl;
-	game->renderScriptEnabled = true;
-	game->renderScriptName = script;
-	game->renderScriptFunc = func;
-}
-
-
-
-
-
 /// Initializes the scripted game from a specific script
-ScriptGame::ScriptGame() : GameCore(){
-	entryPointScript = "main.as";
-	game = this;
-	renderScriptEnabled = false;
+ScriptGame::ScriptGame(const String& startupScript) : GameCore(){
+	m_startupScript = startupScript;
 }
 
 /// Called when the game is instanced, calls int main() on the starter script
 void ScriptGame::onCreate(){
-	renderer = createRenderer(NULL);
+	/*renderer = createRenderer(NULL);
 	grenderer = renderer.get();
 
 	asEngine.exportStrings();
@@ -82,53 +61,74 @@ void ScriptGame::onCreate(){
 		this->close();
 		std::cout<<"Finished execution with errors."<<std::endl;
 		system("pause");
+	}*/
+
+
+	m_renderer = Renderer::createAutomaticRenderer(&getWindow());
+
+	TESTLOG("Before texture load")
+//	m_texture.loadFromFile("basic.png");
+	TESTLOG("After texture load")
+	//m_sprite.setTexture(m_texture);
+	
+	/// Scripting engine preparation
+	m_engine.exportStrings();
+	m_engine.exportEvents();
+	m_engine.exportGraphics();
+	m_engine.exportKinesis();
+
+	m_engine.exportGlobalProperty("Renderer renderer", m_renderer);
+
+	/// Prepare the main script
+	m_script = m_engine.loadScript(m_startupScript);
+	if(m_script){
+		m_script->call(String("void onCreate()"));
 	}
+	
 };
 
 /// Draws the configured scene graph
 /// If the direct render script is enabled, it is rendered after the other objects.
 void ScriptGame::onRender(){
-	if(!myMainScript)return ;
-
+	m_renderer->clearBuffers();
 	View v;
-	v.reset(sf::FloatRect(0,0,1024,768));
-	renderer->setView(v);
+	v.setRect(0,0,1024,768);
 
-	//renderer->draw(Text(")sf", 0,0));
-
-	renderer->getRenderTarget()->resetGLStates();
-	//renderer->draw(Text(")sf", 0,0));
+	/// Render the frame
+	if(m_script){
+		m_script->call(String("void onRender()"));
+	}
 
 	
-	myMainScript->call(myRenderFunc);
-	//renderer->draw(Text(")sf", 0,0));
-
-
-
-
+	m_renderer->setView(v);
+//	m_renderer->draw(m_sprite);
+	//m_renderer->display();
+	getWindow().swapBuffers(); //tempo
+	
 };
 
 /// Called when an event is fired.
-void ScriptGame::onEvent(const Event &event){
-	if(!myMainScript)return ;
-
-	myMainScript->prepareMethod(myEventFunc);
-	myMainScript->prepareMethodArgument(0, (void*)&const_cast<Event&>(event), ScriptArgumentTypes::Object);
-	myMainScript->call();
+void ScriptGame::onEvent(Event &event){
+	if(m_script){
+		m_script->prepareMethod(String("void onEvent(Event@)"));
+		m_script->prepareMethodArgument(0, (void*)(&event), ScriptArgumentTypes::Object);
+		m_script->call();
+	}
 };
 
 /// Called when the game is updating
-void ScriptGame::onUpdate(float elapsedTime){
-	if(!myMainScript)return ;
-
-	myMainScript->prepareMethod(myUpdateFunc);
-	myMainScript->prepareMethodArgument(0, &elapsedTime, ScriptArgumentTypes::Float);
-	myMainScript->call();
+void ScriptGame::onUpdate(Time time){
+	if(m_script){
+		float elapsedTime = time.asSeconds();
+		m_script->prepareMethod(String("void onUpdate(float)"));
+		m_script->prepareMethodArgument(0, &elapsedTime, ScriptArgumentTypes::Float);
+		m_script->call();
+	}
 };
 
 /// Exports all necessary functions to scripts
 void ScriptGame::exportScripts(){
-	asIScriptEngine *engine = asEngine.getASEngine();
+	//asIScriptEngine *engine = asEngine.getASEngine();
 
 
 
@@ -142,9 +142,6 @@ void ScriptGame::exportScripts(){
 
 
 
-	/*
-
-	*/
 	//engine->RegisterObjectProperty(")
 	
 };
@@ -165,8 +162,4 @@ GameCore* ScriptGameInstancer::Instance(){
 	return game;
 };
 
-
-
 PARABOLA_NAMESPACE_END
-
-#endif

@@ -3,8 +3,11 @@
 
 #ifdef PARABOLA_WINDOWS
 #include <windows.h>
+#include <Shlobj.h>
 #include <CommDlg.h>
 #undef SetCurrentDirectory
+#elif defined PARABOLA_ANDROID
+#include "ParabolaCore/AndroidInterface.h"
 #endif
 
 PARABOLA_NAMESPACE_BEGIN
@@ -79,6 +82,27 @@ String FileSystem::saveFileDialog(){
 	return "";
 #endif
 };
+
+String FileSystem::getDocumentsDirectory(){
+	String ActualStorageDirectory;
+#ifdef PARABOLA_WINDOWS
+	ActualStorageDirectory.resize(1024);
+
+	if(SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, &ActualStorageDirectory[0]) < 0)
+	{
+		ActualStorageDirectory.clear();
+	}
+	else
+	{
+		ActualStorageDirectory.resize(strlen(ActualStorageDirectory.c_str()));
+	};
+#endif
+
+	ActualStorageDirectory.replaceCharacter('\\', '/');
+	return ActualStorageDirectory;
+
+};
+
 
 /// Get the path of the executable - could be similar to C:/Games/ or /home/games/
 String FileSystem::getExecutableDirectory(){
@@ -194,9 +218,8 @@ String FileSystem::getExecutableDirectory(){
 
 			closedir(Root);
 	#elif defined PARABOLA_ANDROID
-		Files = Application::myInstance->getAssetList(Directory);
-#else 
-#error Platform filesystem unsupported
+		Files = AndroidInterface::getAssetList(Directory);
+
 
 	#endif
 		}
@@ -334,9 +357,7 @@ String FileSystem::getExecutableDirectory(){
 			closedir(Root); 
 #elif defined PARABOLA_ANDROID
 			 
-#else
 
-		#error 
 
 	#endif
 		}

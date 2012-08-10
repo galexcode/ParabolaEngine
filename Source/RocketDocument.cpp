@@ -8,7 +8,7 @@ RocketDocument::RocketDocument(Rocket::Core::String tagName) : Rocket::Core::Ele
 		scriptCallStack = 0;
 		 
 		myScriptEngine.exportStrings();
-		myScriptEngine.exportBasicGraphics();
+		myScriptEngine.exportGraphics();
 		myScriptEngine.exportBasicScriptInformation();
 		myScriptEngine.exportRocketUi();
 		myScriptEngine.exportAnimations();

@@ -21,7 +21,7 @@ public:
 
 	}
 };
-#elif defined PARABOLA_ANDROID
+#elif defined PARABOLA_NOSFML
 class Window::WindowImplementation{
 public:
 
@@ -50,6 +50,22 @@ void Window::create(int screenWidth, int screenHeight){
 #endif
 };
 
+void Window::create(void* handle){
+#ifdef PARABOLA_DESKTOP
+	myWindowImpl->create((sf::WindowHandle)handle);
+	m_fullscreen = false;
+	
+#endif
+};
+
+/// Sets the window as active for drawing
+bool Window::setActive(bool flag) const{
+#ifdef PARABOLA_DESKTOP
+	return myWindowImpl->setActive(flag);
+#endif
+	return false;
+}; 
+
 void Window::setFramerateLimit(int limit){
 #ifdef PARABOLA_DESKTOP
 	myWindowImpl->setFramerateLimit(limit);
@@ -58,25 +74,30 @@ void Window::setFramerateLimit(int limit){
 
 
 /// Get the width of the screen/window
-int Window::getWidth(){
+int Window::getWidth() const{
 #ifdef PARABOLA_DESKTOP
 	return myWindowImpl->getSize().x;
 #elif defined PARABOLA_ANDROID
 	return Application::myInstance->myWindowWidth;
+#elif defined PARABOLA_IPHONE
+    return 480;
 #endif
+    
 };
 
 /// Get the height of the screen/window
-int Window::getHeight(){
+int Window::getHeight() const{
 #ifdef PARABOLA_DESKTOP
 	return myWindowImpl->getSize().y;
 #elif defined PARABOLA_ANDROID
 	return Application::myInstance->myWindowHeight;
+#elif defined PARABOLA_IPHONE
+    return 320;
 #endif
 };
 
 /// Get the size of the window
-Vec2i Window::getSize(){
+Vec2i Window::getSize() const{
 	return (Vec2i(getWidth(), getHeight()));
 };
 
@@ -97,16 +118,26 @@ void Window::setFullscreen(bool enable){
 #endif
 };
 
+////////////////////////////////////////////////////////////
+IntRect Window::getViewport(const View& view) const
+{
+	float width  = static_cast<float>(getSize().x);
+	float height = static_cast<float>(getSize().y);
+	const FloatRect& viewport = view.getViewport();
+
+	return IntRect(static_cast<int>(0.5f + width  * viewport.left),
+		static_cast<int>(0.5f + height * viewport.top),
+		static_cast<int>(width  * viewport.width),
+		static_cast<int>(height * viewport.height));
+}
+
 /// Convert a point from target coordinates to the view coordinates
 Vec2f Window::convertCoords(const Vec2i &point, const View &view){
 	// First, convert from viewport coordinates to homogeneous coordinates
 	Vec2f coords;
-// 	IntRect viewport = getViewport(view);
-// 	coords.x = -1.f + 2.f * (point.x - viewport.left) / viewport.width;
-// 	coords.y = 1.f  - 2.f * (point.y - viewport.top)  / viewport.height;
-
-	coords.x = -1.f + 2.f * (point.x - 0.f) / getWidth();
-	coords.y = 1.f  - 2.f * (point.y - 0.f)  / getHeight(); //CHEATING FOR NOW
+	IntRect viewport = getViewport(view);
+	coords.x = -1.f + 2.f * (point.x - viewport.left) / viewport.width;
+	coords.y = 1.f  - 2.f * (point.y - viewport.top)  / viewport.height;
 
 	// Then transform by the inverse of the view matrix
 	return view.getInverseTransform().transformPoint(coords);
@@ -118,12 +149,12 @@ bool Window::getFullscreen(){
 };
 
 /// Check if there is a pending event
-bool Window::pollEvent(InputEvent &event){
+bool Window::pollEvent(Event &event){
 #ifdef PARABOLA_DESKTOP
-	static sf::Event tevent;
+	sf::Event tevent;
 	if(myWindowImpl->pollEvent(tevent)){
-		event.type = (InputEvent::EventType)(int)tevent.type;
-		event.mouseButton = *static_cast<InputEvent::MouseButtonEvent*>((void*)&tevent.mouseButton);	
+		event.type = (Event::EventType)(int)tevent.type;
+		event.mouseButton = *static_cast<Event::MouseButtonEvent*>((void*)&tevent.mouseButton);	
 
 		//event = static_cast<InputEvent>((void*)&tevent);
 		//memcpy(&event, &tevent, sizeof(event.type)/* + sizeof(InputEvent::KeyEvent)*/);
@@ -150,6 +181,15 @@ void Window::swapBuffers(){
 	myWindowImpl->display();
 #elif defined PARABOLA_ANDROID
 	
+#endif
+};
+
+/// Sets a new title to the window
+void Window::setTitle(const String &title){
+#ifdef PARABOLA_DESKTOP
+	myWindowImpl->setTitle(title);
+#elif defined PARABOLA_ANDROID
+
 #endif
 };
 	

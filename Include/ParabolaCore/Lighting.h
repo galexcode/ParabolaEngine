@@ -2,7 +2,7 @@
 #define PARABOLA_LIGHTING_H
 
 #include "Platform.h"
-#include "BoundingBox.h"
+#include "Rect.h"
 #include "SceneRenderer.h"
 #include "Window.h"
 
@@ -16,7 +16,7 @@ public:
 
 	void setView(View &view);
 
-	void create(BoundingBox &area, Window *window);
+	void create(Rect &area, Window *window);
 
 	void render(SceneRenderer* renderer);
 
@@ -24,7 +24,7 @@ private:
 	bool myReady;
 	class LightingHolder;
 	LightingHolder *myData;
-	BoundingBox myBounds;
+	FloatRect myBounds;
 };
 
 class PARABOLA_API ShadowCaster{

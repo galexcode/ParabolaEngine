@@ -56,7 +56,7 @@ PARABOLA_NAMESPACE_BEGIN
 	/// Delivers an event to the state
 	/// If returns true, it will be propagated to the rest of the stack
 	/// Otherwise it will remain under this.
-	bool StateMachineNode::onEvent(InputEvent &event){
+	bool StateMachineNode::onEvent(Event &event){
 		return true;
 	};
 

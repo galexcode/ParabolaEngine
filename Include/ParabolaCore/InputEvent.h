@@ -194,6 +194,7 @@ public :
 		F14,          ///< The F14 key
 		F15,          ///< The F15 key
 		Pause,        ///< The Pause key
+		AndroidBack,  ///< Android Back button
 
 		KeyCount      ///< Keep last -- the total number of keyboard keys
 	};
@@ -313,7 +314,7 @@ public :
 	//static void update();
 };
 
-class PARABOLA_API InputEvent{
+class PARABOLA_API Event{
 public:
 	float x,y;
 

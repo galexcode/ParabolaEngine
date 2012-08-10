@@ -1,5 +1,6 @@
 #include "ParabolaCore/AnimationTextWriter.h"
 #include <iostream>
+
 #include <cmath>
 
 PARABOLA_NAMESPACE_BEGIN
@@ -31,16 +32,16 @@ void AnimationTextWriter::update(float elapsedTime){
 		else{
 			float current_index = myFunction->compute(myTotalTime, 0.f, (float)myText.length(), myDuration);
 			//std::cout<<"computed: "<<current_index<<std::endl;
-			if(std::floor(current_index) > prevIndex && current_index >= 0 && current_index < myText.length()){
+			if( floor(current_index) > prevIndex && current_index >= 0 && current_index < myText.length()){
 				// shout any in between characters
 				if(prevIndex + 1 < floor(current_index)){
 					// some characters missing
 					for(int pos = prevIndex + 1; pos < floor(current_index); pos++){
-						myAnimables[0]->animable_add_character(myText[pos]);
+						m_animables[0]->animable_add_character(myText[pos]);
 					}
 					
 				}
-				myAnimables[0]->animable_add_character(myText[current_index]);
+				m_animables[0]->animable_add_character(myText[current_index]);
 				prevIndex = floor(current_index);
 			}
 		}

@@ -18,6 +18,8 @@ public:
 	/// Anything that inherits Drawable can be drawn using a renderer
 	virtual void draw(Drawable &drawable);
 
+	virtual void drawCube(float x, float y, float z, float len, Color color);
+
 	virtual void prepare(int w, int h);
 	virtual void drawDebugQuad(float x, float y, float angle, float width, float height, Color color);
 	virtual void display();

@@ -144,16 +144,16 @@ void RocketPlugin::stopLibRocket(){
 /// This is used to have a specific element in your document fetching input and sending it through the event dispatcher
 /// Returns an element that you can configure to taste.
 /// This must be done before the document is loaded, or the tag with this name will not be any special
-/*bool RocketPlugin::registerEventCatcher(String tag_name){
-	if(myEventCatchers.find(tag_name) != myEventCatchers.end())return false; //already exists
+bool RocketPlugin::registerEventCatcher(String tag_name){
+	/*if(myEventCatchers.find(tag_name) != myEventCatchers.end())return false; //already exists
 
 	Rocket::Core::String str = tag_name.c_str();
 	Rocket::Core::ElementInstancerGeneric<RocketEventBox> *tagInstancer = new Rocket::Core::ElementInstancerGeneric<RocketEventBox>();
 	tagInstancer = (Rocket::Core::ElementInstancerGeneric<RocketEventBox>*)Rocket::Core::Factory::RegisterElementInstancer(str, tagInstancer);
 	if(!tagInstancer)return false;
-	tagInstancer->RemoveReference();
+	tagInstancer->RemoveReference();*/
 	return true;
-};*/
+};
 
 /// Get an already created event catcher
 /*RocketEventBox* RocketPlugin::getEventCatcher(const String &tagName){

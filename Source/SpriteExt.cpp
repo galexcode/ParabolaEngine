@@ -91,6 +91,8 @@ Texture* SpriteExt::addTexture(const String &path, const String &name, Color mas
 	img.loadFromFile(path);
 	img.createMaskFromColor(maskColor);
 
+    printf("SpriteExt loading texture: %s\n", path.c_str());
+    
 	m_textures[name] = new Texture();
 	m_textures[name]->loadFromImage(img);
 
@@ -187,7 +189,7 @@ void SpriteExt::update(float elapsedTime){
 	}
 };
 
-void SpriteExt::onFrameChangedCallback(Texture* t, BoundingBox b){
+void SpriteExt::onFrameChangedCallback(Texture* t, FloatRect b){
 	onFrameChange.emit(t, b);
 };
 
@@ -418,10 +420,10 @@ void SpriteExt::parseAnimation(String &code){
 
 							if(values.size() == 4){
 								// i have four floats
-								newFrame.myRect.Position.x = values[0].toFloat();
-								newFrame.myRect.Position.y = values[1].toFloat();
-								newFrame.myRect.Size.x = values[2].toFloat();
-								newFrame.myRect.Size.y = values[3].toFloat();
+								newFrame.myRect.left = values[0].toFloat();
+								newFrame.myRect.top = values[1].toFloat();
+								newFrame.myRect.width = values[2].toFloat();
+								newFrame.myRect.height = values[3].toFloat();
 							}
 						}
 						else if(proptype == "duration"){

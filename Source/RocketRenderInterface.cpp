@@ -3,6 +3,7 @@
 #include "ParabolaCore/Renderer.h"
 #include "ParabolaCore/Vectors.h"
 #include "ParabolaCore/Textures.h"
+#include "ParabolaCore/Engine.h"
 //#include "ParabolaCore/SceneRenderer.h"
 
 #include <iostream>
@@ -13,6 +14,8 @@
 #ifdef PARABOLA_WINDOWS
 #include <windows.h>
 #include <GL/GL.h>
+#elif defined PARABOLA_IPHONE
+#include <OpenGLES/ES1/gl.h>
 #endif
 
 
@@ -45,7 +48,7 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int n
 				v[j].position = Vec2f(vertices[i].position.x, vertices[i].position.y);
 				v[j].color = Color(vertices[i].colour.red,vertices[i].colour.green,vertices[i].colour.blue, vertices[i].colour.alpha);
 				if(Image){
-					v[j].texCoords = Vec2f(vertices[i].tex_coord.x/**((Texture*)Image)->getSize().x*/, vertices[i].tex_coord.y/**((Texture*)Image)->getSize().y*/);
+					v[j].texCoords = Vec2f(vertices[i].tex_coord.x*((Texture*)Image)->getSize().x, vertices[i].tex_coord.y*((Texture*)Image)->getSize().y);
 				}			
 			}
 			/*states->blendMode = sf::BlendAlpha;
@@ -54,13 +57,13 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int n
 			states->transform.translate(translation.x, translation.y);
 			*/
 			glPushMatrix();
-			glLoadIdentity();
+			//glLoadIdentity();
 			glTranslatef(translation.x, translation.y, 0.f);
 			glEnable(GL_BLEND);
 			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			if(Image){
 				glEnable(GL_TEXTURE_2D);
-				((Texture*)Image)->bind();
+				((Texture*)Image)->bind(Texture::Pixels);
 			}
 
 			myRenderer->drawVertexArray(v);	
@@ -205,7 +208,7 @@ Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rock
 	// Called by Rocket when it wants to change the scissor region.
 	void RocketRenderInterface::SetScissorRegion(int x, int y, int width, int height)
 	{
-		glScissor(x, 768 - (y + height), width, height);
+		glScissor(x, Engine::instance()->getWindow().getHeight() - (y + height), width, height);
 	}
 
 	// Called by Rocket when a Image is required by the library.		

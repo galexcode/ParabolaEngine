@@ -5,6 +5,19 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+/// Shuts down the environment for program closure
+void Application::close(){
+#ifdef PARABOLA_ANDROID
+	AndroidInterface::closeActivity();
+#endif
+}
+
+
+
+
+
+
+std::vector<Event> Application::pendingEvents;
 
 Application* Application::myInstance = NULL;
 
@@ -14,7 +27,7 @@ Application::Application(){
 
 #ifdef PARABOLA_DESKTOP
 	myPlatformType = ApplicationSettings::Desktop;
-#elif defined PARABOLA_ANDROID
+#elif defined PARABOLA_ANDROID || defined PARABOLA_IPHONE
 	myPlatformType = ApplicationSettings::Mobile;	
 #endif
 }

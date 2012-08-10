@@ -10,12 +10,12 @@
 #include "FileSystem.h"
 #include "StringID.h"
 #include "Signals.h"
-#include "MathTools.h"
+#include "Math.h"
 #include "Vectors.h"
 #include "Packages.h"
 #include "DateTime.h"
 #include "Tree.h"
-#include "BoundingBox.h"
+#include "Rect.h"
 #include "StringStream.h"
 
 /**

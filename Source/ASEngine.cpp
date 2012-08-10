@@ -166,7 +166,8 @@ ASScript* ASEngine::loadScript(const String &name, const String &alias, bool isB
 
 		delete fp;
 #else 
-		r = Builder.AddSectionFromFile(name.c_str());
+		FileInterface::onFileRequest.emit(name);
+		r = Builder.AddSectionFromFile(String(FileInterface::m_root + name).c_str());
 #endif
 		
 		if(r<0){

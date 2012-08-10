@@ -31,10 +31,6 @@
 #include "Platform.h"
 #include "Glyph.h"
 #include "Textures.h"
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/Rect.hpp>
-#include <SFML/System/Vector2.hpp>
-#include <SFML/System/String.hpp>
 #include <map>
 #include <string>
 #include <vector>
@@ -42,13 +38,12 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
-class InputStream;
 
 ////////////////////////////////////////////////////////////
 /// \brief Class for loading and manipulating character fonts
 ///
 ////////////////////////////////////////////////////////////
-class SFML_GRAPHICS_API Font
+class PARABOLA_API Font
 {
 public :
 
@@ -129,7 +124,7 @@ public :
     /// \see loadFromFile, loadFromMemory
     ///
     ////////////////////////////////////////////////////////////
-    bool loadFromStream(InputStream& stream);
+   // bool loadFromStream(InputStream& stream);
 
     ////////////////////////////////////////////////////////////
     /// \brief Retrieve a glyph of the font
@@ -241,7 +236,7 @@ private :
         Page();
 
         GlyphTable       glyphs;  ///< Table mapping code points to their corresponding glyph
-        sf::Texture      texture; ///< Texture containing the pixels of the glyphs
+        Texture      texture; ///< Texture containing the pixels of the glyphs
         unsigned int     nextRow; ///< Y position of the next new row in the texture
         std::vector<Row> rows;    ///< List containing the position of all the existing rows
     };
@@ -274,7 +269,7 @@ private :
     /// \return Found rectangle within the texture
     ///
     ////////////////////////////////////////////////////////////
-    sf::IntRect findGlyphRect(Page& page, unsigned int width, unsigned int height) const;
+    IntRect findGlyphRect(Page& page, unsigned int width, unsigned int height) const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Make sure that the given size is the current one

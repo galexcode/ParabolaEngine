@@ -64,7 +64,7 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 
-	void StateMachine::propagateEvent(InputEvent &event){
+	void StateMachine::propagateEvent(Event &event){
 		if(nodeStack.size() == 0){
 			return;
 		}
@@ -110,25 +110,25 @@ PARABOLA_NAMESPACE_BEGIN
 			return false;
 	};
 
-	void StateMachine::drawStates(Renderer *renderer){
-		if(nodeStack.size() == 0){
-			return;
-		}
+void StateMachine::drawStates(Renderer *renderer){
+	if(nodeStack.size() == 0){
+		return;
+	}
 
-		int index = nodeStack.size()-1;
-		bool stop = false;
+	int index = 0;
+	bool stop = false;
 
-		while(index != -1 && stop == false){
-			stop = !nodeStack[index]->onDraw(renderer);
-			index--;
-		}
-	};
+	while(index < nodeStack.size() && stop == false){
+		stop = !nodeStack[index]->onDraw(renderer);
+		index++;
+	}
+};
 
 	void StateMachine::updateStates(Time &time){
 		if(nodeStack.size() == 0){
 			return;
 		}
-
+		// older states draw first
 		int index = nodeStack.size()-1;
 		bool stop = false;
 

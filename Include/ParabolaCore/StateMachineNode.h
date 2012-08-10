@@ -9,7 +9,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 class StateMachine;
 class Renderer;
-class InputEvent;
+class Event;
 
 	/**
 		\ingroup Core
@@ -51,7 +51,7 @@ class InputEvent;
 		/// Delivers an event to the state
 		/// If returns true, it will be propagated to the rest of the stack
 		/// Otherwise it will remain under this.
-		virtual bool onEvent(InputEvent &event);
+		virtual bool onEvent(Event &event);
 
 		/// Tells the state how much time it should update itself
 		/// Must return false if updating lesser states is not wanted

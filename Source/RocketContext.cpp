@@ -3,6 +3,7 @@
 #include "ParabolaCore/RocketRenderInterface.h"
 #include "ParabolaCore/RocketSystemInterface.h"
 #include "ParabolaCore/StringList.h"
+#include "ParabolaCore/Logger.h"
 #include "ParabolaCore/InputEvent.h"
 //#include "ParabolaCore/Events.h"
 #include <Rocket/Debugger.h>
@@ -108,40 +109,51 @@ String RocketContext::contextName(){
 };
 
 /// Process the event
-bool RocketContext::processEvent(InputEvent &event){
+bool RocketContext::processEvent(Event &event){
+	m_eventProcessFlag = false;
+
 	switch(event.type){
-		case InputEvent::MouseMoved:
+		case Event::MouseMoved:
 		{
 			OnMouseMove(event.mouseMove.x, event.mouseMove.y, 0);
 		}break;
-		case InputEvent::MouseButtonPressed:
+		case Event::MouseButtonPressed:
 		{
 			OnMouseButtonDown(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y, 0);
 		}break;
-		case InputEvent::MouseButtonReleased:
+		case Event::MouseButtonReleased:
 		{
 			OnMouseButtonUp(event.mouseButton.button, event.mouseButton.x, event.mouseButton.y, 0);
 		}break;
 
-		case InputEvent::TouchPressed:
+		case Event::TouchPressed:
 			{
 	 			OnMouseMove(event.x, event.y,0);
 				OnMouseButtonDown(Mouse::Left, event.x, event.y, 0);
+				TESTLOG("touch press")
 				
 			}break;
-		case InputEvent::TouchReleased:
+		case Event::TouchReleased:
 			{
 				OnMouseButtonUp(Mouse::Left, event.x, event.y, 0);
 				OnMouseMove(0,0,0);
 			}break; 
-		case InputEvent::TouchMoved:
+		case Event::TouchMoved:
 			{ 
 				OnMouseMove(event.x, event.y, 0);			
 			}break;
 		
 	}
 
-	return true;
+	return m_eventProcessFlag;
+};
+
+/// Sets the event processed flag as true,
+/// This call only makes sense within a processEvent() call
+/// Setting the flag to true, means that the function will return true
+/// This is used to only pass to game state events that are not used by the ui.
+void RocketContext::setEventProcessedFlag(bool state){
+	m_eventProcessFlag = state;
 };
 
 /// Loads a document from documentPath

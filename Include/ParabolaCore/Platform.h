@@ -4,7 +4,7 @@
 	// Engine Version
 	#define PARABOLA_VERSION_MAJOR 0
 	#define PARABOLA_VERSION_MINOR 8
-	#define PARABOLA_VERSION_PATCH 3
+	#define PARABOLA_VERSION_PATCH 5
 	#define PARABOLA_VERSION_STAMP "ParabolaEngine v0.8.3"
 
 	/**
@@ -39,15 +39,27 @@
 		#endif
 
 
-    #elif defined __APPLE_CC__
+    #elif defined __APPLE_CC__ || defined __APPLE__
         #define PARABOLA_UNIX
-        #define PARABOLA_MAC
-        #define PARABOLA_OS "mac"
+        #define PARABOLA_APPLE
+        #include "TargetConditionals.h"
+
+#if TARGET_OS_IPHONE
+#define PARABOLA_IPHONE
+#define PARABOLA_GLES
+#define PARABOLA_NOSFML
+#else
+#define PARABOLA_MAC
+#endif
+
         #define PARABOLA_COMPILER "gcc"
         #define PARABOLA_COMPILER_GCC
 
     #elif defined ANDROID_NDK || defined ANDROID
 		#define PARABOLA_ANDROID
+#define PARABOLA_GLES
+#define PARABOLA_NOSFML
+        #define PARABOLA_UNIX
 		#define PARABOLA_COMPILER "ndk"	
 		//#define MINIMAL_BUILD // for now build minimally for android
 	#else

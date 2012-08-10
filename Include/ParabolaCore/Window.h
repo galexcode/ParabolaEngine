@@ -2,9 +2,11 @@
 #define PARABOLA_WINDOW_H
 
 #include "Platform.h"
+#include "Strings.h"
 #include "Vectors.h"
 #include "InputEvent.h"
 #include "Views.h"
+#include "RenderTarget.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -15,10 +17,10 @@ PARABOLA_NAMESPACE_BEGIN
 	\brief Represents a screen or window where the engine is able to draw graphics
 
 */
-class PARABOLA_API Window{
+class PARABOLA_API Window : public RenderTarget{
 public:
 	/// Default constructor
-	Window();		
+	Window();
 		
 	/// Destroy the window
 	~Window();
@@ -26,17 +28,22 @@ public:
 	/// Attempts to launch a window if applicable
 	void create(int screenWidth, int screenHeight);
 
+	void create(void* handle);
+
+	/// Sets the window as active for drawing
+	bool setActive(bool flag = true) const;
+
 	/// Convert a point from target coordinates to the view coordinates
 	Vec2f convertCoords(const Vec2i &point, const View &view);
 
 	/// Get the width of the screen/window
-	int getWidth();
+	int getWidth() const;
 
 	/// Get the height of the screen/window
-	int getHeight();
+	int getHeight() const;
 
 	/// Get the size of the window
-	Vec2i getSize();
+	Vec2i getSize() const;
 
 	/// Discard all pending events
 	void discardEvents();
@@ -50,15 +57,21 @@ public:
 	/// Swaps buffers
 	void swapBuffers();
 
+
+	IntRect getViewport(const View& view) const;
+
 	/// Check if there is a pending event
-	bool pollEvent(InputEvent &event);
+	bool pollEvent(Event &event);
 
 	void setFramerateLimit(int limit);
 
+	/// Sets a new title to the window
+	void setTitle(const String &title);
 
-private:
+
+public:
 	class WindowImplementation;
-	WindowImplementation* myWindowImpl;		
+	WindowImplementation* myWindowImpl;
 
 	bool m_fullscreen;
 };

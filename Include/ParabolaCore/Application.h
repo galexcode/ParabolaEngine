@@ -24,6 +24,15 @@ class PARABOLA_API Application{
 public:
 	Application();
 
+	/// Shuts down the environment for program closure
+	static void close();
+
+
+
+    
+
+
+
 	int myWindowWidth, myWindowHeight;
 
 	bool m_running;
@@ -32,7 +41,7 @@ public:
 	bool running();
 
 
-	std::vector<InputEvent> pendingEvents;
+	static std::vector<Event> pendingEvents;
 
 	static int getPlatformType();
 

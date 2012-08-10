@@ -7,7 +7,7 @@
 #include <vector>
 
 PARABOLA_NAMESPACE_BEGIN
-
+class Engine;
 /**
 	\ingroup Core
 	\class GameCoreManager
@@ -36,10 +36,10 @@ PARABOLA_NAMESPACE_BEGIN
 class PARABOLA_API GameCoreManager{
 public:
 	/// Construct the default game core manager settings
-	GameCoreManager();
+	GameCoreManager(Engine* parent);
 
 	/// Push an input event into the games
-	void pushInputEvent(InputEvent &event);
+	void pushInputEvent(Event &event);
 
 	/// Update the state of all games applicable
 	void update(Time time);
@@ -48,12 +48,17 @@ public:
 	/// It will delete the game when appropriate
 	void addGameForExecution(GameCore* instancedGame);
 
+	/// Called only when the top of the execution stack has changed
+	void onActiveGameChanged();
+
 private:
 	/// All games currently running, not necessarily updating or rendering
 	std::vector<GameCore*> myExecutionList;
 
 	/// Variable decides whether a game can be updated without being the active one
 	bool allowBackgroundUpdates;
+
+	Engine* m_creator;
 };
 
 PARABOLA_NAMESPACE_END

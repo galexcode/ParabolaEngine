@@ -42,12 +42,24 @@ Rocket::Core::FileHandle RocketFileInterface::Open(const Rocket::Core::String& p
 
 #elif defined PARABOLA_DESKTOP
 	// normal file behaviour
+   
 	fileStream = new ScopedFile(finalPath, IODevice::BinaryRead);
 	if(fileStream->canRead()){
 		 return (Rocket::Core::FileHandle)fileStream;
 	}
 	else return (Rocket::Core::FileHandle)NULL;
 
+    
+#elif defined PARABOLA_IPHONE
+	// normal file behaviour
+    
+	fileStream = new ScopedFile(pE::FileInterface::m_root + finalPath, IODevice::BinaryRead);
+	if(fileStream->canRead()){
+        return (Rocket::Core::FileHandle)fileStream;
+	}
+	else return (Rocket::Core::FileHandle)NULL;
+
+    
 #endif
 
 	return NULL;

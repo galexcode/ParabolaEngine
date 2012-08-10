@@ -4,9 +4,59 @@
 #include <SFML/System/Clock.hpp>
 #elif defined PARABOLA_ANDROID
 #include <time.h>
+#elif defined PARABOLA_IPHONE
+#include <mach/mach_time.h>
 #endif
 
 PARABOLA_NAMESPACE_BEGIN
+
+////////////////////////////////////////////////////////////////////////// Time class
+Time::Time(){
+	m_microSeconds = 0;
+}
+
+Time::Time(Int64 microSeconds){
+	m_microSeconds = microSeconds;
+}
+
+float Time::asSeconds(){
+	return m_microSeconds / 1000000.f;
+}
+
+Int64 Time::asMiliSeconds(){	
+	return m_microSeconds / 10000.f;
+};
+
+Int64 Time::asMicroseconds(){
+	return m_microSeconds;
+}
+
+// Static
+Time Time::fromSeconds(float seconds){
+	return Time((Int64)(seconds * 1000000.f));
+};
+
+// Build a Time object from an amount of miliseconds
+Time Time::fromMiliSeconds(Int64 miliSeconds){
+	return Time((Int64)(miliSeconds * 10000.f));
+};
+
+// Static
+Time Time::fromMicroseconds(Int64 microSeconds){
+	return Time(microSeconds);	
+};
+
+
+Time Time::operator -(Time right)
+{
+	Time t;
+	t.m_microSeconds = m_microSeconds; - right.asMicroseconds();
+	return t;
+}
+
+
+
+
 
 #ifdef PARABOLA_DESKTOP
 
@@ -15,7 +65,7 @@ public:
 	sf::Clock clock;
 };
 
-#elif defined PARABOLA_ANDROID
+#else
 class Clock::ClockImplementation{
 public:
 	ClockImplementation(){
@@ -23,49 +73,28 @@ public:
 	}
 
 	Time getCurrentTime(){
+#ifdef PARABOLA_ANDROID
 		timespec time;
 		clock_gettime(CLOCK_MONOTONIC, &time);
 		Time genTime;	
-		genTime.myMicroSeconds =  static_cast<Uint64>(time.tv_sec) * 1000000 + time.tv_nsec / 1000;
+		genTime.m_microSeconds =  static_cast<Uint64>(time.tv_sec) * 1000000 + time.tv_nsec / 1000;
 		return genTime;
+#elif defined PARABOLA_IPHONE
+    
+        static mach_timebase_info_data_t frequency = {0,0};
+        if(frequency.denom == 0)
+            mach_timebase_info(&frequency);
+        Uint64 nanoseconds = mach_absolute_time() * frequency.numer / frequency.denom;
+        Time genTime;	
+		genTime.m_microSeconds =  nanoseconds / 1000;
+		return genTime;
+        
+#endif
 	}
 
 	Time myStartTime;
 };
 #endif
-
-
-float Time::asSeconds(){
-	return myMicroSeconds / 1000000.f;
-}
-
-float Time::asMiliSeconds(){	
-	return myMicroSeconds / 10000.f;
-};
-
-Int64 Time::asMicroseconds(){
-	return myMicroSeconds;
-}
-
-Time Time::fromSeconds(float seconds){
-	return Time((Int64)(seconds * 1000000.f));
-};
-
-
-Time Time::fromMicroseconds(Int64 ms){
-	Time t;
-	t.myMicroSeconds = ms;
-	return t;
-};
-
-
-Time Time::operator -(Time right)
-{
-	Time t;
-	t.myMicroSeconds = myMicroSeconds - right.asMicroseconds();
-	return t;
-}
-
 
 
 

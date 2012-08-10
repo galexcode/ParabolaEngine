@@ -63,6 +63,8 @@ PARABOLA_NAMESPACE_BEGIN
 		static bool isFile(String fileName);
 
 
+		static String getDocumentsDirectory();
+
 		/**
 			\brief Creates a directory in the underlying file system.
 		*/

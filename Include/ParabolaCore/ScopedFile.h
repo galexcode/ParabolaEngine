@@ -8,6 +8,14 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+/**
+	\ingroup Foundation
+	\class ScopedFile
+	\brief File interaction class. Use this instead of FILE* for true cross-platform support
+
+	The main feature of ScopedFile is to support seamlessly reading from entire files and specified regions, like an APK asset, or a file within a package.
+
+*/
 class PARABOLA_API ScopedFile : public IODevice{
 public:
 	/// Constructs an uninitialized stream

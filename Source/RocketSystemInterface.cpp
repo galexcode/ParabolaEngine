@@ -7,8 +7,7 @@ PARABOLA_NAMESPACE_BEGIN
 	// Get the number of seconds elapsed since the start of the application
 	float RocketSystemInterface::GetElapsedTime()
 	{
-		//return timer.getElapsedTime().asSeconds() / 1000.f;
-		return 0.f;
+		return m_timer.getElapsedTime().asSeconds();
 	}
 
 	bool RocketSystemInterface::LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String& message)

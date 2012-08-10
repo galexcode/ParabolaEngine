@@ -1,5 +1,5 @@
 #include "ParabolaCore/KinesisForge.h"
-#include "ParabolaCore/MathTools.h"
+#include "ParabolaCore/Math.h"
 
 #include "ParabolaCore/TextStream.h"
 #include "ParabolaCore/StringStream.h"

@@ -3,18 +3,22 @@
 
 #ifdef PARABOLA_DESKTOP
 #include <ParabolaCore/RendererOpenGL.h>
-#elif defined PARABOLA_ANDROID
+#elif defined PARABOLA_ANDROID || defined PARABOLA_IPHONE
 #include <ParabolaCore/RendererGLES.h>
 #endif
 
 PARABOLA_NAMESPACE_BEGIN
 /// Auto detects an appropriate renderer
-Renderer* Renderer::createAutomaticRenderer(){
-
+Renderer* Renderer::createAutomaticRenderer(RenderTarget* target){
+	
 #ifdef PARABOLA_DESKTOP
-	return new RendererOpenGL();
-#elif defined PARABOLA_ANDROID
-	return new RendererGLES();
+	RendererOpenGL* renderer = new RendererOpenGL();
+	renderer->m_renderTarget = target;
+	return renderer;
+#elif defined PARABOLA_ANDROID	|| defined PARABOLA_IPHONE
+	RendererGLES* renderer = new RendererGLES();
+	renderer->m_renderTarget = target;
+	return renderer;
 #else
 	return NULL;
 #endif
@@ -30,6 +34,10 @@ Renderer::Renderer(){
 void Renderer::setView(const View &view){
 	m_currentView = view;
 	applyView(m_currentView);
+};
+
+void Renderer::drawCube(float x, float y, float z, float len, Color color){
+
 };
 
 /// Clear the bound buffer

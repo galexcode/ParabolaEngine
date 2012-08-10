@@ -32,7 +32,7 @@ void AnimationPosition::update(float elapsedTime){
 		totalTime += elapsedTime;
 		if(totalTime >= myDuration){
 			myStart = myDestination;
-			myAnimables[0]->animable_set_position(myDestination.x,myDestination.y);
+			m_animables[0]->animable_set_position(myDestination.x,myDestination.y);
 			
 		}
 
@@ -40,15 +40,15 @@ void AnimationPosition::update(float elapsedTime){
 		float calc_y = myFunction->compute(totalTime, myStart.y, myDestination.y - myStart.y, myDuration);
 
 
-		myAnimables[0]->animable_set_position(calc_x,calc_y);
+		m_animables[0]->animable_set_position(calc_x,calc_y);
 		//std::cout<<"t "<<totalTime<<std::endl;
 	}
 };
 
 /// Play override
 void AnimationPosition::play(){
-	if(myAnimables.size() != 0){
-		myStart = myAnimables[0]->animable_get_position();
+	if(m_animables.size() != 0){
+		myStart = m_animables[0]->animable_get_position();
 		totalTime = 0.f;
 		AnimationInterface::play();
 	}	

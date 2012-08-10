@@ -64,7 +64,7 @@ PARABOLA_NAMESPACE_BEGIN
 		void updateStates(Time &time);
 
 		/// Delivers the event to the right events
-		void propagateEvent(InputEvent &event);
+		void propagateEvent(Event &event);
 
 		/// Draws the right states
 		void drawStates(Renderer *renderer);

@@ -74,10 +74,10 @@ bool ScopedFile::open(FILE* fileHandle, Int64 startOffset, Int64 length){
 		m_fileSize = ftell(m_handle);
 		fseek(m_handle, m_offset, SEEK_SET);
 
-		length = m_fileSize;
+		m_length = m_fileSize;
 	}
 	else{
-		m_fileSize = length;
+		m_length = m_fileSize = length;
 		fseek(m_handle, m_offset, SEEK_SET);
 	}
 

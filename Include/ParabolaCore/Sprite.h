@@ -35,9 +35,9 @@ public:
 	void setTexture(const Texture &texture, bool resetRect = false);
 
 	/// Set the texture rect to show
-	void setTextureRect(const BoundingBox &rect);
+	void setTextureRect(const FloatRect &rect);
 
-	BoundingBox getGlobalBounds() const;
+	FloatRect getGlobalBounds() const;
 
 	/// Get the binded texture
 	const Texture& getTexture();
@@ -45,11 +45,11 @@ public:
 	/// Resizes the sprite to the selected dimensions using the scale.
 	void resize(float x, float y);
 
-	BoundingBox getLocalBounds() const;
+	FloatRect getLocalBounds() const;
 
 	const Texture* m_texture;
 	VertexArray m_vertices;
-	BoundingBox m_textureRect;
+	FloatRect m_textureRect;
 
 
 	/*/// Set the position from a vec2f

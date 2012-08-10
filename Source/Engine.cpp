@@ -16,9 +16,11 @@ Engine* Engine::instance(){
 };
 
 /// Default construction
-Engine::Engine(){
+Engine::Engine() : myGameManager(this){
 	myInstance = this;
 	myLastUpdate = 0;
+
+	m_running = false;
 };
 
 /// Safely destructs the engine
@@ -41,15 +43,15 @@ Window& Engine::getWindow(){
 /// Will fetch pending events, update the games at fixed steps and do rendering
 void Engine::update(){
 	// Get application events
-	while(Application::myInstance->pendingEvents.size() > 0){
-		InputEvent ev = Application::myInstance->pendingEvents.back();
+	while(Application::pendingEvents.size() > 0){
+		Event ev = Application::myInstance->pendingEvents.back();
 		//send
 		myGameManager.pushInputEvent(ev);
 		//destroy
 		Application::myInstance->pendingEvents.pop_back();
 	}
 
-	InputEvent ev;
+	Event ev;
 	while(myWindow.pollEvent(ev)){
 		myGameManager.pushInputEvent(ev);
 	}
@@ -62,6 +64,25 @@ void Engine::update(){
 /// Launches the necessary services, like the window, if on a pc
 void Engine::create(){
 	myWindow.create(mySettings.windowWidth,mySettings.windowHeight);
+
+	m_running = true;
+};
+
+void Engine::createFromHandle(void* handle){
+	myWindow.create(handle);
+
+	m_running = true;
+
+};
+
+/// Check if the engine is currently ready to function normally
+bool Engine::isRunning(){
+	return m_running;
+};
+
+/// Sets the engine back to its uninitialized state
+void Engine::finish(){
+	m_running = false;
 };
 
 	/*

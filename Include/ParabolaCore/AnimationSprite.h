@@ -4,7 +4,7 @@
 #include "Platform.h"
 #include "Animation.h"
 #include "Sprite.h"
-#include "BoundingBox.h"
+#include "Rect.h"
 #include "Textures.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -24,7 +24,7 @@ public:
 	AnimationSprite();
 
 	/// Add a frame
-	void addFrame(Texture* texture, BoundingBox rect, float duration);
+	void addFrame(Texture* texture, FloatRect rect, float duration);
 	/// Add a new frame to the animation
 	void addFrame2(AnimationFrame &frame);
 
@@ -52,18 +52,18 @@ public:
 	*/
 	int buildFromHorizontalSheet(float frameWidth, int frameCount, Texture* texture);
 
-	sigc::signal<void, Texture*, BoundingBox> onFrameChange;
+	sigc::signal<void, Texture*, FloatRect> onFrameChange;
 
 	class PARABOLA_API AnimationFrame{
 	public:
 		AnimationFrame();
-		AnimationFrame(BoundingBox &box, Texture *texture, double time);
+		AnimationFrame(FloatRect &box, Texture *texture, double time);
 
 		/// Define the texture wanted, if the rect is still undefined (positioned at -1 -1), it becomes the full texture rect
 		void setTexture(Texture* texture);
 
 		double time;
-		BoundingBox myRect;
+		FloatRect myRect;
 
 		friend class AnimationSprite;
 	private:

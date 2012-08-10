@@ -67,6 +67,7 @@ JNIEXPORT void
 		
 		pE::AndroidInterface::setPackageName(s3);
 		pE::AndroidInterface::setActivityName(s4);
+		pE::AndroidInterface::setExternalStorageDirectory(s2);
 
 		myApp.myDataDirectory = s1;
 		myApp.myExternalStorageDirectory = s2; 

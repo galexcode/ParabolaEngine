@@ -189,7 +189,7 @@ public:
 	bool exportKinesis();
 	
 	/// Exports the renderer and a few more things
-	bool exportBasicGraphics();
+	bool exportGraphics();
 
 	/// Exports the content banks
 	bool exportContentBanks();

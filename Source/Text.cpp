@@ -1,37 +1,48 @@
+
 ////////////////////////////////////////////////////////////
-//
-// SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-////////////////////////////////////////////////////////////
-#ifndef MINIMAL_BUILD
+//#ifndef MINIMAL_BUILD
 ////////////////////////////////////////////////////////////
 // Headers
 ////////////////////////////////////////////////////////////
 #include <ParabolaCore/Text.h>
-
-#include <SFML/Graphics/Texture.hpp>
-#include <SFML/Graphics/RenderTarget.hpp>
+#include <ParabolaCore/Renderer.h>
+#include <ParabolaCore/Logger.h>
+#include <ParabolaCore/Sprite.h>
 #include <cassert>
 
+#include <iostream>
+using namespace std;
+
+#ifdef PARABOLA_IPHONE
+#include <OpenGLES/ES1/gl.h>
+#endif
+
+
 PARABOLA_NAMESPACE_BEGIN
+
+	Text::Text(): m_string(),
+	m_font(&Font::getDefaultFont()),
+	m_characterSize(30),
+	m_style(Regular),
+	m_color(255,255,255),
+	m_vertices(Triangles, 0),
+	m_bounds(0,0,0,0)
+{
+
+}
+
+/// Creates a text with default font and content text positioned at (x,y) as top-left coordinate
+Text::Text(String text, float x, float y) : m_string(text),
+											m_font(&Font::getDefaultFont()),
+											m_characterSize(30),
+											m_style(Regular),
+											m_color(255,255,255),
+											m_vertices(Triangles, 0),
+											m_bounds(0,0,0,0)
+{
+		updateGeometry();
+};
+
 	/*
 ////////////////////////////////////////////////////////////
 Text::Text() :
@@ -63,12 +74,43 @@ m_bounds       ()
 
 /// Draws the text
 void Text::onDraw(Renderer* renderer){
-	assert(m_font != NULL);
+	/*assert(m_font != NULL);
 
 	states.transform *= getTransform();
 	states.blendMode = BlendAlpha; // alpha blending is mandatory for proper text rendering
 	states.texture = &m_font->getTexture(m_characterSize);
-	target.draw(m_vertices, states);
+
+
+	target.draw(m_vertices, states);*/
+
+	//glEnable(GL_TEXTURE_2D);
+	//m_bounds.top = 0;
+	//m_bounds.height = 30;
+	//renderer->drawDebugQuad(m_bounds.left + m_bounds.width/2, m_bounds.top + m_bounds.height/2, 0, m_bounds.width, m_bounds.height, Color(100,100,0,30));
+
+	//cout<<"Pos: "<<m_bounds.top<<endl;
+
+	/*Sprite spr;
+	spr.setTexture(m_font->getTexture(m_characterSize));
+	spr.move(0,50);*/
+	//renderer->draw(spr);
+
+	//setPosition(400,400);
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glPushMatrix();
+	glMultMatrixf(getTransform().getMatrix());
+	m_font->getTexture(m_characterSize).bind(Texture::Pixels);
+	//PRINTLOG("ParabolaEngine", "Using texture with id: %d\n", m_font->getTexture(m_characterSize).m_texture);
+
+	//cout<<"Drawing "<<m_vertices.m_vertices.size() / 6<<endl;
+
+	renderer->drawVertexArray(m_vertices);
+	glPopMatrix();
+	glDisable(GL_BLEND);
+	glDisable(GL_TEXTURE_2D);
+
 };
 
 
@@ -94,39 +136,39 @@ void Text::setFont(const Font& font)
 ////////////////////////////////////////////////////////////
 void Text::setCharacterSize(unsigned int size)
 {
-    if (m_characterSize != size)
+    /*if (m_characterSize != size)
     {
         m_characterSize = size;
         updateGeometry();
-    }
+    }*/
 }
 
 
 ////////////////////////////////////////////////////////////
 void Text::setStyle(Uint32 style)
 {
-    if (m_style != style)
+    /*if (m_style != style)
     {
         m_style = style;
         updateGeometry();
-    }
+    }*/
 }
 
 
 ////////////////////////////////////////////////////////////
 void Text::setColor(const Color& color)
 {
-    if (color != m_color)
+  /*  if (color != m_color)
     {
         m_color = color;
         for (unsigned int i = 0; i < m_vertices.getVertexCount(); ++i)
             m_vertices[i].color = m_color;
-    }
+    }*/
 }
 
 
 ////////////////////////////////////////////////////////////
-const String& Text::getString() const
+const UString& Text::getString() const
 {
     return m_string;
 }
@@ -135,7 +177,7 @@ const String& Text::getString() const
 ////////////////////////////////////////////////////////////
 const Font& Text::getFont() const
 {
-    assert(m_font != NULL); // can never be NULL, always &Font::getDefaultFont() by default
+   // assert(m_font != NULL); // can never be NULL, always &Font::getDefaultFont() by default
     return *m_font;
 }
 
@@ -162,9 +204,9 @@ const Color& Text::getColor() const
 
 
 ////////////////////////////////////////////////////////////
-Vector2f Text::findCharacterPos(std::size_t index) const
+Vec2f Text::findCharacterPos(std::size_t index) const
 {
-    assert(m_font != NULL);
+    /*assert(m_font != NULL);
 
     // Adjust the index if it's out of range
     if (index > m_string.getSize())
@@ -202,7 +244,9 @@ Vector2f Text::findCharacterPos(std::size_t index) const
     // Transform the position to global coordinates
     position = getTransform().transformPoint(position);
 
-    return position;
+    return position;*/
+
+	return Vec2f();
 }
 
 
@@ -221,15 +265,15 @@ FloatRect Text::getGlobalBounds() const
 
 
 ////////////////////////////////////////////////////////////
-void Text::draw(RenderTarget& target, RenderStates states) const
-{
-    assert(m_font != NULL);
+/*void Text::draw(RenderTarget& target, RenderStates states) const
+{*/
+   /* assert(m_font != NULL);
 
     states.transform *= getTransform();
     states.blendMode = BlendAlpha; // alpha blending is mandatory for proper text rendering
     states.texture = &m_font->getTexture(m_characterSize);
-    target.draw(m_vertices, states);
-}
+    target.draw(m_vertices, states);*/
+//}
 
 
 ////////////////////////////////////////////////////////////
@@ -240,10 +284,10 @@ void Text::updateGeometry()
     // Clear the previous geometry
     m_vertices.clear();
 
-    // No text: nothing to draw
+    /*// No text: nothing to draw
     if (m_string.isEmpty())
-        return;
-
+        return;*/
+		
     // Compute values related to the text style
     bool  bold               = (m_style & Bold) != 0;
     bool  underlined         = (m_style & Underlined) != 0;
@@ -273,10 +317,12 @@ void Text::updateGeometry()
             float top = y + underlineOffset;
             float bottom = top + underlineThickness;
 
-            m_vertices.append(Vertex(Vector2f(0, top),    m_color, Vector2f(1, 1)));
-            m_vertices.append(Vertex(Vector2f(x, top),    m_color, Vector2f(1, 1)));
-            m_vertices.append(Vertex(Vector2f(x, bottom), m_color, Vector2f(1, 1)));
-            m_vertices.append(Vertex(Vector2f(0, bottom), m_color, Vector2f(1, 1)));
+            m_vertices.append(Vertex(Vec2f(0, top),    m_color, Vec2f(1, 1)));
+            m_vertices.append(Vertex(Vec2f(x, top),    m_color, Vec2f(1, 1)));
+            m_vertices.append(Vertex(Vec2f(x, bottom), m_color, Vec2f(1, 1)));
+            m_vertices.append(Vertex(Vec2f(0, bottom), m_color, Vec2f(1, 1)));
+
+			cout<<"No."<<endl;
         }
 
         // Handle special characters
@@ -302,10 +348,22 @@ void Text::updateGeometry()
         float v2 = static_cast<float>(glyph.textureRect.top  + glyph.textureRect.height);
 
         // Add a quad for the current character
-        m_vertices.append(Vertex(Vector2f(x + left  - italic * top,    y + top),    m_color, Vector2f(u1, v1)));
-        m_vertices.append(Vertex(Vector2f(x + right - italic * top,    y + top),    m_color, Vector2f(u2, v1)));
-        m_vertices.append(Vertex(Vector2f(x + right - italic * bottom, y + bottom), m_color, Vector2f(u2, v2)));
-        m_vertices.append(Vertex(Vector2f(x + left  - italic * bottom, y + bottom), m_color, Vector2f(u1, v2)));
+		/*cout<<"adding uvs: " << u1 << " " << v1 << " " << u2 << " " << v2 <<endl;
+        m_vertices.append(Vertex(Vec2f(x + left  - italic * top,    y + top),    m_color, Vec2f(u1, v1)));
+        m_vertices.append(Vertex(Vec2f(x + right - italic * top,    y + top),    m_color, Vec2f(u2, v1)));
+        m_vertices.append(Vertex(Vec2f(x + right - italic * bottom, y + bottom), m_color, Vec2f(u2, v2)));
+        m_vertices.append(Vertex(Vec2f(x + left  - italic * bottom, y + bottom), m_color, Vec2f(u1, v2)));*/
+		//GLfloat vertices[] = {width/2,-height/2,0, -width/2,height/2,0, -width/2,-height/2,0,  width/2,-height/2,0,  width/2,height/2,0, -width/2, height/2,0 };
+		
+		//cout<<"adding uvs: " << u1 << " " << v1 << " " << u2 << " " << v2 <<endl;
+		m_vertices.append(Vertex(Vec2f(x + right - italic * bottom, y + bottom), m_color, Vec2f(u2, v2)));
+		m_vertices.append(Vertex(Vec2f(x + left  - italic * top,    y + top),    m_color, Vec2f(u1, v1))); 
+		m_vertices.append(Vertex(Vec2f(x + left  - italic * bottom, y + bottom), m_color, Vec2f(u1, v2))); 
+
+		m_vertices.append(Vertex(Vec2f(x + right - italic * bottom, y + bottom), m_color, Vec2f(u2, v2)));
+		m_vertices.append(Vertex(Vec2f(x + right - italic * top,    y + top),    m_color, Vec2f(u2, v1)));
+		m_vertices.append(Vertex(Vec2f(x + left  - italic * top,    y + top),    m_color, Vec2f(u1, v1))); 
+
 
         // Advance to the next character
         x += glyph.advance;
@@ -317,16 +375,24 @@ void Text::updateGeometry()
         float top = y + underlineOffset;
         float bottom = top + underlineThickness;
 
-        m_vertices.append(Vertex(Vector2f(0, top),    m_color, Vector2f(1, 1)));
-        m_vertices.append(Vertex(Vector2f(x, top),    m_color, Vector2f(1, 1)));
-        m_vertices.append(Vertex(Vector2f(x, bottom), m_color, Vector2f(1, 1)));
-        m_vertices.append(Vertex(Vector2f(0, bottom), m_color, Vector2f(1, 1)));
+        m_vertices.append(Vertex(Vec2f(0, top),    m_color, Vec2f(1, 1)));
+        m_vertices.append(Vertex(Vec2f(x, top),    m_color, Vec2f(1, 1)));
+        m_vertices.append(Vertex(Vec2f(x, bottom), m_color, Vec2f(1, 1)));
+        m_vertices.append(Vertex(Vec2f(0, bottom), m_color, Vec2f(1, 1)));
+
+		cout<<"No."<<endl;
     }
 
     // Recompute the bounding rectangle
     m_bounds = m_vertices.getBounds();
+
+
+	for(unsigned int i = 0; i < m_vertices.m_vertices.size(); i++){
+		//cout<< "Vertex: " << m_vertices.m_vertices[i].position.x << "," << m_vertices.m_vertices[i].position.y << endl;
+	}
+
 }
 
 PARABOLA_NAMESPACE_END
 
-#endif
+//#endif

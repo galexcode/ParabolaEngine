@@ -32,7 +32,11 @@ PARABOLA_NAMESPACE_BEGIN
 /**
 	\ingroup Core
 	\class Engine
-	\brief Game engine environment. Handles everything in the application.	
+	\brief Game engine environment. Responsible to create a game running platform.
+
+	An OS process may be running more than one engine instances concurrently. An example is the browser plugin.
+
+
 
 	@author Artur Moreira
 */
@@ -44,12 +48,21 @@ public:
 	/// Safely destructs the engine
 	virtual ~Engine();
 
+	/// Sets the engine back to its uninitialized state
+	void finish();
+
 	/// Automatic update of the engine state
 	/// Will fetch pending events, update the games at fixed steps and do rendering
 	void update();
 
 	/// Launches the necessary services, like the window, if on a pc
 	void create();
+
+	
+	void createFromHandle(void* handle);
+
+	/// Check if the engine is currently ready to function normally
+	bool isRunning();
 
 	/// Get the window/screen of this environment
 	Window& getWindow();
@@ -72,6 +85,10 @@ public:
 	static Engine* instance();
 
 private:
+
+	/// Check
+	bool m_running;
+
 	GameCoreManager myGameManager;
 	/// The engine always runs on a graphic area
 	/// That may be the mobile phone screen, or an application window

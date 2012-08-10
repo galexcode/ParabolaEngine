@@ -6,7 +6,8 @@
 //#include "ParabolaCore/Textures.h"
 #include "ParabolaCore/RocketContext.h"
 #include "ParabolaCore/Color.h"
-#include "ParabolaCore/BoundingBox.h"
+#include "ParabolaCore/Rect.h"
+#include "ParabolaCore/Renderer.h"
 
 
 
@@ -65,30 +66,29 @@ void ColorDTOR(void* memory){
 }
 
 void BBCTOR(void* memory){
-	new(memory) BoundingBox();
+	new(memory) FloatRect();
 }
 
 void BBCTOR2(float l, float t, float w, float h, void* memory){
-	new(memory) BoundingBox(l,t,w,h);
+	new(memory) FloatRect(l,t,w,h);
 }
 
 void BBDTOR(void* memory){
-	((BoundingBox*)memory)->~BoundingBox();
+	((FloatRect*)memory)->~FloatRect();
 }
 
 /// Exports the renderer and a few more things
-bool ASEngine::exportBasicGraphics(){
+bool ASEngine::exportGraphics(){
 	int r;
-
-
-
+	
 	exportReferenceDataType("Texture");
 	exportReferenceDataType("SpriteExt");
 	exportReferenceDataType("AnimationSprite");
+	exportReferenceDataType("Renderer");
 
 	// Class: Color
 	asEngine->RegisterObjectType("Color", sizeof(Color), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
-	asEngine->RegisterObjectType("BoundingBox", sizeof(BoundingBox), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
+	asEngine->RegisterObjectType("BoundingBox", sizeof(FloatRect), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
 
 	if(getPortableMode()){
 		// Android generics
@@ -102,7 +102,7 @@ bool ASEngine::exportBasicGraphics(){
 		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f()", WRAP_OBJ_LAST(BBCTOR), asCALL_GENERIC);
 		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f(float,float,float,float)", WRAP_OBJ_LAST(BBCTOR2), asCALL_GENERIC);
 		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_DESTRUCT, "void f()", WRAP_OBJ_LAST(BBDTOR), asCALL_GENERIC);
-		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f(const BoundingBox& in)", WRAP_OBJ_LAST(ObjectCopyConstructor<BoundingBox>), asCALL_GENERIC);
+		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f(const BoundingBox& in)", WRAP_OBJ_LAST(ObjectCopyConstructor<FloatRect>), asCALL_GENERIC);
 
 		r = asEngine->RegisterObjectMethod("SpriteExt", "Texture@ addTexture(const string &in, const string &in, Color)", WRAP_MFN(SpriteExt, addTexture), asCALL_GENERIC);
 		r = asEngine->RegisterObjectMethod("SpriteExt", "void triggerAnimation(const string &in)", WRAP_MFN(SpriteExt, triggerAnimation), asCALL_GENERIC);
@@ -111,6 +111,7 @@ bool ASEngine::exportBasicGraphics(){
 		r = asEngine->RegisterObjectMethod("AnimationSprite", "void setLoop(bool)", WRAP_MFN(AnimationSprite, setLoop), asCALL_GENERIC);
 		r = asEngine->RegisterObjectMethod("AnimationSprite", "void addFrame(Texture@, BoundingBox, float)", WRAP_MFN(AnimationSprite, addFrame), asCALL_GENERIC);
 
+		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugQuad(float,float,float,float,float,Color)", WRAP_MFN(Renderer, drawDebugQuad), asCALL_GENERIC);
 
 	}
 	else{
@@ -125,7 +126,7 @@ bool ASEngine::exportBasicGraphics(){
 		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(BBCTOR), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f(float,float,float,float)", asFUNCTION(BBCTOR2), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(BBDTOR), asCALL_CDECL_OBJLAST);
-		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f(const BoundingBox& in)", asFUNCTION(ObjectCopyConstructor<BoundingBox>), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f(const BoundingBox& in)", asFUNCTION(ObjectCopyConstructor<FloatRect>), asCALL_CDECL_OBJLAST);
 
 		r = asEngine->RegisterObjectMethod("SpriteExt", "Texture@ addTexture(const string &in, const string &in, Color)", asMETHOD(SpriteExt, addTexture), asCALL_THISCALL);
 		r = asEngine->RegisterObjectMethod("SpriteExt", "AnimationSprite@ addAnimation(const string &in)", asMETHOD(SpriteExt, addAnimation), asCALL_THISCALL);
@@ -133,6 +134,8 @@ bool ASEngine::exportBasicGraphics(){
 
 		r = asEngine->RegisterObjectMethod("AnimationSprite", "void setLoop(bool)", asMETHOD(AnimationSprite, setLoop), asCALL_THISCALL);
 		r = asEngine->RegisterObjectMethod("AnimationSprite", "void addFrame(Texture@, BoundingBox, float)", asMETHOD(AnimationSprite, addFrame), asCALL_THISCALL);
+
+		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugQuad(float,float,float,float,float,Color)", asMETHOD(Renderer, drawDebugQuad), asCALL_THISCALL);
 
 	}
 	
@@ -262,6 +265,7 @@ bool ASEngine::exportRocketUi(){
 			asEngine->RegisterObjectMethod("RocketContext", "void loadFont(string)", WRAP_MFN(RocketContext, loadFont), asCALL_GENERIC);
 
 			asEngine->RegisterObjectMethod("RocketEvent", "RocketElement@ currentElement()", WRAP_MFN(Rocket::Core::Event, GetCurrentElement), asCALL_GENERIC);
+
 			 
 
 			//asEngine->RegisterObjectMethod("SceneRenderer", "void draw(RocketContext@)", asMETHODPR(SceneRenderer, draw, (RocketContext*), void), asCALL_GENERIC);
@@ -274,7 +278,6 @@ bool ASEngine::exportRocketUi(){
 			asEngine->RegisterObjectMethod("RocketContext", "void showDocument(string)", asMETHOD(RocketContext, showDocument), asCALL_THISCALL);
 			asEngine->RegisterObjectMethod("RocketContext", "void loadFont(string)", asMETHOD(RocketContext, loadFont), asCALL_THISCALL);
 
-			asEngine->RegisterObjectMethod("RocketEvent", "RocketElement@ currentElement()", asMETHOD(Rocket::Core::Event, GetCurrentElement), asCALL_THISCALL);
 
 
 		//	asEngine->RegisterObjectMethod("SceneRenderer", "void draw(RocketContext@)", asMETHODPR(SceneRenderer, draw, (RocketContext*), void), asCALL_THISCALL);
@@ -302,8 +305,12 @@ bool ASEngine::exportRocketScripting(RocketDocument* document){
 
 		getASEngine()->RegisterObjectMethod("RocketElement", "string getInnerRML()", WRAP_MFN(RocketElement, getInnerRML), asCALL_GENERIC);
 		getASEngine()->RegisterObjectMethod("RocketElement", "void setProperty(const string &in, const string& in)", WRAP_MFN(RocketElement, setProperty), asCALL_GENERIC);
-
-
+	
+		getASEngine()->RegisterObjectMethod("RocketElement", "void setPseudoClass(const string &in, bool)", WRAP_MFN(RocketElement, setPseudoClass), asCALL_GENERIC);
+		getASEngine()->RegisterObjectMethod("RocketElement", "int getNumChildren()", WRAP_MFN(RocketElement, getNumChildren), asCALL_GENERIC);
+		getASEngine()->RegisterObjectMethod("RocketElement", "RocketElement@ getChild(int)", WRAP_MFN(RocketElement, getChild), asCALL_GENERIC);
+		
+		
 	}
 	else{
 		getASEngine()->RegisterObjectMethod("RocketDocument", "RocketContext@ getContext()", asMETHOD(RocketDocument, GetContext), asCALL_THISCALL);
@@ -316,7 +323,10 @@ bool ASEngine::exportRocketScripting(RocketDocument* document){
 		getASEngine()->RegisterObjectMethod("RocketElement", "string getInnerRML()", asMETHOD(RocketElement, getInnerRML), asCALL_THISCALL);
 		getASEngine()->RegisterObjectMethod("RocketElement", "void setProperty(const string &in, const string& in)", asMETHOD(RocketElement, setProperty), asCALL_THISCALL);
 
-
+		getASEngine()->RegisterObjectMethod("RocketElement", "void setPseudoClass(const string &in, bool)", asMETHOD(RocketElement, setPseudoClass), asCALL_THISCALL);
+		
+		getASEngine()->RegisterObjectMethod("RocketElement", "int getNumChildren()", asMETHOD(RocketElement, getNumChildren), asCALL_THISCALL);
+		getASEngine()->RegisterObjectMethod("RocketElement", "RocketElement@ getChild(int)", asMETHOD(RocketElement, getChild), asCALL_THISCALL);
 	}
 
 	

@@ -69,8 +69,17 @@ public:
 	/// Get the number of objects being animated
 	int getAnimableCount();
 
+	/// Get animable at index
+	Animable* getAnimable(unsigned int index);
+
 	/// Get the total time elapsed since this animation has started
 	float getElapsedTime();
+
+	/// Get the duration of the animation
+	float getDuration();
+
+	/// Set the duration of the animation
+	void setDuration(float duration);
 
 	/// Starts the updating of the animation
 	virtual void play();
@@ -100,12 +109,14 @@ protected:
 	void addTime(float elapsedTime);
 
 	/// Registered objects for animation update
-	std::vector<Animable*> myAnimables;
+	std::vector<Animable*> m_animables;
 
 private:
 	float totalElapsedTime;
 	int myStatus;
 	bool myLooping;	
+
+	float m_duration; ///< Duration of the animation, used in most.
 };
 
 PARABOLA_NAMESPACE_END

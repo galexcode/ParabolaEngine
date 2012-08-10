@@ -1,33 +1,6 @@
-////////////////////////////////////////////////////////////
-//
-// SFML - Simple and Fast Multimedia Library
-// Copyright (C) 2007-2012 Laurent Gomila (laurent.gom@gmail.com)
-//
-// This software is provided 'as-is', without any express or implied warranty.
-// In no event will the authors be held liable for any damages arising from the use of this software.
-//
-// Permission is granted to anyone to use this software for any purpose,
-// including commercial applications, and to alter it and redistribute it freely,
-// subject to the following restrictions:
-//
-// 1. The origin of this software must not be misrepresented;
-//    you must not claim that you wrote the original software.
-//    If you use this software in a product, an acknowledgment
-//    in the product documentation would be appreciated but is not required.
-//
-// 2. Altered source versions must be plainly marked as such,
-//    and must not be misrepresented as being the original software.
-//
-// 3. This notice may not be removed or altered from any source distribution.
-//
-////////////////////////////////////////////////////////////
+#include <ParabolaCore/Font.h>
+#include <ParabolaCore/Logger.h>
 
-////////////////////////////////////////////////////////////
-// Headers
-////////////////////////////////////////////////////////////
-#include <SFML/Graphics/Font.hpp>
-#include <SFML/System/InputStream.hpp>
-#include <SFML/System/Err.hpp>
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_GLYPH_H
@@ -36,13 +9,16 @@
 #include <cstdlib>
 #include <cstring>
 
+#include <iostream>
+using namespace std;
+
 
 namespace
 {
     // FreeType callbacks that operate on a sf::InputStream
     unsigned long read(FT_Stream rec, unsigned long offset, unsigned char* buffer, unsigned long count)
     {
-        sf::InputStream* stream = static_cast<sf::InputStream*>(rec->descriptor.pointer);
+       /* sf::InputStream* stream = static_cast<sf::InputStream*>(rec->descriptor.pointer);
         if (static_cast<unsigned long>(stream->seek(offset)) == offset)
         {
             if (count > 0)
@@ -51,7 +27,8 @@ namespace
                 return 0;
         }
         else
-            return count > 0 ? 0 : 1; // error code is 0 if we're reading, or nonzero if we're seeking
+            return count > 0 ? 0 : 1; // error code is 0 if we're reading, or nonzero if we're seeking*/
+		return 0;
     }
     void close(FT_Stream)
     {
@@ -59,8 +36,8 @@ namespace
 }
 
 
-namespace sf
-{
+PARABOLA_NAMESPACE_BEGIN
+
 ////////////////////////////////////////////////////////////
 Font::Font() :
 m_library  (NULL),
@@ -109,7 +86,7 @@ bool Font::loadFromFile(const std::string& filename)
     FT_Library library;
     if (FT_Init_FreeType(&library) != 0)
     {
-        err() << "Failed to load font \"" << filename << "\" (failed to initialize FreeType)" << std::endl;
+//        err() << "Failed to load font \"" << filename << "\" (failed to initialize FreeType)" << std::endl;
         return false;
     }
     m_library = library;
@@ -118,14 +95,14 @@ bool Font::loadFromFile(const std::string& filename)
     FT_Face face;
     if (FT_New_Face(static_cast<FT_Library>(m_library), filename.c_str(), 0, &face) != 0)
     {
-        err() << "Failed to load font \"" << filename << "\" (failed to create the font face)" << std::endl;
+       // err() << "Failed to load font \"" << filename << "\" (failed to create the font face)" << std::endl;
         return false;
     }
 
     // Select the unicode character map
     if (FT_Select_Charmap(face, FT_ENCODING_UNICODE) != 0)
     {
-        err() << "Failed to load font \"" << filename << "\" (failed to set the Unicode character set)" << std::endl;
+       // err() << "Failed to load font \"" << filename << "\" (failed to set the Unicode character set)" << std::endl;
         return false;
     }
 
@@ -149,7 +126,7 @@ bool Font::loadFromMemory(const void* data, std::size_t sizeInBytes)
     FT_Library library;
     if (FT_Init_FreeType(&library) != 0)
     {
-        err() << "Failed to load font from memory (failed to initialize FreeType)" << std::endl;
+//        err() << "Failed to load font from memory (failed to initialize FreeType)" << std::endl;
         return false;
     }
     m_library = library;
@@ -158,14 +135,14 @@ bool Font::loadFromMemory(const void* data, std::size_t sizeInBytes)
     FT_Face face;
     if (FT_New_Memory_Face(static_cast<FT_Library>(m_library), reinterpret_cast<const FT_Byte*>(data), static_cast<FT_Long>(sizeInBytes), 0, &face) != 0)
     {
-        err() << "Failed to load font from memory (failed to create the font face)" << std::endl;
+//        err() << "Failed to load font from memory (failed to create the font face)" << std::endl;
         return false;
     }
 
     // Select the unicode character map
     if (FT_Select_Charmap(face, FT_ENCODING_UNICODE) != 0)
     {
-        err() << "Failed to load font from memory (failed to set the Unicode character set)" << std::endl;
+       // err() << "Failed to load font from memory (failed to set the Unicode character set)" << std::endl;
         return false;
     }
 
@@ -177,7 +154,7 @@ bool Font::loadFromMemory(const void* data, std::size_t sizeInBytes)
 
 
 ////////////////////////////////////////////////////////////
-bool Font::loadFromStream(InputStream& stream)
+/*bool Font::loadFromStream(InputStream& stream)
 {
     // Cleanup the previous resources
     cleanup();
@@ -231,7 +208,7 @@ bool Font::loadFromStream(InputStream& stream)
 
     return true;
 }
-
+*/
 
 ////////////////////////////////////////////////////////////
 const Glyph& Font::getGlyph(Uint32 codePoint, unsigned int characterSize, bool bold) const
@@ -337,10 +314,12 @@ const Font& Font::getDefaultFont()
     {
         static const signed char data[] =
         {
-            #include <SFML/Graphics/Arial.hpp>
+            #include "Arial.hpp"
         };
 
-        font.loadFromMemory(data, sizeof(data));
+        if(font.loadFromMemory(data, sizeof(data))){
+			TESTLOG("READ DEFAULT FONT")
+		}
         loaded = true;
     }
 
@@ -451,8 +430,15 @@ Glyph Font::loadGlyph(Uint32 codePoint, unsigned int characterSize, bool bold) c
         glyph.textureRect = findGlyphRect(page, width + 2 * padding, height + 2 * padding);
 
         // Compute the glyph's bounding box
-        glyph.bounds.left   = bitmapGlyph->left - padding;
-        glyph.bounds.top    = -bitmapGlyph->top - padding;
+        glyph.bounds.left   = (int)(bitmapGlyph->left - padding);
+        
+		//cout<<"LOAD GLYPH Y: " << -bitmapGlyph->top << endl;
+		//cout<<"LOAD GLYPH Y: " << padding << endl;
+		int res = -bitmapGlyph->top - padding;
+		//cout<<"LOAD GLYPH Y: " << res << endl;
+		glyph.bounds.top    = (int)(-bitmapGlyph->top - padding);
+		//cout<<"LOAD GLYPH Y: " << glyph.bounds.top << endl;
+
         glyph.bounds.width  = width + 2 * padding;
         glyph.bounds.height = height + 2 * padding;
 
@@ -543,14 +529,16 @@ IntRect Font::findGlyphRect(Page& page, unsigned int width, unsigned int height)
             if ((textureWidth * 2 <= Texture::getMaximumSize()) && (textureHeight * 2 <= Texture::getMaximumSize()))
             {
                 // Make the texture 2 times bigger
-                sf::Image pixels = page.texture.copyToImage();
+                Image pixels = page.texture.copyToImage();
+				cout<<"CALL TO COPY TO IMAGE. BUG FOUND"<<endl;
                 page.texture.create(textureWidth * 2, textureHeight * 2);
                 page.texture.update(pixels);
             }
             else
             {
                 // Oops, we've reached the maximum texture size...
-                err() << "Failed to add a new character to the font: the maximum texture size has been reached" << std::endl;
+               // err() << "Failed to add a new character to the font: the maximum texture size has been reached" << std::endl;
+				cout<<" Failed to add a new character."<<endl;
                 return IntRect(0, 0, 2, 2);
             }
         }
@@ -562,7 +550,7 @@ IntRect Font::findGlyphRect(Page& page, unsigned int width, unsigned int height)
     }
 
     // Find the glyph's rectangle on the selected row
-    IntRect rect(row->width, row->top, width, height);
+   IntRect rect(row->width, row->top, width, height);
 
     // Update the row informations
     row->width += width;
@@ -596,8 +584,8 @@ Font::Page::Page() :
 nextRow(2)
 {
     // Make sure that the texture is initialized by default
-    sf::Image image;
-    image.create(128, 128, Color(255, 255, 255, 0));
+    Image image;
+    image.create(512, 512, Color(255, 255, 255, 0));
 
     // Reserve a 2x2 white square for texturing underlines
     for (int x = 0; x < 2; ++x)
@@ -609,4 +597,4 @@ nextRow(2)
     texture.setSmooth(true);
 }
 
-} // namespace sf
+PARABOLA_NAMESPACE_END

@@ -3,6 +3,7 @@
 
 #include "Platform.h"
 #include <Rocket/Core/SystemInterface.h>
+#include "Clock.h"
 //#include <SFML/System.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
@@ -27,7 +28,7 @@ PARABOLA_NAMESPACE_BEGIN
 		int TranslateString(Rocket::Core::String& translated, const Rocket::Core::String& input);
 
 	private:
-		//sf::Clock timer;
+		Clock m_timer;
 	};
 
 PARABOLA_NAMESPACE_END

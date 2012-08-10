@@ -2,7 +2,7 @@
 
 #include "ParabolaCore/ComponentKinesis.h"
 #include "ParabolaCore/KinesisWorld.h"
-#include "ParabolaCore/MathTools.h"
+#include "ParabolaCore/Math.h"
 
 PARABOLA_NAMESPACE_BEGIN
 

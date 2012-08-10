@@ -13,9 +13,15 @@ PARABOLA_NAMESPACE_BEGIN
 */
 class PARABOLA_API AnimationColor : public AnimationInterface{
 public:
+	/// Create the color animation
+	AnimationColor();
 
 	/// Update the color of the animable
 	void update(float elapsedTime);
+
+private:
+	float m_totalTime;
+	float m_duration;
 };
 
 PARABOLA_NAMESPACE_END

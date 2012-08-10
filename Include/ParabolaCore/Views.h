@@ -3,7 +3,7 @@
 
 #include "Platform.h"
 #include "Vectors.h"
-#include "BoundingBox.h"
+#include "Rect.h"
 #include "Transform.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -30,10 +30,18 @@ enum ViewportPreset{
 class PARABOLA_API View{
 public:
 		View();
+
 		/// Set the view center as a position
 		void setCenter(Vec2f position);
+
 		/// Set the view center as a position
 		void setCenter(float x, float y);
+
+		/// Set the viewport
+		/// This helps define the usable render area of the screen
+		void setViewport(FloatRect viewport);
+
+		FloatRect getViewport() const;
 
 		/// Set the viewport from one of the presets
 		void setViewportPreset(int preset);
@@ -49,16 +57,13 @@ public:
 		/// Zoom the view by a factor
 		void zoom(float factor);
 
-		/// Set the viewport for the view.
-		/// (x,y) is the starting point of the viewport rect
-		/// width and height define the dimensions of the viewport rect
-		/// target is needed to know what are the total dimensions of the window/rendertexture/etc
-		//void setViewportInPixels(float x, float y, float width, float height, RenderTarget &target);
+		/// Rotate the view by the given degree angle
+		void rotate(float degrees);
 
 		/// Get the view center
 		Vec2f getCenter();
 
-		BoundingBox getRect() const;
+		FloatRect getRect() const;
 
 		/// Reset the view to this rect
 		void setRect(float x, float y, float width, float height);
@@ -66,14 +71,18 @@ public:
 		const Transform& getInverseTransform() const;
 		const Transform& getTransform() const;
 
+    
+    float m_rotation;
 private:
-	BoundingBox m_rect;
+	FloatRect m_rect;
+	FloatRect m_viewport;
 	mutable Transform m_transform;
 	mutable Transform m_inverseTransform;
-	float m_rotation;
+	
 	mutable bool m_transformUpdated;
 	mutable bool m_invTransformUpdated;
 	mutable Vec2f m_center;
+
 };
 	
 	/// Typedef of View to Camera2D to suit tastes

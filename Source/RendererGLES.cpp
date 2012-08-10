@@ -6,11 +6,15 @@
 #include <stdlib.h>
 #include <cmath>
 
-#ifndef PARABOLA_DESKTOP
+#ifdef PARABOLA_GLES
 
 #include <ParabolaCore/RendererGLES.h>
 
+#ifdef PARABOLA_ANDROID
 #include <GLES/gl.h>
+#else
+#include <OpenGLES/ES1/gl.h>
+#endif
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -20,18 +24,18 @@ RendererGLES::RendererGLES() : Renderer(){
 
 
 void RendererGLES::applyView(const View &view){
-	glViewport(0, 0, Engine::instance()->getWindow().getWidth(), Engine::instance()->getWindow().getHeight());
-	//String sss = "Viewport: " + String::number(Engine::instance()->getWindow().getWidth()) + " " + String::number(Engine::instance()->getWindow().getHeight());
-	//TESTLOG(sss.c_str())
-
-	
-
-
+	if(!m_renderTarget) return;
+    
+    
+	IntRect viewport = ((Window*)m_renderTarget)->getViewport(view);
+	int top = m_renderTarget->getSize().y - (viewport.top + viewport.height);
+	glViewport(viewport.left, top, viewport.width, viewport.height);
+    
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	//gluPerspective(45, (float)width / height, 0.5f, 150);
-	BoundingBox rect = view.getRect();
-	//glOrthof(rect.Position.x, rect.Size.x , rect.Size.y ,rect.Position.y, -0.1f , 0.1f);
+	FloatRect rect = view.getRect();
+	//glOrtho(rect.left, rect.width , rect.height ,rect.top, -0.1f , 0.1f);
 	glLoadMatrixf(view.getTransform().getMatrix());
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -143,7 +147,7 @@ void RendererGLES::drawDebugCircle(Vec2f center, float radius, Vec2f axis, Color
 
 
 void RendererGLES::drawVertexArray(VertexArray &vertexArray){
-		const char* data = reinterpret_cast<const char*>(&vertexArray.myVertices[0]);
+		const char* data = reinterpret_cast<const char*>(&vertexArray.m_vertices[0]);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -158,9 +162,9 @@ void RendererGLES::drawVertexArray(VertexArray &vertexArray){
 	glCheck(glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), data + 12));*/
 
 	if(vertexArray.geometryType == Triangles)
-		glDrawArrays(GL_TRIANGLES, 0, vertexArray.myVertices.size());
+		glDrawArrays(GL_TRIANGLES, 0, vertexArray.m_vertices.size());
 	else if(vertexArray.geometryType == TriangleFan)
-		glDrawArrays(GL_TRIANGLE_FAN, 0, vertexArray.myVertices.size());
+		glDrawArrays(GL_TRIANGLE_FAN, 0, vertexArray.m_vertices.size());
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -180,7 +184,9 @@ void RendererGLES::drawRocketContext(RocketContext* context){
 
 
 void RendererGLES::display(){
+#ifdef PARABOLA_ANDROID
 	AndroidInterface::requestFrameRender();
+#endif
 };
 
 PARABOLA_NAMESPACE_END

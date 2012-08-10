@@ -29,7 +29,7 @@
 // Headers
 ////////////////////////////////////////////////////////////
 #include "Platform.h"
-#include "BoundingBox.h"
+#include "Rect.h"
 #include "Vectors.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -130,7 +130,7 @@ public :
     /// \return Transformed rectangle
     ///
     ////////////////////////////////////////////////////////////
-    BoundingBox transformRect(const BoundingBox& rectangle) const;
+    FloatRect transformRect(const FloatRect& rectangle) const;
 
     ////////////////////////////////////////////////////////////
     /// \brief Combine the current transform with another one

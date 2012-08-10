@@ -1,6 +1,6 @@
 #include "ParabolaCore/GameCoreManager.h"
 //#include "ParabolaCore/Window.h"
-//#include "ParabolaCore/Engine.h"
+#include "ParabolaCore/Engine.h"
 
 #include <iostream>
 
@@ -8,12 +8,12 @@ PARABOLA_NAMESPACE_BEGIN
 
 
 /// Construct the default game core manager settings
-GameCoreManager::GameCoreManager(){
+GameCoreManager::GameCoreManager(Engine* parent) : m_creator(parent){
 	allowBackgroundUpdates = false;
 };
 
 /// Push an input event into the games
-void GameCoreManager::pushInputEvent(InputEvent &event){
+void GameCoreManager::pushInputEvent(Event &event){
 	for(unsigned int i = 0; i < myExecutionList.size(); i++){
 		myExecutionList[i]->onEvent(event);
 	}
@@ -31,9 +31,16 @@ void GameCoreManager::update(Time time){
 /// It will delete the game when appropriate
 void GameCoreManager::addGameForExecution(GameCore* instancedGame){
 	if(instancedGame){
-		myExecutionList.push_back(instancedGame);
+		myExecutionList.push_back(instancedGame); /// Since this game is on the top now	
+		instancedGame->m_creator = m_creator;
 		instancedGame->onCreate();
+		onActiveGameChanged();
 	}
+};
+
+/// Called only when the top of the execution stack has changed
+void GameCoreManager::onActiveGameChanged(){
+	m_creator->getWindow().setTitle(myExecutionList.back()->getWindowTitle());
 };
 
 	/*

@@ -1,6 +1,7 @@
 #include "ParabolaCore/FileInterface.h"
 #include "ParabolaCore/Application.h"
 #include "ParabolaCore/ScopedFile.h"
+#include "ParabolaCore/Logger.h"
 
 #include <iostream>
 using namespace std;
@@ -13,6 +14,9 @@ PARABOLA_NAMESPACE_BEGIN
 /// The root for file access, empty by default, so the executable directory is used
 String FileInterface::m_root = "";
 
+/// Called whenever a file was requested for opening
+/// Possible use is to download the file to a cache before using it
+sigc::signal<void, const String &> FileInterface::onFileRequest;
 
 /// Get an open handle to an asset in the underlying filesystem
 /// Returns NULL if the file was innacessible or not found
@@ -22,11 +26,32 @@ String FileInterface::m_root = "";
 bool FileInterface::getAssetFile(ScopedFile* file, const String &path, bool binaryMode){
 	if(!file)return false;
 
+	TESTLOG("Calling onFileRequest")
+	onFileRequest.emit(path);
+
+	//exit(1);
+
+
+	if(onFileRequest.size() == 0){
+		TESTLOG("NOT CALLING");
+	}
+
+	String realPath = m_root + path;
+
 #ifdef PARABOLA_ANDROID
-	return AndroidInterface::getAssetFile(file, path, binaryMode);
-#elif defined PARABOLA_DESKTOP
-	FILE* ff = fopen(path.c_str(), "rb");
-	file->open(ff, 0, -1);
+	return AndroidInterface::getAssetFile(file, realPath, binaryMode);
+#elif defined PARABOLA_DESKTOP || defined PARABOLA_IPHONE
+	FILE* ff;
+    if(binaryMode){
+         ff = fopen(realPath.c_str(), "rb");
+    }
+    else{
+         ff = fopen(realPath.c_str(), "r");
+    }
+   
+    if(ff)
+        file->open(ff, 0, -1);
+    else printf("FILE NOT FOUND.");
 	return true;
 #endif
 }

@@ -37,7 +37,10 @@ public:
 
 	/// Sends a text message through the android device, please note the permissions must be requested in the manifest and the legacy java source must be in place.
 	static bool sendTextMessage(const String &destinationNumber, const String &content);
-
+	
+	/// Closes the activity, ending the application
+	static void closeActivity();
+	
 	/// Get the current asset suffix
 	static String getAssetSuffix();
 
@@ -68,7 +71,14 @@ public:
 	/// Set the JNI environment the application is using
 	static void setJavaNativeInterfaceEnvironment(JavaVM *environment);
 
+	/// Set the directory of the external storage, the sdcard in case of the android
+	static void setExternalStorageDirectory(const String& path);
+
+	/// Get the external storage directory, the path to the sdcard root
+	static String getExternalStorageDirectory();
+
 private:
+	static String m_externalStorageDirectory;
 	/// Suffix to automatically append to file names
 	/// For now, it is .png because all assets are suffixed with an additional .png to avoid apk compression.
 	static String m_AssetSuffix;

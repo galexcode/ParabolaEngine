@@ -22,6 +22,18 @@ public:
 		Rocket::Core::Element::SetProperty(propertyName.c_str(), propertyValue.c_str());
 	}
 
+	void setPseudoClass(const String &pseudo_class, bool activate){
+		Rocket::Core::Element::SetPseudoClass(pseudo_class.c_str(), activate);
+	}
+
+	int getNumChildren(){
+		return Rocket::Core::Element::GetNumChildren(false);
+	}
+
+	RocketElement* getChild(int index){
+		return static_cast<RocketElement*>(Rocket::Core::Element::GetChild(index));
+	}
+
 };
 
 class RocketDocument : public Rocket::Core::ElementDocument{
@@ -33,8 +45,8 @@ public:
 		//cout<<"SAY HI:"<<endl;
 	};
 
-	Rocket::Core::Element* getElementById(const String &id){
-		return Rocket::Core::Element::GetElementById(id.c_str());
+	RocketElement* getElementById(const String &id){
+		return (RocketElement*)Rocket::Core::Element::GetElementById(id.c_str());
 	}
 
 	// Load a script into the document.

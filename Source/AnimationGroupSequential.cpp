@@ -11,7 +11,7 @@ AnimationGroupSequential::AnimationGroupSequential(){
 
 /// Update the group , one at once
 void AnimationGroupSequential::update(float elapsedTime){
-	if(playing() && myAnimables.size() > 0){
+	if(playing() && m_animables.size() > 0){
 		myAnimations[myIndex]->update(elapsedTime);
 	}
 };

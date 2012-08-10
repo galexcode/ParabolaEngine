@@ -179,6 +179,20 @@ void Vec3<T>::setAll(T x){
 	this->z = x;
 };
 
+/// Makes the vector unit-length
+template<class T>
+void Vec3<T>::normalize(){
+	x /= length();
+	y /= length();
+	z /= length();
+};
+
+/// Get the length of the vector
+template<class T>
+float Vec3<T>::length(){
+	return sqrt(x*x + y*y + z*z);
+};
+
 template<class T>
 bool Vec3<T>::operator==(const Vec3<T> &vec){
 	if(x == vec.x && y == vec.y && z == vec.z)

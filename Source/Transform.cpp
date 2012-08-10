@@ -109,15 +109,15 @@ Vec2f Transform::transformPoint(const Vec2f& point) const
 
 
 ////////////////////////////////////////////////////////////
-BoundingBox Transform::transformRect(const BoundingBox& rectangle) const
+FloatRect Transform::transformRect(const FloatRect& rectangle) const
 {
     // Transform the 4 corners of the rectangle
     const Vec2f points[] =
     {
-        transformPoint(rectangle.Position.x, rectangle.Position.y),
-        transformPoint(rectangle.Position.x, rectangle.Position.y + rectangle.Size.y),
-        transformPoint(rectangle.Position.x + rectangle.Size.x, rectangle.Position.y),
-        transformPoint(rectangle.Position.x + rectangle.Size.x, rectangle.Position.y + rectangle.Size.y)
+        transformPoint(rectangle.left, rectangle.top),
+        transformPoint(rectangle.left, rectangle.top + rectangle.height),
+        transformPoint(rectangle.left + rectangle.width, rectangle.top),
+        transformPoint(rectangle.left + rectangle.width, rectangle.top + rectangle.height)
     };
 
     // Compute the bounding rectangle of the transformed points
@@ -133,7 +133,7 @@ BoundingBox Transform::transformRect(const BoundingBox& rectangle) const
         else if (points[i].y > bottom) bottom = points[i].y;
     }
 
-    return BoundingBox(left, top, right - left, bottom - top);
+    return FloatRect(left, top, right - left, bottom - top);
 }
 
 

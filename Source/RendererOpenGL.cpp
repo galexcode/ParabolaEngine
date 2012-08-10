@@ -1,10 +1,11 @@
 #include <ParabolaCore/Platform.h>
-#ifndef PARABOLA_ANDROID
+#ifdef PARABOLA_DESKTOP
 #include <ParabolaCore/RendererOpenGL.h>
 #include "ParabolaCore/RocketContext.h"
 #include "ParabolaCore/RocketPlugin.h"
 #include "ParabolaCore/RocketRenderInterface.h"
 #include "ParabolaCore/Views.h"
+#include "ParabolaCore/Math.h"
 
 #include <ParabolaCore/Engine.h>
 
@@ -21,13 +22,18 @@ RendererOpenGL::RendererOpenGL() : Renderer(){
 
 
 void RendererOpenGL::applyView(const View &view){
-	glViewport(0, 0, Engine::instance()->getWindow().getWidth(), Engine::instance()->getWindow().getHeight());
+	if(!m_renderTarget) return;
+
+
+	IntRect viewport = ((Window*)m_renderTarget)->getViewport(view);
+	int top = m_renderTarget->getSize().y - (viewport.top + viewport.height);
+	glViewport(viewport.left, top, viewport.width, viewport.height);
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	//gluPerspective(45, (float)width / height, 0.5f, 150);
-	BoundingBox rect = view.getRect();
-	//glOrtho(rect.Position.x, rect.Size.x , rect.Size.y ,rect.Position.y, -0.1f , 0.1f);
+	FloatRect rect = view.getRect();
+	//glOrtho(rect.left, rect.width , rect.height ,rect.top, -0.1f , 0.1f);
 	glLoadMatrixf(view.getTransform().getMatrix());
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
@@ -59,6 +65,58 @@ void RendererOpenGL::prepare(int w, int h){
 
 	glLoadIdentity();
 };
+
+void RendererOpenGL::drawCube(float x, float y, float z, float len, Color color){
+	//glLoadIdentity();
+	glPushMatrix();
+	glTranslatef(x, y, z);
+
+	srand(2);
+
+	static GLfloat colors[4 * 36];
+	static bool colorsAssigned = false;
+	if(!colorsAssigned){
+		int k = 0;
+		for(int i = 0 ; i < 4*36; i++){
+			colors[i] = Math::random(0,1);
+		}
+		colorsAssigned = true;
+	}
+
+
+	//glRotatef( angle * (180.f/3.14159), 0 ,0, 1);
+	//glColor4f(color.r / 255.f, color.g / 255.f ,color.b / 255.f,color.a / 255.f);
+	float dim = len/2;
+	GLfloat vertices[] = {len/2,-len/2,-len/2, -len/2,len/2,-len/2, -len/2,-len/2,-len/2,  len/2,-len/2,-len/2,  len/2,len/2,-len/2, -len/2, len/2,-len/2, //front face
+
+						len/2,-len/2,len/2, -len/2,len/2,len/2, -len/2,-len/2,len/2,  len/2,-len/2,len/2,  len/2,len/2,len/2, -len/2, len/2,len/2, //back face
+
+						dim,-dim,-dim,    dim,dim,-dim    , dim,dim,dim    ,  dim,dim,dim,  dim,-dim,dim    , 	dim,-dim,-dim, //right face
+
+						-dim,-dim,-dim,   - dim,dim,-dim    ,- dim,dim,dim    ,  -dim,dim,dim, - dim,-dim,dim    , -	dim,-dim,-dim, //left face
+
+						dim,-dim,-dim,   dim,-dim,dim    , -dim, -dim, dim   ,  -dim, -dim, dim, - dim,-dim,-dim    , dim,-dim,-dim, //top
+
+						dim,dim,-dim,   dim,dim,dim    , -dim, dim, dim   ,  -dim, dim, dim, - dim,dim,-dim    , dim,dim,-dim //bottom
+
+
+	};
+
+
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glEnableClientState(GL_COLOR_ARRAY);
+
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glColorPointer(4,GL_FLOAT, 0, colors);
+
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glPopMatrix();
+};
+
 
 void RendererOpenGL::drawDebugQuad(float x, float y, float angle, float width, float height, Color color){
 	glLoadIdentity();
@@ -140,7 +198,10 @@ void RendererOpenGL::drawDebugCircle(Vec2f center, float radius, Vec2f axis, Col
 };
 
 void RendererOpenGL::drawVertexArray(VertexArray &vertexArray){
-	const char* data = reinterpret_cast<const char*>(&vertexArray.myVertices[0]);
+
+
+
+	const char* data = reinterpret_cast<const char*>(&vertexArray.m_vertices[0]);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
@@ -150,14 +211,12 @@ void RendererOpenGL::drawVertexArray(VertexArray &vertexArray){
 	glColorPointer(4, GL_UNSIGNED_BYTE,sizeof(Vertex), data + 8);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), data + 12);
 
-	/*glCheck(glVertexPointer(2, GL_FLOAT, sizeof(Vertex), data + 0));
-	glCheck(glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(Vertex), data + 8));
-	glCheck(glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), data + 12));*/
+ 	if(vertexArray.geometryType == Triangles)
+ 		glDrawArrays(GL_TRIANGLES, 0, vertexArray.m_vertices.size());
+ 	else if(vertexArray.geometryType == TriangleFan )
+ 		glDrawArrays(GL_TRIANGLE_FAN, 0, vertexArray.m_vertices.size());
 
-	if(vertexArray.geometryType == Triangles)
-		glDrawArrays(GL_TRIANGLES, 0, vertexArray.myVertices.size());
-	else if(vertexArray.geometryType == TriangleFan)
-		glDrawArrays(GL_TRIANGLE_FAN, 0, vertexArray.myVertices.size());
+	//glDrawArrays(GL_QUADS, 0, vertexArray.m_vertices.size());
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);

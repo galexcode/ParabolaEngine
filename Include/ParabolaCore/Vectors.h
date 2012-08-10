@@ -124,6 +124,12 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Sets all values of the 3D vector as x
 		void setAll(T x);
 
+		/// Get the length of the vector
+		float length();
+
+		/// Makes the vector unit-length
+		void normalize();
+
 		/// Comparison operator overload
 		bool operator==(const Vec3<T> &vec);
 		/// Comparison operator overload

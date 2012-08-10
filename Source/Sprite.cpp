@@ -4,6 +4,11 @@
 
 #include <iostream>
 
+#ifdef PARABOLA_IPHONE
+#include <OpenGLES/ES1/gl.h>
+#endif
+
+
 PARABOLA_NAMESPACE_BEGIN
 
 /// Default sprite
@@ -20,38 +25,38 @@ Sprite::~Sprite(){
 };
 
 /// Set the texture rect to show
-void Sprite::setTextureRect(const BoundingBox &rect){
+void Sprite::setTextureRect(const FloatRect &rect){
 	m_vertices[0].position = Vec2f(0.f,0.f);
-	m_vertices[1].position = Vec2f(rect.Size.x,0.f);
-	m_vertices[2].position = Vec2f(rect.Size.x,rect.Size.y);
-	m_vertices[3].position = Vec2f(0.f,rect.Size.y);
+	m_vertices[1].position = Vec2f(rect.width,0.f);
+	m_vertices[2].position = Vec2f(rect.width,rect.height);
+	m_vertices[3].position = Vec2f(0.f,rect.height);
 
 	float texture_width = static_cast<float>(const_cast<Texture*>(m_texture)->getSize().x);
 	float texture_height = static_cast<float>(const_cast<Texture*>(m_texture)->getSize().y);
 
-	float left   = static_cast<float>(rect.Position.x);
-	float right  = left + rect.Size.x;
-	float top    = static_cast<float>(rect.Position.y);
-	float bottom = top + rect.Size.y;
+	float left   = static_cast<float>(rect.left);
+	float right  = left + rect.width;
+	float top    = static_cast<float>(rect.top);
+	float bottom = top + rect.height;
 
-	left /= texture_width;
+	/*left /= texture_width;
 	right /= texture_width;
 	top /= texture_height;
-	bottom /= texture_height;
+	bottom /= texture_height;*/
 
 	m_vertices[0].texCoords = Vec2f(left, top);
 	m_vertices[1].texCoords = Vec2f(right, top);
 	m_vertices[2].texCoords = Vec2f(right, bottom);
 	m_vertices[3].texCoords = Vec2f(left, bottom);
 
-	m_textureRect = BoundingBox(left, top, right, bottom);
+	m_textureRect = FloatRect(left, top, right, bottom);
 };
 
 /// Set the texture of the sprite
 void Sprite::setTexture(const Texture &texture, bool resetRect){	
 	m_texture = &texture;
 
-	setTextureRect(BoundingBox(0.f,0.f, texture.getSize().x, texture.getSize().y));
+	setTextureRect(FloatRect(0.f,0.f, texture.getSize().x, texture.getSize().y));
 };
 
 /// Get the binded texture
@@ -65,17 +70,17 @@ void Sprite::resize(float x, float y){
 
 
 ////////////////////////////////////////////////////////////
-BoundingBox Sprite::getLocalBounds() const
+FloatRect Sprite::getLocalBounds() const
 {
-	float width = static_cast<float>(m_textureRect.Size.x);
-	float height = static_cast<float>(m_textureRect.Size.y);
+	float width = static_cast<float>(m_textureRect.width);
+	float height = static_cast<float>(m_textureRect.height);
 
-	return BoundingBox(0.f, 0.f, width, height);
+	return FloatRect(0.f, 0.f, width, height);
 }
 
 
 ////////////////////////////////////////////////////////////
-BoundingBox Sprite::getGlobalBounds() const
+FloatRect Sprite::getGlobalBounds() const
 {
 	return getTransform().transformRect(getLocalBounds());
 }
@@ -88,10 +93,18 @@ void Sprite::onDraw(Renderer* renderer){
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glMatrixMode(GL_TEXTURE_MATRIX);
 	glPushMatrix();
+	glMatrixMode(GL_MODELVIEW);
+	glPushMatrix();
+
 	glMultMatrixf(getTransform().getMatrix());
-	m_texture->bind();
+	
+	m_texture->bind(Texture::Pixels);
 	renderer->drawVertexArray(m_vertices);
+	glMatrixMode(GL_TEXTURE_MATRIX);
+	glPopMatrix();
+	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);

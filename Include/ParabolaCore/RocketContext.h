@@ -20,7 +20,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 class RocketPlugin;
 class RocketContextInstancer;
-class InputEvent;
+class Event;
 
 	/**
 		\ingroup Graphics
@@ -105,9 +105,15 @@ class InputEvent;
 		String contextName();
 
 		/// Process the event
-		bool processEvent(InputEvent &event);
+		bool processEvent(Event &event);
 
 		sigc::signal<void, String> onEvent;
+
+		/// Sets the event processed flag as true,
+		/// This call only makes sense within a processEvent() call
+		/// Setting the flag to true, means that the function will return true
+		/// This is used to only pass to game state events that are not used by the ui.
+		void setEventProcessedFlag(bool state);
 
 
 	protected:
@@ -136,7 +142,7 @@ class InputEvent;
 		void remove(RocketDocument *document);
 
 		std::map<String, RocketDocument*> documents;
-
+		bool m_eventProcessFlag;
 	
 
 		/// Translator

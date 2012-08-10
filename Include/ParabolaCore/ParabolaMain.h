@@ -32,8 +32,8 @@ void android_init(){
 		alreadyStarted = true;
 	}
 	else{
-		pE::InputEvent ev;
-		ev.type = pE::InputEvent::Resume;
+		pE::Event ev;
+		ev.type = pE::Event::Resume;
 		myApp.pendingEvents.push_back(ev);
 	}
 	
@@ -47,22 +47,23 @@ void android_resize(int w, int h){
 	myApp.myWindowWidth = w; 
 	myApp.myWindowHeight = h;
 
-	pE::InputEvent ev;
-	ev.type = pE::InputEvent::Resized;
+	pE::Event ev;
+	ev.type = pE::Event::Resized;
 	myApp.pendingEvents.push_back(ev);
 }
 
 void android_keydown(int key){
 	pE::String sd = "Keypressed: " + pE::String::number(key);
 
-	pE::InputEvent ev;
-	ev.type = pE::InputEvent::KeyPressed;
+	pE::Event ev;
+	ev.type = pE::Event::KeyPressed;
 
-	switch(key){
+	switch(key){ 
 		case AKEYCODE_A: ev.key.code = pE::Keyboard::A;break;
 		case AKEYCODE_S: ev.key.code = pE::Keyboard::S;break;
 		case AKEYCODE_D: ev.key.code = pE::Keyboard::D;break;
 		case AKEYCODE_W: ev.key.code = pE::Keyboard::W;break;
+		case AKEYCODE_BACK: ev.key.code = pE::Keyboard::AndroidBack;break;
 	}
 
 	
@@ -70,24 +71,24 @@ void android_keydown(int key){
 }
 
 void android_touchdown(float x, float y){
-	pE::InputEvent ev;
-	ev.type = pE::InputEvent::TouchPressed;
+	pE::Event ev;
+	ev.type = pE::Event::TouchPressed;
 	ev.x = x;
 	ev.y = y;
 	myApp.pendingEvents.push_back(ev); 
 }
 
 void android_touchup(float x, float y){
-	pE::InputEvent ev;
-	ev.type = pE::InputEvent::TouchReleased;
+	pE::Event ev;
+	ev.type = pE::Event::TouchReleased;
 	ev.x = x;
 	ev.y = y;
 	myApp.pendingEvents.push_back(ev); 
 }
 
 void android_touchmove(float x, float y){
-	pE::InputEvent ev;
-	ev.type = pE::InputEvent::TouchMoved;
+	pE::Event ev;
+	ev.type = pE::Event::TouchMoved;
 	ev.x = x;
 	ev.y = y;
 	myApp.pendingEvents.push_back(ev); 

@@ -1,47 +1,51 @@
 #include "ParabolaCore/Views.h"
-#include "ParabolaCore/MathTools.h"
+#include "ParabolaCore/Math.h"
 
 #include <cmath>
 
 PARABOLA_NAMESPACE_BEGIN
 
-View::View() : m_transformUpdated(false), m_invTransformUpdated(false), m_rotation(0){
+View::View() : m_transformUpdated(false), m_invTransformUpdated(false), m_rotation(0.f), m_viewport(0.f,0.f,1.f,1.f){
 
 }
 
 /// Get the view center
 Vec2f View::getCenter(){
-	return Vec2f(m_rect.Position.x + m_rect.Size.x/2, m_rect.Position.y + m_rect.Size.y/2);
+	return Vec2f(m_rect.left + m_rect.width/2, m_rect.top + m_rect.height/2);
 };
 
 void View::move(float x, float y){
 	 setCenter(m_center.x + x, m_center.y + y);
 };
 
+/// Rotate the view by the given degree angle
+void View::rotate(float degrees){
+	m_rotation += degrees;
+};
+
+FloatRect View::getViewport() const{
+	return m_viewport;
+};
+
+void View::setViewport(FloatRect viewport){
+	m_viewport = viewport;
+};
+
 
 /// Set the view center as a position
 void View::setCenter(Vec2f position){
 	m_center = position;
-	m_rect.set(position.x - m_rect.Size.x/2, position.y - m_rect.Size.y/2, m_rect.Size.x, m_rect.Size.y);
+	m_rect.set(position.x - m_rect.width/2, position.y - m_rect.height/2, m_rect.width, m_rect.height);
+
+	m_transformUpdated = false;
+	m_invTransformUpdated = false;
 };
 
 /// Set the view center as a position
 void View::setCenter(float x, float y){
 	setCenter(Vec2f(x,y));
 };
-/*
-/// Get the view center
-Vec2f View::getCenter(){
 
-};*/
-
-/// Set the viewport for the view.
-/// (x,y) is the starting point of the viewport rect
-/// width and height define the dimensions of the viewport rect
-/// target is needed to know what are the total dimensions of the window/rendertexture/etc
-/*void View::setViewportInPixels(float x, float y, float width, float height, RenderTarget &target){
-	
-};*/
 
 /// Set the viewport from one of the presets
 void View::setViewportPreset(int preset){
@@ -94,7 +98,7 @@ void View::setViewportPreset(int preset){
 	}
 };
 
-BoundingBox View::getRect() const{
+FloatRect View::getRect() const{
 	return m_rect;
 };
 
@@ -102,29 +106,40 @@ BoundingBox View::getRect() const{
 /// Reset the view to this rect
 void View::setRect(float x, float y, float width, float height){
 	//reset(sf::FloatRect(x, y, width, height));
-	m_rect.Position.x = x;
-	m_rect.Position.y = y;
-	m_rect.Size.x = width;
-	m_rect.Size.y = height;
-	m_center = Vec2f(m_rect.Position.x + m_rect.Size.x/2, m_rect.Position.y + m_rect.Size.y/2);
+	m_rect.left = x;
+	m_rect.top = y;
+	m_rect.width = width;
+	m_rect.height = height;
+	m_center = Vec2f(m_rect.left + m_rect.width/2, m_rect.top + m_rect.height/2);
+
+	m_transformUpdated = false;
+	m_invTransformUpdated = false;
 };
 
 /// Get the dimensions of the view rect
 Vec2f View::getSize(){
-	return m_rect.Size;
+	return Vec2f(m_rect.width, m_rect.height);
 };
 
 /// Set the size of the view rect, perserving its center
 void View::setSize(float width, float height){
-	m_rect.Position.x = getCenter().x - width/2;
-	m_rect.Position.y = getCenter().y - height/2;
-	m_rect.Size.x = width;
-	m_rect.Size.y = height;
+	m_rect.left = getCenter().x - width/2;
+	m_rect.top = getCenter().y - height/2;
+	m_rect.width = width;
+	m_rect.height = height;
+	m_center.x = m_rect.left + m_rect.width/2;
+	m_center.y = m_rect.top + m_rect.height/2;
+
+	m_transformUpdated = false;
+	m_invTransformUpdated = false;
 };
 
 /// Zoom the view by a factor
 void View::zoom(float factor){
 	setSize(getSize().x * factor , getSize().y * factor);
+
+	m_transformUpdated = false;
+	m_invTransformUpdated = false;
 };
 
 ////////////////////////////////////////////////////////////
@@ -134,8 +149,8 @@ const Transform& View::getTransform() const
 	if (!m_transformUpdated)
 	{
 		// Rotation components
-		m_center = Vec2f(m_rect.Position.x + (m_rect.Size.x / 2), m_rect.Position.y + (m_rect.Size.y / 2));
-		Vec2f m_size(m_rect.Size.x,m_rect.Size.y);
+		m_center = Vec2f(m_rect.left + (m_rect.width / 2), m_rect.top + (m_rect.height / 2));
+		Vec2f m_size(m_rect.width,m_rect.height);
 
 		float angle  = m_rotation * 3.141592654f / 180.f;
 		float cosine = static_cast<float>(std::cos(angle));
@@ -153,7 +168,7 @@ const Transform& View::getTransform() const
 		m_transform = Transform( a * cosine, a * sine,   a * tx + c,
 			-b * sine,   b * cosine, b * ty + d,
 			0.f,        0.f,        1.f);
-		//m_transformUpdated = true;
+		m_transformUpdated = true;
 	}
 
 	return m_transform;
@@ -167,7 +182,7 @@ const Transform& View::getInverseTransform() const
 	if (!m_invTransformUpdated)
 	{
 		m_inverseTransform = getTransform().getInverse();
-		m_invTransformUpdated = true;
+		m_invTransformUpdated = true; 
 	}
 
 	return m_inverseTransform;

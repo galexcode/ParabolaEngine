@@ -1,6 +1,7 @@
 #include "ParabolaCore/AnimationSprite.h"
 #include <iostream>
 #include <algorithm>
+
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
@@ -35,13 +36,13 @@ PARABOLA_NAMESPACE_BEGIN
 				if((currentTime >= aTime) && (currentTime <= (aTime + frames[i].time))){
 					//found the right frame
 					//cout<<"applying frame:"<<i<<endl;
-					for(unsigned int j = 0; j < myAnimables.size(); j++){
+					for(unsigned int j = 0; j < m_animables.size(); j++){
 						// apply the frame
 						
-						static_cast<Sprite*>(myAnimables[j])->setTexture(*frames[i].myTexture);
-						static_cast<Sprite*>(myAnimables[j])->setTextureRect(BoundingBox(frames[i].myRect.Position.x,frames[i].myRect.Position.y,frames[i].myRect.Size.x,frames[i].myRect.Size.y));
+						static_cast<Sprite*>(m_animables[j])->setTexture(*frames[i].myTexture);
+						static_cast<Sprite*>(m_animables[j])->setTextureRect(FloatRect(frames[i].myRect.left,frames[i].myRect.top,frames[i].myRect.width,frames[i].myRect.height));
 
-						onFrameChange.emit(frames[i].myTexture,BoundingBox(frames[i].myRect.Position.x,frames[i].myRect.Position.y,frames[i].myRect.Size.x,frames[i].myRect.Size.y) );
+						onFrameChange.emit(frames[i].myTexture,FloatRect(frames[i].myRect.left,frames[i].myRect.top,frames[i].myRect.width,frames[i].myRect.height) );
 					}
 
 					break;
@@ -156,7 +157,7 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 /// Add a frame
-void AnimationSprite::addFrame(Texture* texture, BoundingBox rect, float duration){
+void AnimationSprite::addFrame(Texture* texture, FloatRect rect, float duration){
 	totalDuration += duration;
 	frames.push_back(AnimationFrame(rect, texture, duration));
 };
@@ -167,10 +168,11 @@ void AnimationSprite::addFrame(Texture* texture, BoundingBox rect, float duratio
 AnimationSprite::AnimationFrame::AnimationFrame(){
 		this->time = 0.f;
 		this->myTexture = NULL;
-		this->myRect.Position = Vec2f(-1.f,-1.f); // this will mean undefined rect, whole
+		this->myRect.left = -1.f;
+		this->myRect.top = -1.f;
 };
 
-AnimationSprite::AnimationFrame::AnimationFrame(BoundingBox &box, Texture *texture, double time){
+AnimationSprite::AnimationFrame::AnimationFrame(FloatRect &box, Texture *texture, double time){
 		this->time = time;
 		this->myTexture = texture;
 		this->myRect = box;
@@ -180,10 +182,10 @@ AnimationSprite::AnimationFrame::AnimationFrame(BoundingBox &box, Texture *textu
 void AnimationSprite::AnimationFrame::setTexture(Texture* texture){
 	myTexture = texture;
 
-	if(myRect.Position == Vec2f(-1,-1)){
+/*	if(myRect.Position == Vec2f(-1,-1)){
 		myRect.Position = Vec2f(0.f,0.f);
 		myRect.Size = Vec2f(myTexture->getSize().x,myTexture->getSize().y);
-	}
+	}*/
 };
 
 PARABOLA_NAMESPACE_END

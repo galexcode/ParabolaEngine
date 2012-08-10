@@ -1,11 +1,12 @@
 #include "ParabolaCore/KinesisWorld.h"
 #include "ParabolaCore/Renderer.h"
+#include "ParabolaCore/KinesisQueryCallback.h"
 
 #include <iostream>
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
-	KinesisWorld::KinesisWorld() : b2World(b2Vec2(0.f, 0.98f)){
+	KinesisWorld::KinesisWorld() : b2World(b2Vec2(0.f, /*0.98f*/1.4f)){
 		VelocityIterations = 8;
 		PositionIterations = 3;
 		SetDebugDraw(&myDebugDraw);
@@ -113,7 +114,7 @@ PARABOLA_NAMESPACE_BEGIN
 	};
 
 	bool KinesisWorld::StartPicking(float x, float y){
-		/*
+		
 		if(pickerMouseJoint)
 			StopPicking();
 
@@ -151,7 +152,7 @@ PARABOLA_NAMESPACE_BEGIN
 			}
 		}
 
-		return false;*/
+		return false;
 		return false;
 	};
 

@@ -7,7 +7,7 @@ using namespace std;
 PARABOLA_NAMESPACE_BEGIN
 
 /// Construct the game, its mandatory to call this base constructor when implementing GameCore
-GameCore::GameCore() : m_stackedTime(0.f), m_updateStep(1.f / 60.f){
+GameCore::GameCore() : m_stackedTime(0.f), m_updateStep(1.f / 60.f), m_windowTitle("No name window"){
 #ifdef PARABOLA_ANDROID
 	m_updateStep = 1.f / 30.f;
 #endif
@@ -15,13 +15,13 @@ GameCore::GameCore() : m_stackedTime(0.f), m_updateStep(1.f / 60.f){
 
 /// Get the window/screen handler
 Window& GameCore::getWindow(){
-	return Engine::instance()->getWindow();
+	return m_creator->getWindow();
 };
 
 /// Shutdown this game immediately
 void GameCore::close(){
 	//debug
-	Application::myInstance->m_running = false;
+	//Application::myInstance->m_running = false;
 };
 
 /// Set the fixed update step, or, the amount of time, in seconds, that will take between each update.
@@ -45,8 +45,18 @@ void GameCore::onCreate(){
 };
 
 /// Callback when an event happens
-void GameCore::onEvent(InputEvent &event){
+void GameCore::onEvent(Event &event){
 
+};
+
+/// Get the game window title
+String GameCore::getWindowTitle(){
+	return m_windowTitle;
+};
+
+/// Set the title of the window while the game is active
+void GameCore::setWindowTitle(const String &title){
+	m_windowTitle = title;
 };
 
 /// Inner update of the game

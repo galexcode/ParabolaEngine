@@ -11,6 +11,7 @@ String AndroidInterface::m_AssetSuffix = ".png";
 String AndroidInterface::m_packageName = "unknown";
 String AndroidInterface::m_JNIActivityName = "unknown";
 JavaVM* AndroidInterface::m_javaVM = NULL;
+String AndroidInterface::m_externalStorageDirectory = "";
 
 /// Set the asset suffix to be automatically applied to paths
 void AndroidInterface::setAssetSuffix(const String &suffix){
@@ -108,6 +109,9 @@ bool AndroidInterface::getAssetFile(ScopedFile* file, const String &path, bool b
 			
 		// assign
 		file->open(fpointer, 0, -1); // Open the file as a whole
+
+		TESTLOG("Opened file regularly.")
+		TESTLOG(realPath.c_str())
 	}	
 
 	return true;
@@ -171,6 +175,20 @@ bool AndroidInterface::sendTextMessage(const String &destinationNumber, const St
 	else return false;
 };
 
+/// Closes the activity, ending the application
+void AndroidInterface::closeActivity(){
+	JNIEnv* m_JNI;
+	m_javaVM->AttachCurrentThread(&m_JNI, NULL);	
+
+	jclass cls = m_JNI->FindClass(m_JNIActivityName);
+	if(cls != NULL){
+		jmethodID method = m_JNI->GetStaticMethodID(cls, "closeActivity", "()V");
+		if(method != NULL){			
+			m_JNI->CallStaticVoidMethod(cls, method);			
+		}		
+	}	 
+};
+
 /// Request a frame render
 void AndroidInterface::requestFrameRender(){
 	JNIEnv* m_JNI;
@@ -182,7 +200,7 @@ void AndroidInterface::requestFrameRender(){
 		if(method != NULL){
 			m_JNI->CallStaticVoidMethod(cls, method);
 		}
-	} 
+	}  
 };
 
 /// Toggle the software keyboard
@@ -216,6 +234,15 @@ int AndroidInterface::playMusic(const String &name){
 	return 0;
 };
 
+/// Set the directory of the external storage, the sdcard in case of the android
+void AndroidInterface::setExternalStorageDirectory(const String& path){
+	m_externalStorageDirectory = path;
+};
+
+/// Get the external storage directory, the path to the sdcard root
+String AndroidInterface::getExternalStorageDirectory(){
+	return m_externalStorageDirectory;
+};
  
 /// Set the JNI environment the application is using
 void AndroidInterface::setJavaNativeInterfaceEnvironment(JavaVM *environment){
