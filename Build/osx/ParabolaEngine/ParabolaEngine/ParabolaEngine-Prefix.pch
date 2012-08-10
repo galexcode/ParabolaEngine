@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'ParabolaEngine' target in the 'ParabolaEngine' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif

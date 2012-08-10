@@ -28,7 +28,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Library.h" />
+    <ClInclude Include="..\..\..\Include\Music.h" />
     <ClInclude Include="..\..\..\Include\Parabola.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\3DView.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AbstractView.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AndroidInterface.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AndroidJNI.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Animation.h" />
@@ -36,6 +39,7 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationDimension.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationEasing.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationFactory.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationFloat.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroup.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroupParallel.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationGroupSequential.h" />
@@ -44,13 +48,15 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationStall.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationTextWriter.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationView.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\BrowserPluginInstance.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Font.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Glyph.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ParabolaMain.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Application.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ASEngine.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ASScript.h" />
-    <ClInclude Include="..\..\..\Include\ParabolaCore\BoundingBox.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ProgressBar.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Rect.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Clock.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Color.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ComponentKinesis.h" />
@@ -95,7 +101,7 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\LinkedPointer.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Localization.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Logger.h" />
-    <ClInclude Include="..\..\..\Include\ParabolaCore\MathTools.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Math.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\NameGenerator.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Network.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\NetworkClient.h" />
@@ -116,6 +122,8 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\Renderer.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RendererGLES.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RendererOpenGL.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RenderStates.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RenderTarget.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ResourceTable.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketAnimationController.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketContext.h" />
@@ -127,6 +135,7 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketPlugin.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketRenderInterface.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\RocketSystemInterface.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketUIVerticalScroller.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\SceneGraph.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\SceneItem.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\SceneLayer.h" />
@@ -159,6 +168,8 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\Text.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\TextStream.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Textures.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Thread.hpp" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ThreadLocal.hpp" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Transform.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Transformable.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Tree.h" />
@@ -176,7 +187,10 @@
     <ClCompile Include="..\..\..\Include\AS\ASAddonMathComplex.cpp" />
     <ClCompile Include="..\..\..\Include\AS\ASAddonString.cpp" />
     <ClCompile Include="..\..\..\Include\AS\ASAddonStringUtils.cpp" />
+    <ClCompile Include="..\..\..\Include\Music.cpp" />
+    <ClCompile Include="..\..\..\Include\ParabolaCore\AnimationFloat.cpp" />
     <ClCompile Include="..\..\..\Include\ParabolaCore\FileInterface.cpp" />
+    <ClCompile Include="..\..\..\Source\3DView.cpp" />
     <ClCompile Include="..\..\..\Source\AndroidInterface.cpp" />
     <ClCompile Include="..\..\..\Source\Animation.cpp" />
     <ClCompile Include="..\..\..\Source\AnimationColor.cpp" />
@@ -199,7 +213,7 @@
     <ClCompile Include="..\..\..\Source\ASKinesis.cpp" />
     <ClCompile Include="..\..\..\Source\ASParticleSystem.cpp" />
     <ClCompile Include="..\..\..\Source\ASScript.cpp" />
-    <ClCompile Include="..\..\..\Source\BoundingBox.cpp" />
+    <ClCompile Include="..\..\..\Source\BrowserPluginInstance.cpp" />
     <ClCompile Include="..\..\..\Source\Clock.cpp" />
     <ClCompile Include="..\..\..\Source\Color.cpp" />
     <ClCompile Include="..\..\..\Source\ComponentKinesis.cpp" />
@@ -223,6 +237,7 @@
     <ClCompile Include="..\..\..\Source\Events.cpp" />
     <ClCompile Include="..\..\..\Source\FileStream.cpp" />
     <ClCompile Include="..\..\..\Source\FileSystem.cpp" />
+    <ClCompile Include="..\..\..\Source\Font.cpp" />
     <ClCompile Include="..\..\..\Source\GameCore.cpp" />
     <ClCompile Include="..\..\..\Source\GameCoreInstancer.cpp" />
     <ClCompile Include="..\..\..\Source\GameCoreManager.cpp" />
@@ -237,7 +252,7 @@
     <ClCompile Include="..\..\..\Source\LinkedPointer.cpp" />
     <ClCompile Include="..\..\..\Source\Localization.cpp" />
     <ClCompile Include="..\..\..\Source\Logger.cpp" />
-    <ClCompile Include="..\..\..\Source\MathTools.cpp" />
+    <ClCompile Include="..\..\..\Source\Math.cpp" />
     <ClCompile Include="..\..\..\Source\NameGenerator.cpp" />
     <ClCompile Include="..\..\..\Source\NetworkClient.cpp" />
     <ClCompile Include="..\..\..\Source\NetworkPacket.cpp" />
@@ -266,6 +281,7 @@
     <ClCompile Include="..\..\..\Source\RocketPlugin.cpp" />
     <ClCompile Include="..\..\..\Source\RocketRenderInterface.cpp" />
     <ClCompile Include="..\..\..\Source\RocketSystemInterface.cpp" />
+    <ClCompile Include="..\..\..\Source\RocketUIVerticalScroller.cpp" />
     <ClCompile Include="..\..\..\Source\SceneGraph.cpp" />
     <ClCompile Include="..\..\..\Source\SceneItem.cpp" />
     <ClCompile Include="..\..\..\Source\SceneLayer.cpp" />
@@ -304,6 +320,9 @@
     <None Include="..\..\..\Include\ParabolaCore\GameCoreManager.inl">
       <FileType>Document</FileType>
     </None>
+    <None Include="..\..\..\Include\ParabolaCore\Rect.inl" />
+    <None Include="..\..\..\Include\ParabolaCore\Thread.inl" />
+    <None Include="..\..\..\Include\ParabolaCore\ThreadLocalPtr.inl" />
     <None Include="..\..\..\Include\ParabolaCore\Vectors.inl">
       <FileType>Document</FileType>
     </None>
@@ -392,7 +411,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;SIGC_BUILD;MINIMAL_BUILD;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;SIGC_BUILD;MINIMAL_BUILD;PARABOLA_BROWSER;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../../Include/</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>

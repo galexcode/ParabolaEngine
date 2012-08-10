@@ -64,6 +64,9 @@
     <Filter Include="Engine\Graphics\Particles">
       <UniqueIdentifier>{98e75c1e-56fa-492b-a4d1-17c046c1f5ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Interfaces">
+      <UniqueIdentifier>{cc0bcb44-ce23-4dae-891e-8b88692b1936}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Library.h">
@@ -273,9 +276,6 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\ContentLoader.h">
       <Filter>Engine\Content</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\ParabolaCore\BoundingBox.h">
-      <Filter>Engine\Foundation</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\Clock.h">
       <Filter>Engine\Foundation</Filter>
     </ClInclude>
@@ -295,9 +295,6 @@
       <Filter>Engine\Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\LinkedPointer.h">
-      <Filter>Engine\Foundation</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\ParabolaCore\MathTools.h">
       <Filter>Engine\Foundation</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\Packages.h">
@@ -456,16 +453,7 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\IODevice.h">
       <Filter>Engine\Foundation</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\ParabolaCore\AndroidInterface.h">
-      <Filter>Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\ParabolaCore\ParabolaMain.h">
-      <Filter>Engine\Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\Application.h">
-      <Filter>Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Include\ParabolaCore\AndroidJNI.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\ParticleSystem.h">
@@ -482,6 +470,54 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\Glyph.h">
       <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\Music.h">
+      <Filter>Engine\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Math.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Rect.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationFloat.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ProgressBar.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RenderStates.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RocketUIVerticalScroller.h">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Thread.hpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ThreadLocal.hpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AbstractView.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\3DView.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\BrowserPluginInstance.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\RenderTarget.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ParabolaMain.h">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AndroidJNI.h">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AndroidInterface.h">
+      <Filter>Engine\Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -701,9 +737,6 @@
     <ClCompile Include="..\..\..\Source\ContentLoader.cpp">
       <Filter>Engine\Content</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\BoundingBox.cpp">
-      <Filter>Engine\Foundation</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Source\Clock.cpp">
       <Filter>Engine\Foundation</Filter>
     </ClCompile>
@@ -720,9 +753,6 @@
       <Filter>Engine\Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\LinkedPointer.cpp">
-      <Filter>Engine\Foundation</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\MathTools.cpp">
       <Filter>Engine\Foundation</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Packages.cpp">
@@ -860,9 +890,6 @@
     <ClCompile Include="..\..\..\Source\TextStream.cpp">
       <Filter>Engine\Foundation</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\AndroidInterface.cpp">
-      <Filter>Engine\Core</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Source\Application.cpp">
       <Filter>Engine\Core</Filter>
     </ClCompile>
@@ -878,12 +905,45 @@
     <ClCompile Include="..\..\..\Source\ParticlePointRenderer.cpp">
       <Filter>Engine\Graphics\Particles</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Include\Music.cpp">
+      <Filter>Engine\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Math.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Font.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Include\ParabolaCore\AnimationFloat.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\RocketUIVerticalScroller.cpp">
+      <Filter>Engine\Graphics\RocketInterface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\3DView.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\BrowserPluginInstance.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AndroidInterface.cpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Include\ParabolaCore\GameCoreManager.inl">
       <Filter>Engine\Core</Filter>
     </None>
     <None Include="..\..\..\Include\ParabolaCore\Vectors.inl">
+      <Filter>Engine\Foundation</Filter>
+    </None>
+    <None Include="..\..\..\Include\ParabolaCore\Rect.inl">
+      <Filter>Engine\Foundation</Filter>
+    </None>
+    <None Include="..\..\..\Include\ParabolaCore\Thread.inl">
+      <Filter>Engine\Foundation</Filter>
+    </None>
+    <None Include="..\..\..\Include\ParabolaCore\ThreadLocalPtr.inl">
       <Filter>Engine\Foundation</Filter>
     </None>
   </ItemGroup>
