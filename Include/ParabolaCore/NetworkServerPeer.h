@@ -4,6 +4,7 @@
 #include "Platform.h"
 #include "Strings.h"
 #include "Signals.h"
+#include "NetworkPacket.h"
 #include <enet/enet.h>
 
 //#include <SFML/Network/Packet.hpp>
@@ -45,7 +46,7 @@ public:
 	/// Sends an SFML Packet to the peer
 	/// If reliable is true, the packet will be delivered safely
 	/// Otherwise, it may be lost.
-	//bool send(const sf::Packet &packet, bool reliable = true);
+	bool send(const Packet &packet, bool reliable = true);
 
 	/// Sends a ENET packet to the peer
 	/// If reliable is true, the packet will be delivered safely

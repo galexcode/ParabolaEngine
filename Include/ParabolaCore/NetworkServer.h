@@ -68,7 +68,7 @@ public:
 	/// Broadcasts a SFML Packet to all clients connected
 	/// If reliable is true, the packet will be delivered safely
 	/// Otherwise, it may be lost.
-	//bool send(const sf::Packet &packet, bool reliable = true);
+	bool send(const Packet &packet, bool reliable = true);
 
 	/// Broadcasts a ENET packet to all clients connected
 	/// If reliable is true, the packet will be delivered safely

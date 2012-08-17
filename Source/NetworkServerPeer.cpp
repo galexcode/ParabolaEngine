@@ -64,7 +64,7 @@ bool NetworkServerPeer::send(const String &message, bool reliable){
 /// Broadcasts a SFML Packet to all clients connected
 /// If reliable is true, the packet will be delivered safely
 /// Otherwise, it may be lost.
-/*bool NetworkServerPeer::send(const sf::Packet &packet, bool reliable){
+bool NetworkServerPeer::send(const Packet &packet, bool reliable){
 	if(!myPeer) return false;
 
 	ENetPacket* epacket;
@@ -72,11 +72,11 @@ bool NetworkServerPeer::send(const String &message, bool reliable){
 	if(reliable)
 		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_RELIABLE);
 	else
-		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_UNRELIABLE_FRAGMENT);
+		epacket = enet_packet_create(packet.getData(), packet.getDataSize(), ENET_PACKET_FLAG_UNSEQUENCED);
 
 	enet_peer_send(myPeer, 0, epacket);
 	return true;
-};*/
+};
 
 /// Broadcasts raw data
 /// If reliable is true, the packet will be delivered safely
