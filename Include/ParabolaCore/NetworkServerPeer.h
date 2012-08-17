@@ -3,6 +3,7 @@
 
 #include "Platform.h"
 #include "Strings.h"
+#include "Signals.h"
 #include <enet/enet.h>
 
 //#include <SFML/Network/Packet.hpp>
@@ -10,6 +11,7 @@
 PARABOLA_NAMESPACE_BEGIN
 
 class NetworkServer;
+class NetworkPacket;
 /**
 	\ingroup Network
 	\class NetworkServerPeer
@@ -61,6 +63,9 @@ public:
 
 	/// Sets the user data on this peer
 	void setUserData(void* data_ptr);
+
+	/// Called when data is received for this peer
+	sigc::signal<void, NetworkPacket*> onDataReceived;
 
 
 private:

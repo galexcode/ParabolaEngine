@@ -235,6 +235,7 @@ Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rock
 		Texture* tex = new Texture();
 		tex->loadFromImage(image);
 		Image_handle = (Rocket::Core::TextureHandle)tex;
+		tex->setSmooth(true);
 		return true;
 	}
 

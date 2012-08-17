@@ -56,6 +56,7 @@ bool NetworkClient::connect(const String &address, int port, int timeout){
 			//SetWorking(true);
 			//Signal_ConnectedToHost.emit();
 			//cout<<"A good connect, signal emited"<<endl;
+			onConnected(this);
 			unblock();
 			update(0);
 			return true;
@@ -107,7 +108,7 @@ bool NetworkClient::send(const String &message, bool reliable){
 /// Broadcasts a SFML Packet to all clients connected
 /// If reliable is true, the packet will be delivered safely
 /// Otherwise, it may be lost.
-/*bool NetworkClient::send(const sf::Packet &packet, bool reliable){
+bool NetworkClient::send(const Packet &packet, bool reliable){
 	if(!myPeer) return false;
 
 	ENetPacket* epacket;
@@ -119,7 +120,7 @@ bool NetworkClient::send(const String &message, bool reliable){
 
 	enet_peer_send(myPeer, 0, epacket);
 	return true;
-};*/
+};
 
 /// Broadcasts raw data
 /// If reliable is true, the packet will be delivered safely

@@ -196,6 +196,8 @@ void NetworkServer::handleEvent(ENetEvent *event){
 					//cout<<"Packet: "<<ss<<endl;
 					//// its a known peer
 					onDataReceived((NetworkServerPeer*)event->peer->data, &pack);
+
+					((NetworkServerPeer*)event->peer->data)->onDataReceived(&pack);
 				}
 
 			}break;
