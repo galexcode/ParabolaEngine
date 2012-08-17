@@ -23,10 +23,11 @@ public:
 	/// Appends data to the buffer
 	void append(const void* data, std::size_t dataSize);
 
+	/// Get the size in bytes of the buffer
+	std::size_t getDataSize() const;
 
-	std::size_t getDataSize() const{return 0;}
-
-	const void* getData() const{return 0;}
+	/// Get the data raw pointer
+	const void* getData() const;
 
 	
 	/// Appends a char to the buffer
