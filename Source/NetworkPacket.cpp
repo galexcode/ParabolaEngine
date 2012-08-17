@@ -1,10 +1,23 @@
 #include "ParabolaCore/NetworkPacket.h"
 
+#include <iostream>
+using namespace std;
+
 PARABOLA_NAMESPACE_BEGIN
 
 /// Start the empty packet
 Packet::Packet(){
 	m_readPos = 0;
+};
+
+/// Get the size in bytes of the buffer
+std::size_t Packet::getDataSize() const{
+	return m_data.size();
+};
+
+/// Get the data raw pointer
+const void* Packet::getData() const{
+	return &m_data[0];
 };
 
 /// Appends data to the buffer
@@ -127,13 +140,15 @@ Packet& Packet::operator>>(String& data){
 	*this >> length;
 
 	data.clear();
-	if ((length > 0) && m_readPos + sizeof(data) <= m_data.size())
+	if ((length > 0) && (m_readPos + length*sizeof(String::value_type) <= m_data.size()))
 	{
 		// Then extract characters
 		data.assign(&m_data[m_readPos], length);
 
 		// Update reading position
 		m_readPos += length;
+
+		
 	}
 
 	return *this;
