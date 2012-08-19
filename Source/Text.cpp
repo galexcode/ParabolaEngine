@@ -136,34 +136,34 @@ void Text::setFont(const Font& font)
 ////////////////////////////////////////////////////////////
 void Text::setCharacterSize(unsigned int size)
 {
-    /*if (m_characterSize != size)
+    if (m_characterSize != size)
     {
         m_characterSize = size;
         updateGeometry();
-    }*/
+    }
 }
 
 
 ////////////////////////////////////////////////////////////
 void Text::setStyle(Uint32 style)
 {
-    /*if (m_style != style)
+    if (m_style != style)
     {
         m_style = style;
         updateGeometry();
-    }*/
+    }
 }
 
 
 ////////////////////////////////////////////////////////////
 void Text::setColor(const Color& color)
 {
-  /*  if (color != m_color)
-    {
+   // if (color != m_color)
+  //  {
         m_color = color;
-        for (unsigned int i = 0; i < m_vertices.getVertexCount(); ++i)
+        for (unsigned int i = 0; i < m_vertices.m_vertices.size(); ++i)
             m_vertices[i].color = m_color;
-    }*/
+    //}
 }
 
 

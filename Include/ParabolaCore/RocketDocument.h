@@ -8,6 +8,14 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+class RocketEvent : public Rocket::Core::Event{
+public:
+	int getKey(){
+		Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)GetParameter<int>("key_identifier", 0);
+		return (int)key;
+	}
+};
+
 class RocketElement : public Rocket::Core::Element{
 public:
 	RocketElement(Rocket::Core::String tag) : Rocket::Core::Element(tag){

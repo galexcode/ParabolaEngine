@@ -265,6 +265,7 @@ bool ASEngine::exportRocketUi(){
 			asEngine->RegisterObjectMethod("RocketContext", "void loadFont(string)", WRAP_MFN(RocketContext, loadFont), asCALL_GENERIC);
 
 			asEngine->RegisterObjectMethod("RocketEvent", "RocketElement@ currentElement()", WRAP_MFN(Rocket::Core::Event, GetCurrentElement), asCALL_GENERIC);
+			asEngine->RegisterObjectMethod("RocketEvent", "int getKey()", WRAP_MFN(RocketEvent, getKey), asCALL_GENERIC);
 
 			 
 
@@ -278,7 +279,8 @@ bool ASEngine::exportRocketUi(){
 			asEngine->RegisterObjectMethod("RocketContext", "void showDocument(string)", asMETHOD(RocketContext, showDocument), asCALL_THISCALL);
 			asEngine->RegisterObjectMethod("RocketContext", "void loadFont(string)", asMETHOD(RocketContext, loadFont), asCALL_THISCALL);
 
-
+			asEngine->RegisterObjectMethod("RocketEvent", "RocketElement@ currentElement()", asMETHOD(Rocket::Core::Event, GetCurrentElement), asCALL_THISCALL);
+			asEngine->RegisterObjectMethod("RocketEvent", "int getKey()", asMETHOD(RocketEvent, getKey), asCALL_THISCALL);
 
 		//	asEngine->RegisterObjectMethod("SceneRenderer", "void draw(RocketContext@)", asMETHODPR(SceneRenderer, draw, (RocketContext*), void), asCALL_THISCALL);
 

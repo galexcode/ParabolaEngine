@@ -11,6 +11,7 @@ RocketDocument::RocketDocument(Rocket::Core::String tagName) : Rocket::Core::Ele
 		myScriptEngine.exportGraphics();
 		myScriptEngine.exportBasicScriptInformation();
 		myScriptEngine.exportRocketUi();
+		myScriptEngine.exportEvents();
 		myScriptEngine.exportAnimations();
 		myScriptEngine.exportRocketScripting(this);
 		 

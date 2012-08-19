@@ -120,7 +120,7 @@ void UIElementScroll::OnUpdate()
 		{
 			int scrollAmount = (int)mScrollValue;
 			SetScrollTop(GetScrollTop() + scrollAmount);
-			cout<<"Set a new scroll top: "<< GetScrollTop() + scrollAmount<<endl;
+			//cout<<"Set a new scroll top: "<< GetScrollTop() + scrollAmount<<endl;
 			mScrollValue -= (float)scrollAmount;
 		}
 		
