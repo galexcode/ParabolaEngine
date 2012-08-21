@@ -8,4 +8,5 @@ K:\Development\ParabolaEngine\Library\Samples\Basic\APK\bin\res\drawable-hdpi\ic
 K:\Development\ParabolaEngine\Library\Samples\Basic\APK\bin\res\drawable-ldpi\icon_launcher.png \
 K:\Development\ParabolaEngine\Library\Samples\Basic\APK\bin\res\drawable-mdpi\icon_launcher.png \
 K:\Development\ParabolaEngine\Library\Samples\Basic\APK\bin\res\drawable-xhdpi\icon_launcher.png \
+K:\Development\ParabolaEngine\Library\Samples\Basic\APK\assets\basic.png.png \
 K:\Development\ParabolaEngine\Library\Samples\Basic\APK\AndroidManifest.xml \

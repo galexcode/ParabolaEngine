@@ -98,16 +98,22 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>../../Include/</AdditionalIncludeDirectories>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <GccExceptionHandling>true</GccExceptionHandling>
+      <AdditionalOptions>-fexceptions %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>../../Bin/;../../Externals/vs2010/</AdditionalLibraryDirectories>
       <AdditionalDependencies>K:\Development\ParabolaEngine\Library\Bin\ParabolaEngine-s-d.a;K:\Development\ParabolaEngine\Library\Externals\android10\Box2D.a;K:\Development\ParabolaEngine\Library\Externals\android10\libenet.a;K:\Development\ParabolaEngine\Library\Externals\android10\libsigcpp-d.a;K:\Development\ParabolaEngine\Library\Externals\android10\librocketcore-d.a;K:\Development\ParabolaEngine\Library\Externals\android10\librocketcontrols-d.a;K:\Development\ParabolaEngine\Library\Externals\android10\freetypendk.a;K:\Development\ParabolaEngine\Library\Externals\android10\glues.a;K:\Development\ParabolaEngine\Library\Externals\android10\libangelscript-d.a;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalOptions>-lGLESv1_CM %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>-lGLESv1_CM -lGLESv2 %(AdditionalOptions)</AdditionalOptions>
     </Link>
     <AntBuild>
       <AntBuildPath>$(ProjectDir)\APK\</AntBuildPath>
+      <JVMHeapInitial>512</JVMHeapInitial>
+      <JVMHeapMaximum>512</JVMHeapMaximum>
+      <AntDeploy>Deploy</AntDeploy>
     </AntBuild>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

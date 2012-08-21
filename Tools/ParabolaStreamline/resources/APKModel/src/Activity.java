@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.net.Uri;
+import android.view.WindowManager;
 import android.view.MotionEvent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -59,6 +60,11 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 		return list;
 	}
 
+	public static void closeActivity(){
+		mGame.finish();
+		android.os.Process.killProcess(android.os.Process.myPid());
+	}
+	
 	/// JNI Function used to fetch an APK Resource file descriptor. Called from native code
 	public static AssetFileDescriptor getAssetFileDescriptor(String assetName){
 		AssetFileDescriptor fp = null;
@@ -95,7 +101,10 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {		
 		nativeKeyDown(keyCode);
-		return super.onKeyDown(keyCode, event);
+		if(keyCode == KeyEvent.KEYCODE_BACK)
+			return false;
+		else
+			return super.onKeyDown(keyCode, event);
 	}
 
     @Override
@@ -111,6 +120,8 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 
 		/// Airpush initialization
 		new Airpush(getApplicationContext(), "52201","1337301308105398636",true,true,true);
+		
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
 		/// Accelerometer preparing
 		mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);

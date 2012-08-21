@@ -116,8 +116,8 @@ void prepareApkTokens(){
 	TokenContent["PROJECT_NAME"] = "ParabolaEngineProject";
 	TokenContent["ACTIVITY_LABEL"] = "Parabola Engine";
 	TokenContent["APPLICATION_LABEL"] = "Parabola Engine";
-	TokenContent["AIRPUSH_APPID"] = "52201"; 
-	TokenContent["AIRPUSH_APIKEY"] = "337301308105398636";
+	TokenContent["AIRPUSH_APPID"] = ""; 
+	TokenContent["AIRPUSH_APIKEY"] = "";
 	TokenContent["AIRPUSH_TESTMODE"] = "true";
 	TokenContent["AIRPUSH_PUSHADS"] = "true";
 	TokenContent["AIRPUSH_ICONADS"] = "true";
@@ -130,7 +130,7 @@ void prepareApkTokens(){
 
 }
 
-bool generateAPK(String path, String packageName, int targetAndroidPlatform){
+bool generateAPK(String path, String packageName, int targetAndroidPlatform, String iconPath){
 	
 	if(!FileSystem::isDirectory(path)){
 		if(!FileSystem::makeDirectory(path)){
@@ -159,10 +159,16 @@ bool generateAPK(String path, String packageName, int targetAndroidPlatform){
 	
 
 	// Copy the icon
-	FileInterface::copy(m_ProgramDir + "resources/APKModel/res/drawable-hdpi/icon_launcher.png",path + "/res/drawable-hdpi/icon_launcher.png");
-	FileInterface::copy(m_ProgramDir + "resources/APKModel/res/drawable-xhdpi/icon_launcher.png",path + "/res/drawable-xhdpi/icon_launcher.png");
-	FileInterface::copy(m_ProgramDir + "resources/APKModel/res/drawable-ldpi/icon_launcher.png",path + "/res/drawable-ldpi/icon_launcher.png");
-	FileInterface::copy(m_ProgramDir + "resources/APKModel/res/drawable-mdpi/icon_launcher.png",path + "/res/drawable-mdpi/icon_launcher.png");
+	if(iconPath.empty()){
+		FileInterface::copy(m_ProgramDir + "resources/APKModel/res/drawable-hdpi/icon_launcher.png",path + "/res/drawable-hdpi/icon_launcher.png");
+		FileInterface::copy(m_ProgramDir + "resources/APKModel/res/drawable-xhdpi/icon_launcher.png",path + "/res/drawable-xhdpi/icon_launcher.png");
+		FileInterface::copy(m_ProgramDir + "resources/APKModel/res/drawable-ldpi/icon_launcher.png",path + "/res/drawable-ldpi/icon_launcher.png");
+		FileInterface::copy(m_ProgramDir + "resources/APKModel/res/drawable-mdpi/icon_launcher.png",path + "/res/drawable-mdpi/icon_launcher.png");
+	}
+	else{
+		FileInterface::copy(iconPath, path + "/res/drawable/icon_launcher.png");
+
+	}
 	// Finished copy the icon
 
 	

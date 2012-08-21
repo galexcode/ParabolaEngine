@@ -38,6 +38,8 @@ int main(int argc, char** argv){
 			else{
 				prepareApkTokens();
 
+
+				String iconPath;
 				String outputDir = "AndroidAPK"; // By default writes to APK directory
 				for(int k = 2; k < argc; k++){
 					String subcmd = argv[k];
@@ -60,11 +62,16 @@ int main(int argc, char** argv){
 						}
 						
 					}
+					else if(subcmd.startsWith("-i")){
+						subcmd.erase(subcmd.begin(), subcmd.begin() + 2);
+						//request this icon to be added
+						iconPath = subcmd;
+					}
 
 				}
 				cout<<"[Streamline] Starting creation of Android APK"<<endl;
 				cout<<"[Streamline] Saving output in: "<<outputDir<<endl;
-				if(generateAPK(outputDir, argv[2], 10)){
+				if(generateAPK(outputDir, argv[2], 10, iconPath)){
 					cout<<"[Streamline] Created an android APK - "<<argv[2]<<endl;
 				}
 				else{

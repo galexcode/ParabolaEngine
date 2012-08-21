@@ -48,9 +48,11 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationStall.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationTextWriter.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationView.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\BackgroundWorkerThread.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\BrowserPluginInstance.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Font.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Glyph.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\iOSInterface.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ParabolaMain.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Application.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ASEngine.h" />
@@ -173,6 +175,8 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\Transform.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Transformable.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Tree.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIView.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIWindow.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Vectors.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\VertexArray.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Views.h" />
@@ -213,6 +217,7 @@
     <ClCompile Include="..\..\..\Source\ASKinesis.cpp" />
     <ClCompile Include="..\..\..\Source\ASParticleSystem.cpp" />
     <ClCompile Include="..\..\..\Source\ASScript.cpp" />
+    <ClCompile Include="..\..\..\Source\BackgroundWorkerThread.cpp" />
     <ClCompile Include="..\..\..\Source\BrowserPluginInstance.cpp" />
     <ClCompile Include="..\..\..\Source\Clock.cpp" />
     <ClCompile Include="..\..\..\Source\Color.cpp" />
@@ -241,6 +246,7 @@
     <ClCompile Include="..\..\..\Source\GameCore.cpp" />
     <ClCompile Include="..\..\..\Source\GameCoreInstancer.cpp" />
     <ClCompile Include="..\..\..\Source\GameCoreManager.cpp" />
+    <ClCompile Include="..\..\..\Source\iOSInterface.cpp" />
     <ClCompile Include="..\..\..\Source\KinesisActorBuilder.cpp" />
     <ClCompile Include="..\..\..\Source\KinesisActors.cpp" />
     <ClCompile Include="..\..\..\Source\KinesisContactListener.cpp" />

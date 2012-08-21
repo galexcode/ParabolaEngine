@@ -2,10 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
       package="%PACKAGE_NAME%"
       android:versionCode="1"
-      android:versionName="%PACKAGE_VERSION%">
+      android:versionName="%PACKAGE_VERSION%"
+	  android:installLocation="preferExternal">
     <application %ANDROID_MANIFEST_ICON_DEFINITION% android:label="@string/app_label">
         <activity android:exported="true" android:screenOrientation="%ANDROID_MANIFEST_ACTIVITY_ORIENTATION%" android:configChanges="orientation|keyboardHidden" android:name=".%ACTIVITY_CLASS%"
-                  android:label="@string/activity_label">
+                  android:label="@string/activity_label"
+				  android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -26,6 +28,8 @@
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
   <uses-permission android:name="android.permission.READ_PHONE_STATE" />
   <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
   <uses-permission android:name="android.permission.FLASHLIGHT"/>
   <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT"/>
   

@@ -67,6 +67,9 @@
     <Filter Include="Engine\Interfaces">
       <UniqueIdentifier>{cc0bcb44-ce23-4dae-891e-8b88692b1936}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine\Graphics\UI">
+      <UniqueIdentifier>{bea85bb5-e2cb-4a06-9d41-9835dd8689af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Include\Library.h">
@@ -519,6 +522,18 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\AndroidInterface.h">
       <Filter>Engine\Interfaces</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIView.h">
+      <Filter>Engine\Graphics\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIWindow.h">
+      <Filter>Engine\Graphics\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\BackgroundWorkerThread.h">
+      <Filter>Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\iOSInterface.h">
+      <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\ConfigurationFile.cpp">
@@ -927,6 +942,12 @@
       <Filter>Engine\Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\AndroidInterface.cpp">
+      <Filter>Engine\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\BackgroundWorkerThread.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\iOSInterface.cpp">
       <Filter>Engine\Interfaces</Filter>
     </ClCompile>
   </ItemGroup>
