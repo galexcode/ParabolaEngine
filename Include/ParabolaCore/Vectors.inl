@@ -25,6 +25,21 @@ void Vec2<T>::setAll(T x){
 	this->y = x;
 };
 
+
+
+/// Makes the vector unit-length
+template<class T>
+void Vec2<T>::normalize(){
+	x /= length();
+	y /= length();
+};
+
+/// Get the length of the vector
+template<class T>
+float Vec2<T>::length(){
+	return sqrt(x*x + y*y);
+};
+
 template<class T>
 bool Vec2<T>::operator==(const Vec2<T> &vec){
 	if(x == vec.x && y == vec.y)

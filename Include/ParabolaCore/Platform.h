@@ -119,6 +119,10 @@ PARABOLA_NAMESPACE_BEGIN
 	
 PARABOLA_NAMESPACE_END
 
+/// What modules to compile?
+#define PARABOLA_COMPILE_SPARKPARTICLES
+
+
 #ifndef NULL
 #define NULL 0
 #endif

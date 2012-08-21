@@ -43,5 +43,10 @@ namespace Math{
 		double computeAngle(float x1, float y1, float x2, float y2){
 			return atan2((y2 - y1), (x2 - x1));
 		};
+
+		/// Computes the angle between two positions
+		float computeAngle(const Vec2f &x, const Vec2f &y){
+			return computeAngle(x.x, x.y, y.x,y.y);
+		};
 };
 PARABOLA_NAMESPACE_END

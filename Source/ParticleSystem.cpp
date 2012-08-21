@@ -1,4 +1,4 @@
-/*#include "ParabolaCore/ParticleSystem.h"
+#include "ParabolaCore/ParticleSystem.h"
 #include "ParabolaCore/ASEngine.h"
 
 #include <iostream>
@@ -221,4 +221,4 @@ void ParticleGroup::defaultGroup1(){
 }
 
 
-PARABOLA_NAMESPACE_END*/
+PARABOLA_NAMESPACE_END

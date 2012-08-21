@@ -31,6 +31,14 @@ PARABOLA_NAMESPACE_BEGIN
 		/// Creates a Vec2 with initial values
 		Vec2(T x, T y);
 
+
+		/// Get the length of the vector
+		float length();
+
+		/// Makes the vector unit-length
+		void normalize();
+
+
 		/// Sets all values of the 2D vector
 		void set(T x, T y);
 		/// Sets all values of the 2D vector as x
