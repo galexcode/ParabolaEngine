@@ -80,6 +80,7 @@ namespace Math{
 		return degree;
 	}
 
+	// He
 
 };
 PARABOLA_NAMESPACE_END
