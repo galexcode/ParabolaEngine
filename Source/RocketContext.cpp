@@ -16,7 +16,7 @@ PARABOLA_NAMESPACE_BEGIN
 Rocket::Core::Input::KeyIdentifier translateToRocketKey(Keyboard::Key key);
 
 /// Private constructor
-RocketContext::RocketContext(String contextName) : Rocket::Core::Context(contextName.c_str()){
+RocketContext::RocketContext(String contextName) : Rocket::Core::Context(contextName.c_str()), m_globalTranslation(0.f,0.f){
 	
 };
 
@@ -56,6 +56,10 @@ void RocketContext::generateEvent(String eventString){
 	onEvent(eventString);
 };
 
+/// Callback required for animations
+void RocketContext::animable_set_position(float x, float y){
+	m_globalTranslation = Vec2f(x,y);
+};
 
 // void RocketContext::draw(sf::RenderTarget& target, sf::RenderStates states) const{
 // 	// Draw code here.

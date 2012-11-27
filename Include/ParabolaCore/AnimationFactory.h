@@ -2,7 +2,7 @@
 #define PARABOLA_ANIMATIONFACTORY_H
 
 #include "Platform.h"
-#include "Animation.h"
+#include "AnimationInterface.h"
 #include "Strings.h"
 #include "Signals.h"
 #include "ReferenceCountable.h"

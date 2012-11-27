@@ -50,7 +50,7 @@ Time Time::fromMicroseconds(Int64 microSeconds){
 Time Time::operator -(Time right)
 {
 	Time t;
-	t.m_microSeconds = m_microSeconds; - right.asMicroseconds();
+	t.m_microSeconds = m_microSeconds - right.asMicroseconds();
 	return t;
 }
 

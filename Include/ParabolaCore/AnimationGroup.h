@@ -13,11 +13,17 @@ PARABOLA_NAMESPACE_BEGIN
 */
 class PARABOLA_API AnimationGroup : public AnimationInterface{
 public:
+	AnimationGroup() : AnimationInterface(){}
 
-	/// Mandatory implementation for the update method in a group
-	virtual void update(float elapsedTime) = 0;
+	/// Adds a new animation to the end of the list, it is deleted once it is done
+	void addAnimation(AnimationInterface* animation){
+		m_animations.push_back(animation);
+	}
 
-	std::vector<AnimationInterface*> myAnimations;
+
+protected:
+	/// The collection of animations for this group
+	std::vector<AnimationInterface*> m_animations;
 };
 
 PARABOLA_NAMESPACE_END

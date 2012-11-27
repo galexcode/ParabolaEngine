@@ -26,7 +26,7 @@ void Packet::append(const void* data, std::size_t dataSize){
 	{
 		std::size_t start = m_data.size();
 		m_data.resize(start + dataSize);
-		std::memcpy(&m_data[start], data, dataSize);
+		memcpy(&m_data[start], data, dataSize);
 	}
 };
 

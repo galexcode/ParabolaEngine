@@ -68,6 +68,14 @@ void Sprite::resize(float x, float y){
 	setScale((x / m_texture->getSize().x ),(y / m_texture->getSize().y)); 
 };
 
+/// Set the color of the sprite
+void Sprite::setColor(const Color& color){
+	m_vertices[0].color = color;
+	m_vertices[1].color = color;
+	m_vertices[2].color = color;
+	m_vertices[3].color = color;
+};
+
 
 ////////////////////////////////////////////////////////////
 FloatRect Sprite::getLocalBounds() const
@@ -108,6 +116,11 @@ void Sprite::onDraw(Renderer* renderer){
 	glPopMatrix();
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
+};
+
+/// Animation properties
+void Sprite::animable_set_alpha(int alpha){
+	setColor(Color(m_vertices[0].color.r, m_vertices[0].color.g, m_vertices[0].color.b, alpha));
 };
 
 /*

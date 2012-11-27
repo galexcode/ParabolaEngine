@@ -40,6 +40,13 @@ void Rect<T>::setPosition(T x, T y){
 	top = y;	
 };
 
+/// Set the center of the current rect to a new position
+template<typename T>
+void Rect<T>::setCenter(T x, T y){
+	left = x - width/2;
+	top = y - height/2;
+};
+
 template<typename T>
 bool Rect<T>::intersects(Rect<T> &box){
 	return (box.contains(left, top) ||

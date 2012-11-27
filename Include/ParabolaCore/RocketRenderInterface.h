@@ -10,6 +10,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+class RocketContext;
 class Renderer;
 	/**
 		\ingroup libRocket
@@ -30,6 +31,9 @@ class Renderer;
 
 		/// Destructs the renderer
 		~RocketRenderInterface();
+
+		/// Always filled with the context being drawn during a render phase
+		RocketContext* m_context;
 
 		Renderer* myRenderer;
 

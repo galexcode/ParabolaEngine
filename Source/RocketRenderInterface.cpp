@@ -4,6 +4,7 @@
 #include "ParabolaCore/Vectors.h"
 #include "ParabolaCore/Textures.h"
 #include "ParabolaCore/Engine.h"
+#include "ParabolaCore/RocketContext.h"
 //#include "ParabolaCore/SceneRenderer.h"
 
 #include <iostream>
@@ -58,6 +59,7 @@ void RocketRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int n
 			*/
 			glPushMatrix();
 			//glLoadIdentity();
+			glTranslatef(m_context->m_globalTranslation.x, m_context->m_globalTranslation.y, 0.f);
 			glTranslatef(translation.x, translation.y, 0.f);
 			glEnable(GL_BLEND);
 			glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -242,7 +244,7 @@ Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rock
 	// Called by Rocket when a loaded Image is no longer required.		
 	void RocketRenderInterface::ReleaseTexture(Rocket::Core::TextureHandle Image_handle)
 	{
-		//delete (sf::Texture*)Image_handle;
+		delete (Texture*)Image_handle;
 	}
 
 PARABOLA_NAMESPACE_END

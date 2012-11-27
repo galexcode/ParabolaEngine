@@ -10,6 +10,9 @@ public:
 	Color();
 	Color(int byteRed, int byteGreen, int byteBlue, int byteAlpha = 255);
 
+	/// Static Color
+	static Color Red;
+
 	Uint8 r,g,b,a;
 };
 

@@ -4,6 +4,7 @@
 #include "Platform.h"
 #include "Strings.h"
 #include "Signals.h"
+#include "AnimationInterface.h"
 //#include "Drawable.h"
 //#include "EventHandler.h"
 #include "Vectors.h"
@@ -34,7 +35,7 @@ class Event;
 
 		It is a common approach and will work well if you have one context per game screen, for example.
 	*/
-	class PARABOLA_API RocketContext : public Rocket::Core::Context{
+	class PARABOLA_API RocketContext : public Rocket::Core::Context, public Animable{
 	public:
 		/// Safely destroys the context on destruction
 		~RocketContext();
@@ -115,6 +116,8 @@ class Event;
 		/// This is used to only pass to game state events that are not used by the ui.
 		void setEventProcessedFlag(bool state);
 
+		/// Global translation to apply to a context
+		Vec2f m_globalTranslation;
 
 	protected:
 		/// Virtual method implementation. Called when a RenderTarget is trying to render this context
@@ -144,6 +147,9 @@ class Event;
 		std::map<String, RocketDocument*> documents;
 		bool m_eventProcessFlag;
 	
+		/// Callback required for animations
+		void animable_set_position(float x, float y);
+
 
 		/// Translator
 		//linked_ptr<Localization> myLocalization;

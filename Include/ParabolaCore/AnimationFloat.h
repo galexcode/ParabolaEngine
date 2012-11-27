@@ -25,11 +25,11 @@ public:
 	}
 
 	void update(float elapsedTime){
-		if(playing()){
+		if(getStatus() == AnimationStates::Playing){
 			m_totalTimeElapsed += elapsedTime;
 			*m_animatedFloat = m_easingFunction->compute(m_totalTimeElapsed, 0, m_target-0, m_duration);
 
-			if(m_totalTimeElapsed >= m_duration) stop();
+			//if(m_totalTimeElapsed >= m_duration) stop();
 		}
 	}
 

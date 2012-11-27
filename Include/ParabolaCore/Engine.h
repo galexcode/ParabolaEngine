@@ -42,6 +42,18 @@ PARABOLA_NAMESPACE_BEGIN
 */
 class PARABOLA_API Engine{
 public:
+	
+	class Settings{
+	public:
+		Settings(){
+			windowWidth = 1024;
+			windowHeight = 768;
+		}
+		/// Window dimensions in the applicable platforms
+		int windowWidth;
+		int windowHeight;
+	};
+
 	/// Default construction
 	Engine();
 
@@ -55,9 +67,14 @@ public:
 	/// Will fetch pending events, update the games at fixed steps and do rendering
 	void update();
 
+	/// Get a reference to the engine settings
+	Settings& getSettings();
+
 	/// Launches the necessary services, like the window, if on a pc
 	void create();
 
+	/// Launches the necessary services of the engine from new settings
+	void create(const Settings& settings);
 	
 	void createFromHandle(void* handle);
 
@@ -70,16 +87,7 @@ public:
 	/// Get the game manager
 	GameCoreManager& getGameManager();
 
-	class Settings{
-	public:
-		Settings(){
-			windowWidth = 1024;
-			windowHeight = 768;
-		}
-		/// Window dimensions in the applicable platforms
-		int windowWidth;
-		int windowHeight;
-	};	
+	
 
 	/// Get the instance of the engine
 	static Engine* instance();

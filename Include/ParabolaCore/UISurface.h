@@ -1,0 +1,29 @@
+#ifndef UISurface_h__
+#define UISurface_h__
+
+#include "Platform.h"
+#include "Renderer.h"
+
+#include "UIControl.h"
+
+PARABOLA_NAMESPACE_BEGIN
+
+/**
+	\ingroup UserInterface
+	\class UISurface
+	\brief A layer of controls to be used by a UIWindow
+*/
+class PARABOLA_API UISurface : public UIControl{
+public:
+
+	/// Returns a control in the hierarchy with the name, or NULL if not found
+	UIControl* getControlByName(const String& name);
+
+	/// Callback to handle an event
+	bool onEventNotification(Event& event);
+
+	virtual void draw(Renderer* renderer);
+};
+
+PARABOLA_NAMESPACE_END
+#endif // UISurface_h__

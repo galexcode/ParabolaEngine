@@ -48,7 +48,7 @@ PARABOLA_NAMESPACE_BEGIN
 		erase(ocurr, npos);
 	};
 
-#ifdef PARABOLA_WINDOWS
+/*#ifdef PARABOLA_WINDOWS
 	std::wstring String::toWide(){
 		int len;
 		int slength = (int)(*this).length() + 1;
@@ -64,7 +64,7 @@ PARABOLA_NAMESPACE_BEGIN
 	void String::fromWide(std::wstring &wide){
 		this->assign(wide.begin(), wide.end());
 	};
-#endif
+#endif*/
 
 	void String::removeCharacter(char c){	
 		size_type it;
@@ -104,7 +104,7 @@ PARABOLA_NAMESPACE_BEGIN
 		else return false;
 	}
 
-	StringList String::split(String splitBy, int limitCount, StringList &storage){
+	StringList String::split(String splitBy, int limitCount){
 		StringList MyStrList;
 		unsigned int Iter = 0;
 		String MyStr = *this;
@@ -126,7 +126,6 @@ PARABOLA_NAMESPACE_BEGIN
 					continue;
 				Current.erase(Current.length() - Iter, Current.length());
 				MyStrList.push_back(Current);
-				storage.push_back(Current);
 				Current.clear();
 				Iter = 0; 
 			}
@@ -146,17 +145,14 @@ PARABOLA_NAMESPACE_BEGIN
 			if(!item.empty())
 				elems.push_back(item);
 		}
-
 	};
 
-	StringList String::split(char c, int limitCount, StringList &storage){
+	StringList String::split(char c, int limitCount){
 		StringList elems;
 		String mm = *this;
-		split(mm, c, storage);
+		split(mm, c, elems);
 		return elems;
 	};
-
-
 
 	bool String::startsWith(const String &str){
 		size_t result = find(str);

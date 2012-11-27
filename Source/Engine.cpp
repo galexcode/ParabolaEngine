@@ -61,6 +61,11 @@ void Engine::update(){
 	myLastUpdate = curr_time;
 };
 
+/// Get a reference to the engine settings
+Engine::Settings& Engine::getSettings(){
+	return mySettings;
+};
+
 /// Launches the necessary services, like the window, if on a pc
 void Engine::create(){
 	myWindow.create(mySettings.windowWidth,mySettings.windowHeight);
@@ -68,11 +73,16 @@ void Engine::create(){
 	m_running = true;
 };
 
+/// Launches the necessary services of the engine from new settings
+void Engine::create(const Engine::Settings& settings){
+	mySettings = settings;
+	create();
+}
+
 void Engine::createFromHandle(void* handle){
 	myWindow.create(handle);
 
 	m_running = true;
-
 };
 
 /// Check if the engine is currently ready to function normally

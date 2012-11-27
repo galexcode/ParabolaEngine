@@ -22,6 +22,8 @@ static FILE* logFilePtr = fopen("K:/Users/Hellhound/Desktop/plugin_test/log.txt"
 #define PRINTLOG(tag, formats, ...) printf("[%s] ", tag);printf(formats, __VA_ARGS__);
 #endif
 
+#define LOG(x) TESTLOG(x)
+
 namespace LoggerSettings{
 	/// Verbose modes of the logger
 	/// A log is always output with a verbose mode

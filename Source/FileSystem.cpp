@@ -17,7 +17,7 @@ PARABOLA_NAMESPACE_BEGIN
 /// Load a dialog
 String FileSystem::loadFileDialog(){
 #ifdef PARABOLA_WINDOWS
-		wchar_t Filestring[256];
+		/*wchar_t Filestring[256];
 		String returnstring;
 
 		OPENFILENAME opf;
@@ -46,16 +46,17 @@ String FileSystem::loadFileDialog(){
 			returnstring.fromWide(static_cast<std::wstring>(opf.lpstrFile));
 		}
 
-		return returnstring;
+		return returnstring;*/
 #else
 	return "";
 #endif
+	return "";
 };
 
 /// Testing \todo make
 String FileSystem::saveFileDialog(){
 #ifdef PARABOLA_WINDOWS
-	OPENFILENAME ofn;
+	/*OPENFILENAME ofn;
 	String result;
 
 	wchar_t saveFileName[MAX_PATH] = L"";
@@ -77,10 +78,11 @@ String FileSystem::saveFileDialog(){
 	}
 
 	return result;
-	//	wcscpy(file,saveFileName);
+	//	wcscpy(file,saveFileName);*/
 #else
 	return "";
 #endif
+	return "";
 };
 
 String FileSystem::getDocumentsDirectory(){
@@ -369,8 +371,8 @@ String FileSystem::getExecutableDirectory(){
 	bool FileSystem::makeDirectory(String Name){
 
 #ifdef PARABOLA_WINDOWS
-		if(!CreateDirectory((LPCWSTR)Name.toWide().c_str(), LPSECURITY_ATTRIBUTES()))
-			return false;
+		/*if(!CreateDirectory((LPCWSTR)Name.toWide().c_str(), LPSECURITY_ATTRIBUTES()))
+			return false;*/
 #endif
 		return true;
 	}

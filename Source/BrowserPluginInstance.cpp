@@ -1,3 +1,6 @@
+#include <ParabolaCore/Platform.h>
+#ifndef PARABOLA_ANDROID
+
 #include <ParabolaCore/BrowserPluginInstance.h>
 #include <ParabolaCore/ScriptGame.h>
 
@@ -76,3 +79,5 @@ void BrowserPluginInstance::setURL(const String& url){
 
 
 PARABOLA_NAMESPACE_END
+
+#endif

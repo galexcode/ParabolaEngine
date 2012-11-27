@@ -4,7 +4,6 @@
 /************************************************************************/
 /* Parabola Engine Graphics Libraries - Artur Moreira                   */
 /************************************************************************/
-#include "SceneRenderer.h"
 #include "SceneGraph.h"
 #include "Drawable.h"
 #include "Views.h"

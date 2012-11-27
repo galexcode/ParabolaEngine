@@ -37,6 +37,9 @@ public:
 	/// Set the texture rect to show
 	void setTextureRect(const FloatRect &rect);
 
+	/// Set the color of the sprite
+	void setColor(const Color& color);
+
 	FloatRect getGlobalBounds() const;
 
 	/// Get the binded texture
@@ -51,6 +54,9 @@ public:
 	VertexArray m_vertices;
 	FloatRect m_textureRect;
 
+protected:
+	/// Animation properties
+	void animable_set_alpha(int alpha);
 
 	/*/// Set the position from a vec2f
 	/// Position is the top-left coordinate

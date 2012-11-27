@@ -230,8 +230,10 @@ void RendererOpenGL::draw(Drawable &drawable){
 
 void RendererOpenGL::drawRocketContext(RocketContext* context){
 	RocketPlugin::instance().renderInterface()->myRenderer = this;
+	RocketPlugin::instance().renderInterface()->m_context = context;
 	context->Render();
 	RocketPlugin::instance().renderInterface()->myRenderer = NULL;
+	RocketPlugin::instance().renderInterface()->m_context = NULL;
 }
 
 void RendererOpenGL::display(){

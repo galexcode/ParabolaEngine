@@ -33,6 +33,9 @@ public:
 	/// Set the box position
 	void setPosition(T x, T y);
 
+	/// Set the center of the current rect to a new position
+	void setCenter(T x, T y);
+
 	/// Check if there is intersection between two rects
 	bool intersects(Rect<T> &box);
 
