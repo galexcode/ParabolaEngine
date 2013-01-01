@@ -85,9 +85,11 @@ bool ASEngine::exportGraphics(){
 	exportReferenceDataType("SpriteExt");
 	exportReferenceDataType("AnimationSprite");
 	exportReferenceDataType("Renderer");
+	//exportReferenceDataType("View");
 
 	// Class: Color
 	asEngine->RegisterObjectType("Color", sizeof(Color), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
+	//asEngine->RegisterObjectType("View", sizeof(View), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
 	asEngine->RegisterObjectType("BoundingBox", sizeof(FloatRect), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
 
 	if(getPortableMode()){
@@ -134,8 +136,26 @@ bool ASEngine::exportGraphics(){
 
 		r = asEngine->RegisterObjectMethod("AnimationSprite", "void setLoop(bool)", asMETHOD(AnimationSprite, setLoop), asCALL_THISCALL);
 		r = asEngine->RegisterObjectMethod("AnimationSprite", "void addFrame(Texture@, BoundingBox, float)", asMETHOD(AnimationSprite, addFrame), asCALL_THISCALL);
-
+		
+		//r = asEngine->RegisterObjectMethod("Renderer", "void setView(View)", asMETHOD(Renderer, setView), asCALL_THISCALL);
 		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugQuad(float,float,float,float,float,Color)", asMETHOD(Renderer, drawDebugQuad), asCALL_THISCALL);
+		r = asEngine->RegisterObjectMethod("Renderer", "void setDefaultViewRect(float,float)", asMETHOD(Renderer, setDefaultViewRect), asCALL_THISCALL);
+
+		//
+		//r = asEngine->RegisterObjectBehaviour("View", asBEHAVE_FACTORY, "View@ f()", asFUNCTION(ViewFactory), asCALL_CDECL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectBehaviour("View", asBEHAVE_ADDREF, "void f()", asFUNCTION(ViewFactoryAdd), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectBehaviour("View", asBEHAVE_RELEASE, "void f()", asFUNCTION(ViewFactoryRelease), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "void setCenter(Vec2f)", asMETHODPR(View, setCenter, (Vec2f), void) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "void setCenter(float, float)", asMETHODPR(View, setCenter, (float, float), void) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "Vec2f getCenter()", asMETHOD(View, getCenter) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "void move(float, float)", asMETHODPR(View, move, (float, float), void) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "void setSize(float, float)", asMETHODPR(View, setSize, (float, float), void) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "void setRotation(float)", asMETHOD(View, setRotation) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "float getRotation()", asMETHOD(View, getRotation) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "void rotate(float)", asMETHOD(View, rotate) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "void zoom(float)", asMETHOD(View, zoom) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	//	r = asEngine->RegisterObjectMethod("View", "void setRect(float,float,float,float)", asMETHOD(View, setRect) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("View", "void setViewportPreset(int)", asMETHOD(View, setViewportPreset) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
 
 	}
 	
@@ -148,7 +168,7 @@ bool ASEngine::exportGraphics(){
 
 
 	/// Export sprites
-	asEngine->RegisterObjectType("Sprite", sizeof(Sprite), asOBJ_REF);	
+	asEngine->RegisterObjectType("Sprite", sizeof(Sprite), asOBJ_REF);
 	// Register the behaviours
 	//r = asEngine->RegisterObjectBehaviour("Sprite", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(SprConstructor), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
 //	r = asEngine->RegisterObjectBehaviour("Sprite", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(SprDestructor), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
@@ -208,21 +228,7 @@ bool ASEngine::exportGraphics(){
 	asEngine->RegisterObjectType("View", sizeof(View), asOBJ_REF);
 
 	// Registering the factory behaviour
-	r = asEngine->RegisterObjectBehaviour("View", asBEHAVE_FACTORY, "View@ f()", asFUNCTION(ViewFactory), asCALL_CDECL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("View", asBEHAVE_ADDREF, "void f()", asFUNCTION(ViewFactoryAdd), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectBehaviour("View", asBEHAVE_RELEASE, "void f()", asFUNCTION(ViewFactoryRelease), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void setCenter(Vec2f)", asMETHODPR(View, setCenter, (Vec2f), void) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void setCenter(float, float)", asMETHODPR(View, setCenter, (float, float), void) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "Vec2f getCenter()", asMETHOD(View, getCenter) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void move(float, float)", asMETHODPR(View, move, (float, float), void) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void setSize(float, float)", asMETHODPR(View, setSize, (float, float), void) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void setRotation(float)", asMETHOD(View, setRotation) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "float getRotation()", asMETHOD(View, getRotation) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void rotate(float)", asMETHOD(View, rotate) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void zoom(float)", asMETHOD(View, zoom) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void setRect(float,float,float,float)", asMETHOD(View, setRect) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("View", "void setViewportPreset(int)", asMETHOD(View, setViewportPreset) , asCALL_THISCALL); if(r < 0)printf("r %d", r);
-
+	
 
 	/// Export renderer
 	exportReferenceDataType("SceneRenderer");

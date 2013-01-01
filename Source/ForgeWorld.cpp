@@ -10,11 +10,31 @@ ForgeWorld::ForgeWorld() : m_streamPolicy(ForgeWorld::OnDemand){
 
 };
 
+/// Draws the world
+void ForgeWorld::draw(Renderer* renderer){
+	for(unsigned int i = 0; i < m_layers.size(); i++){
+		m_layers[i].draw(renderer);
+	}
+};
+
+/// Assembles the region grid
+void ForgeWorld::createRegionGrid(int rowCount, int columnCount, float regionWidth){
+	m_regionRowCount = rowCount;
+	m_regionColumnCount = columnCount;
+
+	for(int i = 0; i < rowCount; i++){
+		for(int j = 0; j < columnCount; j++){
+			ForgeWorldRegion* region = new ForgeWorldRegion();
+			m_regions.push_back(region);
+		}
+	}
+};
+
 /// Draw the world
 void ForgeWorld::render(){
-	for(unsigned int i = 0; i < m_layers.size(); i++){
+	/*for(unsigned int i = 0; i < m_layers.size(); i++){
 		m_layers[i].render();
-	}
+	}*/
 };
 
 /// Changes the current stream policy for this world
@@ -30,6 +50,9 @@ ForgeWorldLayer* ForgeWorld::createLayer(const String& name){
 
 /// Get a layer pointer by its name
 ForgeWorldLayer* ForgeWorld::getLayerByName(const String &name){
+	for(unsigned int i = 0; i < m_layers.size(); i++){
+		if(m_layers[i].getName() == name)return &m_layers[i];
+	}
 	return NULL;
 };
 

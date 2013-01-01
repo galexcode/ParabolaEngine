@@ -4,6 +4,7 @@
 #include "Platform.h"
 #include "Strings.h"
 #include "Views.h"
+#include "Renderer.h"
 
 #include <vector>
 #include <map>
@@ -27,6 +28,12 @@ class ForgeWorld{
 public:
 	/// Construct
 	ForgeWorld();
+
+	/// Draws the world
+	void draw(Renderer* renderer);
+
+	/// Assembles the region grid
+	void createRegionGrid(int rowCount, int columnCount, float regionWidth);
 
 	/// List of behaviors for streaming content. This isn't related with region culling when drawing.
 	enum StreamPolicy{
@@ -59,6 +66,8 @@ private:
 	/// Contains the grid-like regions the world can have
 	/// There are cases in which the world has only one region, making it non streamable
 	std::vector<ForgeWorldRegion*> m_regions;
+	int m_regionRowCount;
+	int m_regionColumnCount;
 
 	/// The stream policy of the region loading/unloading
 	StreamPolicy m_streamPolicy;

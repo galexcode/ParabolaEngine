@@ -40,6 +40,13 @@ void Renderer::drawCube(float x, float y, float z, float len, Color color){
 
 };
 
+void Renderer::setDefaultViewRect(float x, float y){
+	View v;
+	v.setRect(0,0,x,y);
+	setView(v);
+};
+
+
 /// Clear the bound buffer
 void Renderer::clearBuffers(){
 

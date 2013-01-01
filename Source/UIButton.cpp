@@ -13,7 +13,7 @@ UIButton::UIButton(){
 
 /// Constructs the button from a label text
 UIButton::UIButton(const String& title) : m_label(title){
-	m_color = Color(30,20,10);
+	m_color = Color(30,60,10);
 };
 
 /// Callback to handle an event

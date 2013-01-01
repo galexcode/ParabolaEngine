@@ -46,9 +46,6 @@
     <Filter Include="Engine\Scene">
       <UniqueIdentifier>{7a717056-f3d5-4dc8-8bf5-a4bae3026b49}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Scene\Editor">
-      <UniqueIdentifier>{8e3c63b7-645a-43d2-be3f-0bcfba514269}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Engine\Scene\EntityFramework">
       <UniqueIdentifier>{4700ccb4-6659-4f13-9c7c-e14a3b4030ec}</UniqueIdentifier>
     </Filter>
@@ -67,7 +64,10 @@
     <Filter Include="Engine\Interfaces">
       <UniqueIdentifier>{cc0bcb44-ce23-4dae-891e-8b88692b1936}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Engine\Graphics\UI">
+    <Filter Include="Engine\Scene\Forge">
+      <UniqueIdentifier>{8e3c63b7-645a-43d2-be3f-0bcfba514269}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\UI">
       <UniqueIdentifier>{bea85bb5-e2cb-4a06-9d41-9835dd8689af}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -393,9 +393,6 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\StoryPlayer.h">
       <Filter>Engine\StoryPlayer</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\ParabolaCore\Editor.h">
-      <Filter>Engine\Scene\Editor</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\Entity.h">
       <Filter>Engine\Scene\EntityFramework</Filter>
     </ClInclude>
@@ -522,17 +519,71 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\AndroidInterface.h">
       <Filter>Engine\Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Include\ParabolaCore\UIView.h">
-      <Filter>Engine\Graphics\UI</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\UIWindow.h">
-      <Filter>Engine\Graphics\UI</Filter>
+      <Filter>Engine\UI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\BackgroundWorkerThread.h">
       <Filter>Engine\Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Include\ParabolaCore\iOSInterface.h">
       <Filter>Engine\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationFade.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationInterface.h">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ForgeWorld.h">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ForgeLibrary.h">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ForgeWorldRegion.h">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ForgeLayer.h">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ForgeNode.h">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIProgressBar.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIState.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UISlider.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UISurface.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIControl.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIButton.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UIToolTip.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Range.h">
+      <Filter>Engine\Foundation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\ForgeNodeCircle.h">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UITabView.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\UILineEdit.h">
+      <Filter>Engine\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\Clipboard.h">
+      <Filter>Engine\Foundation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -707,9 +758,6 @@
     <ClCompile Include="..\..\..\Source\AnimationTextWriter.cpp">
       <Filter>Engine\Graphics\AnimationFramework</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\Animation.cpp">
-      <Filter>Engine\Graphics\AnimationFramework</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Source\AnimationSprite.cpp">
       <Filter>Engine\Graphics\AnimationFramework</Filter>
     </ClCompile>
@@ -845,9 +893,6 @@
     <ClCompile Include="..\..\..\Source\StoryPlayer.cpp">
       <Filter>Engine\StoryPlayer</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Source\Editor.cpp">
-      <Filter>Engine\Scene\Editor</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Source\Entity.cpp">
       <Filter>Engine\Scene\EntityFramework</Filter>
     </ClCompile>
@@ -949,6 +994,57 @@
     </ClCompile>
     <ClCompile Include="..\..\..\Source\iOSInterface.cpp">
       <Filter>Engine\Interfaces</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationFade.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\AnimationInterface.cpp">
+      <Filter>Engine\Graphics\AnimationFramework</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ForgeWorld.cpp">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ForgeLibrary.cpp">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ForgeWorldRegion.cpp">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ForgeLayer.cpp">
+      <Filter>Engine\Scene\Forge</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIWindow.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIProgressBar.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIState.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UISlider.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UISurface.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIControl.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIButton.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIToolTip.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UITabView.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UILineEdit.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Clipboard.cpp">
+      <Filter>Engine\Foundation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,17 @@ bool UISurface::onEventNotification(Event& event){
 		(*it)->onEventNotification(event);
 	}
 
-	return false;
+	return true;
+};
+
+/// Set the unique name of this surface
+void UISurface::setName(const String& name){
+	m_name = name;
+};
+
+/// Get the unique name of this surface
+String UISurface::getName(){
+	return m_name;
 };
 
 PARABOLA_NAMESPACE_END

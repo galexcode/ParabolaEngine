@@ -40,6 +40,12 @@ void UISlider::onPositionChanged(){
 	adjustPositions();
 };
 
+/// Sets the value of the slider knob
+void UISlider::setValue(int value){
+	m_sliderRect.setPosition(m_draggableArea.left + value, m_sliderRect.top);
+};
+
+
 /// Callback to handle an event
 bool UISlider::onEventNotification(Event& event){
 	if(event.type == Event::MouseButtonPressed){

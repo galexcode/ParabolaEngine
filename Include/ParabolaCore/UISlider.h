@@ -16,6 +16,9 @@ public:
 	/// Constructs the slider with default values
 	UISlider();
 
+	/// Sets the value of the slider knob
+	void setValue(int value);
+
 	/// Callback to render itself
 	virtual void draw(Renderer* renderer);
 

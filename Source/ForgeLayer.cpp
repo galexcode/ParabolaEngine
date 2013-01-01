@@ -1,5 +1,8 @@
 #include <ParabolaCore/ForgeLayer.h>
 
+#include <iostream>
+using namespace std;
+
 PARABOLA_NAMESPACE_BEGIN
 
 /// Constructs the layer
@@ -12,16 +15,36 @@ ForgeWorldLayer::ForgeWorldLayer(const String &name) : m_hidden(false), m_name(n
 
 };
 
+/// Attach a node as a child
+void ForgeWorldLayer::attachNode(ForgeWorldNode* node){
+	m_nodes.push_back(node);
+};
+
+/// Destroy a child node
+void ForgeWorldLayer::destroyNode(ForgeWorldNode* node){
+	for(std::list<ForgeWorldNode*>::iterator it = m_nodes.begin(); it != m_nodes.end(); it++){
+		if((*it) == node){
+			it = m_nodes.erase(it);
+			return ;
+		}
+	}
+};
+
 /// Get the name of this layer
 String ForgeWorldLayer::getName(){
 	return m_name;
 };
 
 /// Render the layer of the world
-void ForgeWorldLayer::render(){
-	if(!m_hidden) return; // no rendering
+void ForgeWorldLayer::draw(Renderer* renderer){
+	//if(!m_hidden) return; // no rendering
+
+	//cout<<"drawing "<<m_nodes.size()<< " nodes"<<endl;
 
 	//render graph
+	for(std::list<ForgeWorldNode*>::iterator it = m_nodes.begin(); it != m_nodes.end(); it++){
+		(*it)->draw(renderer);
+	}
 };
 
 PARABOLA_NAMESPACE_END

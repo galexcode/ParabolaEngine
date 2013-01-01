@@ -23,6 +23,10 @@ public:
 	/// Most controls don't implement this function, as their default behavior is to respond to layouts always
 	virtual bool respondsToLayouts();
 
+	/// Requests a tool tip text label from the control
+	/// If only a empty string is returned, no tooltip is shown
+	virtual String getToolTipLabel();
+
 	/// Callback to render itself, renders children
 	virtual void draw(Renderer* renderer);
 

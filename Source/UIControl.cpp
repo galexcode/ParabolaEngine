@@ -7,6 +7,12 @@ UIControl::UIControl(){
 
 };
 
+/// Requests a tool tip text label from the control
+/// If only a empty string is returned, no tooltip is shown
+String UIControl::getToolTipLabel(){
+	return "";
+};
+
 /// Callback to render itself, renders children
 void UIControl::draw(Renderer* renderer){
 	for(std::vector<UIControl*>::const_iterator it = m_children.begin(); it != m_children.end(); it++){

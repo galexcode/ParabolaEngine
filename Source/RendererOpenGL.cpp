@@ -45,7 +45,8 @@ void RendererOpenGL::applyView(const View &view){
 /// Clear the bound buffer
 void RendererOpenGL::clearBuffers(){
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
-	glClearColor(m_clearColor.r/255,m_clearColor.g/255,m_clearColor.b/255,m_clearColor.a);
+	glClearColor(m_clearColor.r/255,m_clearColor.g/255,m_clearColor.b/255,1.f);
+
 };
 
 

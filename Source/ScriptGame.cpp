@@ -90,6 +90,7 @@ void ScriptGame::onCreate(){
 /// Draws the configured scene graph
 /// If the direct render script is enabled, it is rendered after the other objects.
 void ScriptGame::onRender(){
+	//m_renderer->m_clearColor.r = 255;
 	m_renderer->clearBuffers();
 	View v;
 	v.setRect(0,0,1024,768);
@@ -103,6 +104,8 @@ void ScriptGame::onRender(){
 	m_renderer->setView(v);
 //	m_renderer->draw(m_sprite);
 	//m_renderer->display();
+	m_renderer->drawDebugCircle(Vec2f(200,200), 30, Vec2f(), Color::Red);
+
 	getWindow().swapBuffers(); //tempo
 	
 };

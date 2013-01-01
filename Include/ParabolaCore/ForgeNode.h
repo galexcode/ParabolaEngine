@@ -3,6 +3,7 @@
 
 #include "Platform.h"
 #include "Transformable.h"
+#include "Renderer.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -14,6 +15,10 @@ PARABOLA_NAMESPACE_BEGIN
 class PARABOLA_API ForgeWorldNode : public Transformable{
 public:
 
+	virtual void draw(Renderer* renderer)=0;
+
+	/// Unique id of the node
+	Int64 m_uid;
 };
 
 PARABOLA_NAMESPACE_END

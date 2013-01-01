@@ -17,7 +17,7 @@ PARABOLA_NAMESPACE_BEGIN
 /// Load a dialog
 String FileSystem::loadFileDialog(){
 #ifdef PARABOLA_WINDOWS
-		/*wchar_t Filestring[256];
+		wchar_t Filestring[256];
 		String returnstring;
 
 		OPENFILENAME opf;
@@ -43,10 +43,11 @@ String FileSystem::loadFileDialog(){
 
 		if(GetOpenFileName(&opf))
 		{
-			returnstring.fromWide(static_cast<std::wstring>(opf.lpstrFile));
+			std::wstring s = static_cast<std::wstring>(opf.lpstrFile);
+			returnstring.assign(s.begin(), s.end());
 		}
 
-		return returnstring;*/
+		return returnstring;
 #else
 	return "";
 #endif
@@ -56,7 +57,7 @@ String FileSystem::loadFileDialog(){
 /// Testing \todo make
 String FileSystem::saveFileDialog(){
 #ifdef PARABOLA_WINDOWS
-	/*OPENFILENAME ofn;
+	OPENFILENAME ofn;
 	String result;
 
 	wchar_t saveFileName[MAX_PATH] = L"";
@@ -73,12 +74,13 @@ String FileSystem::saveFileDialog(){
 	ofn.lpstrTitle = L"Save File";
 	
 
-	if(GetSaveFileName(&ofn)){
-		result.fromWide(static_cast<std::wstring>(ofn.lpstrFile));
+	if(GetSaveFileName(&ofn)){	
+		std::wstring s = static_cast<std::wstring>(ofn.lpstrFile);
+		result.assign(s.begin(), s.end());
 	}
 
 	return result;
-	//	wcscpy(file,saveFileName);*/
+	//	wcscpy(file,saveFileName);
 #else
 	return "";
 #endif

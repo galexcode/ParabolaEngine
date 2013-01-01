@@ -23,6 +23,16 @@ public:
 	bool onEventNotification(Event& event);
 
 	virtual void draw(Renderer* renderer);
+
+	/// Set the unique name of this surface
+	void setName(const String& name);
+
+	/// Get the unique name of this surface
+	String getName();
+
+private:
+	/// The unique name of this surface
+	String m_name;
 };
 
 PARABOLA_NAMESPACE_END

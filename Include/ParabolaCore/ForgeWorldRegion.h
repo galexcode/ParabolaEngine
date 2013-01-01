@@ -12,6 +12,9 @@ PARABOLA_NAMESPACE_BEGIN
 class PARABOLA_API ForgeWorldRegion{
 public:
 	
+private:
+	Vec2<Uint64> m_globalIndex;
+	Vec2f m_worldPosition;
 };
 
 PARABOLA_NAMESPACE_END

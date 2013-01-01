@@ -34,6 +34,8 @@ public:
 	virtual void drawCube(float x, float y, float z, float len, Color color);
 
 
+	void setDefaultViewRect(float x, float y);
+
 	/// Anything that inherits Drawable can be drawn using a renderer
 	virtual void draw(Drawable &drawable) = 0;
 
