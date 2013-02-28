@@ -173,6 +173,38 @@ const UString& Text::getString() const
     return m_string;
 }
 
+FloatRect Text::getCharacterRect(int index)
+{
+	if(m_vertices.m_vertices.empty())return FloatRect();
+
+	if(index < 0 || index > m_vertices.m_vertices.size() / 6 - 1) return FloatRect(0,0,0,0);
+	else
+	{
+		return FloatRect(m_vertices[index*6].position.x, m_vertices[index*6].position.y, m_vertices[index*6+5].position.x - m_vertices[index*6].position.x, m_vertices[index*6+5].position.y - m_vertices[index*6].position.y);
+	}
+};
+
+Vec2f Text::getCharacterPosition(int index)
+{
+	if(index < 0) return Vec2f(0,0);
+	if(index > m_string.size()-1){
+		Vec2f position(0,0);
+		position.x += getLocalBounds().width;
+		position.y += getLocalBounds().height;
+		return position;
+	}
+	if(m_string.empty()) return Vec2f(0,0);
+	else
+	{
+		Vec2f position(0,0);
+		for(int i = 0; i < index; i++)
+		{
+			position.x += m_font->getGlyph(m_string[i], getCharacterSize(), false).advance;
+		}
+		return position;
+	}
+};
+
 
 ////////////////////////////////////////////////////////////
 const Font& Text::getFont() const

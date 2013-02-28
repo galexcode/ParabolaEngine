@@ -3,7 +3,7 @@
 
 #include "Platform.h"
 #include "Strings.h"
-#include "Views.h"
+#include "View.h"
 #include "Renderer.h"
 
 #include <vector>
@@ -11,11 +11,21 @@
 
 #include "ForgeWorldRegion.h"
 #include "ForgeLayer.h"
+#include "ForgeView.h"
 
 #include <iostream>
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
+
+namespace Forge{
+namespace SizeLimit{
+	enum Limit{
+		Infinite = 0,
+		Finite
+	};
+};
+};
 
 /**
 	\ingroup Forge
@@ -63,11 +73,22 @@ public:
 	bool saveToFile(const String& fileName);
 
 private:
+	/// Whether its an infinite world or not
+	/// Enables the world re-offseting mechanism that overcomes floating point limits
+	Forge::SizeLimit::Limit m_worldLimit;
+
+	/// The dynamic views for this world
+	std::vector<ForgeView*> m_views;
+
 	/// Contains the grid-like regions the world can have
 	/// There are cases in which the world has only one region, making it non streamable
-	std::vector<ForgeWorldRegion*> m_regions;
+	std::vector<ForgeCell*> m_regions;
 	int m_regionRowCount;
 	int m_regionColumnCount;
+
+	/// The maximum amount of zoom a view can have, no view rectangle can surpass this dimension
+	Vec2f m_maximumViewRect;
+
 
 	/// The stream policy of the region loading/unloading
 	StreamPolicy m_streamPolicy;

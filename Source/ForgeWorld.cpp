@@ -24,7 +24,7 @@ void ForgeWorld::createRegionGrid(int rowCount, int columnCount, float regionWid
 
 	for(int i = 0; i < rowCount; i++){
 		for(int j = 0; j < columnCount; j++){
-			ForgeWorldRegion* region = new ForgeWorldRegion();
+			ForgeCell* region = new ForgeCell();
 			m_regions.push_back(region);
 		}
 	}

@@ -82,6 +82,7 @@ bool ASEngine::exportGraphics(){
 	int r;
 	
 	exportReferenceDataType("Texture");
+	exportReferenceDataType("Drawable");
 	exportReferenceDataType("SpriteExt");
 	exportReferenceDataType("AnimationSprite");
 	exportReferenceDataType("Renderer");
@@ -91,6 +92,11 @@ bool ASEngine::exportGraphics(){
 	asEngine->RegisterObjectType("Color", sizeof(Color), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
 	//asEngine->RegisterObjectType("View", sizeof(View), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
 	asEngine->RegisterObjectType("BoundingBox", sizeof(FloatRect), asOBJ_VALUE | asOBJ_APP_CLASS_CDAK);
+
+	asEngine->RegisterObjectProperty("Color", "uint8 r", asOFFSET(Color, r));
+	asEngine->RegisterObjectProperty("Color", "uint8 g", asOFFSET(Color, g));
+	asEngine->RegisterObjectProperty("Color", "uint8 b", asOFFSET(Color, b));
+	asEngine->RegisterObjectProperty("Color", "uint8 a", asOFFSET(Color, a));
 
 	if(getPortableMode()){
 		// Android generics
@@ -114,16 +120,22 @@ bool ASEngine::exportGraphics(){
 		r = asEngine->RegisterObjectMethod("AnimationSprite", "void addFrame(Texture@, BoundingBox, float)", WRAP_MFN(AnimationSprite, addFrame), asCALL_GENERIC);
 
 		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugQuad(float,float,float,float,float,Color)", WRAP_MFN(Renderer, drawDebugQuad), asCALL_GENERIC);
+		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugCircle(Vec2f,float,Vec2f,Color)", WRAP_MFN(Renderer, drawDebugCircle), asCALL_GENERIC);
+		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugText(float,float, const string& in)", WRAP_MFN(Renderer, drawDebugText), asCALL_GENERIC);
+		r = asEngine->RegisterObjectMethod("Renderer", "void draw(Drawable@)", WRAP_MFN(Renderer, draw), asCALL_GENERIC);
+
+	
 
 	}
 	else{
 		// PC native calls
 
-		// Class: Color		
+		// Class: Color	
 		asEngine->RegisterObjectBehaviour("Color", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(ColorCTOR), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("Color", asBEHAVE_CONSTRUCT, "void f(int, int, int)", asFUNCTION(ColorCTOR2), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("Color", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(ColorDTOR), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("Color", asBEHAVE_CONSTRUCT, "void f(const Color& in)", asFUNCTION(ObjectCopyConstructor<Color>), asCALL_CDECL_OBJLAST);
+
 
 		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(BBCTOR), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("BoundingBox", asBEHAVE_CONSTRUCT, "void f(float,float,float,float)", asFUNCTION(BBCTOR2), asCALL_CDECL_OBJLAST);
@@ -139,8 +151,12 @@ bool ASEngine::exportGraphics(){
 		
 		//r = asEngine->RegisterObjectMethod("Renderer", "void setView(View)", asMETHOD(Renderer, setView), asCALL_THISCALL);
 		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugQuad(float,float,float,float,float,Color)", asMETHOD(Renderer, drawDebugQuad), asCALL_THISCALL);
-		r = asEngine->RegisterObjectMethod("Renderer", "void setDefaultViewRect(float,float)", asMETHOD(Renderer, setDefaultViewRect), asCALL_THISCALL);
+		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugCircle(Vec2f,float,Vec2f,Color)", asMETHOD(Renderer, drawDebugCircle), asCALL_THISCALL);
+		//r = asEngine->RegisterObjectMethod("Renderer", "void setDefaultViewRect(float,float)", asMETHOD(Renderer, setDefaultViewRect), asCALL_THISCALL);
+		r = asEngine->RegisterObjectMethod("Renderer", "void drawDebugText(float,float, const string& in)", asMETHOD(Renderer, drawDebugText), asCALL_THISCALL);
 
+		r = asEngine->RegisterObjectMethod("Renderer", "void draw(Drawable@)", asMETHOD(Renderer, draw), asCALL_THISCALL);
+	
 		//
 		//r = asEngine->RegisterObjectBehaviour("View", asBEHAVE_FACTORY, "View@ f()", asFUNCTION(ViewFactory), asCALL_CDECL); if(r < 0)printf("r %d", r);
 		//r = asEngine->RegisterObjectBehaviour("View", asBEHAVE_ADDREF, "void f()", asFUNCTION(ViewFactoryAdd), asCALL_CDECL_OBJLAST); if(r < 0)printf("r %d", r);

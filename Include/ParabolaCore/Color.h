@@ -13,6 +13,8 @@ public:
 	/// Static Color
 	static Color Red;
 
+	static Color White;
+
 	Uint8 r,g,b,a;
 };
 

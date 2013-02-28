@@ -4,7 +4,7 @@ PARABOLA_NAMESPACE_BEGIN
 
 void UISurface::draw(Renderer* renderer){
 	for(std::vector<UIControl*>::const_iterator it = m_children.begin(); it != m_children.end(); it++){
-		(*it)->draw(renderer);
+		(*it)->innerDraw(renderer);
 	}
 };
 

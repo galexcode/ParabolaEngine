@@ -4,9 +4,11 @@ PARABOLA_NAMESPACE_BEGIN
 
 /// Static Color
 Color Color::Red = Color(255,0,0,255);
+Color Color::White = Color(255,255,255,255);
 
 Color::Color(){
-	r = g = b = a = 1.f;
+	r = g = b = 0;
+	a = 255;
 };
 
 Color::Color(int byteRed, int byteGreen, int byteBlue, int byteAlpha){

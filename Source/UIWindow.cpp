@@ -1,5 +1,6 @@
 #include <ParabolaCore/UIWindow.h>
 #include <ParabolaCore/Text.h>
+#include <ParabolaCore/UILabel.h>
 
 #include <iostream>
 using namespace std;
@@ -7,8 +8,9 @@ using namespace std;
 PARABOLA_NAMESPACE_BEGIN
 
 /// Construct the window
-UIWindow::UIWindow() : m_timeSinceLastMouseMovement(0.f){
+UIWindow::UIWindow() : m_surfaceContainerLock(false), m_timeSinceLastMouseMovement(0.f), m_backgroundColor(Color::White){
 	m_surfaces.push_back(new UISurface());
+	m_surfaces.back()->setContext(&m_state);
 };
 
 /// Creates a new surface, which is underneath the relativeSurface specified
@@ -19,6 +21,7 @@ UISurface* UIWindow::createSurfaceBelow(UISurface* relativeSurface, const String
 		if((*it) == relativeSurface){
 			// This where where to insert
 			UISurface* surface = new UISurface();
+			surface->setSize(m_bounds.width, m_bounds.height);
 			surface->setName(name);
 			m_surfaces.insert(it, surface);
 			return surface;
@@ -38,9 +41,27 @@ UISurface* UIWindow::getSurfaceByName(const String& name){
 	return NULL;
 };
 
+UIStateContext& UIWindow::getContext(){
+	return m_state;
+}
+
+/// Makes a list of controls from a selector - CSS like
+UIWindow::ControlList UIWindow::selectControls(const String& selector)
+{
+	ControlList list;
+
+	return list;
+}
+
 /// Sets new boundaries to this UIWindow
-void UIWindow::setDimensions(Rect<float> dimensions){
-	m_bounds = dimensions;
+void UIWindow::setRect(Rect<float> rect){
+	m_bounds = rect;
+
+	// resize happened
+	for(std::vector<UISurface*>::iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
+		(*it)->setPosition(m_bounds.left, m_bounds.top);
+		(*it)->setSize(m_bounds.width, m_bounds.height);
+	}
 };
 
 /// Get the position of the exact middle of this UIWindow
@@ -56,6 +77,26 @@ UISurface* UIWindow::getTopSurface(){
 	}
 };
 
+void UIWindow::showMessageBox(const String& message)
+{
+	cout<<"Message: "<<message<<endl;
+	UIControl* modalBackground = new UIControl();
+	
+	modalBackground->setProperty<Color>("background-color", Color(0,0,0, 80));
+	
+	UISurface* surface = addSurface("modal");
+	surface->addControl(modalBackground);
+	modalBackground->setRect(surface->getRect());
+
+	UILabel* label = new UILabel(message);
+	label->setSize(700,50);
+	label->setCenter(modalBackground->getMiddlePosition());
+	label->setProperty<Color>("background-color", Color(0,0,0));
+	label->setProperty<Color>("color", Color::White);
+	modalBackground->addControl(label);
+};
+
+
 /// Returns a control in the hierarchy with the name, or NULL if not found
 UIControl* UIWindow::getControlByName(const String& name){
 	UIControl* control = NULL;
@@ -67,9 +108,39 @@ UIControl* UIWindow::getControlByName(const String& name){
 	return NULL; // Nothing found.
 };
 
+UISurface* UIWindow::addSurface(const String& name)
+{
+	UISurface* surface = new UISurface();
+	surface->setName(name);
+	surface->setPosition(m_bounds.left, m_bounds.top);
+	surface->setSize(m_bounds.width, m_bounds.height);
+	surface->setContext(&m_state);
+
+	if(!m_surfaceContainerLock)
+		m_surfaces.push_back(surface);
+	else
+	{
+		// Schedule add
+		PendingChange change;
+		change.type = Add;
+		change.surface = surface;
+		m_pendingChanges.push_back(change);
+	}
+
+	return surface;
+};
+
+
 /// Draw the UI
 void UIWindow::draw(Renderer* renderer){
-	for(std::vector<UISurface*>::reverse_iterator it = m_surfaces.rbegin(); it != m_surfaces.rend(); it++){
+	renderer->drawDebugQuad(m_bounds.left + m_bounds.width/2, m_bounds.top + m_bounds.height/2, 0, m_bounds.width, m_bounds.height, m_backgroundColor);
+	renderer->drawDebugLine(Vec2f(m_bounds.left, m_bounds.top), Vec2f(m_bounds.left + m_bounds.width, m_bounds.top), m_topBorderColor);
+	renderer->drawDebugLine(Vec2f(m_bounds.left, m_bounds.top + m_bounds.height), Vec2f(m_bounds.left + m_bounds.width, m_bounds.top + m_bounds.height), m_bottomBorderColor);
+	renderer->drawDebugLine(Vec2f(m_bounds.left, m_bounds.top), Vec2f(m_bounds.left, m_bounds.top + m_bounds.height), m_leftBorderColor);
+	renderer->drawDebugLine(Vec2f(m_bounds.left + m_bounds.width, m_bounds.top), Vec2f(m_bounds.left + m_bounds.width, m_bounds.top + m_bounds.height), m_rightBorderColor);
+
+	/// Draw surfaces bottom to top
+	for(std::vector<UISurface*>::iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
 		(*it)->draw(renderer);
 	}
 
@@ -87,20 +158,79 @@ void UIWindow::update(float elapsedTime){
 		// time to show a tool tip
 		m_showingToolTip = true;
 	}
+
+	for(std::vector<UISurface*>::reverse_iterator it = m_surfaces.rbegin(); it != m_surfaces.rend(); it++){
+		(*it)->onUpdate(elapsedTime);
+	}
 };
 
 /// Pushes a new event through the ui system
 bool UIWindow::pushEvent(Event& event){
-
+	bool result = true;
 	/// Tooltip related
-	if(event.type == Event::MouseMoved){ m_timeSinceLastMouseMovement = 0.f; m_showingToolTip = false;}
-
-	for(std::vector<UISurface*>::const_iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
-		if(!(*it)->onEventNotification(event)){
-			return false; // no propagation of the event for lower layers if the surface returns false
+	if(event.type == Event::MouseMoved){
+		m_timeSinceLastMouseMovement = 0.f; m_showingToolTip = false;
+	
+		//test drag
+		if(m_state.m_dragControl)
+		{
+			m_state.m_dragControl->setPosition(event.mouseMove.x - m_state.m_dragOffset.x, event.mouseMove.y - m_state.m_dragOffset.y);
 		}
 	}
-	return true;
+
+
+	// Handling keyboard
+	if(event.type == Event::KeyPressed)
+	{
+		// Deliver input to the focused control
+		if(m_state.m_focusControl)
+		{
+			m_state.m_focusControl->onKeyPressed(event.key.code);
+		}
+	}
+	else if(event.type == Event::KeyReleased)
+	{
+
+	}
+	else if(event.type == Event::TextEntered)
+	{
+		// Deliver input to the focused control
+		if(m_state.m_focusControl)
+		{
+			m_state.m_focusControl->onTextEvent(event.text.unicode);
+		}
+	}
+
+	// lock for iteration
+	m_surfaceContainerLock = true;
+	for(std::vector<UISurface*>::const_iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
+		if(!(*it)->onEventNotification(event)){
+			result = false; // no propagation of the event for lower layers if the surface returns false
+			break;
+		}
+	}
+	m_surfaceContainerLock = false;
+
+	// now that surfaces were processed, apply changes to surfaces container
+	// the updates in the container are only considered in the next event, so it is not wrongly consumed
+	applyPendingChanges();
+
+	return result;
 };
+
+void UIWindow::applyPendingChanges()
+{
+	for(unsigned int i = 0; i < m_pendingChanges.size(); i++)
+	{
+		switch(m_pendingChanges[i].type)
+		{
+			case Add:
+				m_surfaces.push_back(m_pendingChanges[i].surface);
+			break;
+		}
+	}
+	m_pendingChanges.clear();
+};
+
 
 PARABOLA_NAMESPACE_END

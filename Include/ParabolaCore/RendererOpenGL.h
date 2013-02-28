@@ -20,6 +20,9 @@ public:
 
 	virtual void drawCube(float x, float y, float z, float len, Color color);
 
+void activateClipRegion(FloatRect rect);
+virtual void enableClipping(FloatRect rect);
+	virtual void disableClipping();
 	virtual void prepare(int w, int h);
 	virtual void drawDebugQuad(float x, float y, float angle, float width, float height, Color color);
 	virtual void display();
@@ -27,6 +30,7 @@ public:
 	virtual void drawDebugCircle(Vec2f center, float radius, Vec2f axis, Color color);
 	virtual void drawVertexArray(VertexArray &vertexArray);
 	virtual void drawRocketContext(RocketContext* context);
+	void drawDebugLine(Vec2f begin, Vec2f end, Color color);
 };
 
 PARABOLA_NAMESPACE_END

@@ -7,30 +7,65 @@ using namespace std;
 PARABOLA_NAMESPACE_BEGIN
 
 /// Constructs the button
-UIButton::UIButton(){
+UIButton::UIButton() : UIControl(), m_color(0,0,0) , hover(false){
 
 };
 
 /// Constructs the button from a label text
-UIButton::UIButton(const String& title) : m_label(title){
-	m_color = Color(30,60,10);
+UIButton::UIButton(const String& title) : UIControl(), m_color(0,0,0), m_label(title), hover(false){
+
 };
 
 /// Callback to handle an event
 bool UIButton::onEventNotification(Event& event){
+	if(event.type == Event::MouseButtonPressed){
+		if(m_bounds.contains(event.mouseButton.x, event.mouseButton.y)){
+			// drag test
+			if(getContext())
+			{
+				getContext()->m_dragControl = this->clone();
+				getContext()->m_dragOffset = Vec2f(event.mouseButton.x - m_bounds.left, event.mouseButton.y - m_bounds.top);
+			}
+		}
+	}
+
 	if(event.type == Event::MouseButtonReleased){
 		if(m_bounds.contains(event.mouseButton.x, event.mouseButton.y)){
 			onClick();
+		}
+
+		// drag test
+		if(getContext())
+		{
+			getContext()->m_dragControl = NULL;
+		}
+	}
+
+	if(event.type == Event::MouseMoved)
+	{
+		if(m_bounds.contains(event.mouseMove.x, event.mouseMove.y)){	
+			setProperty<Color>("background-color", Color::White);
+		}
+		else
+		{
+			setProperty<Color>("background-color", Color(91,91,91));
 		}
 	}
 	return true;
 }
 
+UIControl* UIButton::clone()
+{
+	return new UIButton(*this);
+};
+
+
 /// Callback to render itself, renders children
 void UIButton::draw(Renderer* renderer){
-	renderer->drawDebugQuad(m_bounds.left + m_bounds.width/2, m_bounds.top + m_bounds.height/2, 0,m_bounds.width, m_bounds.height, m_color );
+	
 	Text t;
 	t.setString(m_label);
+	t.setColor(m_color);
 	t.setPosition(m_bounds.left, m_bounds.top);
 	renderer->draw(t);
 };

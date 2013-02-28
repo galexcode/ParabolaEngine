@@ -31,7 +31,6 @@ public:
 /// Default constructor
 Window::Window(){
 	myWindowImpl = new WindowImplementation();
-
 	m_fullscreen = false;
 }
 
@@ -47,6 +46,7 @@ void Window::create(int screenWidth, int screenHeight){
 	m_fullscreen = false;
 	myWindowImpl->setVerticalSyncEnabled(true);
 	myWindowImpl->setFramerateLimit(60);
+	m_handle = (int)myWindowImpl->getSystemHandle();
 #endif
 };
 
@@ -54,6 +54,7 @@ void Window::create(void* handle){
 #ifdef PARABOLA_DESKTOP
 	myWindowImpl->create((sf::WindowHandle)handle);
 	m_fullscreen = false;
+	m_handle = (int)handle;
 	
 #endif
 };
@@ -174,6 +175,14 @@ void Window::discardEvents(){
 	while(myWindowImpl->pollEvent(event));
 #endif
 };
+
+WindowHandle Window::getHandle()
+{
+#ifdef PARABOLA_DESKTOP
+	return (void*)myWindowImpl->getSystemHandle();
+#endif
+};
+
 
 /// Swaps buffers
 void Window::swapBuffers(){

@@ -8,11 +8,48 @@
 #include <OpenGLES/ES1/gl.h>
 #endif
 
+#include <ParabolaCore/ASEngine.h>
+#include "AS/aswrappedcall.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
+Drawable* SpriteRefCast(Sprite* a)
+{
+	return refCast<Sprite, Drawable>(a);
+}
+
+bool registerSprite(ASEngine* engine)
+{
+	engine->getASEngine()->RegisterObjectType("Sprite", sizeof(Sprite), asOBJ_REF);
+
+	if(engine->getPortableMode())
+	{
+		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_FACTORY, "Sprite@ f()", WRAP_FN(genericFactory<Sprite>), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_ADDREF, "void f()", WRAP_MFN(Sprite, addReference), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_RELEASE, "void f()", WRAP_MFN(Sprite, removeReference), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_IMPLICIT_REF_CAST, "Drawable@ f()", WRAP_OBJ_LAST(SpriteRefCast), asCALL_GENERIC);
+
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setTexture(Texture@)", WRAP_MFN(Sprite, setTexture), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setPosition(float, float)", WRAP_MFN_PR(Transformable, setPosition, (float,float), void), asCALL_GENERIC);
+
+	}
+	else
+	{
+		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_FACTORY, "Sprite@ f()", asFUNCTION(genericFactory<Sprite>), asCALL_CDECL);
+		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_ADDREF, "void f()", asMETHOD(Sprite, addReference), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_RELEASE, "void f()", asMETHOD(Sprite, removeReference), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_IMPLICIT_REF_CAST, "Drawable@ f()", asFUNCTION((refCast<Sprite,Drawable>)), asCALL_CDECL_OBJLAST);
+
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setTexture(Texture@)", asMETHOD(Sprite, setTexture), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setPosition(float, float)", asMETHODPR(Sprite, setPosition, (float,float), void), asCALL_THISCALL);
+
+
+	}
+	return true;
+}
+
 /// Default sprite
-Sprite::Sprite() : m_vertices(TriangleFan,4) , m_texture(NULL){
+Sprite::Sprite() : m_vertices(TriangleFan,4) , m_texture(NULL), RefCountable(){
 	m_vertices[0].color = Color(255,255,255,255);
 	m_vertices[1].color = Color(255,255,255,255);
 	m_vertices[2].color = Color(255,255,255,255);
@@ -53,7 +90,7 @@ void Sprite::setTextureRect(const FloatRect &rect){
 };
 
 /// Set the texture of the sprite
-void Sprite::setTexture(const Texture &texture, bool resetRect){	
+void Sprite::setTexture(const Texture &texture){	
 	m_texture = &texture;
 
 	setTextureRect(FloatRect(0.f,0.f, texture.getSize().x, texture.getSize().y));

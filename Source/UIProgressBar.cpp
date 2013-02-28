@@ -18,8 +18,7 @@ UIProgressBar::UIProgressBar(int maxValue, const String& message) : m_currentVal
 
 /// Callback to render itself
 void UIProgressBar::draw(Renderer* renderer){
-	renderer->drawDebugQuad(m_rect.left + m_rect.width/2, m_rect.top + m_rect.height/2, 0, m_rect.width, m_rect.height, Color(10,20,10) );
-
+	
 	renderer->drawDebugQuad(m_rect.left + m_rect.width/2,m_rect.top + 14,0,m_currentValue, 20, Color::Red);
 
 	Text message;

@@ -20,6 +20,8 @@ public:
 	/// Sets the reference count to 1
 	RefCountable();
 
+	virtual ~RefCountable();
+
 	/// For AngelScript, the constructor won't do, need another function to set to 1 the refCount
 	void factoryConstructor();
 
@@ -31,6 +33,16 @@ public:
 
 private:
 	int refCount;
+};
+
+/**
+	\class RCPtr
+	\brief An automatic reference manager for any reference counted object
+*/
+class PARABOLA_API RCPtr
+{
+public:
+
 };
 
 PARABOLA_NAMESPACE_END

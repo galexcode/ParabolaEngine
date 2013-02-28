@@ -10,6 +10,17 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+namespace Content
+{
+	enum KnownResourceTypes
+	{
+		Texture = 0,
+		Font,
+		SoundBuffer,
+		Count
+	};
+};
+
 class GameCore;
 /**
 	\ingroup Content
@@ -42,6 +53,12 @@ public:
 	/// Creates a loose content bank, destroys its resources on destruction
 	ContentBank();
 
+	/// Loads a resource by inferring its extension
+	bool load(const String& path);
+
+	/// Registers an extension to a resource type - Content::KnownResourceTypes for the built in types
+	void registerResourceType(const String& extension, Uint32 type_id);
+
 	/// Loads the entries of the ContentList into memory
 	/// All resources will be known as its alias
 	/// Resources with aliases already loaded are ignored, and a log warning is issued
@@ -60,7 +77,7 @@ public:
 
 	/// Temp
 	/// Creates a texture from a file
-	Texture* createTexture(const String &fileName, const String &alias);
+	bool loadTexture(const String &fileName);
 
 	/// Temp
 	/// Get the texture
@@ -86,6 +103,9 @@ private:
 	/// Owns a loader
 	ContentLoader myLoader;
 };
+
+class ASEngine;
+bool registerContentBank(ASEngine* engine);
 
 PARABOLA_NAMESPACE_END
 #endif

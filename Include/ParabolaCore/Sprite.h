@@ -7,6 +7,7 @@
 #include "Vectors.h"
 #include "Drawable.h"
 #include "Transformable.h"
+#include "ReferenceCountable.h"
 #include "VertexArray.h"
 #include "Textures.h"
 #include <vector>
@@ -20,7 +21,7 @@ class ContentBank;
 		\class Sprite
 		\brief Extends sf::Sprite and implements more functionality.
 */
-class PARABOLA_API Sprite: public Drawable, public Animable, public Transformable{
+class PARABOLA_API Sprite: public Drawable, public Animable, public Transformable, public RefCountable{
 public:
 	/// Default sprite
 	Sprite();
@@ -32,7 +33,7 @@ public:
 	virtual void onDraw(Renderer* renderer);
 
 	/// Set the texture of the sprite
-	void setTexture(const Texture &texture, bool resetRect = false);
+	void setTexture(const Texture &texture);
 
 	/// Set the texture rect to show
 	void setTextureRect(const FloatRect &rect);
@@ -106,6 +107,9 @@ protected:
 		//setColor(Color(r,g,b,a));
 	}*/
 };
+
+class ASEngine;
+bool registerSprite(ASEngine* engine);
 
 PARABOLA_NAMESPACE_END
 #endif

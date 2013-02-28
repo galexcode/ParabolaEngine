@@ -1,20 +1,18 @@
-#ifndef MINIMAL_BUILD
-
 #include "ParabolaCore/SceneGraph.h"
-#include "ParabolaCore/SceneRenderer.h"
+/*#include "ParabolaCore/SceneRenderer.h"
 #include "ParabolaCore/Text.h"
 #include "ParabolaCore/KinesisWorld.h"
-
+*/
 #include <iostream>
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
 /// Creates a named scene graph 
-SceneGraph::SceneGraph(const String &name) : Node(name), layerNameGenerator("layer"), kinesisNameGenerator("simulation"){
-	myNodeType = SceneGraphNodeType::SceneGraph;
+SceneGraph::SceneGraph(const String &name) : Node(name){
+	//myNodeType = SceneGraphNodeType::SceneGraph;
 };
-
+/*
 /// Re-implementation of attachNode to avoid attaching invalid node types.
 Node* SceneGraph::attachNode(Node* node){
 	return Node::attachNode(node);
@@ -112,7 +110,5 @@ bool SceneGraph::dispatchEvent(const Event &event){
 	}
 	return false;
 };
-
+*/
 PARABOLA_NAMESPACE_END
-
-#endif

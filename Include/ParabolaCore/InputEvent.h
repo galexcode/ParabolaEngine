@@ -318,6 +318,11 @@ class PARABOLA_API Event{
 public:
 	float x,y;
 
+	Keyboard::Key getKeyCode()
+	{
+		return key.code;
+	}
+
 	////////////////////////////////////////////////////////////
 	/// \brief Size events parameters (Resized)
 	///

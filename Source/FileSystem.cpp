@@ -8,11 +8,17 @@
 #undef SetCurrentDirectory
 #elif defined PARABOLA_ANDROID
 #include "ParabolaCore/AndroidInterface.h"
+#include "ParabolaCore/Logger.h"
 #endif
 
 PARABOLA_NAMESPACE_BEGIN
 	String FileSystem::myCurrentDirectory;
 
+#ifdef PARABOLA_WINDOWS
+	std::wstring wide_string_from_string(std::string str){
+		return std::wstring(str.begin(), str.end());
+	}
+#endif
 
 /// Load a dialog
 String FileSystem::loadFileDialog(){
@@ -373,8 +379,15 @@ String FileSystem::getExecutableDirectory(){
 	bool FileSystem::makeDirectory(String Name){
 
 #ifdef PARABOLA_WINDOWS
-		/*if(!CreateDirectory((LPCWSTR)Name.toWide().c_str(), LPSECURITY_ATTRIBUTES()))
-			return false;*/
+		if(!CreateDirectory((LPCWSTR)wide_string_from_string(Name).c_str(), LPSECURITY_ATTRIBUTES()))
+			return false;
+#elif defined PARABOLA_ANDROID
+		TESTLOG("makeDirectory\n");
+		return AndroidInterface::createDirectory(Name);
+#else
+		TESTLOG("makeDirectory NOT android\n");
+		_mkdir(Name.c_str());
+		mkdir(Name.c_str(), 0770);
 #endif
 		return true;
 	}

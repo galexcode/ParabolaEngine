@@ -9,7 +9,6 @@
 #include "InputEvent.h"
 #include "StringList.h"
 #include "Application.h"
-#include "StateMachine.h"
 
 PARABOLA_NAMESPACE_BEGIN
 class GameCoreManager;
@@ -39,20 +38,39 @@ public:
 
 	/// Set the title of the window while the game is active
 	void setWindowTitle(const String &title);
+
+	/// Sets the base directory to load resources from
+	void setFileRoot(const String & path);
+
+	/// Set the name of the game
+	void setName(const String& name);
+
+	/// Get the name of the game
+	String getName();
 	
 protected:
+
 	/// Callback for updating the game
 	virtual void onUpdate(Time time);
 
 	/// Callback for rendering a frame
 	virtual void onRender();
 
-	/// Callback when starting to execute the game
+	/// This function is called when a game is starting
+	/// It is imperative that after running this function the game is on its first instant of execution, ready to progress with events and updates
 	virtual void onCreate();
 
 	/// Callback when an event happens
 	virtual void onEvent(Event &event);
-	
+
+	/// Can only use relative path resources from this directory
+	/// The only alternative otherwise is to use absolute paths - which may be blocked in sandbox modes
+	/// Either empty, an absolute path ending in a / or a relative path ending in a /
+	String m_fileSystemRoot;
+
+	/// Just a symbolic game name
+	String m_gameName;
+
 private:
 	friend class GameCoreManager;
 
@@ -70,9 +88,11 @@ private:
 	float m_stackedTime;
 
 	/// The title of the window when this game is active
-	String m_windowTitle;	
+	String m_windowTitle;
 
 	Engine* m_creator;
+
+
 	
 	/*
 	/// Get the assigned window

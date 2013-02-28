@@ -4,7 +4,7 @@
 #include "ParabolaCore/RocketContext.h"
 #include "ParabolaCore/RocketPlugin.h"
 #include "ParabolaCore/RocketRenderInterface.h"
-#include "ParabolaCore/Views.h"
+#include "ParabolaCore/View.h"
 #include "ParabolaCore/Math.h"
 
 #include <ParabolaCore/Engine.h>
@@ -42,11 +42,66 @@ void RendererOpenGL::applyView(const View &view){
 
 };
 
+void RendererOpenGL::enableClipping(FloatRect rect)
+{
+	FloatRect current;
+	if(m_clipRegionStack.empty())
+	{
+		glEnable(GL_SCISSOR_TEST);
+
+		// full window test
+		current = FloatRect(0,0,m_renderTarget->getSize().x, m_renderTarget->getSize().y);
+	}
+	else
+	{
+		current = m_clipRegionStack.top();
+	}
+
+	// Crop rect if needed and push
+	if(rect.left < current.left)
+	{
+		rect.width = rect.width - current.left - rect.left;
+		rect.left = current.left;
+	}
+	if(rect.top < current.top)
+	{
+		rect.height = rect.height - current.top - rect.top;
+		rect.top = current.top;
+	}
+	if(rect.left + rect.width > current.left + current.width)
+	{
+		rect.width = current.left + current.width - rect.left;
+	}
+	if(rect.top + rect.height > current.top + current.height)
+	{
+		rect.height = current.top + current.height - rect.top;
+	}
+
+	m_clipRegionStack.push(rect);
+	
+	activateClipRegion(m_clipRegionStack.top());
+}
+
+void RendererOpenGL::activateClipRegion(FloatRect rect)
+{
+	glScissor(rect.left, m_renderTarget->getSize().y - (rect.top + rect.height), rect.width, rect.height);	
+}
+
+void RendererOpenGL::disableClipping()
+{
+	m_clipRegionStack.pop();
+	if(m_clipRegionStack.empty())glDisable(GL_SCISSOR_TEST);
+	else
+	{
+		//activate next
+		activateClipRegion(m_clipRegionStack.top());
+	}
+};
+
 /// Clear the bound buffer
 void RendererOpenGL::clearBuffers(){
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 	glClearColor(m_clearColor.r/255,m_clearColor.g/255,m_clearColor.b/255,1.f);
-
 };
 
 
@@ -123,7 +178,8 @@ void RendererOpenGL::drawDebugQuad(float x, float y, float angle, float width, f
 	glLoadIdentity();
 	glPushMatrix();
 	glTranslatef(x, y, 0.f);
-
+	glEnable(GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glRotatef( angle * (180.f/3.14159), 0 ,0, 1);
 	glColor4f(color.r / 255.f, color.g / 255.f ,color.b / 255.f,color.a / 255.f);
 	GLfloat vertices[] = {width/2,-height/2,0, -width/2,height/2,0, -width/2,-height/2,0,  width/2,-height/2,0,  width/2,height/2,0, -width/2, height/2,0 };
@@ -133,7 +189,7 @@ void RendererOpenGL::drawDebugQuad(float x, float y, float angle, float width, f
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 
 	glDrawArrays(GL_TRIANGLES, 0, 6);
-
+	glDisable(GL_BLEND);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glPopMatrix();
 }
@@ -200,7 +256,7 @@ void RendererOpenGL::drawDebugCircle(Vec2f center, float radius, Vec2f axis, Col
 
 void RendererOpenGL::drawVertexArray(VertexArray &vertexArray){
 
-
+	if(vertexArray.m_vertices.size() == 0)return;
 
 	const char* data = reinterpret_cast<const char*>(&vertexArray.m_vertices[0]);
 
@@ -237,8 +293,28 @@ void RendererOpenGL::drawRocketContext(RocketContext* context){
 	RocketPlugin::instance().renderInterface()->m_context = NULL;
 }
 
+void RendererOpenGL::drawDebugLine(Vec2f begin, Vec2f end, Color color){
+	glLoadIdentity();
+	glPushMatrix();
+	glPushAttrib(GL_ENABLE_BIT); 
+	/*glLineStipple(1, 0xAAAA);
+	glEnable(GL_LINE_STIPPLE);*/
+
+	glLineWidth(1);
+
+	glColor4f(color.r / 255.f, color.g / 255.f ,color.b / 255.f,color.a / 255.f);
+	GLfloat vertices[] = {begin.x,begin.y,0, end.x,end.y,0};
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glDrawArrays(GL_LINES, 0, 2);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	glPopAttrib();
+	glPopMatrix();
+};
+
 void RendererOpenGL::display(){
-	Engine::instance()->getWindow().swapBuffers();
+	//Engine::instance()->getWindow().swapBuffers();
 };
 
 PARABOLA_NAMESPACE_END

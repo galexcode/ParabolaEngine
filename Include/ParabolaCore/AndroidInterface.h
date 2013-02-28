@@ -35,6 +35,10 @@ public:
 	/// Get a listing of files/directories within the APK assets, empty path will mean the root directory of assets
 	static StringList getAssetList(const String &path);
 
+	/// Attempts to create a directory in the Android file system
+	/// Make sure you have the needed permissions in the manifest
+	static bool createDirectory(const String& path);
+
 	/// Sends a text message through the android device, please note the permissions must be requested in the manifest and the legacy java source must be in place.
 	static bool sendTextMessage(const String &destinationNumber, const String &content);
 	

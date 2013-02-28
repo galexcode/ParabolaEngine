@@ -27,8 +27,7 @@ void UISlider::adjustPositions(){
 
 /// Callback to render itself
 void UISlider::draw(Renderer* renderer){
-	renderer->drawDebugQuad(m_bounds.left + m_bounds.width/2, m_bounds.top + m_bounds.height/2, 0,m_bounds.width, m_bounds.height, Color(10,20,10) );
-
+	
 	renderer->drawDebugQuad(m_draggableArea.left + m_draggableArea.width/2, m_draggableArea.top + m_draggableArea.height/2, 0,m_draggableArea.width, m_draggableArea.height, Color(200,200,190) );
 
 	renderer->drawDebugQuad(m_sliderRect.left + m_sliderRect.width/2, m_sliderRect.top + m_sliderRect.height/2, 0, m_sliderRect.width, m_sliderRect.height, Color::Red );

@@ -73,6 +73,9 @@ public:
 	/// Call the selected function right away
 	bool call(int funcid);
 
+	template<typename Ret>
+	Ret fastCall(const String& funcName);
+
 	/// Get the last return value, if the context is still alive
 	/// Otherwise it returns NULL.
 	/// Once again, be careful when casting the void* to the right object.
@@ -113,6 +116,23 @@ private:
 	int myPreparedMethod;
 	bool myPreserveGlobals;
 };
+
+template<typename Ret>
+Ret ASScript::fastCall(const String& funcName)
+{
+	Ret val;
+	if(call(getFunctionIdByName(funcName)))
+	{
+		void* ret = getReturnValue(ScriptArgumentTypes::Object);
+		if(ret)
+		{
+			Ret* retTypePtr = (Ret*)ret;
+			val = *retTypePtr;
+		}
+		
+	}
+	return val;
+}
 
 /**
 	\ingroup Scripting

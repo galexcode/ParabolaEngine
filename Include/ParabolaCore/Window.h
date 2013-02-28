@@ -5,11 +5,12 @@
 #include "Strings.h"
 #include "Vectors.h"
 #include "InputEvent.h"
-#include "Views.h"
+#include "View.h"
 #include "RenderTarget.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
+typedef void* WindowHandle;
 /**
 	\ingroup Graphics
 
@@ -57,6 +58,8 @@ public:
 	/// Swaps buffers
 	void swapBuffers();
 
+	WindowHandle getHandle();
+
 
 	IntRect getViewport(const View& view) const;
 
@@ -74,6 +77,7 @@ public:
 	WindowImplementation* myWindowImpl;
 
 	bool m_fullscreen;
+	int m_handle;
 };
 
 PARABOLA_NAMESPACE_END

@@ -27,7 +27,7 @@ public:
 	UIControl* getControlByName(const String& name);
 
 	/// Sets new boundaries to this UIWindow
-	void setDimensions(Rect<float> dimensions);
+	void setRect(Rect<float> rect);
 
 	/// Get the position of the exact middle of this UIWindow
 	Vec2f getMiddlePosition();
@@ -43,6 +43,19 @@ public:
 	/// \return the UISurface* or NULL if there are no surfaces
 	UISurface* getTopSurface();
 
+	UISurface* addSurface(const String& name);
+
+	void applyPendingChanges();
+
+	typedef std::vector<UIControl*> ControlList;
+
+	/// Makes a list of controls from a selector - CSS like
+	ControlList selectControls(const String& selector);
+
+	void showMessageBox(const String& message);
+
+	UIStateContext& getContext();
+
 	/// Draw the UI
 	void draw(Renderer* renderer);
 
@@ -53,6 +66,8 @@ public:
 	/// Pushes a new event through the ui system
 	bool pushEvent(Event& event);
 
+	Color m_topBorderColor, m_bottomBorderColor, m_leftBorderColor, m_rightBorderColor;
+	Color m_backgroundColor;
 private:
 	/// The bounds of the window
 	/// In nearly every case, the bounds match exactly the dimensions of the screen
@@ -64,12 +79,29 @@ private:
 	std::vector<UISurface*> m_surfaces;
 
 	/// The shared state of this ui system
-	UIState m_state;
+	UIStateContext m_state;
 
 	/// Tooltips
 	UIToolTip* m_toolTip;
 	bool m_showingToolTip;
 	float m_timeSinceLastMouseMovement;
+
+	enum PendingChangeType
+	{
+		Add,
+		Remove,
+		Reorder,
+		Clear
+	};
+
+	typedef struct{
+		PendingChangeType type;
+		UISurface* surface;
+	} PendingChange;
+
+	std::vector<PendingChange> m_pendingChanges;
+
+	bool m_surfaceContainerLock;
 };
 
 PARABOLA_NAMESPACE_END

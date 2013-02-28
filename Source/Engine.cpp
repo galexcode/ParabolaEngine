@@ -7,17 +7,10 @@ using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 	
-/// The unique instance of the engine
-Engine* Engine::myInstance = NULL;
-
-/// Get the instance of the engine
-Engine* Engine::instance(){
-	return myInstance;
-};
 
 /// Default construction
 Engine::Engine() : myGameManager(this){
-	myInstance = this;
+
 	myLastUpdate = 0;
 
 	m_running = false;

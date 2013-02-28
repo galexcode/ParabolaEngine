@@ -1,9 +1,62 @@
 #include "ParabolaCore/ContentBank.h"
+#include "ParabolaCore/ASEngine.h"
+#include "ParabolaCore/Directory.h"
+#include "AS/aswrappedcall.h"
+
+#include <iostream>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
+bool registerContentBank(ASEngine* engine)
+{
+	engine->exportReferenceDataType("ContentBank");
+
+	if(engine->getPortableMode())
+	{
+		engine->getASEngine()->RegisterObjectMethod("ContentBank", "bool loadTexture(const string& in)", WRAP_MFN(ContentBank, loadTexture), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("ContentBank", "bool load(const string& in)", WRAP_MFN(ContentBank, load), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("ContentBank", "Texture@ getTexture(const string& in)", WRAP_MFN(ContentBank, getTexture), asCALL_GENERIC);
+
+	}
+	else
+	{
+		engine->getASEngine()->RegisterObjectMethod("ContentBank", "bool loadTexture(const string& in)", asMETHOD(ContentBank, loadTexture), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("ContentBank", "bool load(const string& in)", asMETHOD(ContentBank, load), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("ContentBank", "Texture@ getTexture(const string& in)", asMETHOD(ContentBank, getTexture), asCALL_THISCALL);
+
+	}
+
+	return true;
+};
+
+
 /// Creates a loose content bank, destroys its resources on destruction
 ContentBank::ContentBank() : myLoader(this){
+
+	// register most basic ones
+	registerResourceType("png", Content::Texture);
+	registerResourceType("ttf", Content::Font);
+	/// .. and so on
+};
+
+/// Loads a resource by inferring its extension
+bool ContentBank::load(const String& path)
+{
+	cout<<"[ContentBank] Attempting to identify resource"<<endl;
+	Path p;
+	p.m_path = path;
+	cout<<"[ContentBank] Extension: "<<p.getExtension()<<endl;
+	if(p.isRelativePath())
+	{
+		cout<<"[ContentBank] Is a relative path"<<endl;
+	}
+	return true;
+};
+
+/// Registers an extension to a resource type - Content::KnownResourceTypes for the built in types
+void ContentBank::registerResourceType(const String& extension, Uint32 type_id)
+{
 
 };
 
@@ -41,20 +94,11 @@ void ContentBank::unloadContentList(ContentList &list){
 
 /// Temp
 /// Creates a texture from a file
-Texture* ContentBank::createTexture(const String &fileName, const String &alias){
-	String name;
-	if(alias.empty())name = fileName;
-	else name = alias;
-
-	std::map<String, Texture*>::iterator it = myTextureResources.find(name);
-	if(it == myTextureResources.end()){
-		myTextureResources[name] = new Texture();
-		myTextureResources[name]->loadFromFile(fileName);
-		return myTextureResources[name];
-	}
-	else{		
-		return myTextureResources[name];
-	}
+bool ContentBank::loadTexture(const String &fileName){
+	cout<<"[ContentBank] Loading texture: "<<fileName<<endl;
+	myTextureResources[fileName] = new Texture();
+	return myTextureResources[fileName]->loadFromFile(fileName);
+	return false;
 };
 
 /// Temp

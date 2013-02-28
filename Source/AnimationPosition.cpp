@@ -1,10 +1,11 @@
-#include "ParabolaCore/AnimationPosition.h"
+#include <ParabolaCore/AnimationPosition.h>
 
 #include <iostream>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 /// Construct the position animation
-AnimationPosition::AnimationPosition(){
+AnimationPosition::AnimationPosition() : AnimationInterface(){
 	m_totalTime = 0.f;
 	m_duration = 0.f;
 	m_function = new AnimationEasingQuad();
@@ -30,6 +31,11 @@ void AnimationPosition::setDuration(float duration){
 
 /// Fresh start, ensure the initial value
 void AnimationPosition::onBegin(){
+	/// TODO
+	if(m_animables.size() > 0){
+		m_start = m_animables[0]->animable_get_position();
+	}
+
 	for(unsigned int i = 0; i < m_animables.size(); i++){
 		m_animables[i]->animable_set_position(m_start.x, m_start.y);
 	}
@@ -40,31 +46,27 @@ void AnimationPosition::onBegin(){
 /// This is essential as in a play list of animations, when one finished, the next updates immediately.
 float AnimationPosition::onUpdate(float elapsedTime){
 	if(getStatus() == AnimationStates::Playing){
-		m_totalTime += elapsedTime;
-		float xres =  m_function->compute(m_totalTime, m_start.x, m_end.x - m_start.x, m_duration);
-		float yres =  m_function->compute(m_totalTime, m_start.y, m_end.y - m_start.y, m_duration);
+
+		m_totalElapsedTime += elapsedTime;
+		float xres =  m_function->compute(m_totalElapsedTime, m_start.x, m_end.x - m_start.x, m_duration);
+		float yres =  m_function->compute(m_totalElapsedTime, m_start.y, m_end.y - m_start.y, m_duration);
 
 		for(unsigned int i = 0; i < m_animables.size(); i++){
 			m_animables[i]->animable_set_position(xres, yres);
 		}
 
-		if(m_totalTime >= m_duration){
+		if(m_totalElapsedTime >= m_duration){
 			setStatus(AnimationStates::Stopped);
 			// Ensure the end value
 			for(unsigned int i = 0; i < m_animables.size(); i++){
 				m_animables[i]->animable_set_position(xres, yres);
 			}
-			return m_totalTime - m_duration;
+			return m_totalElapsedTime - m_duration;
 		}
-		else return elapsedTime;
+		else return m_totalElapsedTime;
 	}
 	else return 0.f;
 };
 
-/// Play override
-void AnimationPosition::play(){
-	setStatus(AnimationStates::Playing);
-	onBegin();
-};
 
 PARABOLA_NAMESPACE_END

@@ -2,39 +2,113 @@
 #ifndef PARABOLA_ANDROID
 
 #include <ParabolaCore/BrowserPluginInstance.h>
-#include <ParabolaCore/ScriptGame.h>
+#include <ParabolaCore/ScriptedGameCore.h>
 
 #include <SFML/System.hpp>
 
 PARABOLA_NAMESPACE_BEGIN
 
-sf::Mutex BrowserPluginInstance::m_globalMutex;
-
 /// Prepares the needed resources to run
-BrowserPluginInstance::BrowserPluginInstance() : m_executionThread(&BrowserPluginInstance::runThread, this){
-	thread_running = false;
-	thread_initialized = false;
+BrowserPluginInstance::BrowserPluginInstance() : m_finished(false), m_engine(NULL){
+	m_mainThread = new sf::Thread(&BrowserPluginInstance::mainThreadFunction, this);
 };
+
+/// Ensures proper destruction of the engine living in a browser frame being destroyed
+BrowserPluginInstance::~BrowserPluginInstance(){
+	delete m_mainThread;
+
+	if(m_engine){ // thread finished abnormally, dealocate
+		delete m_engine;
+		m_engine = NULL;
+	}
+};
+
+/// The execution thread of this engine
+void BrowserPluginInstance::mainThreadFunction(){
+	
+	// init
+	m_engine = new Engine();
+	m_engine->createFromHandle(m_windowHandle);
+
+	// get preload script - mandatory
+	m_preloadScriptURL = m_browserPageURL + m_params["startup"];
+	m_preloadScriptURL.removeUntilReverse('/');
+	m_preloadScriptURL += "/"; // contains the URL where the preload script lies
+
+	String preloadFileName = m_params["startup"];
+	if(preloadFileName.find_first_of('/') != preloadFileName.npos)
+	{
+		preloadFileName.erase(preloadFileName.begin(), preloadFileName.begin() + preloadFileName.find_last_of('/') + 1);
+	}
+	doDownload(preloadFileName , m_workingDirectory + "preload.as");
+	
+	ScriptedGameCore* game = new ScriptedGameCore(); 
+	game->onRequestDownload.connect(MAKE_SLOT_LOCAL(BrowserPluginInstance, doDownload));
+	game->enablePreloadStep(true);
+	game->setPreloadScript("preload.as");
+	game->setFileRoot(m_workingDirectory);
+	m_engine->getGameManager().addGameForExecution(game);
+
+	game->m_info = m_preloadScriptURL + preloadFileName + "\n" + m_workingDirectory;
+
+	bool m_executeFrame = true;
+	while(m_executeFrame){
+		
+		// loop step
+		m_engine->getWindow().setActive(true);
+		m_engine->update();
+
+		//m_engine->getWindow().setActive(false);
+
+		// stall a little to avoid overload
+		sf::sleep(sf::milliseconds(10));
+
+		// check if the thread will execute the next step
+		{
+			sf::Lock boolLock(m_runMutex);
+			if(m_finished){
+				m_executeFrame = false;
+				m_finished = false;
+			}
+		}
+	}
+
+	// shutdown - normal thread finish - safe destruction
+	delete m_engine;
+	m_engine = NULL;
+	
+};
+
+/// Shuts down the execution of the engine thread
+void BrowserPluginInstance::finish(){
+	sf::Lock boolLock(m_runMutex);
+	m_finished = true;
+};
+
+bool BrowserPluginInstance::doDownload(String s, String d)
+{
+	// Must make the source absolute
+	return getRemoteFile(m_preloadScriptURL + s, d);
+};
+
 
 /// Starts the engine from an window handle
-void BrowserPluginInstance::start(WindowHandle handle, std::map<String,String>& params){
-	m_windowHandle = handle;
+void BrowserPluginInstance::start(WindowHandle handle, std::map<String,String>& params, const String& webPageURL, const String& workingDirectory){
+	
+	m_browserPageURL = webPageURL;
 	m_params = params;
-	m_executionThread.launch();
+	m_workingDirectory = workingDirectory;
+	//m_executionThread.launch();
 	//while(!thread_initialized){} // must wait
-};
 
-/// Finish execution of the plugin, back to starting state
-void BrowserPluginInstance::finish(){
-	/// Finish the engine environment and wait for its thread to be over
-	m_sdk.finish();
-	if(thread_running)
-		m_executionThread.wait();
+	/// Order the engine to start running, because the window is ready
+	m_windowHandle = handle;
+	m_mainThread->launch();
 };
 
 /// The thread controlling the engine and game
 void BrowserPluginInstance::runThread(){
-	thread_running = true;
+	/*thread_running = true;
 	thread_initialized = false;
 
 	/// some initialization
@@ -64,7 +138,7 @@ void BrowserPluginInstance::runThread(){
 	}
 
 	/// some destruction
-	thread_running = false;
+	thread_running = false;*/
 };
 
 /// Get the URL path of the webpage running the plugin

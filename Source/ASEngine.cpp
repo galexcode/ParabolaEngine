@@ -8,6 +8,8 @@
 #include "ParabolaCore/Logger.h"
 
 
+#undef GetObject
+
 #include "AS/scriptbuilder.h"
 #include "AS/scriptstdstring.h"
 #include "AS/scriptarray.h"
@@ -19,6 +21,7 @@
 using namespace std;
 #include <iostream>
 #include <algorithm>
+
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -320,7 +323,7 @@ bool ASEngine::callScriptMethod(const String &scriptName, const String &method){
 	else{
 		//something is wrong
 		switch(r){
-		case asEXECUTION_ERROR: 
+		case asEXECUTION_ERROR:
 			break;
 
 		}
@@ -349,6 +352,7 @@ bool ASEngine::exportGameAs(const String &varName, GameCore* game){
 bool ASEngine::exportBasicGameCore(){
 	if(gameCoreBasic)return true;
 	asEngine->RegisterObjectType("GameCore", sizeof(GameCore), asOBJ_REF);
+
 /*
 	int r;
 	r = asEngine->RegisterObjectBehaviour("GameCore", asBEHAVE_ADDREF, "void f()", asMETHOD(GameCore,dummy), asCALL_THISCALL); if(r < 0)printf("r %d", r);
@@ -444,7 +448,7 @@ bool ASEngine::exportBasicEngine(const String &varName){
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", WRAP_OBJ_LAST(Vec2fCTOR2), asCALL_GENERIC);
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", WRAP_OBJ_LAST(Vec2fDTOR), asCALL_GENERIC);
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(const Vec2f &in)", WRAP_OBJ_LAST(Vec2fCCTOR), asCALL_GENERIC);
-		asEngine->RegisterObjectMethod("Vec2f", "Vec2f &opAssign(const Vec2f &in)", WRAP_MFN_PR(Vec2f, operator=, (const Vec2f &), Vec2f&), asCALL_GENERIC);
+		//asEngine->RegisterObjectMethod("Vec2f", "Vec2f &opAssign(const Vec2f &in)", WRAP_MFN_PR(Vec2f, operator=, (const Vec2f &), Vec2f&), asCALL_GENERIC);
 
 	} 
 	else{
@@ -527,7 +531,7 @@ bool ASEngine::exportStrings(){
 		if(r < 0){
 			//pLogger::Log(LogLevel::Critical, "Failed to export a function.");
 		}
-	}	
+	}
 
 	return true;
 };

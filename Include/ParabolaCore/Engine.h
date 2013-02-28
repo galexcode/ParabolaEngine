@@ -89,9 +89,6 @@ public:
 
 	
 
-	/// Get the instance of the engine
-	static Engine* instance();
-
 private:
 
 	/// Check
@@ -106,8 +103,7 @@ private:
 	Int64 myLastUpdate;
 	/// Startup settings
 	Settings mySettings;
-	/// The unique instance of the engine
-	static Engine *myInstance;
+
 };
 
 

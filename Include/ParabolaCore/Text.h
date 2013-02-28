@@ -104,6 +104,9 @@ public:
 		FloatRect getLocalBounds() const;
 		FloatRect getGlobalBounds() const;
 
+		Vec2f getCharacterPosition(int index);
+		FloatRect getCharacterRect(int index);
+
 		const Font& getFont() const;
 		unsigned int getCharacterSize() const;
 

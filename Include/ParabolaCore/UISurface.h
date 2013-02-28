@@ -12,6 +12,8 @@ PARABOLA_NAMESPACE_BEGIN
 	\ingroup UserInterface
 	\class UISurface
 	\brief A layer of controls to be used by a UIWindow
+
+	Note: In a proper hierarchy, only UISurface objects will have a NULL parent
 */
 class PARABOLA_API UISurface : public UIControl{
 public:

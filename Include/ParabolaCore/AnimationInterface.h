@@ -140,9 +140,11 @@ protected:
 
 	/// The current state of the animation
 	AnimationStates::Status m_playState;
+	
+	float m_totalElapsedTime;
 
 private:
-	float totalElapsedTime;
+	
 	int myStatus;
 	bool myLooping;	
 

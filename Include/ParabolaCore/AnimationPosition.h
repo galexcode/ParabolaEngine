@@ -32,8 +32,6 @@ public:
 	/// Update method
 	//void update(float elapsedTime);
 
-	/// Play override
-	void play();
 
 	/// Fresh start, ensure the initial value
 	void onBegin();

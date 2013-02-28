@@ -159,7 +159,20 @@ int ASScript::getFunctionIdByName(const String &name){
 /// Otherwise it returns NULL.
 /// Once again, be careful when casting the void* to the right object.
 void* ASScript::getReturnValue(ScriptArgumentTypes::ArgTypes returnType){
-	return NULL;
+
+	switch(returnType){
+		case ScriptArgumentTypes::Object:
+			return myExecutionContext->GetReturnObject();
+		break;
+
+		case ScriptArgumentTypes::Ptr:
+			//result = myExecutionContext->SetArgAddress(index, data);
+		break;
+
+		case ScriptArgumentTypes::Float:
+			//return myExecutionContext->GetReturnFloat();
+		break;
+	}
 };
 
 /// Request the context to be created, if not already created

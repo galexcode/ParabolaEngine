@@ -27,16 +27,20 @@ public:
 	/// Update method
 	void update(float elapsedTime);
 
-	/// Play override
-	void play();
+	/// Fresh start, ensure the initial value
+	void onBegin();
+
+	/// Called when the animation is updating
+	/// \return MUST return the remaining time not used by the animation
+	/// This is essential as in a play list of animations, when one finished, the next updates immediately.
+	virtual float onUpdate(float elapsedTime);
 
 private:
-	Vec2f myStart;
-	Vec2f myDestination;
-	float totalTime;
-	float myDuration;
+	Vec2f m_start;
+	Vec2f m_end;
+	float m_duration;
 
-	AnimationEasingFunction *myFunction;
+	AnimationEasingFunction *m_function;
 };
 
 PARABOLA_NAMESPACE_END

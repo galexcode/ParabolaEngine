@@ -35,12 +35,11 @@ void android_init(){
 		pE::Event ev;
 		ev.type = pE::Event::Resume;
 		myApp.pendingEvents.push_back(ev);
-	}
-	
+	}	
 }
 
 void android_render(){
-	applicationUpdate(); 
+	applicationUpdate();
 }
 
 void android_resize(int w, int h){ 

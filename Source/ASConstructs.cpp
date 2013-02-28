@@ -1,6 +1,8 @@
 #include "ParabolaCore/ASEngine.h"
 #include "ParabolaCore/InputEvent.h"
 
+#include "AS/aswrappedcall.h"
+
 PARABOLA_NAMESPACE_BEGIN
 
 /// Exports events as a reference type
@@ -17,19 +19,40 @@ bool ASEngine::exportEvents(){
 	int r;
 	// Type property
 	asEngine->RegisterObjectProperty("Event", "int type", asOFFSET(Event, type));
+	asEngine->RegisterObjectProperty("Event", "float x", asOFFSET(Event, x));
+	asEngine->RegisterObjectProperty("Event", "float y", asOFFSET(Event, y));
 
-	/*r = asEngine->RegisterObjectMethod("Event", "int mouseX()", asMETHOD(Event, mouseX), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("Event", "int mouseY()", asMETHOD(Event, mouseY), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("Event", "int key()", asMETHOD(Event, getKeyCode), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("Event", "int mouse()", asMETHOD(Event, mouse), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("Event", "int delta()", asMETHOD(Event, getWheelDelta), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("Event", "int getJoystickAxis()", asMETHOD(Event, getJoystickAxis), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("Event", "int getJoystickId()", asMETHOD(Event, getJoystickId), asCALL_THISCALL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterObjectMethod("Event", "float getJoystickMovePosition()", asMETHOD(Event, getJoystickMovePosition), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	if(getPortableMode())
+	{
+		//r = asEngine->RegisterObjectMethod("Event", "int mouseX()", WRAP_MFN(Event, mouseX), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "int mouseY()", WRAP_MFN(Event, mouseY), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		r = asEngine->RegisterObjectMethod("Event", "int key()", WRAP_MFN(Event, getKeyCode), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "int mouse()", WRAP_MFN(Event, mouse), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "int delta()", WRAP_MFN(Event, getWheelDelta), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "int getJoystickAxis()", WRAP_MFN(Event, getJoystickAxis), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "int getJoystickId()", WRAP_MFN(Event, getJoystickId), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "float getJoystickMovePosition()", WRAP_MFN(Event, getJoystickMovePosition), asCALL_GENERIC); if(r < 0)printf("r %d", r);
 
-	r = asEngine->RegisterGlobalFunction("Vec2i getGlobalMousePosition()", asFUNCTION(Event::getGlobalMousePosition), asCALL_CDECL); if(r < 0)printf("r %d", r);
-	r = asEngine->RegisterGlobalFunction("Vec2i getMousePosition()", asFUNCTION(Event::getLocalMousePosition), asCALL_CDECL); if(r < 0)printf("r %d", r);*/
-	
+		//r = asEngine->RegisterGlobalFunction("Vec2i getGlobalMousePosition()", asFUNCTION(Event::getGlobalMousePosition), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterGlobalFunction("Vec2i getMousePosition()", asFUNCTION(Event::getLocalMousePosition), asCALL_GENERIC); if(r < 0)printf("r %d", r);
+
+	}
+	else
+	{
+		//r = asEngine->RegisterObjectMethod("Event", "int mouseX()", asMETHOD(Event, mouseX), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "int mouseY()", asMETHOD(Event, mouseY), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		r = asEngine->RegisterObjectMethod("Event", "int key()", asMETHOD(Event, getKeyCode), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	//	r = asEngine->RegisterObjectMethod("Event", "int mouse()", asMETHOD(Event, mouse), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+	//	r = asEngine->RegisterObjectMethod("Event", "int delta()", asMETHOD(Event, getWheelDelta), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "int getJoystickAxis()", asMETHOD(Event, getJoystickAxis), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "int getJoystickId()", asMETHOD(Event, getJoystickId), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterObjectMethod("Event", "float getJoystickMovePosition()", asMETHOD(Event, getJoystickMovePosition), asCALL_THISCALL); if(r < 0)printf("r %d", r);
+
+		//r = asEngine->RegisterGlobalFunction("Vec2i getGlobalMousePosition()", asFUNCTION(Event::getGlobalMousePosition), asCALL_CDECL); if(r < 0)printf("r %d", r);
+		//r = asEngine->RegisterGlobalFunction("Vec2i getMousePosition()", asFUNCTION(Event::getLocalMousePosition), asCALL_CDECL); if(r < 0)printf("r %d", r);
+
+	}
+
 
 	// Accessors
 	asEngine->RegisterEnum("Events");
@@ -56,6 +79,11 @@ bool ASEngine::exportEvents(){
 	asEngine->RegisterEnumValue("Events", "JoystickConnected", Event::JoystickConnected);
 	asEngine->RegisterEnumValue("Events", "JoystickDisconnected", Event::JoystickDisconnected);
 	asEngine->RegisterEnumValue("Events", "JoystickMoved", Event::JoystickMoved);
+
+	asEngine->RegisterEnumValue("Events", "TouchPressed", Event::TouchPressed);
+	asEngine->RegisterEnumValue("Events", "TouchReleased", Event::TouchReleased);
+	asEngine->RegisterEnumValue("Events", "TouchMoved", Event::TouchMoved);
+
 
 /*	asEngine->RegisterEnum("JoystickAxis");
 	asEngine->RegisterEnumValue("JoystickAxis", "X", sf::Joystick::X);

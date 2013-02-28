@@ -210,7 +210,7 @@ Rocket::Core::CompiledGeometryHandle RocketRenderInterface::CompileGeometry(Rock
 	// Called by Rocket when it wants to change the scissor region.
 	void RocketRenderInterface::SetScissorRegion(int x, int y, int width, int height)
 	{
-		glScissor(x, Engine::instance()->getWindow().getHeight() - (y + height), width, height);
+//		glScissor(x, Engine::instance()->getWindow().getHeight() - (y + height), width, height);
 	}
 
 	// Called by Rocket when a Image is required by the library.		

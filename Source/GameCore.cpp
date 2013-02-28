@@ -13,6 +13,12 @@ GameCore::GameCore() : m_stackedTime(0.f), m_updateStep(1.f / 60.f), m_windowTit
 #endif
 };
 
+/// Sets the base directory to load resources from
+void GameCore::setFileRoot(const String & path)
+{
+	m_fileSystemRoot = path;
+};
+
 /// Get the window/screen handler
 Window& GameCore::getWindow(){
 	return m_creator->getWindow();
@@ -21,7 +27,19 @@ Window& GameCore::getWindow(){
 /// Shutdown this game immediately
 void GameCore::close(){
 	//debug
-	//Application::myInstance->m_running = false;
+	Application::myInstance->m_running = false;
+};
+
+/// Set the name of the game
+void GameCore::setName(const String& name)
+{
+	m_gameName = name;
+};
+
+/// Get the name of the game
+String GameCore::getName()
+{
+	return m_gameName;
 };
 
 /// Set the fixed update step, or, the amount of time, in seconds, that will take between each update.

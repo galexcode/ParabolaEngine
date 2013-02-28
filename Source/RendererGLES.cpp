@@ -75,17 +75,21 @@ void RendererGLES::drawDebugQuad(float x, float y, float angle, float width, flo
 	glPushMatrix();
 	glTranslatef(x, y, 0.f);
 
+	glEnable(GL_BLEND);
+	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glRotatef( angle * (180.f/3.14159), 0 ,0, 1);
 	//glTranslatef(30,40,0);
 	glColor4f(color.r / 255.f, color.g / 255.f ,color.b / 255.f,color.a / 255.f);
 
 	GLfloat vertices[] = {width/2,-height/2,0, -width/2,height/2,0, -width/2,-height/2,0,  width/2,-height/2,0,  width/2,height/2,0, -width/2, height/2,0 };
 
-	glEnableClientState(GL_VERTEX_ARRAY); 
+
+	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, 0, vertices);
 	glDrawArrays(GL_TRIANGLES, 0, 6);
 	glDisableClientState(GL_VERTEX_ARRAY);
-
+	glDisable(GL_BLEND);
 	glPopMatrix();
 }
 
@@ -109,6 +113,26 @@ void RendererGLES::drawDebugTriangleFan(Vec2f* vlist, int vcount, Color color){
 	glDrawArrays(GL_LINE_LOOP, 0, vcount);
 	glDisableClientState(GL_VERTEX_ARRAY);
 
+	glPopMatrix();
+};
+
+void RendererGLES::drawDebugLine(Vec2f begin, Vec2f end, Color color){
+	glLoadIdentity();
+	glPushMatrix();
+//	glPushAttrib(GL_ENABLE_BIT); 
+	/*glLineStipple(1, 0xAAAA);
+	glEnable(GL_LINE_STIPPLE);*/
+
+	glLineWidth(1);
+
+	glColor4f(color.r / 255.f, color.g / 255.f ,color.b / 255.f,color.a / 255.f);
+	GLfloat vertices[] = {begin.x,begin.y,0, end.x,end.y,0};
+
+	glEnableClientState(GL_VERTEX_ARRAY);
+	glVertexPointer(3, GL_FLOAT, 0, vertices);
+	glDrawArrays(GL_LINES, 0, 2);
+	glDisableClientState(GL_VERTEX_ARRAY);
+	//glPopAttrib();
 	glPopMatrix();
 };
 

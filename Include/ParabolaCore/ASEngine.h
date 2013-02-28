@@ -42,6 +42,30 @@ void constructObject(void* address){
 	new(address) T();
 }
 
+template<typename T>
+T* genericFactory()
+{
+	return new T();
+}
+
+// Example REF_CAST behaviour
+template<class A, class B>
+B* refCast(A* a)
+{
+	/*// If the handle already is a null handle, then just return the null handle
+	if( !a ) return 0;
+	// Now try to dynamically cast the pointer to the wanted type
+	B* b = dynamic_cast<B*>(a);
+	if( b != 0 )
+	{
+		// Since the cast was made, we need to increase the ref counter for the returned handle
+		b->addReference();
+	}
+	return b;*/
+	B* b = static_cast<B*>(a);
+	//b->addReference();
+	return b;
+}
 /**
 	\ingroup Scripting
 	\class ASEngine

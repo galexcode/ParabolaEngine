@@ -3,6 +3,7 @@
 
 #include "Platform.h"
 #include "Node.h"
+/*
 #include "SceneLayer.h"
 #include "NameGenerator.h"
 #include "EntityManager.h"
@@ -11,7 +12,7 @@
 
 #include <vector>
 #include <map>
-
+*/
 /**
 	\defgroup SceneGraph
 	High-level module to manage game logic and rendering.
@@ -20,7 +21,7 @@
 PARABOLA_NAMESPACE_BEGIN
 class SceneRenderer;
 class KinesisWorld;
-
+/*
 template<class T>
 class PARABOLA_API SceneGraphSharedResource{
 public:
@@ -28,7 +29,7 @@ public:
 	SceneLayer *owner;
 	bool locked;
 };
-
+*/
 /**
 	\ingroup SceneGraph
 	\class SceneGraph
@@ -42,7 +43,7 @@ public:
 	SceneGraph(const String &name);
 
 	/// Updates the entire graph state by elapsedTime seconds
-	void updateGraph(float elapsedTime);
+	/*void updateGraph(float elapsedTime);
 
 	/// Dispatch an event through the scene graph
 	/// Returns whether or not the event was used.
@@ -80,7 +81,7 @@ private:
 	typedef std::map<String, SceneGraphSharedResource<KinesisWorld> >::iterator SimulationIterator;
 
 	NameGenerator layerNameGenerator;
-	NameGenerator kinesisNameGenerator;
+	NameGenerator kinesisNameGenerator;*/
 };
 
 

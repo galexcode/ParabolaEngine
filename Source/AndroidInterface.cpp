@@ -151,6 +151,33 @@ StringList AndroidInterface::getAssetList(const String &path){
 	return files;
 };
 
+/// Attempts to create a directory in the Android file system
+/// Make sure you have the needed permissions in the manifest
+bool AndroidInterface::createDirectory(const String& path)
+{
+	bool result = false;
+
+	JNIEnv* m_JNI;
+	m_javaVM->AttachCurrentThread(&m_JNI, NULL);	
+
+	jclass activityclass = m_JNI->FindClass(m_JNIActivityName);
+	if(activityclass != NULL){
+		jmethodID afdgetmethod = m_JNI->GetStaticMethodID(activityclass, "createDirectory", "(Ljava/lang/String;)Z");
+		if(afdgetmethod != NULL){
+			jstring pathString = m_JNI->NewStringUTF(path.c_str());
+			jobject boole = m_JNI->CallStaticObjectMethod(activityclass, afdgetmethod, pathString);
+			if(boole)
+			{
+				result = (bool)(boole != JNI_FALSE);
+			}
+			m_JNI->DeleteLocalRef(pathString);			
+			
+		}
+	}
+
+	return result;
+};
+
 /// Sends a text message through the android device, please note the permissions must be requested in the manifest and the legacy java source must be in place.
 bool AndroidInterface::sendTextMessage(const String &destinationNumber, const String &content){
 	JNIEnv* m_JNI;
@@ -230,7 +257,7 @@ int AndroidInterface::playMusic(const String &name){
 			m_JNI->CallStaticVoidMethod(cls, method, fpath);
 			m_JNI->DeleteLocalRef(fpath);
 		}
-	} 
+	}
 	return 0;
 };
 

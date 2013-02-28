@@ -16,7 +16,7 @@ Animable::~Animable(){
 
 
 /// Creates the animation default states
-AnimationInterface::AnimationInterface() : totalElapsedTime(0.f), myStatus(PlayModes::Stopped), myLooping(false){
+AnimationInterface::AnimationInterface() : m_totalElapsedTime(0.f), myStatus(PlayModes::Stopped), myLooping(false){
 	m_duration = 0.f;
 	m_playState = AnimationStates::Stopped;
 };
@@ -75,18 +75,24 @@ void AnimationInterface::setDuration(float duration){
 
 /// Get the total time elapsed since this animation has started
 float AnimationInterface::getElapsedTime(){
-	return totalElapsedTime;
+	return m_totalElapsedTime;
 };
 
 /// Starts the updating of the animation
 void AnimationInterface::play(){
+	if(getStatus() == AnimationStates::Stopped){
+		// Ensure time reset
+		m_totalElapsedTime = 0.f;
+		onBegin();
+	}
+
 	myStatus = PlayModes::Playing;
 	m_playState = AnimationStates::Playing;
 };
 
 /// Stops the updating of the animation
 void AnimationInterface::stop(){
-	myStatus = PlayModes::Stopped;
+	m_playState = AnimationStates::Stopped;
 };
 
 /// Checks if the animation is currently playing
@@ -113,7 +119,7 @@ bool AnimationInterface::looping(){
 
 /// Adds time to the total duration of this animation execution
 void AnimationInterface::addTime(float elapsedTime){
-	totalElapsedTime += elapsedTime;
+	m_totalElapsedTime += elapsedTime;
 };
 
 PARABOLA_NAMESPACE_END

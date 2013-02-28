@@ -34,7 +34,7 @@ void GameCoreManager::addGameForExecution(GameCore* instancedGame){
 		myExecutionList.push_back(instancedGame); /// Since this game is on the top now	
 		instancedGame->m_creator = m_creator;
 		instancedGame->onCreate();
-		onActiveGameChanged();
+		//onActiveGameChanged();
 	}
 };
 
