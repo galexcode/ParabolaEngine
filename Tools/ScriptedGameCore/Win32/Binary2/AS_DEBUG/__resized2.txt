@@ -1,0 +1,30 @@
+void resized2()
+
+Temps: 8, 9
+
+Variables: 
+ 009: string {noname}
+ 008: string {noname}
+
+
+- 43,2 -
+    0   9 *    SUSPEND
+    1   9 *    PSF      v9
+    2  10 *    STR      17         (l:16 s:"control re")
+    3  12 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+    5  10 *    PshRPtr
+    6  11 *    PSF      v8
+    7  12 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+    9  10 *    ObjInfo  v8, 1
+    9  10 *    PSF      v8
+   10  11 *    ALLOC    0x9e1140, 33             (type:string)
+   13   9 *    PSF      v8
+   14  10 *    CALLSYS  34           (void string::_beh_1_())
+   16   9 *    ObjInfo  v8, 0
+   16   9 *    VAR      v9
+   17  10 *    GETOBJ   0
+   18  10 *    CALLSYS  117           (void print(string))
+- 44,2 -
+   20   9 *    SUSPEND
+   21   9 * 0:
+   21   9 *    RET      0

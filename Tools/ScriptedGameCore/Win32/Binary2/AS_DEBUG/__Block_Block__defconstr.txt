@@ -1,0 +1,40 @@
+Block::Block()
+
+Temps: 1
+
+Variables: 
+ 000: Block this
+ 001: Sprite {noname}
+
+
+- 4,8 -
+    0   1 *    SUSPEND
+    1   1 *    PshVPtr  v0
+    2   2 *    ADDSi    v20, 134217767
+    4   2 *    ALLOC    0x58c43b8, 118             (type:Vec2f)
+- 5,8 -
+    7   1 *    SUSPEND
+    8   1 *    PshVPtr  v0
+    9   2 *    ADDSi    v24, 134217767
+   11   2 *    ALLOC    0x58c43b8, 118             (type:Vec2f)
+- 7,8 -
+   14   1 *    SUSPEND
+   15   1 *    PshVPtr  v0
+   16   2 *    ADDSi    v32, 134217767
+   18   2 *    ALLOC    0x58c43b8, 118             (type:Vec2f)
+- 8,8 -
+   21   1 *    SUSPEND
+   22   1 *    PshVPtr  v0
+   23   2 *    ADDSi    v36, 134217767
+   25   2 *    ALLOC    0x58c4f78, 140             (type:Color)
+- 9,9 -
+   28   1 *    SUSPEND
+   29   1 *    CALLSYS  237           (Sprite@ _beh_2_())
+   31   1 *    STOREOBJ v1
+   32   1 *    PshVPtr  v1
+   33   2 *    PshVPtr  v0
+   34   3 *    ADDSi    v40, 134217767
+   36   3 *    REFCPY   0x58d60b8
+   38   2 *    PopPtr
+   39   1 *    FREE     v1, 93151416
+   41   1 *    RET      1

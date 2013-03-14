@@ -1,0 +1,13 @@
+void onUpdate(float)
+
+Temps: 
+
+Variables: 
+ 000: float elapsedTime
+
+
+- 98,2 -
+    0   0 *    VarDecl  0
+    0   0 *    SUSPEND
+    1   0 * 0:
+    1   0 *    RET      1

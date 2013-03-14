@@ -1,0 +1,73 @@
+void onMessage(string)
+
+Temps: 8, 16, 24, 25
+
+Variables: 
+ 000: string message
+ 025: string {noname}
+ 008: string {noname}
+ 016: string {noname}
+ 024: string {noname}
+
+
+- 52,2 -
+    0  25 *    VarDecl  0
+    0  25 *    SUSPEND
+    1  25 *    VAR      v0
+    2  26 *    PshGPtr  93238088
+    4  27 *    CHKREF
+    5  27 *    GETOBJREF 1
+    6  27 *    CALLSYS  35           (string& string::opAssign(const string&in))
+- 53,2 -
+    8  25 *    SUSPEND
+    9  25 *    PSF      v25
+   10  26 *    STR      2         (l:1 s:"
+")
+   11  28 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+   13  26 *    PshRPtr
+   14  27 *    PSF      v24
+   15  28 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+   17  26 *    ObjInfo  v24, 1
+   17  26 *    VAR      v24
+   18  27 *    PSF      v8
+   19  28 *    PSF      v8
+   20  29 *    CALLSYS  32           (void string::_beh_0_())
+   22  28 *    ObjInfo  v8, 1
+   22  28 *    PshGPtr  93238088
+   24  29 *    CHKREF
+   25  29 *    PSF      v8
+   26  30 *    CALLSYS  35           (string& string::opAssign(const string&in))
+   28  28 *    VAR      v8
+   29  29 *    PSF      v16
+   30  30 *    STR      1         (l:15 s:"Got a mess")
+   31  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+   33  30 *    PshRPtr
+   34  31 *    GETREF   2
+   35  31 *    CALLSYS  39           (string string::opAdd(const string&in) const)
+   37  28 *    ObjInfo  v16, 1
+   37  28 *    PSF      v8
+   38  29 *    CALLSYS  34           (void string::_beh_1_())
+   40  28 *    ObjInfo  v8, 0
+   40  28 *    PSF      v16
+   41  29 *    GETREF   2
+   42  29 *    CALLSYS  39           (string string::opAdd(const string&in) const)
+   44  26 *    ObjInfo  v8, 1
+   44  26 *    PSF      v24
+   45  27 *    CALLSYS  34           (void string::_beh_1_())
+   47  26 *    ObjInfo  v24, 0
+   47  26 *    PSF      v8
+   48  27 *    PSF      v16
+   49  28 *    CALLSYS  34           (void string::_beh_1_())
+   51  27 *    ObjInfo  v16, 0
+   51  27 *    ALLOC    0x9a4598, 33             (type:string)
+   54  25 *    PSF      v8
+   55  26 *    CALLSYS  34           (void string::_beh_1_())
+   57  25 *    ObjInfo  v8, 0
+   57  25 *    VAR      v25
+   58  26 *    GETOBJ   0
+   59  26 *    CALLSYS  117           (void print(string))
+- 54,2 -
+   61  25 *    SUSPEND
+   62  25 * 0:
+   62  25 *    FREE     v0, 10110360
+   64  25 *    RET      1

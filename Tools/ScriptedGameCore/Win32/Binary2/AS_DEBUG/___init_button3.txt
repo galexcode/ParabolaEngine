@@ -1,0 +1,18 @@
+<unrecognized token> _unnamed_function_()
+
+Temps: 1
+
+Variables: 
+ 001: UIButton {noname}
+
+
+- 2,13 -
+    0   1 *    SUSPEND
+    1   1 *    CALLSYS  246           (UIButton@ _beh_2_())
+    3   1 *    STOREOBJ v1
+    4   1 *    PshVPtr  v1
+    5   2 *    PGA      93240392
+    7   3 *    REFCPY   0xa41ca0
+    9   2 *    PopPtr
+   10   1 *    FREE     v1, 10755232
+   12   1 *    RET      0

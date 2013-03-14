@@ -1,0 +1,428 @@
+void onCreate()
+
+Temps: 8, 9, 11, 13, 15, 16, 17, 18, 19, 28, 29
+
+Variables: 
+ 010: UIWindow@ ui
+ 012: UISurface@ surface
+ 014: UIButton button
+ 020: UIButton button2
+ 009: string {noname}
+ 011: UIWindow {noname}
+ 013: UISurface {noname}
+ 017: Slot {noname}
+ 019: UIControl {noname}
+ 029: UIButton {noname}
+ 008: string {noname}
+ 028: string {noname}
+
+
+- 8,2 -
+    0  29 *    SUSPEND
+    1  29 *    PSF      v9
+    2  30 *    STR      0         (l:16 s:"IM just st")
+    3  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+    5  30 *    PshRPtr
+    6  31 *    PSF      v8
+    7  32 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+    9  30 *    ObjInfo  v8, 1
+    9  30 *    PSF      v8
+   10  31 *    ALLOC    0x9e1140, 33             (type:string)
+   13  29 *    PSF      v8
+   14  30 *    CALLSYS  34           (void string::_beh_1_())
+   16  29 *    ObjInfo  v8, 0
+   16  29 *    VAR      v9
+   17  30 *    GETOBJ   0
+   18  30 *    CALLSYS  117           (void print(string))
+- 9,2 -
+   20  29 *    SUSPEND
+   21  29 *    PSF      v9
+   22  30 *    STR      1         (l:44 s:"You won:
+(")
+   23  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+   25  30 *    PshRPtr
+   26  31 *    PSF      v8
+   27  32 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+   29  30 *    ObjInfo  v8, 1
+   29  30 *    PSF      v8
+   30  31 *    ALLOC    0x9e1140, 33             (type:string)
+   33  29 *    PSF      v8
+   34  30 *    CALLSYS  34           (void string::_beh_1_())
+   36  29 *    ObjInfo  v8, 0
+   36  29 *    VAR      v9
+   37  30 *    GETOBJ   0
+   38  30 *    CALLSYS  117           (void print(string))
+- 12,2 -
+   40  29 *    SUSPEND
+   41  29 *    VarDecl  0
+   41  29 *    STR      2         (l:12 s:"level_sele")
+   42  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+   44  29 *    PshRPtr
+   45  30 *    PSF      v8
+   46  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+   48  29 *    ObjInfo  v8, 1
+   48  29 *    VAR      v8
+   49  30 *    PshGPtr  93240120
+   51  31 *    ADDSi    v404, 67108893
+   53  31 *    GETREF   1
+   54  31 *    CALLSYS  222           (UIWindow@ UIManager::create(const string&in))
+   56  29 *    STOREOBJ v11
+   57  29 *    PSF      v8
+   58  30 *    CALLSYS  34           (void string::_beh_1_())
+   60  29 *    ObjInfo  v8, 0
+   60  29 *    PshVPtr  v11
+   61  30 *    RefCpyV  v10, 10752976
+   63  30 *    FREE     v11, 10752976
+   65  30 *    PopPtr
+- 14,2 -
+   66  29 *    SUSPEND
+   67  29 *    VarDecl  1
+   67  29 *    STR      3         (l:4 s:"main")
+   68  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+   70  29 *    PshRPtr
+   71  30 *    PSF      v8
+   72  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+   74  29 *    ObjInfo  v8, 1
+   74  29 *    VAR      v8
+   75  30 *    PshVPtr  v10
+   76  31 *    GETREF   1
+   77  31 *    CALLSYS  225           (UISurface@ UIWindow::addSurface(const string&in))
+   79  29 *    STOREOBJ v13
+   80  29 *    PSF      v8
+   81  30 *    CALLSYS  34           (void string::_beh_1_())
+   83  29 *    ObjInfo  v8, 0
+   83  29 *    PshVPtr  v13
+   84  30 *    RefCpyV  v12, 10753352
+   86  30 *    FREE     v13, 10753352
+   88  30 *    PopPtr
+- 16,2 -
+   89  29 *    SUSPEND
+   90  29 *    VarDecl  2
+   90  29 *    CALLSYS  246           (UIButton@ _beh_2_())
+   92  29 *    STOREOBJ v14
+- 17,2 -
+   93  29 *    SUSPEND
+   94  29 *    PshC4    0x0          (i:0, f:0)
+   96  30 *    PshC4    0x0          (i:0, f:0)
+   98  31 *    PshVPtr  v14
+   99  32 *    CALLSYS  251           (void UIButton::setPosition(float, float))
+- 18,2 -
+  101  29 *    SUSPEND
+  102  29 *    PshC4    0x42200000          (i:1109393408, f:40)
+  104  30 *    PshC4    0x42f00000          (i:1123024896, f:120)
+  106  31 *    PshVPtr  v14
+  107  32 *    CALLSYS  252           (void UIButton::setSize(float, float))
+- 19,2 -
+  109  29 *    SUSPEND
+  110  29 *    STR      4         (l:8 s:"Increase")
+  111  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  113  29 *    PshRPtr
+  114  30 *    PSF      v8
+  115  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  117  29 *    ObjInfo  v8, 1
+  117  29 *    VAR      v8
+  118  30 *    PshVPtr  v14
+  119  31 *    GETREF   1
+  120  31 *    CALLSYS  253           (void UIButton::setLabel(const string&in))
+  122  29 *    PSF      v8
+  123  30 *    CALLSYS  34           (void string::_beh_1_())
+- 20,2 -
+  125  29 *    ObjInfo  v8, 0
+  125  29 *    SUSPEND
+  126  29 *    STR      5         (l:13 s:"buttonclic")
+  127  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  129  29 *    PshRPtr
+  130  30 *    PSF      v8
+  131  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  133  29 *    ObjInfo  v8, 1
+  133  29 *    VAR      v8
+  134  30 *    PshGPtr  93239992
+  136  31 *    CHKREF
+  137  31 *    GETREF   1
+  138  31 *    CALLSYS  236           (Slot@ CustomState::slot(const string&in))
+  140  29 *    STOREOBJ v17
+  141  29 *    PSF      v8
+  142  30 *    CALLSYS  34           (void string::_beh_1_())
+  144  29 *    ObjInfo  v8, 0
+  144  29 *    VAR      v17
+  145  30 *    STR      6         (l:5 s:"click")
+  146  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  148  30 *    PshRPtr
+  149  31 *    PSF      v8
+  150  32 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  152  30 *    ObjInfo  v8, 1
+  152  30 *    VAR      v8
+  153  31 *    PshVPtr  v14
+  154  32 *    GETREF   1
+  155  32 *    GETOBJ   2
+  156  32 *    CALLSYS  250           (void UIButton::bindSignal(const string&in, Slot@))
+  158  29 *    PSF      v8
+  159  30 *    CALLSYS  34           (void string::_beh_1_())
+- 21,2 -
+  161  29 *    ObjInfo  v8, 0
+  161  29 *    SUSPEND
+  162  29 *    ClrVPtr  v18
+  163  29 *    CmpPtr   v14, v18
+  165  29 *    JZ       +6              (d:173)
+  167  29 *    PshVPtr  v14
+  168  30 *    CALLSYS  249           (UIControl@ UIButton::_beh_9_())
+  170  29 *    STOREOBJ v19
+  171  29 *    JMP      +1              (d:174)
+  173  29 * 1:
+  173  29 *    ClrVPtr  v19
+  174  29 * 2:
+  174  29 *    VAR      v19
+  175  30 *    PshVPtr  v12
+  176  31 *    GETOBJ   1
+  177  31 *    CALLSYS  226           (void UISurface::addControl(UIControl@))
+- 23,2 -
+  179  29 *    SUSPEND
+  180  29 *    VarDecl  3
+  180  29 *    CALLSYS  246           (UIButton@ _beh_2_())
+  182  29 *    STOREOBJ v20
+- 24,2 -
+  183  29 *    SUSPEND
+  184  29 *    PshC4    0x42200000          (i:1109393408, f:40)
+  186  30 *    PshC4    0x0          (i:0, f:0)
+  188  31 *    PshVPtr  v20
+  189  32 *    CALLSYS  251           (void UIButton::setPosition(float, float))
+- 25,2 -
+  191  29 *    SUSPEND
+  192  29 *    STR      7         (l:8 s:"Decrease")
+  193  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  195  29 *    PshRPtr
+  196  30 *    PSF      v8
+  197  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  199  29 *    ObjInfo  v8, 1
+  199  29 *    VAR      v8
+  200  30 *    PshVPtr  v20
+  201  31 *    GETREF   1
+  202  31 *    CALLSYS  253           (void UIButton::setLabel(const string&in))
+  204  29 *    PSF      v8
+  205  30 *    CALLSYS  34           (void string::_beh_1_())
+- 26,2 -
+  207  29 *    ObjInfo  v8, 0
+  207  29 *    SUSPEND
+  208  29 *    STR      8         (l:14 s:"buttonclic")
+  209  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  211  29 *    PshRPtr
+  212  30 *    PSF      v8
+  213  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  215  29 *    ObjInfo  v8, 1
+  215  29 *    VAR      v8
+  216  30 *    PshGPtr  93239992
+  218  31 *    CHKREF
+  219  31 *    GETREF   1
+  220  31 *    CALLSYS  236           (Slot@ CustomState::slot(const string&in))
+  222  29 *    STOREOBJ v17
+  223  29 *    PSF      v8
+  224  30 *    CALLSYS  34           (void string::_beh_1_())
+  226  29 *    ObjInfo  v8, 0
+  226  29 *    VAR      v17
+  227  30 *    STR      6         (l:5 s:"click")
+  228  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  230  30 *    PshRPtr
+  231  31 *    PSF      v8
+  232  32 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  234  30 *    ObjInfo  v8, 1
+  234  30 *    VAR      v8
+  235  31 *    PshVPtr  v20
+  236  32 *    GETREF   1
+  237  32 *    GETOBJ   2
+  238  32 *    CALLSYS  250           (void UIButton::bindSignal(const string&in, Slot@))
+  240  29 *    PSF      v8
+  241  30 *    CALLSYS  34           (void string::_beh_1_())
+- 27,2 -
+  243  29 *    ObjInfo  v8, 0
+  243  29 *    SUSPEND
+  244  29 *    STR      9         (l:10 s:"mouseMoved")
+  245  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  247  29 *    PshRPtr
+  248  30 *    PSF      v8
+  249  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  251  29 *    ObjInfo  v8, 1
+  251  29 *    VAR      v8
+  252  30 *    PshGPtr  93239992
+  254  31 *    CHKREF
+  255  31 *    GETREF   1
+  256  31 *    CALLSYS  236           (Slot@ CustomState::slot(const string&in))
+  258  29 *    STOREOBJ v17
+  259  29 *    PSF      v8
+  260  30 *    CALLSYS  34           (void string::_beh_1_())
+  262  29 *    ObjInfo  v8, 0
+  262  29 *    VAR      v17
+  263  30 *    STR      10         (l:10 s:"mouseleave")
+  264  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  266  30 *    PshRPtr
+  267  31 *    PSF      v8
+  268  32 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  270  30 *    ObjInfo  v8, 1
+  270  30 *    VAR      v8
+  271  31 *    PshVPtr  v20
+  272  32 *    GETREF   1
+  273  32 *    GETOBJ   2
+  274  32 *    CALLSYS  250           (void UIButton::bindSignal(const string&in, Slot@))
+  276  29 *    PSF      v8
+  277  30 *    CALLSYS  34           (void string::_beh_1_())
+- 28,2 -
+  279  29 *    ObjInfo  v8, 0
+  279  29 *    SUSPEND
+  280  29 *    ClrVPtr  v18
+  281  29 *    CmpPtr   v20, v18
+  283  29 *    JZ       +6              (d:291)
+  285  29 *    PshVPtr  v20
+  286  30 *    CALLSYS  249           (UIControl@ UIButton::_beh_9_())
+  288  29 *    STOREOBJ v19
+  289  29 *    JMP      +1              (d:292)
+  291  29 * 3:
+  291  29 *    ClrVPtr  v19
+  292  29 * 4:
+  292  29 *    VAR      v19
+  293  30 *    PshVPtr  v12
+  294  31 *    GETOBJ   1
+  295  31 *    CALLSYS  226           (void UISurface::addControl(UIControl@))
+- 31,2 -
+  297  29 *    SUSPEND
+  298  29 *    PshC4    0x42c80000          (i:1120403456, f:100)
+  300  30 *    PshC4    0x0          (i:0, f:0)
+  302  31 *    PshGPtr  93240392
+  304  32 *    CHKREF
+  305  32 *    CALLSYS  251           (void UIButton::setPosition(float, float))
+- 32,2 -
+  307  29 *    SUSPEND
+  308  29 *    STR      11         (l:5 s:"Start")
+  309  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  311  29 *    PshRPtr
+  312  30 *    PSF      v8
+  313  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  315  29 *    ObjInfo  v8, 1
+  315  29 *    VAR      v8
+  316  30 *    PshGPtr  93240392
+  318  31 *    CHKREF
+  319  31 *    GETREF   1
+  320  31 *    CALLSYS  253           (void UIButton::setLabel(const string&in))
+  322  29 *    PSF      v8
+  323  30 *    CALLSYS  34           (void string::_beh_1_())
+- 33,2 -
+  325  29 *    ObjInfo  v8, 0
+  325  29 *    SUSPEND
+  326  29 *    STR      12         (l:13 s:"rgba(255,0")
+  327  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  329  29 *    PshRPtr
+  330  30 *    PSF      v8
+  331  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  333  29 *    ObjInfo  v8, 1
+  333  29 *    VAR      v8
+  334  30 *    STR      13         (l:5 s:"color")
+  335  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  337  30 *    PshRPtr
+  338  31 *    PSF      v28
+  339  32 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  341  30 *    ObjInfo  v28, 1
+  341  30 *    VAR      v28
+  342  31 *    PshGPtr  93240392
+  344  32 *    CHKREF
+  345  32 *    GETREF   1
+  346  32 *    GETREF   2
+  347  32 *    CALLSYS  254           (void UIButton::setProperty(const string&in, const string&in))
+  349  29 *    PSF      v8
+  350  30 *    CALLSYS  34           (void string::_beh_1_())
+  352  29 *    ObjInfo  v8, 0
+  352  29 *    PSF      v28
+  353  30 *    CALLSYS  34           (void string::_beh_1_())
+- 35,2 -
+  355  29 *    ObjInfo  v28, 0
+  355  29 *    SUSPEND
+  356  29 *    STR      14         (l:8 s:"resized2")
+  357  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  359  29 *    PshRPtr
+  360  30 *    PSF      v8
+  361  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  363  29 *    ObjInfo  v8, 1
+  363  29 *    VAR      v8
+  364  30 *    PshGPtr  93239992
+  366  31 *    CHKREF
+  367  31 *    GETREF   1
+  368  31 *    CALLSYS  236           (Slot@ CustomState::slot(const string&in))
+  370  29 *    STOREOBJ v17
+  371  29 *    PSF      v8
+  372  30 *    CALLSYS  34           (void string::_beh_1_())
+  374  29 *    ObjInfo  v8, 0
+  374  29 *    VAR      v17
+  375  30 *    STR      15         (l:6 s:"resize")
+  376  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  378  30 *    PshRPtr
+  379  31 *    PSF      v28
+  380  32 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  382  30 *    ObjInfo  v28, 1
+  382  30 *    VAR      v28
+  383  31 *    PshGPtr  93240392
+  385  32 *    CHKREF
+  386  32 *    GETREF   1
+  387  32 *    GETOBJ   2
+  388  32 *    CALLSYS  250           (void UIButton::bindSignal(const string&in, Slot@))
+  390  29 *    PSF      v28
+  391  30 *    CALLSYS  34           (void string::_beh_1_())
+- 36,2 -
+  393  29 *    ObjInfo  v28, 0
+  393  29 *    SUSPEND
+  394  29 *    STR      16         (l:14 s:"buttonclic")
+  395  31 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  397  29 *    PshRPtr
+  398  30 *    PSF      v8
+  399  31 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  401  29 *    ObjInfo  v8, 1
+  401  29 *    VAR      v8
+  402  30 *    PshGPtr  93239992
+  404  31 *    CHKREF
+  405  31 *    GETREF   1
+  406  31 *    CALLSYS  236           (Slot@ CustomState::slot(const string&in))
+  408  29 *    STOREOBJ v17
+  409  29 *    PSF      v8
+  410  30 *    CALLSYS  34           (void string::_beh_1_())
+  412  29 *    ObjInfo  v8, 0
+  412  29 *    VAR      v17
+  413  30 *    STR      6         (l:5 s:"click")
+  414  32 *    CALLSYS  31           (const string& _string_factory_(const int, const uint8&))
+  416  30 *    PshRPtr
+  417  31 *    PSF      v28
+  418  32 *    CALLSYS  33           (void string::_beh_0_(const string&in))
+  420  30 *    ObjInfo  v28, 1
+  420  30 *    VAR      v28
+  421  31 *    PshGPtr  93240392
+  423  32 *    CHKREF
+  424  32 *    GETREF   1
+  425  32 *    GETOBJ   2
+  426  32 *    CALLSYS  250           (void UIButton::bindSignal(const string&in, Slot@))
+  428  29 *    PSF      v28
+  429  30 *    CALLSYS  34           (void string::_beh_1_())
+- 37,2 -
+  431  29 *    ObjInfo  v28, 0
+  431  29 *    SUSPEND
+  432  29 *    PshGPtr  93240392
+  434  30 *    CHKREF
+  435  30 *    RefCpyV  v29, 10755232
+  437  30 *    PopPtr
+  438  29 *    ClrVPtr  v18
+  439  29 *    CmpPtr   v29, v18
+  441  29 *    JZ       +6              (d:449)
+  443  29 *    PshVPtr  v29
+  444  30 *    CALLSYS  249           (UIControl@ UIButton::_beh_9_())
+  446  29 *    STOREOBJ v19
+  447  29 *    JMP      +1              (d:450)
+  449  29 * 5:
+  449  29 *    ClrVPtr  v19
+  450  29 * 6:
+  450  29 *    FREE     v29, 10755232
+  452  29 *    VAR      v19
+  453  30 *    PshVPtr  v12
+  454  31 *    GETOBJ   1
+  455  31 *    CALLSYS  226           (void UISurface::addControl(UIControl@))
+- 39,2 -
+  457  29 *    SUSPEND
+  458  29 *    FREE     v20, 10755232
+  460  29 *    FREE     v14, 10755232
+  462  29 *    FREE     v12, 10753352
+  464  29 *    FREE     v10, 10752976
+  466  29 * 0:
+  466  29 *    RET      0
