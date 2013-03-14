@@ -2,6 +2,7 @@
 #define PARABOLA_ANDROIDJNI
 
 extern void android_init();
+extern void android_gl_reload();
 extern void android_render();
 extern void android_resize(int w, int h);
 extern void android_touchdown(float x, float y);
@@ -36,6 +37,8 @@ extern "C"{
 		JNI_ACTIVITY_FUNC(nativeKeyDown) ( JNIEnv*  env , jobject thiz, jint keyCode);
 	JNIEXPORT void
 		JNI_PACKAGE_FUNC(DemoRenderer_nativeInit) ( JNIEnv*  env );
+	JNIEXPORT void
+		JNI_PACKAGE_FUNC(DemoRenderer_nativeSurfaceCreated) ( JNIEnv*  env );
 	JNIEXPORT void
 		JNI_PACKAGE_FUNC(DemoRenderer_nativeRender) ( JNIEnv*  env );
 	JNIEXPORT void
@@ -88,13 +91,27 @@ JNIEXPORT void JNI_PACKAGE_FUNC(DemoRenderer_nativeInit)( JNIEnv*  env ){
 	android_init();  
 };
 
+/// Used to detect GL context lost
+static bool surfaceCreatedAtLeastOnce = false;
+JNIEXPORT void JNI_PACKAGE_FUNC(DemoRenderer_nativeSurfaceCreated)( JNIEnv*  env ){
+
+	if(!surfaceCreatedAtLeastOnce)
+	{
+		surfaceCreatedAtLeastOnce = true; 
+	}
+	else
+	{
+		android_gl_reload();
+	}
+};
+
 JNIEXPORT void JNI_PACKAGE_FUNC(DemoRenderer_nativeRender) ( JNIEnv*  env ){
 	android_render();
 }
 
 JNIEXPORT void JNI_PACKAGE_FUNC(DemoRenderer_nativeResize) ( JNIEnv*  env, jobject thiz, jint w, jint h ){
 	android_resize(w,h);
-};
+}; 
 
 JNIEXPORT void JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeTouchDown) ( JNIEnv*  env, jobject thiz, jfloat x, jfloat y ){
 	android_touchdown(x,y);	

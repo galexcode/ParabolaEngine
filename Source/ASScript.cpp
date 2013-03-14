@@ -29,7 +29,9 @@ bool ASScript::prepareMethod(int funcid){
 		myPreparedMethod = funcid;
 		if(myPreparedMethod > 0){
 			requestContext();
-			myExecutionContext->Prepare(myPreparedMethod);
+			//myExecutionContext->PushState();
+			myExecutionContext->Prepare(myModule->GetFunctionByIndex(myPreparedMethod));
+	
 			myCallPending = true;
 			return true;
 		}
@@ -43,10 +45,13 @@ bool ASScript::prepareMethod(int funcid){
 /// Prepare the context to call 
 bool ASScript::prepareMethod(const String &funcName){
 	if(myModule != NULL){
-		myPreparedMethod = myModule->GetFunctionIdByDecl(funcName.c_str());
-		if(myPreparedMethod > 0){
+		asIScriptFunction* function = myModule->GetFunctionByDecl(funcName.c_str());
+		//myPreparedMethod = myModule->GetFunctionIdByDecl(funcName.c_str());
+		if(function){
 			requestContext();
-			myExecutionContext->Prepare(myPreparedMethod);
+			myExecutionContext->PushState();
+			myExecutionContext->Prepare(function);
+			
 			myCallPending = true;
 			//cout<<"ASScript: prepared module"<<endl;
 			return true;
@@ -54,6 +59,7 @@ bool ASScript::prepareMethod(const String &funcName){
 		else{
 			TESTLOG("ASScript: could not prepare method")
 			return false;
+			
 		}
 	}
 	else{
@@ -115,10 +121,17 @@ bool ASScript::call(void *data, ScriptArgumentTypes::ArgTypes returnType){
 		if(r == asEXECUTION_FINISHED){
 			myCallPending = false;
 			releaseContext();
+			myExecutionContext->PopState();
+		//	TESTLOG("RRRRR")
 			return true;
+		}
+		else if(r == asEXECUTION_SUSPENDED)
+		{
+			TESTLOG("SUSPENDED")
 		}
 		else{
 			TESTLOG("Failed to run function")
+				PRINTLOG(" ", "%d", r);
 		}
 		releaseContext();
 		return true;
@@ -142,18 +155,16 @@ bool ASScript::call(int funcid){
 };
 
 /// Get function id by its name
-int ASScript::getFunctionIdByName(const String &name){
+/*int ASScript::getFunctionIdByName(const String &name){
 	if(myModule){
 		int id;
-		id = myModule->GetFunctionIdByDecl(name.c_str());
-		/*if(id > 0){
-			
-		}*/
+		//id = myModule->GetFunctionIdByDecl(name.c_str());
+
 		return id;
 	}
 	else
 		return -1;
-};
+};*/
 
 /// Get the last return value, if the context is still alive
 /// Otherwise it returns NULL.
@@ -181,8 +192,12 @@ void ASScript::requestContext(){
 		if(myParent){
 			myExecutionContext = myParent->getASEngine()->CreateContext();
 			if(myExecutionContext && myPreserveGlobals){
-				//just start globals now				
+				//just start globals now
+				//TESTLOG("BEFORE CLEANUP\n")
 				myModule->ResetGlobalVars(myExecutionContext);
+				//TESTLOG("AFTER CLEANUP\n")
+					 
+
 			}
 		}
 	}

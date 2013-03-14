@@ -11,6 +11,8 @@ PARABOLA_NAMESPACE_BEGIN
 UIWindow::UIWindow() : m_surfaceContainerLock(false), m_timeSinceLastMouseMovement(0.f), m_backgroundColor(Color::White){
 	m_surfaces.push_back(new UISurface());
 	m_surfaces.back()->setContext(&m_state);
+
+	m_backgroundColor =  Color(0,0,0,0);
 };
 
 /// Creates a new surface, which is underneath the relativeSurface specified
@@ -61,7 +63,10 @@ void UIWindow::setRect(Rect<float> rect){
 	for(std::vector<UISurface*>::iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
 		(*it)->setPosition(m_bounds.left, m_bounds.top);
 		(*it)->setSize(m_bounds.width, m_bounds.height);
+		(*it)->processSizeChange();
 	}
+
+	// Finnaly, since the UIWindow rectangle changed, its time to adjust all the children that require it
 };
 
 /// Get the position of the exact middle of this UIWindow
@@ -142,13 +147,7 @@ void UIWindow::draw(Renderer* renderer){
 	/// Draw surfaces bottom to top
 	for(std::vector<UISurface*>::iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
 		(*it)->draw(renderer);
-	}
-
-	if(m_showingToolTip){
-		Text t;
-		t.setString("tool tip");
-		renderer->draw(t);
-	}
+	}	
 };
 
 /// Update the state of the ui
@@ -175,6 +174,18 @@ bool UIWindow::pushEvent(Event& event){
 		if(m_state.m_dragControl)
 		{
 			m_state.m_dragControl->setPosition(event.mouseMove.x - m_state.m_dragOffset.x, event.mouseMove.y - m_state.m_dragOffset.y);
+		}
+	}
+
+	if(event.type == Event::Resume)
+	{
+
+		m_state.m_defaultFont.loadFromFile("Brutality.ttf");
+
+		for(std::vector<UISurface*>::iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
+			(*it)->reloadGraphicalAssets();
+			TESTLOG("RELOADING SURFACE")
+
 		}
 	}
 
@@ -211,12 +222,68 @@ bool UIWindow::pushEvent(Event& event){
 	}
 	m_surfaceContainerLock = false;
 
+
+	// Handle events
+	switch(event.type)
+	{
+		case Event::MouseMoved:
+			{
+				result = processMouseMove(event.mouseMove.x, event.mouseMove.y);
+			}
+		break;
+
+		case Event::MouseButtonPressed:
+			{
+				// if the click is outside the focus control, unfocus it
+				if(m_state.m_focusControl)
+				{
+					if(!m_state.m_focusControl->getBounds().contains(event.mouseButton.x, event.mouseButton.y))
+					{
+						m_state.m_focusControl->blur();
+						m_state.m_focusControl->onLostFocus();
+						m_state.m_focusControl = NULL;
+					}
+				}
+				result = processMouseButtonPressed(event.mouseButton.x, event.mouseButton.y, event.mouseButton.button);
+			}
+		break;
+	}
+
 	// now that surfaces were processed, apply changes to surfaces container
 	// the updates in the container are only considered in the next event, so it is not wrongly consumed
 	applyPendingChanges();
 
 	return result;
 };
+
+/// Set the current language of the ui system
+void UIWindow::setLanguage(const String& shortLanguageName)
+{
+	m_state.m_activeLanguage = shortLanguageName;
+	m_state.m_localization.m_currentLanguage = shortLanguageName;
+	for(std::vector<UISurface*>::const_iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
+		(*it)->switchLanguage();
+	}
+};
+
+/// Process a mouse press event
+bool UIWindow::processMouseButtonPressed(int x, int y, Mouse::Button button)
+{
+	for(std::vector<UISurface*>::const_iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
+		(*it)->processMouseButtonPressed(x,y,button);
+	}
+	return false;
+}
+
+/// Process a mouve movement event
+bool UIWindow::processMouseMove(int x, int y)
+{
+	for(std::vector<UISurface*>::const_iterator it = m_surfaces.begin(); it != m_surfaces.end(); it++){
+		(*it)->processMouseMove(x,y);
+	}
+	return false;
+}
+
 
 void UIWindow::applyPendingChanges()
 {
@@ -231,6 +298,7 @@ void UIWindow::applyPendingChanges()
 	}
 	m_pendingChanges.clear();
 };
+
 
 
 PARABOLA_NAMESPACE_END

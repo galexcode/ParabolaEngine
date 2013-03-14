@@ -78,6 +78,8 @@ void RendererGLES::drawDebugQuad(float x, float y, float angle, float width, flo
 	glEnable(GL_BLEND);
 	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	//TESTLOG("DRAWING...")
+
 	glRotatef( angle * (180.f/3.14159), 0 ,0, 1);
 	//glTranslatef(30,40,0);
 	glColor4f(color.r / 255.f, color.g / 255.f ,color.b / 255.f,color.a / 255.f);

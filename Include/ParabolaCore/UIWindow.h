@@ -32,6 +32,9 @@ public:
 	/// Get the position of the exact middle of this UIWindow
 	Vec2f getMiddlePosition();
 
+	/// Set the current language of the ui system
+	void setLanguage(const String& shortLanguageName);
+
 	/// Creates a new surface, which is underneath the relativeSurface specified
 	/// \return NULL in case the relativeSurface is not a valid surface
 	UISurface* createSurfaceBelow(UISurface* relativeSurface, const String& name);
@@ -61,10 +64,17 @@ public:
 
 	/// Update the state of the ui
 	void update(float elapsedTime);
-
-
+	
 	/// Pushes a new event through the ui system
 	bool pushEvent(Event& event);
+
+	/// Process a mouve movement event
+	/// Returns false if the mouse isnt on any control
+	bool processMouseMove(int x, int y);
+
+	/// Process a mouse press event
+	bool processMouseButtonPressed(int x, int y, Mouse::Button button);
+
 
 	Color m_topBorderColor, m_bottomBorderColor, m_leftBorderColor, m_rightBorderColor;
 	Color m_backgroundColor;

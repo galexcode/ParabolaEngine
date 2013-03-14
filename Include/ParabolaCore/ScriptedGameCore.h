@@ -10,8 +10,21 @@
 #include "BrowserPreloader.h"
 #include "StateStack.h"
 #include "ContentBank.h"
+#include "UIWindow.h"
+#include "UIButton.h"
+#include "UIManager.h"
+
+#include <map>
 
 PARABOLA_NAMESPACE_BEGIN
+
+
+class MusicPlayer
+{
+public:
+
+	void play(const String& name);
+};
 
 /**
 	\ingroup Scripting
@@ -48,6 +61,10 @@ public:
 	/// Enable or disable the preload step, important in browsers to cache resources
 	void enablePreloadStep(bool enable);
 
+	/// Toggles the built-in console
+	void toggleConsole();
+
+
 	/// The state stack for the scripting
 	StateStack m_states;
 
@@ -56,6 +73,12 @@ public:
 
 	/// Content manager of the game
 	ContentBank m_content;
+
+	UIManager m_ui;
+
+	MusicPlayer m_music;
+
+	Window* m_window;
 
 private:
 	/// The path of the preload script

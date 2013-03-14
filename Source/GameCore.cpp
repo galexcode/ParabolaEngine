@@ -19,6 +19,12 @@ void GameCore::setFileRoot(const String & path)
 	m_fileSystemRoot = path;
 };
 
+/// Get the root for file loading on this game
+String GameCore::getFileSystemRoot()
+{
+	return m_fileSystemRoot;
+};
+
 /// Get the window/screen handler
 Window& GameCore::getWindow(){
 	return m_creator->getWindow();

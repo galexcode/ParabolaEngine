@@ -7,6 +7,7 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+class ASSlot;
 /**
 	\ingroup UserInterface
 	\class UIButton
@@ -20,8 +21,18 @@ public:
 	/// Constructs the button from a label text
 	UIButton(const String& title);
 
+	~UIButton();
+
+
+	/// Sets the label of the button
+	void setLabel(const String& text);
+
+	void bindSignal(const String &signalName, ASSlot* slot );
+
 	/// Callback to handle an event
 	bool onEventNotification(Event& event);
+
+	void innerLanguageSwitch();
 
 	template<typename T>
 	void setProperty(const String& propertyName, const T& propertyValue);
@@ -32,7 +43,8 @@ public:
 	virtual UIControl* clone();
 
 	/// Signal is emitted when the button is clicked
-	sigc::signal<void> onClick;
+	
+	void setRawProperty(const String& name, const String& val);
 
 	bool hover;
 
@@ -40,6 +52,7 @@ public:
 
 private:
 	String m_label;
+	String m_baseLabel;
 };
 
 template<typename T>
@@ -54,6 +67,8 @@ void UIButton::setProperty(const String& propertyName, const T& propertyValue)
 	}
 }
 
+class ASEngine;
+bool registerUIButton(ASEngine* engine);
 
 PARABOLA_NAMESPACE_END
 #endif // UIButton_h__

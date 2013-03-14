@@ -86,6 +86,7 @@ bool ASEngine::exportGraphics(){
 	exportReferenceDataType("SpriteExt");
 	exportReferenceDataType("AnimationSprite");
 	exportReferenceDataType("Renderer");
+	//exportReferenceDataType("Window");
 	//exportReferenceDataType("View");
 
 	// Class: Color

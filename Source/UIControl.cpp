@@ -1,4 +1,7 @@
 #include <ParabolaCore/UIControl.h>
+#include <ParabolaCore/ASSlot.h>
+#include <ParabolaCore/ASEngine.h>
+#include <AS/aswrappedcall.h>
 
 #include <iostream>
 
@@ -6,9 +9,34 @@ using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
+bool registerUIControlSubtype(const String& name, ASEngine* engine)
+{
+	if(engine->getPortableMode())
+	{		
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void bindSignal(const string &in, Slot@)", WRAP_MFN(UIControl, bindSignal), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void setPosition(float,float)", WRAP_MFN(UIControl, setPosition), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void setProportion(float,float)", WRAP_MFN(UIControl, setProportion), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void setPlacement(float,float)", WRAP_MFN(UIControl, setPlacement), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void setSize(float,float)", WRAP_MFN(UIControl, setSize), asCALL_GENERIC);
+	}
+	else 
+	{
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void bindSignal(const string &in, Slot@)", asMETHOD(UIControl, bindSignal), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void setPosition(float,float)", asMETHOD(UIControl, setPosition), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void setSize(float,float)", asMETHOD(UIControl, setSize), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void setProportion(float,float)", asMETHOD(UIControl, setProportion), asCALL_THISCALL);	
+		engine->getASEngine()->RegisterObjectMethod(name.c_str(), "void setPlacement(float,float)", asMETHOD(UIControl, setPlacement), asCALL_THISCALL);
+
+	}
+
+	return true;
+}
+
+
 /// Base constructor of controls
 UIControl::UIControl() 
-	:	m_parent(NULL), 
+	:	RefCountable(),
+		m_parent(NULL), 
 		m_stateContext(NULL),
 		m_hasFocus(false),
 		m_layoutController(NULL),
@@ -21,7 +49,8 @@ UIControl::UIControl()
 		m_clipContents(false),
 		m_visible(true),
 		m_drawBorder(true),
-		m_stretchForContents(false)
+		m_stretchForContents(false),
+		m_hovered(false)
 {
 	
 	m_resizeAnimation.addAnimable(this);
@@ -127,6 +156,8 @@ void UIControl::setContext(UIStateContext* states)
 	for(std::vector<UIControl*>::iterator it = m_children.begin(); it != m_children.end(); it++){
 		(*it)->setContext(states);
 	}
+
+	switchLanguage();
 }
 
 /// Remove focus from the element
@@ -145,6 +176,167 @@ bool UIControl::onTextEvent(Uint32 code)
 {
 	return false;
 };
+
+/// Reload all graphics because they were destroyed and are unavailable now
+void UIControl::reloadGraphicalAssets()
+{
+	TESTLOG("GL REQUIRES") 
+
+	for(std::vector<UIControl*>::iterator it = m_children.begin(); it != m_children.end(); it++){
+		// lets see!
+		(*it)->reloadGraphicalAssets();
+	}
+}
+
+void UIControl::switchLanguage()
+{
+	innerLanguageSwitch();
+
+	for(std::vector<UIControl*>::iterator it = m_children.begin(); it != m_children.end(); it++){
+		// lets see!
+		(*it)->switchLanguage();
+	}
+}
+
+/// Called to re adjust children positions and sizes if needed
+void UIControl::processSizeChange()
+{
+
+	// size changed, update.
+	if(m_sizePolicy.widthPolicy == UISizePolicy::ParentProportional && m_parent)
+	{
+		setSize(m_parent->getSize().x * m_sizePolicy.width, m_parent->getSize().y * m_sizePolicy.height);
+		PRINTLOG("f", "surface size: %f   width: %f\n", m_parent->getSize().x, m_sizePolicy.width);
+	}
+	// size changed, update.
+	if(m_positionPolicy.widthPolicy == UISizePolicy::ParentProportional && m_parent)
+	{
+		setPosition(m_parent->getSize().x * m_positionPolicy.width, m_parent->getSize().y * m_positionPolicy.height);
+		PRINTLOG("f", "surface size: %f   width: %f\n", m_parent->getSize().x, m_positionPolicy.width);
+	}
+
+	for(std::vector<UIControl*>::iterator it = m_children.begin(); it != m_children.end(); it++){
+
+		// lets see!
+		(*it)->processSizeChange();
+	}
+}
+
+/// Set the placement proportion of the control
+void UIControl::setPlacement(float xFactor, float yFactor)
+{
+	// assign proportion mode
+	m_positionPolicy.widthPolicy = UISizePolicy::ParentProportional;
+	m_positionPolicy.width = xFactor;
+	m_positionPolicy.height = yFactor;
+};
+
+/// Set the proportion of the control , relative to its parent
+void UIControl::setProportion(float widthFactor, float heightFactor)
+{
+	if(m_parent)
+	{
+		setSize(m_parent->getSize().x * widthFactor, m_parent->getSize().y * heightFactor);
+	}
+
+	// assign proportion mode
+	m_sizePolicy.widthPolicy = UISizePolicy::ParentProportional;
+	m_sizePolicy.width = widthFactor;
+	m_sizePolicy.height = heightFactor;
+};
+
+
+/// Process a mouve movement event
+/// Returns false if the mouse isnt on any control
+bool UIControl::processMouseMove(int x, int y)
+{
+	if(!m_hovered)
+	{
+		setPseudoClass("hover", true);
+		onMouseEnter();
+		m_hovered = true;
+	}
+
+	onMouseMove();
+
+	for(std::vector<UIControl*>::iterator it = m_children.begin(); it != m_children.end(); it++){
+		FloatRect controlRect = (*it)->getBounds();
+		FloatRect testRect(controlRect.left, controlRect.top, controlRect.width - 1, controlRect.height - 1);
+
+		if(testRect.contains(x,y))
+			(*it)->processMouseMove(x,y);
+		else
+		{
+			// mouse is not in it, is it just leaving now?
+			if((*it)->m_hovered)
+			{
+				(*it)->setPseudoClass("hover", false);
+				(*it)->onMouseLeave();
+				(*it)->m_hovered = false;
+			}
+		}
+	}
+
+	return false;
+}
+
+/// Process a mouse press event
+bool UIControl::processMouseButtonPressed(int x, int y, Mouse::Button button)
+{
+	if(isFocusable())
+	{
+		focus();
+	}
+
+	for(std::vector<UIControl*>::iterator it = m_children.begin(); it != m_children.end(); it++){
+		if((*it)->getBounds().contains(x,y))
+		{
+			(*it)->processMouseButtonPressed(x,y, button);
+		}		
+	}
+
+	return false;
+}
+
+/// Enables or disables a pseudo class
+void UIControl::setPseudoClass(const String& name, bool active)
+{
+	if(active)
+	{
+		//cout<<"[UIControl] Pseudoclass enabled: "<<name<<endl;
+	}
+};
+
+void UIControl::bindSignal(const String& name, ASSlot* slot)
+{
+	if(name == "click")
+	{
+		//cout<<"Attempting to bind click to a slot"<<endl;
+		onClick.connect(MAKE_SLOT_OBJECT(ASSlot, slot, trigger));
+	}
+
+	if(name == "mousemove")
+	{
+		//cout<<"[UIControl] Mouse move attachment."<<endl;
+		onMouseMove.connect(MAKE_SLOT_OBJECT(ASSlot, slot, trigger));
+	}
+
+	if(name == "mouseenter")
+	{
+		onMouseEnter.connect(MAKE_SLOT_OBJECT(ASSlot, slot, trigger));
+	}
+
+	if(name == "mouseleave")
+	{
+		onMouseLeave.connect(MAKE_SLOT_OBJECT(ASSlot, slot, trigger));
+	}
+	if(name == "resize")
+	{
+		//cout<<"[UIControl] Resize Attachment"<<endl;
+		onSizeChanged.connect(MAKE_SLOT_OBJECT(ASSlot, slot, trigger));
+	}
+}
+
 
 /// Deep clone of the control and its hierarchy
 UIControl* UIControl::clone()
@@ -179,10 +371,12 @@ UIStateContext* UIControl::getContext()
 /// Adds a new control ... wrong API todo
 void UIControl::addControl(UIControl* control){
 	m_children.push_back(control);
-
+	control->addReference();
 	// Assign
-	control->m_parent = this;
+	control->m_parent = this; 
 	control->setContext(m_stateContext);
+
+	control->processSizeChange();
 
 	updateLayout();
 };
@@ -311,6 +505,8 @@ void UIControl::setSize(float width, float height){
 	m_bounds.width = width;
 	m_bounds.height = height;
 	onResize();
+
+	onSizeChanged();
 
 	if(m_parent && m_parent->m_stretchForContents) // Goes up the tree 
 	{

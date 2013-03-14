@@ -32,10 +32,15 @@ void android_init(){
 		alreadyStarted = true;
 	}
 	else{
-		pE::Event ev;
-		ev.type = pE::Event::Resume;
-		myApp.pendingEvents.push_back(ev);
-	}	
+		
+	}
+}
+
+void android_gl_reload()
+{
+	pE::Event ev;
+	ev.type = pE::Event::Resume;
+	myApp.pendingEvents.push_back(ev);
 }
 
 void android_render(){
@@ -47,7 +52,9 @@ void android_resize(int w, int h){
 	myApp.myWindowHeight = h;
 
 	pE::Event ev;
-	ev.type = pE::Event::Resized;
+	ev.type = pE::Event::Resized; 
+	ev.size.width = w;
+	ev.size.height = h;
 	myApp.pendingEvents.push_back(ev);
 }
 

@@ -3,6 +3,7 @@
 #include "ParabolaCore/Renderer.h"
 
 #include <iostream>
+using namespace std;
 
 #ifdef PARABOLA_IPHONE
 #include <OpenGLES/ES1/gl.h>
@@ -29,8 +30,11 @@ bool registerSprite(ASEngine* engine)
 		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_RELEASE, "void f()", WRAP_MFN(Sprite, removeReference), asCALL_GENERIC);
 		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_IMPLICIT_REF_CAST, "Drawable@ f()", WRAP_OBJ_LAST(SpriteRefCast), asCALL_GENERIC);
 
-		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setTexture(Texture@)", WRAP_MFN(Sprite, setTexture), asCALL_GENERIC);
-		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setPosition(float, float)", WRAP_MFN_PR(Transformable, setPosition, (float,float), void), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setTexture(Texture@)", WRAP_MFN(Sprite, setTexture2), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setPosition(float, float)", WRAP_MFN(Sprite, setPosition), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "Vec2f getPosition()", WRAP_MFN(Sprite, getPosition), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void resize(float, float)", WRAP_MFN_PR(Sprite, resize, (float,float), void), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "bool contains(float, float)", WRAP_MFN(Sprite, contains), asCALL_GENERIC);
 
 	}
 	else
@@ -40,8 +44,11 @@ bool registerSprite(ASEngine* engine)
 		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_RELEASE, "void f()", asMETHOD(Sprite, removeReference), asCALL_THISCALL);
 		engine->getASEngine()->RegisterObjectBehaviour("Sprite", asBEHAVE_IMPLICIT_REF_CAST, "Drawable@ f()", asFUNCTION((refCast<Sprite,Drawable>)), asCALL_CDECL_OBJLAST);
 
-		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setTexture(Texture@)", asMETHOD(Sprite, setTexture), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setTexture(Texture@)", asMETHOD(Sprite, setTexture2), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "Vec2f getPosition()", asMETHOD(Sprite, getPosition), asCALL_THISCALL);
 		engine->getASEngine()->RegisterObjectMethod("Sprite", "void setPosition(float, float)", asMETHODPR(Sprite, setPosition, (float,float), void), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "void resize(float, float)", asMETHODPR(Sprite, resize, (float,float), void), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("Sprite", "bool contains(float, float)", asMETHOD(Sprite, contains), asCALL_THISCALL);
 
 
 	}
@@ -54,11 +61,13 @@ Sprite::Sprite() : m_vertices(TriangleFan,4) , m_texture(NULL), RefCountable(){
 	m_vertices[1].color = Color(255,255,255,255);
 	m_vertices[2].color = Color(255,255,255,255);
 	m_vertices[3].color = Color(255,255,255,255);
+	//cout<<"[Sprite] Born!!!!"<<endl;
+
 };
 
 /// Safe destruction
 Sprite::~Sprite(){
-	
+	//cout<<"[Sprite] Dead!!!!"<<endl;
 };
 
 /// Set the texture rect to show
@@ -89,12 +98,40 @@ void Sprite::setTextureRect(const FloatRect &rect){
 	m_textureRect = FloatRect(left, top, right, bottom);
 };
 
+Vec2f Sprite::getPosition()
+{
+	return Transformable::getPosition();
+}
+
+
+void Sprite::setPosition(float x, float y)
+{
+	Transformable::setPosition(x,y);
+}
+
+
+/// Returns true if the point is within the sprite's rect
+bool Sprite::contains(float x, float y)
+{
+	return getGlobalBounds().contains(x,y);
+}
+
 /// Set the texture of the sprite
 void Sprite::setTexture(const Texture &texture){	
 	m_texture = &texture;
 
 	setTextureRect(FloatRect(0.f,0.f, texture.getSize().x, texture.getSize().y));
 };
+
+void Sprite::setTexture2(Texture* texture)
+{
+
+	m_texture = texture;
+
+	setTextureRect(FloatRect(0.f,0.f, texture->getSize().x, texture->getSize().y));
+
+}
+
 
 /// Get the binded texture
 const Texture& Sprite::getTexture(){

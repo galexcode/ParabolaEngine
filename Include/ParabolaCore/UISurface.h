@@ -17,6 +17,8 @@ PARABOLA_NAMESPACE_BEGIN
 */
 class PARABOLA_API UISurface : public UIControl{
 public:
+	/// Construct the surface
+	UISurface();
 
 	/// Returns a control in the hierarchy with the name, or NULL if not found
 	UIControl* getControlByName(const String& name);
@@ -35,6 +37,9 @@ public:
 private:
 	/// The unique name of this surface
 	String m_name;
+
+	/// Is the surface modal or not?
+	bool m_modal;
 };
 
 PARABOLA_NAMESPACE_END

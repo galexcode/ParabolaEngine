@@ -1,4 +1,5 @@
 #include <ParabolaCore/Font.h>
+#include <ParabolaCore/FileInterface.h>
 #include <ParabolaCore/Logger.h>
 
 #include <ft2build.h>
@@ -76,6 +77,29 @@ Font::~Font()
 ////////////////////////////////////////////////////////////
 bool Font::loadFromFile(const std::string& filename)
 {
+
+#ifdef PARABOLA_ANDROID
+	// Ugly android loading hack
+	ScopedFile* file = new ScopedFile();
+	if(FileInterface::getAssetFile(file, filename))
+	{
+		char* buffer = new char[file->getSize()];
+		file->read(buffer, file->getSize());
+		bool res = loadFromMemory(buffer, sizeof(char) * file->getSize());
+		if(res){ 
+			PRINTLOG("pp", "->>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Loaded a font from memory!! %lld\n", file->getSize()); 
+		}
+		else
+		{
+			TESTLOG("FAILEEEEEEEEEEEEEEEEEEEEEED TO LOAD FONT")
+		}
+		//delete[] buffer;
+		delete file;
+		return res;
+	}
+	else return false;
+#endif
+
     // Cleanup the previous resources
     cleanup();
     m_refCount = new int(1);

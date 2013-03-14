@@ -31,7 +31,7 @@ public:
 	/// Removes a reference and destroys if necessary
 	void removeReference();
 
-private:
+
 	int refCount;
 };
 

@@ -1,4 +1,3 @@
-#ifndef MINIMAL_BUILD
 #include "ParabolaCore/Localization.h"
 
 #ifdef PARABOLA_WINDOWS
@@ -8,6 +7,36 @@
 #include <iostream>
 
 PARABOLA_NAMESPACE_BEGIN
+
+
+LocalizationUnit::LocalizationUnit() :
+	m_currentLanguage("en-US")
+{
+	m_table["pt-PT"]["[START]"] = "Arrancar";
+	m_table["en-US"]["[START]"] = "Launch";
+
+	m_table["pt-PT"]["[INCREASE]"] = "Aumentar";
+	m_table["en-US"]["[INCREASE]"] = "Increase";
+}
+
+String LocalizationUnit::getString(const String& token)
+{
+	if(m_table.find(m_currentLanguage) != m_table.end())
+	{
+		Dictionary::iterator it = m_table[m_currentLanguage].find(token);
+		if(it != m_table[m_currentLanguage].end())
+		{
+			return (*it).second;
+		}
+		else return "";
+	}
+	else return "";
+}
+
+
+
+/*
+
 
 /// Creates an empty resource tracker, by default the language is en-US
 Localization::Localization(){
@@ -122,7 +151,5 @@ String Localization::getUserLanguage(){
 
 	return result;
 };
-
+*/
 PARABOLA_NAMESPACE_END
-
-#endif

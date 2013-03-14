@@ -253,7 +253,7 @@ int AndroidInterface::playMusic(const String &name){
 	if(cls != NULL){ 
 		jmethodID method = m_JNI->GetStaticMethodID(cls, "playMusic", "(Ljava/lang/String;)V");
 		if(method != NULL){
-			jstring fpath = m_JNI->NewStringUTF(name.c_str());
+			jstring fpath = m_JNI->NewStringUTF(String(name + ".png").c_str());
 			m_JNI->CallStaticVoidMethod(cls, method, fpath);
 			m_JNI->DeleteLocalRef(fpath);
 		}

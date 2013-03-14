@@ -35,16 +35,25 @@ public:
 	/// Set the texture of the sprite
 	void setTexture(const Texture &texture);
 
+	void setTexture2(Texture* texture);
+
 	/// Set the texture rect to show
 	void setTextureRect(const FloatRect &rect);
 
 	/// Set the color of the sprite
 	void setColor(const Color& color);
 
+	Vec2f getPosition();
+
+	void setPosition(float x, float y);
+
 	FloatRect getGlobalBounds() const;
 
 	/// Get the binded texture
 	const Texture& getTexture();
+
+	/// Returns true if the point is within the sprite's rect
+	bool contains(float x, float y);
 
 	/// Resizes the sprite to the selected dimensions using the scale.
 	void resize(float x, float y);

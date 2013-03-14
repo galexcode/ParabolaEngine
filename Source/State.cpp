@@ -5,7 +5,7 @@
 #include <iostream>
 
 PARABOLA_NAMESPACE_BEGIN
-	State::State() : RefCountable() {
+	State::State() : RefCountable(), m_scheduledRemoval(false) {
 		m_parent = NULL;
 	};
 
@@ -17,6 +17,12 @@ PARABOLA_NAMESPACE_BEGIN
 
 	};
 
+	/// Callback when the state enters the bind list or the stack
+	void State::onAttach()
+	{
+
+	};
+
 	void State::onMessageReceived(String message){
 
 	};
@@ -25,28 +31,40 @@ PARABOLA_NAMESPACE_BEGIN
 
 	};
 
-	StateStack* State::parentMachine(){
-		return m_parent;
-	};
+StateStack* State::parentMachine(){
+	return m_parent;
+};
 
-	/// Emits a signal to the parent machine
-	/// If the machine decides to change into another state, it returns true.
-	bool State::emit(int stateID, bool replaces){
-		if(m_parent){
-			return m_parent->handleSignal(stateID, replaces);
-		}else{
-			std::cout<<"You can't be using a state without a machine."<<std::endl;
-			return false;
-		}
-	};
+
 
 /// Finish will inform the state stack this state is done, and should be removed
 void State::finish()
 {
+	if(m_scheduledRemoval)
+	{
+		return;
+	}
+	else
+	{
+		if(m_parent)
+		{
+			// schedule this state for erasing
+			m_parent->erase(this);
+			m_scheduledRemoval = true;
+		}
+	}
+};
+
+/// Sends a simple message to the binded state
+void State::sendMessage(const String& bindName, const String& message)
+{
 	if(m_parent)
 	{
-		// schedule this state for erasing
-		m_parent->erase(this);
+		State* state = m_parent->getBinding(bindName);
+		if(state)
+		{
+			state->onMessageReceived(message);
+		}
 	}
 };
 

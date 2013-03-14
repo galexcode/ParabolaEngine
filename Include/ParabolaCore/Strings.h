@@ -49,7 +49,7 @@ public:
 	/// Removes characters from end until it finds an occurrence of c.			
 	void removeUntilReverse(char c);
 
-	/// Remove all occurrences of c
+	/// Remove all occurrences of c 
 	void removeCharacter(char c);
 
 	/// Convert to integer

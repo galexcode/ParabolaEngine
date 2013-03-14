@@ -148,12 +148,12 @@ void SpriteExt::flip(bool flipX, bool flipY){
 */
 /// Set the position of the sprite
 void SpriteExt::setPosition(Vec2f position){
-	mySprite.setPosition(position);
+//	mySprite.setPosition(position);
 };
 
 /// Set the position of the sprite
 void SpriteExt::setPosition(float x, float y){
-	mySprite.setPosition(x,y);
+	//mySprite.setPosition(x,y);
 };
 
 /// Resize the sprite, using the scale factor

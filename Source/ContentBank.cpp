@@ -17,6 +17,7 @@ bool registerContentBank(ASEngine* engine)
 		engine->getASEngine()->RegisterObjectMethod("ContentBank", "bool loadTexture(const string& in)", WRAP_MFN(ContentBank, loadTexture), asCALL_GENERIC);
 		engine->getASEngine()->RegisterObjectMethod("ContentBank", "bool load(const string& in)", WRAP_MFN(ContentBank, load), asCALL_GENERIC);
 		engine->getASEngine()->RegisterObjectMethod("ContentBank", "Texture@ getTexture(const string& in)", WRAP_MFN(ContentBank, getTexture), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("ContentBank", "File@ openRawFile(const string& in, const string& in)", WRAP_MFN(ContentBank, openRawFile), asCALL_GENERIC);
 
 	}
 	else
@@ -24,6 +25,7 @@ bool registerContentBank(ASEngine* engine)
 		engine->getASEngine()->RegisterObjectMethod("ContentBank", "bool loadTexture(const string& in)", asMETHOD(ContentBank, loadTexture), asCALL_THISCALL);
 		engine->getASEngine()->RegisterObjectMethod("ContentBank", "bool load(const string& in)", asMETHOD(ContentBank, load), asCALL_THISCALL);
 		engine->getASEngine()->RegisterObjectMethod("ContentBank", "Texture@ getTexture(const string& in)", asMETHOD(ContentBank, getTexture), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("ContentBank", "File@ openRawFile(const string& in, const string& in)", asMETHOD(ContentBank, openRawFile), asCALL_THISCALL);
 
 	}
 
@@ -38,6 +40,13 @@ ContentBank::ContentBank() : myLoader(this){
 	registerResourceType("png", Content::Texture);
 	registerResourceType("ttf", Content::Font);
 	/// .. and so on
+};
+
+/// Attempts to open a raw file // BAD DESIGN
+ScopedFile* ContentBank::openRawFile(const String& path, const String& openMode)
+{
+	ScopedFile* file = new ScopedFile(m_rootPath + path, IODevice::TextRead);
+	return file;
 };
 
 /// Loads a resource by inferring its extension

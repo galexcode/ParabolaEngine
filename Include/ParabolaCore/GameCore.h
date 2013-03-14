@@ -48,6 +48,9 @@ public:
 	/// Get the name of the game
 	String getName();
 	
+	/// Get the root for file loading on this game
+	String getFileSystemRoot();
+
 protected:
 
 	/// Callback for updating the game
@@ -58,7 +61,9 @@ protected:
 
 	/// This function is called when a game is starting
 	/// It is imperative that after running this function the game is on its first instant of execution, ready to progress with events and updates
-	virtual void onCreate();
+	virtual void onCreate(); 
+
+
 
 	/// Callback when an event happens
 	virtual void onEvent(Event &event);

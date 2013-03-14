@@ -6,6 +6,8 @@
 #include "NameGenerator.h"
 #include "Signals.h"
 
+#include <map>
+
 PARABOLA_NAMESPACE_BEGIN
 
 /**
@@ -35,7 +37,7 @@ PARABOLA_NAMESPACE_BEGIN
 	- Then, you load the resources of the selected language
 	- Use normally.
 */
-class PARABOLA_API Localization{
+/*class PARABOLA_API Localization{
 public:
 	/// Creates an empty resource tracker, by default the language is en-US
 	Localization();
@@ -108,6 +110,18 @@ private:
 	/// The locked language - it contains all resources
 	/// One cannot unload the default language resources, but replace them.
 	String myDefaultLanguage;
+};
+*/
+class PARABOLA_API LocalizationUnit
+{
+public:
+	LocalizationUnit();
+
+	String getString(const String& token);
+
+	typedef std::map<String, String> Dictionary;
+	std::map<String, Dictionary> m_table;
+	String m_currentLanguage;
 };
 
 PARABOLA_NAMESPACE_END

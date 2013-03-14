@@ -30,5 +30,8 @@ public:
 	int m_pipeIndex;
 };
 
+class ASEngine;
+bool registerUILineEdit(ASEngine* engine);
+
 PARABOLA_NAMESPACE_END
 #endif // UILineEdit_h__

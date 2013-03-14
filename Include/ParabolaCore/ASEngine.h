@@ -6,12 +6,13 @@
 #include "StringList.h"
 #include "ASScript.h"
 #include "NameGenerator.h"
-
-#include "AS/angelscript.h"
+#include "angelscript.h"
 
 #include <map>
 #include <vector>
 
+#include <iostream>
+using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -45,6 +46,7 @@ void constructObject(void* address){
 template<typename T>
 T* genericFactory()
 {
+	//cout<<"instancing ref type"<<endl;
 	return new T();
 }
 

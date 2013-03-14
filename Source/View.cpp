@@ -1,6 +1,7 @@
 #include "ParabolaCore/View.h"
 #include "ParabolaCore/Math.h"
 #include "ParabolaCore/Renderer.h" //t remove
+#include "ParabolaCore/Window.h" //t remove
 #include <ParabolaCore/ASEngine.h>
 #include "AS/aswrappedcall.h"
 #include <cmath>
@@ -22,6 +23,11 @@ bool registerView(ASEngine* engine)
 		engine->getASEngine()->RegisterObjectMethod("Renderer", "void pushView(View@)", WRAP_MFN(Renderer, pushView), asCALL_GENERIC);
 		engine->getASEngine()->RegisterObjectMethod("Renderer", "void popView()", WRAP_MFN(Renderer, popView), asCALL_GENERIC);
 
+		engine->getASEngine()->RegisterObjectMethod("Window", "Vec2f convertCoords(const Vec2i& in, const View@)", WRAP_MFN(Window, convertCoords), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("Window", "Vec2i getSize()", WRAP_MFN(Window, getSize), asCALL_GENERIC);
+
+
+
 	}
 	else
 	{
@@ -33,6 +39,10 @@ bool registerView(ASEngine* engine)
 
 		engine->getASEngine()->RegisterObjectMethod("Renderer", "void pushView(View@)", asMETHOD(Renderer, pushView), asCALL_THISCALL);
 		engine->getASEngine()->RegisterObjectMethod("Renderer", "void popView()", asMETHOD(Renderer, popView), asCALL_THISCALL);
+
+		engine->getASEngine()->RegisterObjectMethod("Window", "Vec2f convertCoords(const Vec2i& in, const View@)", asMETHOD(Window, convertCoords), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("Window", "Vec2i getSize()", asMETHOD(Window, getSize), asCALL_THISCALL);
+
 	}
 	return true;
 

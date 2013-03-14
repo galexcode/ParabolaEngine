@@ -13,26 +13,92 @@
 #include "ParabolaCore/NStateImage.h"
 #include "ParabolaCore/NStateCustom.h"
 
+#include <ParabolaCore/ASEngine.h>
+#include "AS/aswrappedcall.h"
+
+#ifdef PARABOLA_DESKTOP
+#include <SFML/Audio/Music.hpp>
+#endif
+
 #include <iostream>
 using namespace std;
 
 PARABOLA_NAMESPACE_BEGIN
 
+void MusicPlayer::play(const String& name)
+{
+#ifdef PARABOLA_DESKTOP
+	sf::Music* music = new sf::Music();
+	music->openFromFile(name);
+	music->play();
+#elif defined PARABOLA_ANDROID
+	AndroidInterface::playMusic(name);  
+#endif
+}
+
+
+
+
 void registerScriptedGameCore(ASEngine* engine)
 {
 	engine->exportReferenceDataType("ScriptedGameCore");
 	engine->exportReferenceDataType("ScriptEngine");
+	engine->exportReferenceDataType("UIManager");
+	engine->exportReferenceDataType("UIWindow");
+	engine->exportReferenceDataType("UISurface");
+	engine->exportReferenceDataType("UIControl");
+	engine->exportReferenceDataType("Music");
+	engine->exportReferenceDataType("Slot");
+
+	if(engine->getPortableMode())
+	{
+		engine->getASEngine()->RegisterObjectMethod("UIManager", "UIWindow@ create(const string &in)", WRAP_MFN(UIManager, create), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("UIManager", "void draw(const string &in, Renderer@)", WRAP_MFN(UIManager, draw), asCALL_GENERIC);
+		
+		engine->getASEngine()->RegisterObjectMethod("UIWindow", "void messageBox(const string &in)", WRAP_MFN(UIWindow, showMessageBox), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("UIWindow", "UISurface@ addSurface(const string &in)", WRAP_MFN(UIWindow, addSurface), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("UIWindow", "void setLanguage(const string &in)", WRAP_MFN(UIWindow, setLanguage), asCALL_GENERIC);
+		
+		engine->getASEngine()->RegisterObjectMethod("UISurface", "void addControl(UIControl@)", WRAP_MFN(UISurface, addControl), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("UISurface", "void bindSignal(const string& in, Slot@)", WRAP_MFN(UISurface, bindSignal), asCALL_GENERIC);
+		
+		engine->getASEngine()->RegisterObjectMethod("Music", "void play(const string& in)", WRAP_MFN(MusicPlayer, play), asCALL_GENERIC);
+
+		engine->getASEngine()->RegisterObjectMethod("ScriptedGameCore", "void toggleConsole()", WRAP_MFN(ScriptedGameCore, toggleConsole), asCALL_GENERIC);
+	}
+	else
+	{
+		engine->getASEngine()->RegisterObjectMethod("UIManager", "UIWindow@ create(const string &in)", asMETHOD(UIManager, create), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("UIManager", "void draw(const string &in, Renderer@)", asMETHOD(UIManager, draw), asCALL_THISCALL);
+		
+		
+		engine->getASEngine()->RegisterObjectMethod("UIWindow", "void messageBox(const string &in)", asMETHOD(UIWindow, showMessageBox), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("UIWindow", "UISurface@ addSurface(const string &in)", asMETHOD(UIWindow, addSurface), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("UIWindow", "void setLanguage(const string &in)", asMETHOD(UIWindow, setLanguage), asCALL_THISCALL);
+	
+		engine->getASEngine()->RegisterObjectMethod("UISurface", "void addControl(UIControl@)", asMETHOD(UISurface, addControl), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("UISurface", "void bindSignal(const string& in, Slot@)", asMETHOD(UISurface, bindSignal), asCALL_THISCALL);
+		
+		
+		engine->getASEngine()->RegisterObjectMethod("Music", "void play(const string& in)", asMETHOD(MusicPlayer, play), asCALL_THISCALL);
+		
+		engine->getASEngine()->RegisterObjectMethod("ScriptedGameCore", "void toggleConsole()", asMETHOD(ScriptedGameCore, toggleConsole), asCALL_THISCALL);
+
+	}
 
 	engine->getASEngine()->RegisterObjectProperty("ScriptedGameCore", "StateStack states", asOFFSET(ScriptedGameCore, m_states));
 	engine->getASEngine()->RegisterObjectProperty("ScriptedGameCore", "ScriptEngine scripts", asOFFSET(ScriptedGameCore, m_scripting));
 	engine->getASEngine()->RegisterObjectProperty("ScriptedGameCore", "ContentBank content", asOFFSET(ScriptedGameCore, m_content));
+	engine->getASEngine()->RegisterObjectProperty("ScriptedGameCore", "Window@ window", asOFFSET(ScriptedGameCore, m_window));
+	//engine->getASEngine()->RegisterObjectProperty("ScriptedGameCore", "UIManager ui", asOFFSET(ScriptedGameCore, m_ui));
+	engine->getASEngine()->RegisterObjectProperty("ScriptedGameCore", "Music music", asOFFSET(ScriptedGameCore, m_music));
 };
 
 ScriptedGameCore::ScriptedGameCore()
 	:	GameCore(),
 		m_requiresPreload(false)
 {
-
+	m_states.m_parent = this;
 };
 
 /// Sets the preload script. This is only useful before the onCreate() method
@@ -53,8 +119,9 @@ void ScriptedGameCore::enablePreloadStep(bool enable)
 
 /// Called when the game is instanced, calls int main() on the starter script
 void ScriptedGameCore::onCreate(){
-
 	setUpdateStep(1.f / 100.f);
+
+	m_window = &getWindow();
 
 	// Export base functionality
 	m_scripting.exportStrings();
@@ -62,7 +129,8 @@ void ScriptedGameCore::onCreate(){
 	//m_scripting.exportBasicGameCore();
 	m_scripting.exportGraphics();
 	m_scripting.exportEvents();
-	m_scripting.exportFiles();
+	//m_scripting.exportFiles();
+	registerScopedFile(&m_scripting);
 	m_scripting.exportMath();
 	registerContentBank(&m_scripting);
 	registerStateStack(&m_scripting);
@@ -72,10 +140,13 @@ void ScriptedGameCore::onCreate(){
 	registerNStateCustom(&m_scripting);
 	registerSprite(&m_scripting);
 	registerView(&m_scripting);
-
+	registerUIButton(&m_scripting);
 
 	m_scripting.exportGlobalProperty("ScriptedGameCore game", this);
 
+	m_content.m_rootPath = m_fileSystemRoot;
+
+	m_ui.area = FloatRect(0,0,getWindow().getWidth(), getWindow().getHeight());
 
 	// PreLoad the game
 	ASScript* preloadScript = m_scripting.loadScript(m_fileSystemRoot + m_preloadScriptPath);
@@ -86,9 +157,10 @@ void ScriptedGameCore::onCreate(){
 		m_preloader.onRequestDownload.connect(MAKE_SLOT_LOCAL(ScriptedGameCore, doDownload));
 
 		/// Get main script path - if the function is missing the result is empty
+		 
 		m_mainScriptPath = preloadScript->fastCall<String>("string getMainScript()");
 		setName(preloadScript->fastCall<String>("string getName()"));
-
+		
 		if(m_requiresPreload)
 		{
 			// Im on the browser, need to cache resources first
@@ -115,77 +187,16 @@ void ScriptedGameCore::onCreate(){
 		startupGame();
 	}
 
+
+
 	getWindow().setFramerateLimit(30);
-
-
-
-
-	/*renderer = createRenderer(NULL);
-	grenderer = renderer.get();
-
-	asEngine.exportStrings();
-	asEngine.exportFiles();
-	asEngine.exportMath();
-	asEngine.exportBasicEngine();
-	asEngine.exportBasicGameCore();
-	asEngine.exportEvents();
-	asEngine.exportBasicGraphics();
-	asEngine.exportKinesis();
-	asEngine.exportContentBanks();
-	asEngine.exportSoundGameCore();
-	asEngine.exportRocketUi();
-	asEngine.exportAnimations();
-	asEngine.exportParticleSystems();
-
-	asEngine.exportGameAs("myGame", this);
-
-	asEngine.exportGlobalProperty("SceneRenderer Renderer", renderer.get());
-
-	//p->drawDebug(renderer.get());
-	exportScripts();
-
-	//RocketContext *c = RocketContext::create("core_ui", Vec2i(1024,768));
-	RocketPlugin::instance().loadFont("pirulen.ttf");
-	myMainScript = asEngine.loadScript("main.as");
-	if(myMainScript){
-		myCreateFunc = myMainScript->getFunctionIdByName("void onCreate()");
-		myEventFunc = myMainScript->getFunctionIdByName("void onEvent(Event@)");
-		myUpdateFunc = myMainScript->getFunctionIdByName("void onUpdate(float)");
-		myRenderFunc = myMainScript->getFunctionIdByName("void onRender()");
-		
-		myMainScript->call(myCreateFunc);
-	}
-	else{
-		this->close();
-		std::cout<<"Finished execution with errors."<<std::endl;
-		system("pause");
-	}*/
-
-
 	m_renderer = Renderer::createAutomaticRenderer(&getWindow());
-	getWindow().setFramerateLimit(60);
+};
 
-	circleX = 200;
-
-	//TESTLOG("Before texture load")
-//	m_texture.loadFromFile("basic.png");
-	//TESTLOG("After texture load")
-	//m_sprite.setTexture(m_texture);
-	
-	/// Scripting engine preparation
-/*	m_engine.exportStrings();
-	m_engine.exportEvents();
-	m_engine.exportGraphics();
-	m_engine.exportKinesis();
-
-	m_engine.exportGlobalProperty("Renderer renderer", m_renderer);
-
-	/// Prepare the main script
-	m_script = m_engine.loadScript(m_startupScript);
-	if(m_script){
-		m_script->call(String("void onCreate()"));
-	}
-	*/
+/// Toggles the built-in console
+void ScriptedGameCore::toggleConsole()
+{
+	cout<<"Enabling Console"<<endl;
 };
 
 void ScriptedGameCore::startupGame()
@@ -196,7 +207,9 @@ void ScriptedGameCore::startupGame()
 	{
 		cout<<"=> Loaded main script"<<endl;
 
-		m_mainScript->call(m_mainScript->getFunctionIdByName("void onCreate()"));
+		m_mainScript->call(String("void onCreate()"));
+
+		m_states.processWaitList();
 	}
 	else
 	{
@@ -228,10 +241,12 @@ void ScriptedGameCore::onRender(){
 	// dirty rendering
 	if(m_mainScript)
 	{
-		m_mainScript->prepareMethod("void onRender(Renderer@)");
+		m_mainScript->prepareMethod(String("void onRender(Renderer@)"));
 		m_mainScript->prepareMethodArgument(0, m_renderer, ScriptArgumentTypes::Object);
 		m_mainScript->call();
 	}
+
+
 
 	Text t;
 	t.setString(String("[") + getName() + String("]") + String("Preload Script: ")  + m_preloadScriptPath);
@@ -241,6 +256,16 @@ void ScriptedGameCore::onRender(){
 	t2.setPosition(0, 50);
 	String finalS = "Log: " + m_info;
 	t2.setString(finalS);
+// 
+// 	Font brut;
+// 	brut.loadFromFile("Brutality.ttf");
+// 	Text txt;
+// 	txt.setFont(brut);
+// 	txt.setString("Hello Brutality test!");
+// 	txt.setCharacterSize(40);
+// 	txt.setPosition(100,500);
+// 	txt.setColor(Color::Red);
+// 	m_renderer->draw(txt);
 	
 	//m_renderer->draw(t);
 	//m_renderer->draw(t2);
@@ -256,37 +281,63 @@ bool ScriptedGameCore::doDownload(String s, String d)
 
 /// Called when an event is fired.
 void ScriptedGameCore::onEvent(Event &event){
+	
+	if(event.type == Event::Resized)
+	{
+		PRINTLOG("Resize", "Resize: %d    %d\n", event.size.width, event.size.height);
+
+		for(std::map<String,UIWindow*>::iterator it = m_ui.m_windows.begin(); it != m_ui.m_windows.end(); it++)
+		{
+			(*it).second->setRect(FloatRect(0,0,event.size.width, event.size.height));
+		}
+	}
+
+	if(event.type == Event::Resume)
+	{
+		TESTLOG("RESUME CONTEXT LOST!!!\n");
+	}
+
+	
 	m_states.propagateEvent(event);
+
+
 
 	// dirty rendering
 	if(m_mainScript)
 	{
-		m_mainScript->prepareMethod("void onEvent(Event@)");
+		m_mainScript->prepareMethod(String("void onEvent(Event@)"));
 		m_mainScript->prepareMethodArgument(0, &event, ScriptArgumentTypes::Object);
 		m_mainScript->call();
 	}
 
+	for(std::map<String,UIWindow*>::iterator it = m_ui.m_windows.begin(); it != m_ui.m_windows.end(); it++)
+	{
+		(*it).second->pushEvent(event);
+	}
+
+
 	if(event.type == Event::MouseWheelMoved  || event.type == Event::TouchPressed){
-		circleX += 20; 
+		circleX += 20;
+	}
+
+	if(event.type == Event::KeyPressed && event.key.code == Keyboard::AndroidBack)
+	{
+#ifdef PARABOLA_ANDROID
+		AndroidInterface::closeActivity();
+		TESTLOG("BACK!!!!!");
+#endif
 	}
 };
 
 /// Called when the game is updating
 void ScriptedGameCore::onUpdate(Time time){
-/*	if(m_script){
-		float elapsedTime = time.asSeconds();
-		m_script->prepareMethod(String("void onUpdate(float)"));
-		m_script->prepareMethodArgument(0, &elapsedTime, ScriptArgumentTypes::Float);
-		m_script->call();
-	}*/
-
 	m_states.updateStates(time);
 
 	// dirty rendering
 	if(m_mainScript)
 	{
 		float elapsedTime = time.asSeconds();
-		m_mainScript->prepareMethod("void onUpdate(float)");
+		m_mainScript->prepareMethod(String("void onUpdate(float)"));
 		m_mainScript->prepareMethodArgument(0, &elapsedTime, ScriptArgumentTypes::Float);
 		m_mainScript->call();
 	}
@@ -309,7 +360,7 @@ void ScriptedGameCore::exportScripts(){
 
 
 	//engine->RegisterObjectProperty(")
-	
+
 };
 
 /************************************************************************/

@@ -289,7 +289,7 @@ Texture::~Texture(){
 	//delete the texture if exists
 	if(m_texture){
 		//glDeleteTextures(1, &m_texture);
-		PRINTLOG("ParabolaEngine", "Released texture with id: %d\n", m_texture);
+		//PRINTLOG("ParabolaEngine", "Released texture with id: %d\n", m_texture);
 		//m_aliveTextures.erase(m_aliveTextures.find(this));
 	}
 };
@@ -335,7 +335,7 @@ bool Texture::create(unsigned int width, unsigned int height)
 		GLuint texture;
 		glGenTextures(1, &texture);
 		m_texture = static_cast<unsigned int>(texture);
-		PRINTLOG("ParabolaEngine", "Allocated texture with id: %d\n", m_texture);
+		//PRINTLOG("ParabolaEngine", "Allocated texture with id: %d\n", m_texture);
 
 	}
 	 
@@ -400,7 +400,7 @@ void Texture::loadFromImage(Image &image){
 	m_size = image.getSize();
 	m_actualSize = m_size;
 	glGenTextures(1, &m_texture);
-	PRINTLOG("ParabolaEngine", "Allocated texture with id: %d\n", m_texture);
+	//PRINTLOG("ParabolaEngine", "Allocated texture with id: %d\n", m_texture);
 
 	glBindTexture(GL_TEXTURE_2D, m_texture);
 	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, image.getSize().x, image.getSize().y, GL_RGBA, GL_UNSIGNED_BYTE, image.getPixelsPtr());

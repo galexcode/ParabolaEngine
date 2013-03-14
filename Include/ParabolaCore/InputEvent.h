@@ -2,6 +2,7 @@
 #define PARABOLA_INPUTEVENT_H
 
 #include "Platform.h"
+#include "Vectors.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -321,6 +322,42 @@ public:
 	Keyboard::Key getKeyCode()
 	{
 		return key.code;
+	}
+
+	bool isPointerDown()
+	{
+		return (type == MouseButtonPressed || type == TouchPressed);
+	}
+
+	bool isPointerReleased()
+	{
+		return (type == MouseButtonReleased || type == TouchReleased);
+	}
+
+	bool isPointerMoved()
+	{
+		return (type == MouseMoved || type == TouchMoved);
+	}
+
+	Vec2i getPointerPosition()
+	{
+		if(type == MouseButtonPressed)
+		{
+			return Vec2i(mouseButton.x, mouseButton.y);
+		}
+		else if(type == MouseButtonReleased)
+		{
+			return Vec2i(mouseButton.x, mouseButton.y);
+		}
+		else if(type == MouseMoved)
+		{
+			return Vec2i(mouseMove.x, mouseMove.y);
+		}
+		else if(type == TouchPressed || type == TouchReleased || type == TouchMoved)
+		{
+			return Vec2i(x, y);
+		}
+		else return Vec2i(0,0);
 	}
 
 	////////////////////////////////////////////////////////////

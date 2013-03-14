@@ -46,12 +46,24 @@ void ASMessageCallback(const asSMessageInfo *msg, void *param){
 			 
 };
 
-
-
 ASEngine::ASEngine(){
 	asEngine = asCreateScriptEngine(ANGELSCRIPT_VERSION);
+	if(!asEngine)
+	{
+		printf("COULD NOT CREATE AS ENGINE");
+	}
+
 	asEngine->SetMessageCallback(asFUNCTION(ASMessageCallback), 0, asCALL_CDECL);
 	asEngine->SetEngineProperty(asEP_INIT_GLOBAL_VARS_AFTER_BUILD, false);
+	asEngine->SetEngineProperty(asEP_ALLOW_UNSAFE_REFERENCES, false);
+	//asEngine->SetEngineProperty(asEP_AUTO_GARBAGE_COLLECT, false);
+
+	if(!getPortableMode())
+	{
+#ifdef PARABOLA_ANDROID
+		TESTLOG("ARM MODE!!!")
+#endif
+	}
 
 	gameCoreBasic = false;
 	gameCoreAdvanced = false;
@@ -157,11 +169,11 @@ ASScript* ASEngine::loadScript(const String &name, const String &alias, bool isB
 			fp->seek(0); 
 			char *buffer = new char[size+1];
 			String ss = "Angelscript loading script with " + String::number((unsigned long)size) + " bytes";
-			TESTLOG(ss.c_str())
+			//TESTLOG(ss.c_str())
 			fp->read(buffer, size);
 			buffer[(unsigned int)size] = '\0';
 			
-			r = Builder.AddSectionFromMemory(buffer, name.c_str());
+			r = Builder.AddSectionFromMemory(name.c_str(), buffer, size);
 			TESTLOG(String(buffer).c_str())
 			delete buffer;
 		}
@@ -192,7 +204,7 @@ ASScript* ASEngine::loadScript(const String &name, const String &alias, bool isB
 
 			TESTLOG("Module was not created properly.\n")
 			return NULL;
-		}  
+		} 
 	}
 
 	return asScript;
@@ -309,13 +321,13 @@ bool ASEngine::callScriptMethod(const String &scriptName, const String &method){
 	r = module->ResetGlobalVars(context);
 	if(r < 0) return false;
 
-	mainId = module->GetFunctionIdByDecl(method.c_str());
+	//mainId = module->GetFunctionIdByDecl(method.c_str());
 	if(mainId < 0){
 		std::cout<<"Error: Specified function was not found."<<std::endl;
 		return false;
 	}
 
-	context->Prepare(mainId);
+//	context->Prepare(mainId);
 	r = context->Execute();
 	if(r == asEXECUTION_FINISHED){
 		//std::cout<<"Ran sucessfully the script."<<std::endl;
@@ -448,10 +460,10 @@ bool ASEngine::exportBasicEngine(const String &varName){
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", WRAP_OBJ_LAST(Vec2fCTOR2), asCALL_GENERIC);
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", WRAP_OBJ_LAST(Vec2fDTOR), asCALL_GENERIC);
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(const Vec2f &in)", WRAP_OBJ_LAST(Vec2fCCTOR), asCALL_GENERIC);
-		//asEngine->RegisterObjectMethod("Vec2f", "Vec2f &opAssign(const Vec2f &in)", WRAP_MFN_PR(Vec2f, operator=, (const Vec2f &), Vec2f&), asCALL_GENERIC);
+		asEngine->RegisterObjectMethod("Vec2f", "Vec2f &opAssign(const Vec2f &in)", WRAP_MFN_PR(Vec2f, operator=, (const Vec2f &), Vec2f&), asCALL_GENERIC);
 
 	} 
-	else{
+	else{ 
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f()", asFUNCTION(Vec2fCTOR), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_CONSTRUCT, "void f(float x, float y)", asFUNCTION(Vec2fCTOR2), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("Vec2f", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2fDTOR), asCALL_CDECL_OBJLAST);
@@ -470,6 +482,7 @@ bool ASEngine::exportBasicEngine(const String &varName){
 		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(int x, int y)", WRAP_OBJ_LAST(Vec2iCTOR2), asCALL_GENERIC);
 		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_DESTRUCT, "void f()", WRAP_OBJ_LAST(Vec2iDTOR), asCALL_GENERIC);
 		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(const Vec2i &in)", WRAP_OBJ_LAST(Vec2iCCTOR), asCALL_GENERIC);
+		asEngine->RegisterObjectMethod("Vec2i", "Vec2i &opAssign(const Vec2i &in)", WRAP_MFN_PR(Vec2i, operator=, (const Vec2i &), Vec2i&), asCALL_GENERIC);
 
 	}
 	else{
@@ -477,6 +490,7 @@ bool ASEngine::exportBasicEngine(const String &varName){
 		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(int x, int y)", asFUNCTION(Vec2iCTOR2), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_DESTRUCT, "void f()", asFUNCTION(Vec2iDTOR), asCALL_CDECL_OBJLAST);
 		asEngine->RegisterObjectBehaviour("Vec2i", asBEHAVE_CONSTRUCT, "void f(const Vec2i &in)", asFUNCTION(Vec2iCCTOR), asCALL_CDECL_OBJLAST);
+		asEngine->RegisterObjectMethod("Vec2i", "Vec2i &opAssign(const Vec2i &in)", asMETHODPR(Vec2i, operator=, (const Vec2i &), Vec2i&), asCALL_THISCALL);
 
 	}
 	
@@ -509,17 +523,22 @@ bool ASEngine::exportBasicEngine(const String &varName){
 	return engineBasic;
 };
 
+void testP()
+{
+	
+}
+
 /// Exports string functionality
-bool ASEngine::exportStrings(){
+bool ASEngine::exportStrings(){ 
 	if(!asEngine)return false;
 
 	RegisterStdString(asEngine);
-	RegisterScriptArray(asEngine, false);
+	RegisterScriptArray(asEngine, false); 
 	RegisterStdStringUtils(asEngine);
 
-	int r;
-
-	if (strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")){
+	int r; 
+	 
+	if (strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")){ 
 		r = asEngine->RegisterGlobalFunction("void print(string)", WRAP_FN(scriptstdprint), asCALL_GENERIC);
 		if(r < 0){
 			TESTLOG("FAILED TO REGISTER print(string)\n")
@@ -528,6 +547,7 @@ bool ASEngine::exportStrings(){
 	else
 	{
 		r = asEngine->RegisterGlobalFunction("void print(string)", asFUNCTION(scriptstdprint), asCALL_CDECL);
+		r = asEngine->RegisterGlobalFunction("void testP()", asFUNCTION(testP), asCALL_CDECL);
 		if(r < 0){
 			//pLogger::Log(LogLevel::Critical, "Failed to export a function.");
 		}

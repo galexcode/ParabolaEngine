@@ -59,7 +59,7 @@ public:
 	void prepareMethodTimeout(float timeoutSeconds);
 
 	/// Get function id by its name
-	int getFunctionIdByName(const String &name);
+	//int getFunctionIdByName(const String &name);
 
 	/// Call an already prepared context
 	/// Returns whether the execution was successful.
@@ -121,7 +121,7 @@ template<typename Ret>
 Ret ASScript::fastCall(const String& funcName)
 {
 	Ret val;
-	if(call(getFunctionIdByName(funcName)))
+	if(call(funcName))
 	{
 		void* ret = getReturnValue(ScriptArgumentTypes::Object);
 		if(ret)

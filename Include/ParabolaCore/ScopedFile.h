@@ -4,6 +4,7 @@
 #include "Platform.h"
 #include "Strings.h"
 #include "IODevice.h"
+#include "ReferenceCountable.h"
 #include <stdio.h>
 
 PARABOLA_NAMESPACE_BEGIN
@@ -16,7 +17,7 @@ PARABOLA_NAMESPACE_BEGIN
 	The main feature of ScopedFile is to support seamlessly reading from entire files and specified regions, like an APK asset, or a file within a package.
 
 */
-class PARABOLA_API ScopedFile : public IODevice{
+class PARABOLA_API ScopedFile : public IODevice, public RefCountable{
 public:
 	/// Constructs an uninitialized stream
 	ScopedFile();
@@ -42,6 +43,9 @@ public:
 
 	/// Read the next character available - uses fgetc and assumes an open mode for text
 	char getChar();
+
+	/// Read a line
+	String getLine();
 
 	/// Retrive the file handle
 	FILE* getHandle();
@@ -77,6 +81,9 @@ private:
 	Int64 m_fileSize;
 	FILE* m_handle;
 };
+
+class ASEngine;
+bool registerScopedFile(ASEngine* engine);
 
 PARABOLA_NAMESPACE_END
 #endif

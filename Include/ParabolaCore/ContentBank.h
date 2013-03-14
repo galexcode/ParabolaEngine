@@ -53,6 +53,9 @@ public:
 	/// Creates a loose content bank, destroys its resources on destruction
 	ContentBank();
 
+	/// Attempts to open a raw file
+	ScopedFile* openRawFile(const String& path, const String& openMode);
+
 	/// Loads a resource by inferring its extension
 	bool load(const String& path);
 
@@ -82,6 +85,8 @@ public:
 	/// Temp
 	/// Get the texture
 	Texture* getTexture(const String &texture_name);
+
+	String m_rootPath;
 
 private:
 	friend class GameCore;

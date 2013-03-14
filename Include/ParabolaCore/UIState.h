@@ -3,7 +3,8 @@
 
 #include "Platform.h"
 #include "Vectors.h"
-
+#include "Font.h"
+#include "Localization.h"
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -39,11 +40,15 @@ public:
 
 		m_allowLayoutAnimation = true;
 		m_allowAnimation = true;
-	}
 
+		m_defaultFont.loadFromFile("Brutality.ttf");
+	}
+	Font m_defaultFont;
 	ScreenInputType m_screenInputType;
 
 	bool m_hasHardwareKeyboard;
+
+	LocalizationUnit m_localization;
 
 	bool m_allowsToolTips;
 
@@ -60,6 +65,8 @@ public:
 	/// Does the user interface system use animation globally?
 	bool m_allowAnimation;
 	bool m_allowLayoutAnimation;
+
+	String m_activeLanguage;
 };
 
 PARABOLA_NAMESPACE_END

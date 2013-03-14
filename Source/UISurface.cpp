@@ -2,6 +2,14 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+/// Construct the surface
+UISurface::UISurface() :
+	UIControl(),
+	m_modal(false)
+{
+
+};
+
 void UISurface::draw(Renderer* renderer){
 	for(std::vector<UIControl*>::const_iterator it = m_children.begin(); it != m_children.end(); it++){
 		(*it)->innerDraw(renderer);

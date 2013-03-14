@@ -1,13 +1,44 @@
 #include <ParabolaCore/ScopedFile.h>
 #include <ParabolaCore/Logger.h>
 
+#include <ParabolaCore/ASEngine.h>
+#include "AS/aswrappedcall.h"
+
 #include <cmath>
 #include <stdlib.h>
 
 PARABOLA_NAMESPACE_BEGIN
 
+bool registerScopedFile(ASEngine* engine)
+{
+	engine->getASEngine()->RegisterObjectType("File", sizeof(ScopedFile), asOBJ_REF);
+
+	if(engine->getPortableMode())
+	{
+		engine->getASEngine()->RegisterObjectBehaviour("File", asBEHAVE_FACTORY, "File@ f()", WRAP_FN(genericFactory<ScopedFile>), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectBehaviour("File", asBEHAVE_ADDREF, "void f()", WRAP_MFN(ScopedFile, addReference), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectBehaviour("File", asBEHAVE_RELEASE, "void f()", WRAP_MFN(ScopedFile, removeReference), asCALL_GENERIC);
+		
+		engine->getASEngine()->RegisterObjectMethod("File", "bool good()", WRAP_MFN(ScopedFile, isReady), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("File", "bool atEnd()", WRAP_MFN(ScopedFile, atEnd), asCALL_GENERIC);
+		engine->getASEngine()->RegisterObjectMethod("File", "string getLine()", WRAP_MFN(ScopedFile, getLine), asCALL_GENERIC);
+	}
+	else
+	{
+		engine->getASEngine()->RegisterObjectBehaviour("File", asBEHAVE_FACTORY, "File@ f()", asFUNCTION(genericFactory<ScopedFile>), asCALL_CDECL);
+		engine->getASEngine()->RegisterObjectBehaviour("File", asBEHAVE_ADDREF, "void f()", asMETHOD(ScopedFile, addReference), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectBehaviour("File", asBEHAVE_RELEASE, "void f()", asMETHOD(ScopedFile, removeReference), asCALL_THISCALL);
+	
+		engine->getASEngine()->RegisterObjectMethod("File", "bool good()", asMETHOD(ScopedFile, isReady), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("File", "bool atEnd()", asMETHOD(ScopedFile, atEnd), asCALL_THISCALL);
+		engine->getASEngine()->RegisterObjectMethod("File", "string getLine()", asMETHOD(ScopedFile, getLine), asCALL_THISCALL);
+
+	}
+	return true;
+};
+
 /// Constructs an uninitialized stream
-ScopedFile::ScopedFile(){
+ScopedFile::ScopedFile() : RefCountable(){
 	m_handle = NULL;
 	m_offset = -1;
 	m_length = -1;
@@ -15,7 +46,7 @@ ScopedFile::ScopedFile(){
 };
 
 /// Constructs a stream that takes over the whole file
-ScopedFile::ScopedFile(const String &path, IODevice::OpenModes accessMode){
+ScopedFile::ScopedFile(const String &path, IODevice::OpenModes accessMode) : RefCountable(){
 	String mode;
 	switch(accessMode){
 		case IODevice::BinaryRead: mode = "rb";break;
@@ -34,7 +65,7 @@ ScopedFile::ScopedFile(const String &path, IODevice::OpenModes accessMode){
 };
 
 /// Constructs a stream from already open file handle, restricted to a portion of it
-ScopedFile::ScopedFile(FILE* fileHandle, Int64 startOffset, Int64 length){
+ScopedFile::ScopedFile(FILE* fileHandle, Int64 startOffset, Int64 length) : RefCountable(){
 	m_handle = fileHandle; 
 	m_offset = startOffset;
 	m_length = length;
@@ -45,6 +76,18 @@ ScopedFile::ScopedFile(FILE* fileHandle, Int64 startOffset, Int64 length){
 
 	String found = "Found the asset on offset " + String::number((long int)m_offset) + " with len " + String::number((long int)m_length);
 	TESTLOG(found.c_str())
+};
+
+/// Read a line
+String ScopedFile::getLine()
+{
+	String s;
+	char c = 0;
+	while(!atEnd() && c != '\n')
+	{
+		s += (c = getChar());
+	}
+	return s;
 };
 
 /// Cleanup
@@ -66,6 +109,7 @@ bool ScopedFile::open(FILE* fileHandle, Int64 startOffset, Int64 length){
 	m_handle = fileHandle; 
 	m_offset = startOffset;
 	m_length = length;
+	m_fileSize = m_length;
 
 
 	/// Case for whole file

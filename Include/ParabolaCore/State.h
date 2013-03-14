@@ -12,7 +12,7 @@ class StateStack;
 class Renderer;
 class Event;
 
-	/**
+/**
 		\ingroup Core
 		\class StateMachineNode
 		\brief Represents a game state such as a pause screen or the game itself.
@@ -23,11 +23,14 @@ class Event;
 		When the machine is destroyed, it will destroy all nodes that didn't have the same number of GetState and RemoveReference()
 
 		If you wish to delete the node yourself, use AddReference() as soon as you create it.
-	*/
-	class PARABOLA_API State : public RefCountable{
-	public:
+*/
+class PARABOLA_API State : public RefCountable{
+public:
 		/// Creates a default state
 		State();
+
+		/// Callback when the state enters the bind list or the stack
+		virtual void onAttach();
 
 		/// Callback when the node is activated
 		virtual void onActivate();
@@ -44,9 +47,9 @@ class Event;
 		/// Get the parent machine of this state
 		StateStack* parentMachine();
 
-		/// Emits a signal to the parent machine
-		/// If the machine decides to change into another state, it returns true.
-		bool emit(int stateID, bool replaces);
+		/// Sends a simple message to the binded state
+		void sendMessage(const String& bindName, const String& message);
+
 
 		/// Attempts to launch a state from the bind list
 		bool launchBindedState(const String& stateName);
@@ -69,11 +72,15 @@ class Event;
 		/// Otherwise this state has exclusivity over drawing
 		virtual bool onDraw(Renderer *renderer);
 
-	private:
 		StateStack *m_parent;
+
+	private:
+		
 		friend class StateStack;
 
 		int RefCount;
+
+		bool m_scheduledRemoval;
 	};
 
 PARABOLA_NAMESPACE_END

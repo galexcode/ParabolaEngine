@@ -21,72 +21,44 @@ PARABOLA_NAMESPACE_BEGIN
 		State* obj;
 	};
 
-	class Renderer;
-	class Event;
+class Renderer;
+class Event;
+class GameCore;
 
-	/**
+/**
 		\ingroup Core
 		\class StateMachine
 		\brief Represents a finite state machine.
 
 		It allows you to create a machine and add states to it, then transition between them.
-	*/
-	class PARABOLA_API StateStack{
-	public:
-		/// Creates an empty state machine
-		StateStack();
-		/// Safely destroys all states by sending them a destroy callback
-		~StateStack();
+*/
+class PARABOLA_API StateStack{
+public:
+	/// Creates an empty state machine
+	StateStack();
 
-		/// Adds state to immediate execution
-		void add(State* state);
+	/// Safely destroys all states by sending them a destroy callback
+	~StateStack();
+
+	/// Adds state to immediate execution
+	void add(State* state);
 
 	/// Adds a state to the waiting list
 	void addWaiting(State* state);
 
+	/// Checks if the stack is empty and if so adds a state from the wait list
+	void processWaitList();
 
-		/// Get the state associated with stateID
-		/// Returns NULL if that state doesn't belong to the machine
-		/// \note This function may be dangerous to use
-		/// That is because you get a base node
-		/// pointer which you may then cast to your custom state.
-		/// If the returned node isn't of the type you casted it to, you get undefined behavior
-		/// Using dynamic_cast is recommended to avoid this kind of problems.
-		State* getState(int stateID);
+	/// Updates the right states 
+	void updateStates(Time &time);
 
-		/// Sets a new state or replaces an existing one
-		/// It makes an associated between an int identifier and the actual node
-		void setState(int stateID, State* node);
+	/// Delivers the event to the right events
+	void propagateEvent(Event &event);
 
-		/// Destroys the state specified
-		/// States are reference counted, so it may not be destroyed immediately
-		void removeState(int stateID);
+	/// Draws the right states
+	void drawStates(Renderer *renderer);
 
-		/// Replaces the top of the stack with the new state
-		void swapState(int stateID);
-		/// Pushes a state into the stack
-		void pushState(int stateID);
-		/// Pops the top of the stack
-		void popState();
-
-		/// Handles a signal received from a state
-		/// \todo improvements here
-		bool handleSignal(int stateID, bool toReplace);
-		
-		/// Delivers a String to stateID state
-		bool deliverMessage(int stateID, String message);
-
-		/// Delivers a String and a pointer to anything to stateID state
-		bool deliverData(int stateID, String dataID, void* data);
-
-		/// Updates the right states 
-		void updateStates(Time &time);
-
-		/// Delivers the event to the right events
-		void propagateEvent(Event &event);
-
-		/// Draws the right states
-		void drawStates(Renderer *renderer);
+	int getActiveStateCount();
 
 	/// Bind a new state to the list
 	/// Returns false if the name was already taken
@@ -98,15 +70,20 @@ PARABOLA_NAMESPACE_BEGIN
 	/// Erase a state
 	void erase(State* state);
 
+	/// Get the parent game, if any
+	GameCore* getParentGame();
+
 	/// Get a state or NULL
 	State* getBinding(const String& name);
 
+	GameCore* m_parent;
+
 private:
-	std::map<int, State*> nodes;
-	std::vector<State*> nodeStack;
-	std::vector<State*> m_waitingList;
-	std::map<String, State*> m_bindList;
-	std::vector<StateStackOperation> m_pendingOperations;
+	std::vector<State*> m_activeList; ///< The list of currently active states
+	std::vector<State*> m_waitList; ///< The list of states waiting to become active
+	std::map<String, State*> m_bindList; ///< The list of binded states, that "live" under the stack
+
+	std::vector<StateStackOperation> m_pendingOperations; ///< The list of pending operations
 
 	bool m_stackLock;
 };
