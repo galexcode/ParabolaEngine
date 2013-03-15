@@ -192,16 +192,13 @@ void StateStack::erase(State* state)
 		cout<<"[StateStack] Erased"<<endl;
 
 		processWaitList();
-	}
+	} 
 };
 
 int StateStack::getActiveStateCount()
 {
 
-	for(auto it = m_activeList.begin(); it != m_activeList.end(); ++it)
-	{
-		cout<<"STATE: "<<(*it)<<endl;
-	}
+
 	return static_cast<int>(m_activeList.size());
 }
 

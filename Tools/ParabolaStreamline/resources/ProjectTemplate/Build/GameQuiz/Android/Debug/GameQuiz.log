@@ -1,0 +1,106 @@
+﻿Build started 05-11-2012 11:03:24.
+     1>Project "K:\Development\GameQuiz\Build\GameQuiz\GameQuiz.vcxproj" on node 2 (build target(s)).
+     1>InitializeBuildStatus:
+         Touching "Android\Debug\GameQuiz.unsuccessfulbuild".
+       ClCompile:
+         All outputs are up-to-date.
+       Link:
+         K:\NDK\toolchains\arm-linux-androideabi-4.4.3\prebuilt\windows\bin\arm-linux-androideabi-g++.exe Android/Debug/Globals.o Android/Debug/Main.o Android/Debug/StateBasicSession.o Android/Debug/StateMainMenu.o -o K:/Development/GameQuiz/Build/GameQuiz/Android/Debug/GameQuiz.so -LK:/Development/ParabolaEngine/Library/Externals/vs2010 -LK:/Development/ParabolaEngine/Library/Bin K:/Development/ParabolaEngine/Library/Bin/ParabolaEngine-s-d.a K:/Development/ParabolaEngine/Library/Externals/android10/Box2D.a K:/Development/ParabolaEngine/Library/Externals/android10/libenet.a K:/Development/ParabolaEngine/Library/Externals/android10/libsigcpp-d.a K:/Development/ParabolaEngine/Library/Externals/android10/librocketcore-d.a K:/Development/ParabolaEngine/Library/Externals/android10/librocketcontrols-d.a K:/Development/ParabolaEngine/Library/Externals/android10/freetypendk.a K:/Development/ParabolaEngine/Library/Externals/android10/glues.a K:/Development/ParabolaEngine/Library/Externals/android10/libangelscript-d.a -nostdlib -lc -lm -llog -lgcc -Wl,-soname,libGameQuiz -Wl,--no-undefined -shared -Wl,-z,noexecstack -Wl,-rpath-link=K:/NDK/platforms/android-9/arch-arm/usr/lib --sysroot=K:/NDK/platforms/android-9/arch-arm/usr/lib/../.. K:/NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/lib/gcc/arm-linux-androideabi/4.4.3/crtbegin.o -lstdc++ -lsupc++ -lgnustl_static -lgcc -LK:/NDK/platforms/android-9/arch-arm/usr/lib -LK:/NDK/sources/cxx-stl/gnu-libstdc++/libs/armeabi -LK:/NDK/toolchains/arm-linux-androideabi-4.4.3/prebuilt/windows/lib/gcc/arm-linux-androideabi/4.4.3 -lGLESv1_CM
+         GameQuiz.vcxproj -> K:\Development\GameQuiz\Build\GameQuiz\Android\Debug\GameQuiz.so
+       AntBuild:
+         K:\ANT\bin\ant.bat debug 
+         Building using the JDK located here: 'K:\Program Files\Java\jdk1.7.0_03'...
+         Buildfile: K:\Development\GameQuiz\Apk\build.xml
+         
+         -set-mode-check:
+         
+         -set-debug-files:
+         
+         -set-debug-mode:
+         
+         -debug-obfuscation-check:
+         
+         -setup:
+              [echo] Gathering info for GameQuiz...
+             [setup] Android SDK Tools Revision 16
+             [setup] Project Target: Android 2.3.3
+             [setup] API level: 10
+             [setup] 
+             [setup] ------------------
+             [setup] Resolving library dependencies:
+             [setup] No library dependencies.
+             [setup] 
+             [setup] ------------------
+             [setup] 
+     1>ANTBUILD : [setup] warning : Attribute minSdkVersion in AndroidManifest.xml (4) is lower than the project target API level (10)
+         
+         -build-setup:
+              [echo] Creating output directories if needed...
+         
+         -pre-build:
+         
+         -code-gen:
+              [echo] ----------
+              [echo] Handling aidl files...
+              [aidl] No AIDL files to compile.
+              [echo] ----------
+              [echo] Handling RenderScript files...
+         [renderscript] No RenderScript files to compile.
+              [echo] ----------
+              [echo] Handling Resources...
+              [aapt] Found Deleted Target File
+              [aapt] Generating resource IDs...
+         
+         -pre-compile:
+         
+         -compile:
+             [javac] Compiling 1 source file to K:\Development\GameQuiz\Apk\bin\classes
+         
+         -post-compile:
+         
+         -obfuscate:
+         
+         -dex:
+               [dex] Found Deleted Target File
+               [dex] Converting compiled files and external libraries into K:\Development\GameQuiz\Apk\bin\classes.dex...
+         
+         -crunch:
+            [crunch] Crunching PNG Files in source dir: K:\Development\GameQuiz\Apk\res
+            [crunch] To destination dir: K:\Development\GameQuiz\Apk\bin\res
+            [crunch] Crunched 0 PNG files to update cache
+         
+         -package-resources:
+              [aapt] Found Deleted Target File
+              [aapt] Creating full resource package...
+         
+         -package:
+         [apkbuilder] Found Deleted Target File
+         [apkbuilder] Creating GameQuiz-debug-unaligned.apk and signing it with a debug key...
+         
+         -do-debug:
+          [zipalign] Running zip align on final apk...
+              [echo] Debug Package: K:\Development\GameQuiz\Apk\bin\GameQuiz-debug.apk
+         
+         debug:
+         [propertyfile] Updating property file: K:\Development\GameQuiz\Apk\bin\build.prop
+         [propertyfile] Updating property file: K:\Development\GameQuiz\Apk\bin\build.prop
+         [propertyfile] Updating property file: K:\Development\GameQuiz\Apk\bin\build.prop
+         [propertyfile] Updating property file: K:\Development\GameQuiz\Apk\bin\build.prop
+         
+         BUILD SUCCESSFUL
+         Total time: 15 seconds
+         Deploying K:\Development\GameQuiz\Apk\bin\GameQuiz-debug.apk...
+         "K:\Program Files\Android\android-sdk\platform-tools\adb.exe"  install -r K:\Development\GameQuiz\Apk\bin\GameQuiz-debug.apk
+         	pkg: /data/local/tmp/GameQuiz-debug.apk
+         
+         Success
+         
+         545 KB/s (7619105 bytes in 13.649s)
+       FinalizeBuildStatus:
+         Deleting file "Android\Debug\GameQuiz.unsuccessfulbuild".
+         Touching "Android\Debug\GameQuiz.lastbuildstate".
+     1>Done Building Project "K:\Development\GameQuiz\Build\GameQuiz\GameQuiz.vcxproj" (build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:51.67

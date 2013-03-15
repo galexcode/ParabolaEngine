@@ -180,15 +180,14 @@ bool generateAPK(String path, String packageName, int targetAndroidPlatform, Str
 	// Preparing the Java Source
 	FileSystem::makeDirectory(path + "/src");
 
-	StringList packageDecompose;
-	packageName.split('.', 0, packageDecompose);
+	StringList packageDecompose = packageName.split('.', 0);
 	String packageSrcDir = path + "/src/";
 	for(unsigned int j = 0; j < packageDecompose.size(); j++){
 		FileSystem::makeDirectory(packageSrcDir + packageDecompose[j]);
 		packageSrcDir += packageDecompose[j] + "/";
 	}
 
-	// Airpush
+	// Airpush 
 	if(usingAirPush){
 
 		// Define some tokens

@@ -172,7 +172,6 @@ ASScript* ASEngine::loadScript(const String &name, const String &alias, bool isB
 			//TESTLOG(ss.c_str())
 			fp->read(buffer, size);
 			buffer[(unsigned int)size] = '\0';
-			
 			r = Builder.AddSectionFromMemory(name.c_str(), buffer, size);
 			TESTLOG(String(buffer).c_str())
 			delete buffer;

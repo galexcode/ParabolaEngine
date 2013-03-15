@@ -55,8 +55,7 @@ int main(int argc, char** argv){
 					else if(subcmd.startsWith("-t")){
 						subcmd.erase(subcmd.begin(), subcmd.begin() + 2);
 						String token = subcmd;
-						StringList splited;
-						token.split('=', 0 , splited);
+						StringList splited = token.split('=', 0);
 						if(splited.size() == 2){
 							TokenContent[splited[0]] = splited[1]; 
 						}

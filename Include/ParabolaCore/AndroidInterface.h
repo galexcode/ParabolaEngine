@@ -81,6 +81,9 @@ public:
 	/// Get the external storage directory, the path to the sdcard root
 	static String getExternalStorageDirectory();
 
+	/// Vibrate the device for miliseconds
+	static void vibrate(int miliseconds);
+
 private:
 	static String m_externalStorageDirectory;
 	/// Suffix to automatically append to file names

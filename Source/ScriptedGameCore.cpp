@@ -36,6 +36,13 @@ void MusicPlayer::play(const String& name)
 #endif
 }
 
+void vibrate(int ms)
+{
+
+#if defined PARABOLA_ANDROID
+		AndroidInterface::vibrate(ms); 
+#endif
+}
 
 
 
@@ -65,6 +72,9 @@ void registerScriptedGameCore(ASEngine* engine)
 		engine->getASEngine()->RegisterObjectMethod("Music", "void play(const string& in)", WRAP_MFN(MusicPlayer, play), asCALL_GENERIC);
 
 		engine->getASEngine()->RegisterObjectMethod("ScriptedGameCore", "void toggleConsole()", WRAP_MFN(ScriptedGameCore, toggleConsole), asCALL_GENERIC);
+		
+		engine->getASEngine()->RegisterGlobalFunction("void vibrate(int)", WRAP_FN(vibrate), asCALL_GENERIC);
+	
 	}
 	else
 	{
@@ -84,6 +94,7 @@ void registerScriptedGameCore(ASEngine* engine)
 		
 		engine->getASEngine()->RegisterObjectMethod("ScriptedGameCore", "void toggleConsole()", asMETHOD(ScriptedGameCore, toggleConsole), asCALL_THISCALL);
 
+		engine->getASEngine()->RegisterGlobalFunction("void vibrate(int)", asFUNCTION(vibrate), asCALL_CDECL);
 	}
 
 	engine->getASEngine()->RegisterObjectProperty("ScriptedGameCore", "StateStack states", asOFFSET(ScriptedGameCore, m_states));
@@ -98,7 +109,7 @@ ScriptedGameCore::ScriptedGameCore()
 	:	GameCore(),
 		m_requiresPreload(false)
 {
-	m_states.m_parent = this;
+	m_states.m_parent = this; 
 };
 
 /// Sets the preload script. This is only useful before the onCreate() method
@@ -111,6 +122,7 @@ void ScriptedGameCore::setPreloadScript(const String& script)
 void ScriptedGameCore::enablePreloadStep(bool enable)
 {
 	m_requiresPreload = enable;
+
 };
 
 

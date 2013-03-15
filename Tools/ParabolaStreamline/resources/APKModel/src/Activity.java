@@ -25,6 +25,8 @@ import android.telephony.gsm.SmsManager;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.media.MediaPlayer;
+import android.os.Vibrator;
+import java.io.File;
 
 %AIRPUSH_IMPORT%
 
@@ -32,6 +34,7 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 	/// Accelerometer related
 	private SensorManager mSensorManager;
 	private Sensor mAccelerometer;
+	private Vibrator mVibrator;
 	private static GLSurfaceView mGLView;
 	private static %ACTIVITY_CLASS% mGame;
 	
@@ -77,6 +80,27 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 		return fp;
 	}
 	
+	public static boolean createDirectory(String directory)
+	{
+		return (new File(directory)).mkdir(); 
+	}
+	
+	// JNI to play music, etc
+    public MediaPlayer _music = null;
+    public static void playMusic(String fname) {
+        Log.v("music_play",fname);
+        AssetManager am = mGame.getAssets();
+        try {
+            AssetFileDescriptor fd = am.openFd(fname);
+            mGame._music = new MediaPlayer();
+            mGame._music.setDataSource(fd.getFileDescriptor(),fd.getStartOffset(),fd.getLength());
+            fd.close();
+            mGame._music.setLooping(false);
+            mGame._music.prepare();
+            mGame._music.start();
+        } catch(IOException e) { }
+    }
+	
 	public static void requestFrameRender(){
 		mGLView.requestRender();
 	}
@@ -85,6 +109,11 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
         InputMethodManager mgr = (InputMethodManager)mGame.getSystemService(Context.INPUT_METHOD_SERVICE);
         mgr.toggleSoftInput(InputMethodManager.SHOW_IMPLICIT,0);      
     }
+	
+	public static void vibrate(long miliseconds)
+	{
+		mGame.mVibrator.vibrate(miliseconds);
+	}
 
 
 	/// JNI Function to send an SMS through the android device. Called from native code
@@ -128,6 +157,8 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 		mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 		mSensorManager.registerListener(this, mAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
+		mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+		
 		/// Startup information is passed to the engine
 		nativeStorageInfo(getFilesDir().getPath(), Environment.getExternalStorageDirectory().getPath(), true, true, getPackageName(), this.getClass().getName());
     }

@@ -300,6 +300,23 @@ void AndroidInterface::setActivityName(const String& name){
 	}
 };
 
+/// Vibrate the device for miliseconds
+void AndroidInterface::vibrate(int miliseconds)
+{
+	JNIEnv* m_JNI;
+	m_javaVM->AttachCurrentThread(&m_JNI, NULL);	
+
+	jclass cls = m_JNI->FindClass(m_JNIActivityName);
+	if(cls != NULL){ 
+		jmethodID method = m_JNI->GetStaticMethodID(cls, "vibrate", "(J)V");
+		if(method != NULL){
+			jlong val = miliseconds;
+			m_JNI->CallStaticVoidMethod(cls, method, val);
+			   
+		}
+	} 
+};
+
 
 
 PARABOLA_NAMESPACE_END
