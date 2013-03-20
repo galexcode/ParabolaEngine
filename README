@@ -2,17 +2,22 @@ Parabola Engine SDK - Currently in 0.8.5 version
 License: zlib
 Author: Artur Moreira (artturmoreira@gmail.com)
 
-This library is a game engine, designed to make 2D games using C++, and to publish to Desktop(PC/Linux/Mac) and to Mobile(iOS/Android) platforms. (iOS not yet integrated)
+This library is designed to make games using C++ and AngelScript and to publish to Desktop(PC/Linux/Mac/Browsers) and to Mobile(iOS/Android) platforms.
 
 You are free to use the library for any purpose without any costs. Credits to the original author and library are appreciated but are not mandatory.
 ----------------------------------------------------------------------------
+
+( Website currently down - You can however get the source from here and work with it )
 
 Software website: http://www.parabolaengine.com
 
 You can download the manual here: http://parabolaengine.com/docs/Manual.pdf
 
-Any matters about the engine can be discussed in the forum.
-
-WARNING: While the software is not in its final state, API may break ocasionally.
-
 ----------------------------------------------------------------------------
+
+In order to compile and run games made with this engine, you need to link against its libraries. I provide a few pre-compiled libraries you can use.
+If there are no libraries for the platform you want to run, you will have to compile the engine and its dependencies yourself.
+
+Binaries
+
+ios_simulator_5.1_binaries = http://www.mediafire.com/download.php?qddz8ivve48bif8
