@@ -3,13 +3,15 @@
 
 #include "Platform.h"
 #include "Strings.h"
+#include "Engine.h"
 #include "Application.h"
 #include "InputEvent.h"
 #include <stdio.h>
 
-pE::Application myApp; 
+pE::Engine* gEngine = NULL;
+pE::Application myApp;
 
-extern void applicationStartup();
+extern void applicationStartup(pE::Engine** engine);
 extern void applicationUpdate();
 extern void applicationCleanup();
 
@@ -28,7 +30,7 @@ void android_init(){
 	static bool alreadyStarted = false;
 
 	if(!alreadyStarted){ 
-		applicationStartup();
+		applicationStartup(&gEngine);
 		alreadyStarted = true;
 	}
 	else{
@@ -103,7 +105,7 @@ void android_touchmove(float x, float y){
 #elif defined PARABOLA_WINDOWS
 
 	int main(int argc, char** argv){
-		applicationStartup();
+		applicationStartup(&gEngine);
 
 		while(myApp.running()){
 			applicationUpdate();
@@ -111,6 +113,28 @@ void android_touchmove(float x, float y){
 		applicationCleanup();
 		return 0;
 	}
+#elif defined PARABOLA_IPHONE
+void ios_bridge_initialize()
+{
+	applicationStartup(&gEngine);
+}
+
+void ios_bridge_update()
+{
+	applicationUpdate();
+}
+
+void ios_bridge_touch_pressed(int x, int y, int id)
+{
+	if(gEngine)
+	{
+		pE::Event ev;
+		ev.type = pE::Event::TouchPressed;
+		ev.x = x;
+		ev.y = y;
+		gEngine->inject(ev);
+	}
+}
 #endif
 
 #endif

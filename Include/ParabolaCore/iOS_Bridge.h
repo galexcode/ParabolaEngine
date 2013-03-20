@@ -14,10 +14,7 @@ int ios_bridge_getGLESVersion()
 }
 
 /// This function is called by iOS to initialize the engine or to inform it is active again
-void ios_bridge_initialize()
-{
-
-}
+extern void ios_bridge_initialize();
 
 /// This function is called by iOS to inform the engine to unload itself, however some data can still be kept
 void ios_bridge_unload()
@@ -40,10 +37,7 @@ void ios_bridge_release_data()
 /// This function is called by iOS to inform the engine that the screen was just touched
 /// The function is called once for every touch pressed
 /// Research: does older presses pop up too when a new one does?
-void ios_bridge_touch_pressed(int x, int y, int id)
-{
-
-}
+extern void ios_bridge_touch_pressed(int x, int y, int id);
 
 /// This function is called by iOS to inform the engine that the screen was just touched
 /// The function is called once for every touch pressed
@@ -62,10 +56,7 @@ void ios_bridge_touch_moved(int x, int y, int id)
 }
 
 /// This function is called by iOS when its time to update the state and draw a frame
-void ios_bridge_update()
-{
-
-}
+extern void ios_bridge_update();
 
 /// This function is called by iOS whenever the device changed orientation
 /// If it returns true, the view will adjust to the new orientation as well

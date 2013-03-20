@@ -188,13 +188,17 @@
 {
     [(EAGLView *)self.view setFramebuffer];
 	
+	glViewport(0,0,480,320);
+	
 	ios_bridge_update();
 	
     [(EAGLView *)self.view presentFramebuffer];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation{
-    return ios_bridge_should_autorotate();
+	if(toInterfaceOrientation == UIInterfaceOrientationLandscapeRight)return true;
+	else return false;
+    //return ios_bridge_should_autorotate();
 }
 
 @end

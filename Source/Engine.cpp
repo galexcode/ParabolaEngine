@@ -36,17 +36,23 @@ Window& Engine::getWindow(){
 /// Will fetch pending events, update the games at fixed steps and do rendering
 void Engine::update(){
 	// Get application events
-	while(Application::pendingEvents.size() > 0){
+	/*while(Application::pendingEvents.size() > 0){
 		Event ev = Application::myInstance->pendingEvents.back();
 		//send
 		myGameManager.pushInputEvent(ev);
 		//destroy
 		Application::myInstance->pendingEvents.pop_back();
-	}
+	}*/
 
 	Event ev;
 	while(myWindow.pollEvent(ev)){
 		myGameManager.pushInputEvent(ev);
+	}
+	
+	while(!m_events.empty())
+	{
+		myGameManager.pushInputEvent(m_events[0]);
+		m_events.erase(m_events.begin());
 	}
 	 
 	Int64 curr_time = myClock.getElapsedTime().asMicroseconds();

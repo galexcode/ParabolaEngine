@@ -7,13 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7526796415C0FFFF00326B37 /* libRocketControls_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7526796215C0FFFF00326B37 /* libRocketControls_d.a */; settings = {ATTRIBUTES = (Required, ); }; };
-		7526796515C0FFFF00326B37 /* libRocketCore_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7526796315C0FFFF00326B37 /* libRocketCore_d.a */; };
-		7526796C15C1071400326B37 /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7526796B15C1071400326B37 /* libfreetype.a */; };
 		7526796E15C108A800326B37 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7526796D15C108A800326B37 /* libz.dylib */; };
-		752679FA15C1108200326B37 /* libGLUES.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 752679F915C1108200326B37 /* libGLUES.a */; };
-		752EB3E015C1164B004608F2 /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 752EB3DF15C1164B004608F2 /* libangelscript.a */; };
-		752EE1E315C11CDC004608F2 /* libSigCpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 752EE1E215C11CDC004608F2 /* libSigCpp.a */; };
 		75420A4015C0E1840044183F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75420A3F15C0E1840044183F /* UIKit.framework */; };
 		75420A4215C0E1840044183F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75420A4115C0E1840044183F /* Foundation.framework */; };
 		75420A4415C0E1840044183F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75420A4315C0E1840044183F /* CoreGraphics.framework */; };
@@ -26,19 +20,21 @@
 		75420A5E15C0E1840044183F /* EAGLView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 75420A5D15C0E1840044183F /* EAGLView.mm */; };
 		75420A6115C0E1840044183F /* iOSSampleViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 75420A6015C0E1840044183F /* iOSSampleViewController.mm */; };
 		75420A6415C0E1840044183F /* iOSSampleViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75420A6215C0E1840044183F /* iOSSampleViewController.xib */; };
-		754221A415C0F13E0044183F /* libParabolaEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 754221A315C0F13E0044183F /* libParabolaEngine.a */; };
-		75F7FE2815C1C369001C6B1F /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75F7FE2615C1C369001C6B1F /* libBox2D.a */; };
-		75F7FE2915C1C369001C6B1F /* libENET.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 75F7FE2715C1C369001C6B1F /* libENET.a */; };
+		756C7CBC16F96CB8007BC63D /* PortabilityTest.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CBA16F96CB8007BC63D /* PortabilityTest.cpp */; };
+		756C7CE516F97217007BC63D /* libParabolaEngine.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7CE416F97217007BC63D /* libParabolaEngine.a */; };
+		756C7CED16F97232007BC63D /* libBox2D.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7CE616F97232007BC63D /* libBox2D.a */; };
+		756C7CEE16F97232007BC63D /* libENET.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7CE716F97232007BC63D /* libENET.a */; };
+		756C7CEF16F97232007BC63D /* libfreetype.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7CE816F97232007BC63D /* libfreetype.a */; };
+		756C7CF016F97232007BC63D /* libGLUES.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7CE916F97232007BC63D /* libGLUES.a */; };
+		756C7CF116F97232007BC63D /* libRocketControls_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7CEA16F97232007BC63D /* libRocketControls_d.a */; };
+		756C7CF216F97232007BC63D /* libRocketCore_d.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7CEB16F97232007BC63D /* libRocketCore_d.a */; };
+		756C7CF316F97232007BC63D /* libSigCpp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7CEC16F97232007BC63D /* libSigCpp.a */; };
+		756C7D9F16F97F8A007BC63D /* libangelscript.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 756C7D9E16F97F8A007BC63D /* libangelscript.a */; };
+		756C7DA416F98407007BC63D /* AppMain.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7DA316F98407007BC63D /* AppMain.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7526796215C0FFFF00326B37 /* libRocketControls_d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketControls_d.a; path = ../Library/Externals/iOS/libRocketControls_d.a; sourceTree = "<group>"; };
-		7526796315C0FFFF00326B37 /* libRocketCore_d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketCore_d.a; path = ../Library/Externals/iOS/libRocketCore_d.a; sourceTree = "<group>"; };
-		7526796B15C1071400326B37 /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../Library/Externals/iOS/libfreetype.a; sourceTree = "<group>"; };
 		7526796D15C108A800326B37 /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
-		752679F915C1108200326B37 /* libGLUES.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLUES.a; path = ../Library/Externals/iOS/libGLUES.a; sourceTree = "<group>"; };
-		752EB3DF15C1164B004608F2 /* libangelscript.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libangelscript.a; path = ../Library/Externals/iOS/libangelscript.a; sourceTree = "<group>"; };
-		752EE1E215C11CDC004608F2 /* libSigCpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSigCpp.a; path = ../Library/Externals/iOS/libSigCpp.a; sourceTree = "<group>"; };
 		75420A3B15C0E1840044183F /* iOSSample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSSample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75420A3F15C0E1840044183F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		75420A4115C0E1840044183F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -57,9 +53,20 @@
 		75420A5F15C0E1840044183F /* iOSSampleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iOSSampleViewController.h; sourceTree = "<group>"; };
 		75420A6015C0E1840044183F /* iOSSampleViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = iOSSampleViewController.mm; sourceTree = "<group>"; };
 		75420A6315C0E1840044183F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/iOSSampleViewController.xib; sourceTree = "<group>"; };
-		754221A315C0F13E0044183F /* libParabolaEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libParabolaEngine.a; path = "../Library/Build/osx/ParabolaEngine/Output/ParabolaEngine/Build/Products/Debug-universal/libParabolaEngine.a"; sourceTree = "<group>"; };
-		75F7FE2615C1C369001C6B1F /* libBox2D.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBox2D.a; path = ../Library/Externals/iOS/libBox2D.a; sourceTree = "<group>"; };
-		75F7FE2715C1C369001C6B1F /* libENET.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libENET.a; path = ../Library/Externals/iOS/libENET.a; sourceTree = "<group>"; };
+		756C7CBA16F96CB8007BC63D /* PortabilityTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = PortabilityTest.cpp; path = ../../Portability/PortabilityTest.cpp; sourceTree = "<group>"; };
+		756C7CBB16F96CB8007BC63D /* PortabilityTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortabilityTest.h; path = ../../Portability/PortabilityTest.h; sourceTree = "<group>"; };
+		756C7CE416F97217007BC63D /* libParabolaEngine.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libParabolaEngine.a; path = ../../Externals/iOS/libParabolaEngine.a; sourceTree = "<group>"; };
+		756C7CE616F97232007BC63D /* libBox2D.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libBox2D.a; path = ../../Externals/iOS/libBox2D.a; sourceTree = "<group>"; };
+		756C7CE716F97232007BC63D /* libENET.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libENET.a; path = ../../Externals/iOS/libENET.a; sourceTree = "<group>"; };
+		756C7CE816F97232007BC63D /* libfreetype.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libfreetype.a; path = ../../Externals/iOS/libfreetype.a; sourceTree = "<group>"; };
+		756C7CE916F97232007BC63D /* libGLUES.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libGLUES.a; path = ../../Externals/iOS/libGLUES.a; sourceTree = "<group>"; };
+		756C7CEA16F97232007BC63D /* libRocketControls_d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketControls_d.a; path = ../../Externals/iOS/libRocketControls_d.a; sourceTree = "<group>"; };
+		756C7CEB16F97232007BC63D /* libRocketCore_d.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libRocketCore_d.a; path = ../../Externals/iOS/libRocketCore_d.a; sourceTree = "<group>"; };
+		756C7CEC16F97232007BC63D /* libSigCpp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSigCpp.a; path = ../../Externals/iOS/libSigCpp.a; sourceTree = "<group>"; };
+		756C7D9E16F97F8A007BC63D /* libangelscript.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libangelscript.a; path = ../../Externals/iOS/libangelscript.a; sourceTree = "<group>"; };
+		756C7DA116F9832E007BC63D /* ParabolaMain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ParabolaMain.h; path = ../../../Include/ParabolaCore/ParabolaMain.h; sourceTree = "<group>"; };
+		756C7DA216F983C0007BC63D /* iOS_Bridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = iOS_Bridge.h; path = ../../../Include/ParabolaCore/iOS_Bridge.h; sourceTree = "<group>"; };
+		756C7DA316F98407007BC63D /* AppMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = AppMain.cpp; path = ../../Portability/AppMain.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,15 +80,15 @@
 				75420A4415C0E1840044183F /* CoreGraphics.framework in Frameworks */,
 				75420A4615C0E1840044183F /* QuartzCore.framework in Frameworks */,
 				75420A4815C0E1840044183F /* OpenGLES.framework in Frameworks */,
-				754221A415C0F13E0044183F /* libParabolaEngine.a in Frameworks */,
-				7526796415C0FFFF00326B37 /* libRocketControls_d.a in Frameworks */,
-				7526796515C0FFFF00326B37 /* libRocketCore_d.a in Frameworks */,
-				7526796C15C1071400326B37 /* libfreetype.a in Frameworks */,
-				752679FA15C1108200326B37 /* libGLUES.a in Frameworks */,
-				752EB3E015C1164B004608F2 /* libangelscript.a in Frameworks */,
-				752EE1E315C11CDC004608F2 /* libSigCpp.a in Frameworks */,
-				75F7FE2815C1C369001C6B1F /* libBox2D.a in Frameworks */,
-				75F7FE2915C1C369001C6B1F /* libENET.a in Frameworks */,
+				756C7CE516F97217007BC63D /* libParabolaEngine.a in Frameworks */,
+				756C7CED16F97232007BC63D /* libBox2D.a in Frameworks */,
+				756C7CEE16F97232007BC63D /* libENET.a in Frameworks */,
+				756C7CEF16F97232007BC63D /* libfreetype.a in Frameworks */,
+				756C7CF016F97232007BC63D /* libGLUES.a in Frameworks */,
+				756C7CF116F97232007BC63D /* libRocketControls_d.a in Frameworks */,
+				756C7CF216F97232007BC63D /* libRocketCore_d.a in Frameworks */,
+				756C7CF316F97232007BC63D /* libSigCpp.a in Frameworks */,
+				756C7D9F16F97F8A007BC63D /* libangelscript.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -109,15 +116,15 @@
 		75420A3E15C0E1840044183F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				75F7FE2615C1C369001C6B1F /* libBox2D.a */,
-				75F7FE2715C1C369001C6B1F /* libENET.a */,
-				752EE1E215C11CDC004608F2 /* libSigCpp.a */,
-				752EB3DF15C1164B004608F2 /* libangelscript.a */,
-				752679F915C1108200326B37 /* libGLUES.a */,
-				7526796B15C1071400326B37 /* libfreetype.a */,
-				7526796215C0FFFF00326B37 /* libRocketControls_d.a */,
-				7526796315C0FFFF00326B37 /* libRocketCore_d.a */,
-				754221A315C0F13E0044183F /* libParabolaEngine.a */,
+				756C7D9E16F97F8A007BC63D /* libangelscript.a */,
+				756C7CE616F97232007BC63D /* libBox2D.a */,
+				756C7CE716F97232007BC63D /* libENET.a */,
+				756C7CE816F97232007BC63D /* libfreetype.a */,
+				756C7CE916F97232007BC63D /* libGLUES.a */,
+				756C7CEA16F97232007BC63D /* libRocketControls_d.a */,
+				756C7CEB16F97232007BC63D /* libRocketCore_d.a */,
+				756C7CEC16F97232007BC63D /* libSigCpp.a */,
+				756C7CE416F97217007BC63D /* libParabolaEngine.a */,
 				75420A3F15C0E1840044183F /* UIKit.framework */,
 				75420A4115C0E1840044183F /* Foundation.framework */,
 				75420A4315C0E1840044183F /* CoreGraphics.framework */,
@@ -130,6 +137,11 @@
 		75420A4915C0E1840044183F /* iOSSample */ = {
 			isa = PBXGroup;
 			children = (
+				756C7DA116F9832E007BC63D /* ParabolaMain.h */,
+				756C7DA216F983C0007BC63D /* iOS_Bridge.h */,
+				756C7DA316F98407007BC63D /* AppMain.cpp */,
+				756C7CBA16F96CB8007BC63D /* PortabilityTest.cpp */,
+				756C7CBB16F96CB8007BC63D /* PortabilityTest.h */,
 				75420A5215C0E1840044183F /* iOSSampleAppDelegate.h */,
 				75420A5315C0E1840044183F /* iOSSampleAppDelegate.mm */,
 				75420A5515C0E1840044183F /* MainWindow.xib */,
@@ -218,6 +230,8 @@
 				75420A5415C0E1840044183F /* iOSSampleAppDelegate.mm in Sources */,
 				75420A5E15C0E1840044183F /* EAGLView.mm in Sources */,
 				75420A6115C0E1840044183F /* iOSSampleViewController.mm in Sources */,
+				756C7CBC16F96CB8007BC63D /* PortabilityTest.cpp in Sources */,
+				756C7DA416F98407007BC63D /* AppMain.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -305,7 +319,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../Library/Build/osx/ParabolaEngine/Output/ParabolaEngine/Build/Products/Debug-universal\"",
-					"\"$(SRCROOT)/../Library/Externals/iOS\"",
+					"\"$(SRCROOT)/../../Externals/iOS\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -324,6 +338,7 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../Library/Build/osx/ParabolaEngine/Output/ParabolaEngine/Build/Products/Debug-universal\"",
 					"\"$(SRCROOT)/../Library/Externals/iOS\"",
+					"\"$(SRCROOT)/../../Externals/iOS\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

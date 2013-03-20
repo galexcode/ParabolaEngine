@@ -25,6 +25,7 @@ freely, subject to the following restrictions:
 #include "Clock.h"
 #include "Strings.h"
 #include "GameCoreManager.h"
+#include "InputEvent.h"
 #include "Window.h"
 
 PARABOLA_NAMESPACE_BEGIN
@@ -86,6 +87,11 @@ public:
 
 	/// Get the game manager
 	GameCoreManager& getGameManager();
+	
+	void inject(const Event& event)
+	{
+		m_events.push_back(event);
+	}
 
 	
 
@@ -103,6 +109,8 @@ private:
 	Int64 myLastUpdate;
 	/// Startup settings
 	Settings mySettings;
+	
+	std::vector<Event> m_events;
 
 };
 
