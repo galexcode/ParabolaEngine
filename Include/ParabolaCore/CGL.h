@@ -45,4 +45,10 @@ void cglPrepareExtensions(){}
 
 #endif
 
+/// Include iPhone GLES Headers
+#if defined PARABOLA_IPHONE
+#include <OpenGLES/ES1/gl.h>
+#include <OpenGLES/ES2/gl.h>
+#endif
+
 #endif // CGL_h__

@@ -1,7 +1,7 @@
 #include "ParabolaCore/KinesisActors.h"
 #include "ParabolaCore/KinesisWorld.h"
 #include <Box2D/Box2D.h>
-#include <ParabolaCore/Math.h>
+#include <ParabolaCore/MMath.h>
 
 PARABOLA_NAMESPACE_BEGIN
 

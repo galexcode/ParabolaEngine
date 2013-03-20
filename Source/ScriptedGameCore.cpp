@@ -13,6 +13,8 @@
 #include "ParabolaCore/NStateImage.h"
 #include "ParabolaCore/NStateCustom.h"
 
+#include "ParabolaCore/CGL.h"
+
 #include <ParabolaCore/ASEngine.h>
 #include "AS/aswrappedcall.h"
 

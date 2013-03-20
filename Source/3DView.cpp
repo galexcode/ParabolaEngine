@@ -1,6 +1,7 @@
-#include "ParabolaCore/3DView.h"
-#include "ParabolaCore/Math.h"
+#include <ParabolaCore/3DView.h>
+//#include "ParabolaCore/Math.h"
 
+#include "ParabolaCore/CGL.h"
 
 #ifdef PARABOLA_ANDROID
 #include <ParabolaCore/RendererGLES.h>
@@ -19,11 +20,11 @@ void View3D::apply(){
 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	gluPerspective(45, 480/320, 0.3f, 100000.f);
+	//gluPerspective(45, 480/320, 0.3f, 100000.f);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	gluLookAt(m_eye.x,m_eye.y,m_eye.z, m_center.x, m_center.y, m_center.z, m_up.x, m_up.y, m_up.z);
+	//gluLookAt(m_eye.x,m_eye.y,m_eye.z, m_center.x, m_center.y, m_center.z, m_up.x, m_up.y, m_up.z);
 };
 
 void View3D::forward(float amount)
@@ -44,23 +45,23 @@ void View3D::backward(float amount)
 
 void View3D::strafe(float amount)
 {
-	Vec3f sideways = m_up.cross(m_center - m_eye);
+	/*Vec3f sideways = m_up.cross(m_center - m_eye);
 	sideways.normalize();
 	sideways *= -amount;
 	m_eye += sideways;
-	m_center += sideways;
+	m_center += sideways;*/
 }
 
 void View3D::rotateH(float amount)
 {
-	float currAngle = Math::computeAngle(m_eye.x, m_eye.z, m_center.x, m_center.z);
+	/*float currAngle = Math::computeAngle(m_eye.x, m_eye.z, m_center.x, m_center.z);
 	float dist = Math::distance(m_eye.x, m_eye.z, m_center.x, m_center.z);
 	currAngle += amount;
 	if(currAngle > Math::pi*2) currAngle -= Math::pi*2;
 //	if(currAngle < 0.f) currAngle = Math::pi*2 - currAngle;
 
 	m_center.x = cos(currAngle) * dist;
-	m_center.z = sin(currAngle) * dist;
+	m_center.z = sin(currAngle) * dist;*/
 }
 
 

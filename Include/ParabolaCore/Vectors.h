@@ -2,7 +2,7 @@
 #define PARABOLA_VECTORS_H
 
 #include "Platform.h"
-#include <cmath>
+#include <math.h>
 
 PARABOLA_NAMESPACE_BEGIN
 

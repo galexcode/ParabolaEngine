@@ -1,5 +1,5 @@
 #include "ParabolaCore/Views.h"
-#include "ParabolaCore/Math.h"
+#include "ParabolaCore/MMath.h"
 
 #include <cmath>
 

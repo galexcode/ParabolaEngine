@@ -385,9 +385,9 @@ String FileSystem::getExecutableDirectory(){
 		TESTLOG("makeDirectory\n");
 		return AndroidInterface::createDirectory(Name);
 #else
-		TESTLOG("makeDirectory NOT android\n");
-		_mkdir(Name.c_str());
-		mkdir(Name.c_str(), 0770);
+		//TESTLOG("makeDirectory NOT android\n");
+		//_mkdir(Name.c_str());
+	//	mkdir(Name.c_str(), 0770);
 #endif
 		return true;
 	}
