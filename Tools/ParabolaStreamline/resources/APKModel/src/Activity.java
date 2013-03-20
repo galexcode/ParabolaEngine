@@ -82,7 +82,7 @@ public class %ACTIVITY_CLASS% extends Activity implements SensorEventListener {
 	
 	public static boolean createDirectory(String directory)
 	{
-		return (new File(directory)).mkdir(); 
+		return (new File(directory)).mkdir();
 	}
 	
 	// JNI to play music, etc
@@ -201,6 +201,7 @@ class DemoGLSurfaceView extends GLSurfaceView  {
 	
     public DemoGLSurfaceView(Context context) {
         super(context);
+		setEGLContextClientVersion(nativeGetGLVersion());
         mRenderer = new DemoRenderer();
         setRenderer(mRenderer);
     }
@@ -232,6 +233,8 @@ class DemoGLSurfaceView extends GLSurfaceView  {
    private static native void nativeTouchDown(float x, float y);
    private static native void nativeTouchUp(float x, float y);
    private static native void nativeTouchMove(float x, float y);
+   
+   public static native int nativeGetGLVersion();
 }
 
 class DemoRenderer implements GLSurfaceView.Renderer {
