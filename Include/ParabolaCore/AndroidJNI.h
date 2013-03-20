@@ -49,6 +49,8 @@ extern "C"{
 		JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeTouchUp) ( JNIEnv*  env, jobject thiz, jfloat x, jfloat y );
 	JNIEXPORT void
 		JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeTouchMove) ( JNIEnv*  env, jobject thiz, jfloat x, jfloat y );
+	JNIEXPORT jint
+		JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeGetGLVersion) ( JNIEnv*  env, jobject thiz );
 
 	JNIEXPORT jint JNI_OnLoad(JavaVM *jvm, void *reserved);
 };
@@ -121,6 +123,12 @@ JNIEXPORT void JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeTouchUp) ( JNIEnv*  env,
 };
 JNIEXPORT void JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeTouchMove) ( JNIEnv*  env, jobject thiz, jfloat x, jfloat y ){
 	android_touchmove(x,y);   
+};
+
+JNIEXPORT jint JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeGetGLVersion) ( JNIEnv*  env, jobject thiz )
+{
+	__android_log_print(ANDROID_LOG_INFO, "Engine", "Attempting to create a OpenGL ES 2.0 context.\n");
+	return 2;
 };
 
 #endif

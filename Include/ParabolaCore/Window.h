@@ -37,6 +37,8 @@ public:
 	/// Convert a point from target coordinates to the view coordinates
 	Vec2f convertCoords(const Vec2i &point, const View &view);
 
+	void setMousePosition(Vec2i point);
+
 	/// Get the width of the screen/window
 	int getWidth() const;
 

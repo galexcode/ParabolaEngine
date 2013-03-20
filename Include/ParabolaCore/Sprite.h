@@ -15,6 +15,16 @@
 
 PARABOLA_NAMESPACE_BEGIN
 
+namespace Blend
+{
+	enum BlendModes
+	{
+		Add = 0,
+		Alpha,
+		Multiply
+	};
+}
+
 class ContentBank;
 /**
 		\ingroup Graphics
@@ -63,6 +73,8 @@ public:
 	const Texture* m_texture;
 	VertexArray m_vertices;
 	FloatRect m_textureRect;
+
+	Blend::BlendModes m_blendMode;
 
 protected:
 	/// Animation properties

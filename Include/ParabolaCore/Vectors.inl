@@ -202,6 +202,13 @@ void Vec3<T>::normalize(){
 	z /= length();
 };
 
+/// Compute the cross product
+template<class T>
+Vec3<T> Vec3<T>::cross(const Vec3<T> &vec)
+{
+	return Vec3<T>(y*vec.z - z*vec.y, z*vec.x - x*vec.z, x*vec.y - y*vec.x);
+}
+
 /// Get the length of the vector
 template<class T>
 float Vec3<T>::length(){

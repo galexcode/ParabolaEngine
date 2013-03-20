@@ -2,6 +2,7 @@
 #define PARABOLA_VECTORS_H
 
 #include "Platform.h"
+#include <cmath>
 
 PARABOLA_NAMESPACE_BEGIN
 
@@ -137,6 +138,9 @@ PARABOLA_NAMESPACE_BEGIN
 
 		/// Makes the vector unit-length
 		void normalize();
+
+		/// Compute the cross product
+		Vec3<T> cross(const Vec3<T> &vec);
 
 		/// Comparison operator overload
 		bool operator==(const Vec3<T> &vec);

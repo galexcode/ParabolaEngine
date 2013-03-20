@@ -314,7 +314,7 @@ void AndroidInterface::vibrate(int miliseconds)
 			m_JNI->CallStaticVoidMethod(cls, method, val);
 			   
 		}
-	} 
+	}
 };
 
 

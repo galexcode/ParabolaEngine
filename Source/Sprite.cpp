@@ -56,7 +56,7 @@ bool registerSprite(ASEngine* engine)
 }
 
 /// Default sprite
-Sprite::Sprite() : m_vertices(TriangleFan,4) , m_texture(NULL), RefCountable(){
+Sprite::Sprite() : m_vertices(TriangleFan,4) , m_texture(NULL), RefCountable(), m_blendMode(Blend::Alpha){
 	m_vertices[0].color = Color(255,255,255,255);
 	m_vertices[1].color = Color(255,255,255,255);
 	m_vertices[2].color = Color(255,255,255,255);
@@ -174,7 +174,16 @@ void Sprite::onDraw(Renderer* renderer){
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
-	glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	if(m_blendMode ==  Blend::Alpha)
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	else if(m_blendMode == Blend::Add) {
+		glBlendFunc (GL_SRC_ALPHA, GL_ONE);	
+	}
+	else if(m_blendMode == Blend::Multiply) {
+		glBlendFunc (GL_DST_COLOR, GL_ZERO);	
+	}
+
 	glMatrixMode(GL_TEXTURE_MATRIX);
 	glPushMatrix();
 	glMatrixMode(GL_MODELVIEW);

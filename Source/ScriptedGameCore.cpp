@@ -128,6 +128,15 @@ void ScriptedGameCore::enablePreloadStep(bool enable)
 
 /// Only called when the preload is finished so the game can start
 
+#ifdef PARABOLA_ANDROID
+#define GL_GLEXT_PROTOTYPES
+#include <GLES/gl.h>
+#include <GLES/glext.h>
+#include <GLES/glplatform.h>
+#else
+
+#endif
+
 
 /// Called when the game is instanced, calls int main() on the starter script
 void ScriptedGameCore::onCreate(){
@@ -203,6 +212,26 @@ void ScriptedGameCore::onCreate(){
 
 	getWindow().setFramerateLimit(30);
 	m_renderer = Renderer::createAutomaticRenderer(&getWindow());
+
+
+
+
+
+
+
+
+	/*TESTLOG("CREATING buffer")
+	GLuint fbo;
+	glGenFramebuffersOES(1, &fbo);
+	if(!fbo)
+	{
+		TESTLOG("FAILED")
+	}
+	TESTLOG("CREATED")*/
+
+	const unsigned char* str = glGetString(GL_EXTENSIONS);
+	PRINTLOG("DD", "EXTENSIONS: %s\n", str);
+
 };
 
 /// Toggles the built-in console

@@ -11,6 +11,11 @@ public:
 	/// Apply the camera to openGL
 	void apply();
 
+	void forward(float amount);
+	void backward(float amount);
+	void strafe(float amount);
+	void rotateH(float amount);
+
 	Vec3f m_eye;
 	Vec3f m_center;
 	Vec3f m_up;

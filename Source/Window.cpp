@@ -102,6 +102,14 @@ Vec2i Window::getSize() const{
 	return (Vec2i(getWidth(), getHeight()));
 };
 
+void Window::setMousePosition(Vec2i point)
+{
+#ifdef PARABOLA_DESKTOP
+	myWindowImpl->setMouseCursorVisible(false);
+	sf::Mouse::setPosition(sf::Vector2i(point.x,point.y), *myWindowImpl);
+#endif
+}
+
 
 /// Enable/Disable fullscreen mode
 void Window::setFullscreen(bool enable){
