@@ -168,6 +168,25 @@
 		756C7CA416F95ECA007BC63D /* CGL.h in Headers */ = {isa = PBXBuildFile; fileRef = 756C7CA316F95ECA007BC63D /* CGL.h */; };
 		756C7CA716F96173007BC63D /* Vectors.h in Headers */ = {isa = PBXBuildFile; fileRef = 756C7CA616F96173007BC63D /* Vectors.h */; };
 		756C7CAC16F962C9007BC63D /* MMath.h in Headers */ = {isa = PBXBuildFile; fileRef = 756C7CAB16F962C9007BC63D /* MMath.h */; };
+		756C7CC516F96F60007BC63D /* ASAddonArray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CBE16F96F5C007BC63D /* ASAddonArray.cpp */; };
+		756C7CC616F96F60007BC63D /* ASAddonBuilder.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CBF16F96F5D007BC63D /* ASAddonBuilder.cpp */; };
+		756C7CC716F96F60007BC63D /* ASAddonFile.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CC016F96F5D007BC63D /* ASAddonFile.cpp */; };
+		756C7CC816F96F60007BC63D /* ASAddonMath.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CC116F96F5E007BC63D /* ASAddonMath.cpp */; };
+		756C7CC916F96F60007BC63D /* ASAddonMathComplex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CC216F96F5E007BC63D /* ASAddonMathComplex.cpp */; };
+		756C7CCA16F96F60007BC63D /* ASAddonString.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CC316F96F5F007BC63D /* ASAddonString.cpp */; };
+		756C7CCB16F96F60007BC63D /* ASAddonStringUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CC416F96F5F007BC63D /* ASAddonStringUtils.cpp */; };
+		756C7CCD16F97064007BC63D /* FileInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CCC16F97064007BC63D /* FileInterface.cpp */; };
+		756C7CD816F9708B007BC63D /* RocketAnimationController.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CCE16F97085007BC63D /* RocketAnimationController.cpp */; };
+		756C7CD916F9708B007BC63D /* RocketContext.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CCF16F97086007BC63D /* RocketContext.cpp */; };
+		756C7CDA16F9708B007BC63D /* RocketDocument.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CD016F97086007BC63D /* RocketDocument.cpp */; };
+		756C7CDB16F9708B007BC63D /* RocketEventBox.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CD116F97087007BC63D /* RocketEventBox.cpp */; };
+		756C7CDC16F9708B007BC63D /* RocketEventInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CD216F97087007BC63D /* RocketEventInterface.cpp */; };
+		756C7CDD16F9708B007BC63D /* RocketFileInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CD316F97088007BC63D /* RocketFileInterface.cpp */; };
+		756C7CDE16F9708B007BC63D /* RocketPlugin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CD416F97089007BC63D /* RocketPlugin.cpp */; };
+		756C7CDF16F9708B007BC63D /* RocketRenderInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CD516F97089007BC63D /* RocketRenderInterface.cpp */; };
+		756C7CE016F9708B007BC63D /* RocketSystemInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CD616F9708A007BC63D /* RocketSystemInterface.cpp */; };
+		756C7CE116F9708B007BC63D /* RocketUIVerticalScroller.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 756C7CD716F9708A007BC63D /* RocketUIVerticalScroller.cpp */; };
+		756C7DB616F9F01D007BC63D /* Engine.h in Headers */ = {isa = PBXBuildFile; fileRef = 756C7DB516F9F01D007BC63D /* Engine.h */; };
 		75F1F02415C094AF00B6E642 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75F1F02315C094AF00B6E642 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
@@ -338,6 +357,25 @@
 		756C7CA316F95ECA007BC63D /* CGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CGL.h; path = ../../../Include/ParabolaCore/CGL.h; sourceTree = "<group>"; };
 		756C7CA616F96173007BC63D /* Vectors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Vectors.h; path = ../../../Include/ParabolaCore/Vectors.h; sourceTree = "<group>"; };
 		756C7CAB16F962C9007BC63D /* MMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MMath.h; path = ../../../Include/ParabolaCore/MMath.h; sourceTree = "<group>"; };
+		756C7CBE16F96F5C007BC63D /* ASAddonArray.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASAddonArray.cpp; path = ../../../Include/AS/ASAddonArray.cpp; sourceTree = "<group>"; };
+		756C7CBF16F96F5D007BC63D /* ASAddonBuilder.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASAddonBuilder.cpp; path = ../../../Include/AS/ASAddonBuilder.cpp; sourceTree = "<group>"; };
+		756C7CC016F96F5D007BC63D /* ASAddonFile.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASAddonFile.cpp; path = ../../../Include/AS/ASAddonFile.cpp; sourceTree = "<group>"; };
+		756C7CC116F96F5E007BC63D /* ASAddonMath.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASAddonMath.cpp; path = ../../../Include/AS/ASAddonMath.cpp; sourceTree = "<group>"; };
+		756C7CC216F96F5E007BC63D /* ASAddonMathComplex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASAddonMathComplex.cpp; path = ../../../Include/AS/ASAddonMathComplex.cpp; sourceTree = "<group>"; };
+		756C7CC316F96F5F007BC63D /* ASAddonString.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASAddonString.cpp; path = ../../../Include/AS/ASAddonString.cpp; sourceTree = "<group>"; };
+		756C7CC416F96F5F007BC63D /* ASAddonStringUtils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ASAddonStringUtils.cpp; path = ../../../Include/AS/ASAddonStringUtils.cpp; sourceTree = "<group>"; };
+		756C7CCC16F97064007BC63D /* FileInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileInterface.cpp; path = ../../../Include/ParabolaCore/FileInterface.cpp; sourceTree = "<group>"; };
+		756C7CCE16F97085007BC63D /* RocketAnimationController.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketAnimationController.cpp; path = ../../../Source/RocketAnimationController.cpp; sourceTree = "<group>"; };
+		756C7CCF16F97086007BC63D /* RocketContext.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketContext.cpp; path = ../../../Source/RocketContext.cpp; sourceTree = "<group>"; };
+		756C7CD016F97086007BC63D /* RocketDocument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketDocument.cpp; path = ../../../Source/RocketDocument.cpp; sourceTree = "<group>"; };
+		756C7CD116F97087007BC63D /* RocketEventBox.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketEventBox.cpp; path = ../../../Source/RocketEventBox.cpp; sourceTree = "<group>"; };
+		756C7CD216F97087007BC63D /* RocketEventInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketEventInterface.cpp; path = ../../../Source/RocketEventInterface.cpp; sourceTree = "<group>"; };
+		756C7CD316F97088007BC63D /* RocketFileInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketFileInterface.cpp; path = ../../../Source/RocketFileInterface.cpp; sourceTree = "<group>"; };
+		756C7CD416F97089007BC63D /* RocketPlugin.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketPlugin.cpp; path = ../../../Source/RocketPlugin.cpp; sourceTree = "<group>"; };
+		756C7CD516F97089007BC63D /* RocketRenderInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketRenderInterface.cpp; path = ../../../Source/RocketRenderInterface.cpp; sourceTree = "<group>"; };
+		756C7CD616F9708A007BC63D /* RocketSystemInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketSystemInterface.cpp; path = ../../../Source/RocketSystemInterface.cpp; sourceTree = "<group>"; };
+		756C7CD716F9708A007BC63D /* RocketUIVerticalScroller.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketUIVerticalScroller.cpp; path = ../../../Source/RocketUIVerticalScroller.cpp; sourceTree = "<group>"; };
+		756C7DB516F9F01D007BC63D /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Engine.h; path = ../../../Include/ParabolaCore/Engine.h; sourceTree = "<group>"; };
 		75F1F02015C094AF00B6E642 /* libParabolaEngine.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libParabolaEngine.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		75F1F02315C094AF00B6E642 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -358,6 +396,25 @@
 		756C7B3816F95D5B007BC63D /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				756C7DB516F9F01D007BC63D /* Engine.h */,
+				756C7CCE16F97085007BC63D /* RocketAnimationController.cpp */,
+				756C7CCF16F97086007BC63D /* RocketContext.cpp */,
+				756C7CD016F97086007BC63D /* RocketDocument.cpp */,
+				756C7CD116F97087007BC63D /* RocketEventBox.cpp */,
+				756C7CD216F97087007BC63D /* RocketEventInterface.cpp */,
+				756C7CD316F97088007BC63D /* RocketFileInterface.cpp */,
+				756C7CD416F97089007BC63D /* RocketPlugin.cpp */,
+				756C7CD516F97089007BC63D /* RocketRenderInterface.cpp */,
+				756C7CD616F9708A007BC63D /* RocketSystemInterface.cpp */,
+				756C7CD716F9708A007BC63D /* RocketUIVerticalScroller.cpp */,
+				756C7CCC16F97064007BC63D /* FileInterface.cpp */,
+				756C7CBE16F96F5C007BC63D /* ASAddonArray.cpp */,
+				756C7CBF16F96F5D007BC63D /* ASAddonBuilder.cpp */,
+				756C7CC016F96F5D007BC63D /* ASAddonFile.cpp */,
+				756C7CC116F96F5E007BC63D /* ASAddonMath.cpp */,
+				756C7CC216F96F5E007BC63D /* ASAddonMathComplex.cpp */,
+				756C7CC316F96F5F007BC63D /* ASAddonString.cpp */,
+				756C7CC416F96F5F007BC63D /* ASAddonStringUtils.cpp */,
 				756C7CAB16F962C9007BC63D /* MMath.h */,
 				756C7CA616F96173007BC63D /* Vectors.h */,
 				756C7CA316F95ECA007BC63D /* CGL.h */,
@@ -565,6 +622,7 @@
 				756C7CA416F95ECA007BC63D /* CGL.h in Headers */,
 				756C7CA716F96173007BC63D /* Vectors.h in Headers */,
 				756C7CAC16F962C9007BC63D /* MMath.h in Headers */,
+				756C7DB616F9F01D007BC63D /* Engine.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +848,24 @@
 				756C7C9D16F95D7F007BC63D /* View.cpp in Sources */,
 				756C7C9E16F95D7F007BC63D /* Views.cpp in Sources */,
 				756C7C9F16F95D7F007BC63D /* Window.cpp in Sources */,
+				756C7CC516F96F60007BC63D /* ASAddonArray.cpp in Sources */,
+				756C7CC616F96F60007BC63D /* ASAddonBuilder.cpp in Sources */,
+				756C7CC716F96F60007BC63D /* ASAddonFile.cpp in Sources */,
+				756C7CC816F96F60007BC63D /* ASAddonMath.cpp in Sources */,
+				756C7CC916F96F60007BC63D /* ASAddonMathComplex.cpp in Sources */,
+				756C7CCA16F96F60007BC63D /* ASAddonString.cpp in Sources */,
+				756C7CCB16F96F60007BC63D /* ASAddonStringUtils.cpp in Sources */,
+				756C7CCD16F97064007BC63D /* FileInterface.cpp in Sources */,
+				756C7CD816F9708B007BC63D /* RocketAnimationController.cpp in Sources */,
+				756C7CD916F9708B007BC63D /* RocketContext.cpp in Sources */,
+				756C7CDA16F9708B007BC63D /* RocketDocument.cpp in Sources */,
+				756C7CDB16F9708B007BC63D /* RocketEventBox.cpp in Sources */,
+				756C7CDC16F9708B007BC63D /* RocketEventInterface.cpp in Sources */,
+				756C7CDD16F9708B007BC63D /* RocketFileInterface.cpp in Sources */,
+				756C7CDE16F9708B007BC63D /* RocketPlugin.cpp in Sources */,
+				756C7CDF16F9708B007BC63D /* RocketRenderInterface.cpp in Sources */,
+				756C7CE016F9708B007BC63D /* RocketSystemInterface.cpp in Sources */,
+				756C7CE116F9708B007BC63D /* RocketUIVerticalScroller.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
