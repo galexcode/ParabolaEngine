@@ -585,6 +585,9 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\Clipboard.h">
       <Filter>Engine\Foundation</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Include\ParabolaCore\CGL.h">
+      <Filter>Engine\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Source\ConfigurationFile.cpp">
@@ -726,9 +729,6 @@
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\VertexArray.cpp">
-      <Filter>Engine\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Source\Views.cpp">
       <Filter>Engine\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Window.cpp">
@@ -1044,6 +1044,63 @@
       <Filter>Engine\UI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Source\Clipboard.cpp">
+      <Filter>Engine\Foundation</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\ScriptedGameCore.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIBoxLayout.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIColorDisplay.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIConsole.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIContextMenu.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIImage.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UILabel.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UILayout.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIManager.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UIScrollArea.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UISoftwareKeyboard.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\UITreeView.cpp">
+      <Filter>Engine\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\State.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\StateStack.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\View.cpp">
+      <Filter>Engine\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\BrowserPreloader.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NStateCustom.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\NStateImage.cpp">
+      <Filter>Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Source\Directory.cpp">
       <Filter>Engine\Foundation</Filter>
     </ClCompile>
   </ItemGroup>

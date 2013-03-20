@@ -52,6 +52,7 @@
     <ClInclude Include="..\..\..\Include\ParabolaCore\AnimationView.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\BackgroundWorkerThread.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\BrowserPluginInstance.h" />
+    <ClInclude Include="..\..\..\Include\ParabolaCore\CGL.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Clipboard.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\Font.h" />
     <ClInclude Include="..\..\..\Include\ParabolaCore\ForgeLayer.h" />
@@ -237,6 +238,7 @@
     <ClCompile Include="..\..\..\Source\ASScript.cpp" />
     <ClCompile Include="..\..\..\Source\BackgroundWorkerThread.cpp" />
     <ClCompile Include="..\..\..\Source\BrowserPluginInstance.cpp" />
+    <ClCompile Include="..\..\..\Source\BrowserPreloader.cpp" />
     <ClCompile Include="..\..\..\Source\Clipboard.cpp" />
     <ClCompile Include="..\..\..\Source\Clock.cpp" />
     <ClCompile Include="..\..\..\Source\Color.cpp" />
@@ -247,6 +249,7 @@
     <ClCompile Include="..\..\..\Source\ContentLoader.cpp" />
     <ClCompile Include="..\..\..\Source\CRC32.cpp" />
     <ClCompile Include="..\..\..\Source\DateTime.cpp" />
+    <ClCompile Include="..\..\..\Source\Directory.cpp" />
     <ClCompile Include="..\..\..\Source\Drawable.cpp" />
     <ClCompile Include="..\..\..\Source\DynamicKeys.cpp" />
     <ClCompile Include="..\..\..\Source\ForgeLayer.cpp" />
@@ -289,6 +292,8 @@
     <ClCompile Include="..\..\..\Source\NetworkSocket.cpp" />
     <ClCompile Include="..\..\..\Source\NetworkThread.cpp" />
     <ClCompile Include="..\..\..\Source\Node.cpp" />
+    <ClCompile Include="..\..\..\Source\NStateCustom.cpp" />
+    <ClCompile Include="..\..\..\Source\NStateImage.cpp" />
     <ClCompile Include="..\..\..\Source\Packages.cpp" />
     <ClCompile Include="..\..\..\Source\ParticlePointRenderer.cpp" />
     <ClCompile Include="..\..\..\Source\ParticleRenderBuffer.cpp" />
@@ -316,6 +321,7 @@
     <ClCompile Include="..\..\..\Source\SceneNode.cpp" />
     <ClCompile Include="..\..\..\Source\SceneRenderer.cpp" />
     <ClCompile Include="..\..\..\Source\ScopedFile.cpp" />
+    <ClCompile Include="..\..\..\Source\ScriptedGameCore.cpp" />
     <ClCompile Include="..\..\..\Source\ScriptEngine.cpp" />
     <ClCompile Include="..\..\..\Source\ScriptEngineDefault.cpp" />
     <ClCompile Include="..\..\..\Source\ScriptEngineTask.cpp" />
@@ -324,8 +330,10 @@
     <ClCompile Include="..\..\..\Source\SoundSharedDevice.cpp" />
     <ClCompile Include="..\..\..\Source\Sprite.cpp" />
     <ClCompile Include="..\..\..\Source\SpriteExt.cpp" />
+    <ClCompile Include="..\..\..\Source\State.cpp" />
     <ClCompile Include="..\..\..\Source\StateMachine.cpp" />
     <ClCompile Include="..\..\..\Source\StateMachineNode.cpp" />
+    <ClCompile Include="..\..\..\Source\StateStack.cpp" />
     <ClCompile Include="..\..\..\Source\StoryAction.cpp" />
     <ClCompile Include="..\..\..\Source\StoryActionStyle.cpp" />
     <ClCompile Include="..\..\..\Source\Storyline.cpp" />
@@ -340,18 +348,29 @@
     <ClCompile Include="..\..\..\Source\Transform.cpp" />
     <ClCompile Include="..\..\..\Source\Transformable.cpp" />
     <ClCompile Include="..\..\..\Source\Tree.cpp" />
+    <ClCompile Include="..\..\..\Source\UIBoxLayout.cpp" />
     <ClCompile Include="..\..\..\Source\UIButton.cpp" />
+    <ClCompile Include="..\..\..\Source\UIColorDisplay.cpp" />
+    <ClCompile Include="..\..\..\Source\UIConsole.cpp" />
+    <ClCompile Include="..\..\..\Source\UIContextMenu.cpp" />
     <ClCompile Include="..\..\..\Source\UIControl.cpp" />
+    <ClCompile Include="..\..\..\Source\UIImage.cpp" />
+    <ClCompile Include="..\..\..\Source\UILabel.cpp" />
+    <ClCompile Include="..\..\..\Source\UILayout.cpp" />
     <ClCompile Include="..\..\..\Source\UILineEdit.cpp" />
+    <ClCompile Include="..\..\..\Source\UIManager.cpp" />
     <ClCompile Include="..\..\..\Source\UIProgressBar.cpp" />
+    <ClCompile Include="..\..\..\Source\UIScrollArea.cpp" />
     <ClCompile Include="..\..\..\Source\UISlider.cpp" />
+    <ClCompile Include="..\..\..\Source\UISoftwareKeyboard.cpp" />
     <ClCompile Include="..\..\..\Source\UIState.cpp" />
     <ClCompile Include="..\..\..\Source\UISurface.cpp" />
     <ClCompile Include="..\..\..\Source\UITabView.cpp" />
     <ClCompile Include="..\..\..\Source\UIToolTip.cpp" />
+    <ClCompile Include="..\..\..\Source\UITreeView.cpp" />
     <ClCompile Include="..\..\..\Source\UIWindow.cpp" />
     <ClCompile Include="..\..\..\Source\VertexArray.cpp" />
-    <ClCompile Include="..\..\..\Source\Views.cpp" />
+    <ClCompile Include="..\..\..\Source\View.cpp" />
     <ClCompile Include="..\..\..\Source\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
