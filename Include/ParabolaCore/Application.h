@@ -4,7 +4,7 @@
 #include "Platform.h"
 #include "Strings.h"
 #include "StringList.h"
-#include "InputEvent.h"
+#include "Event.h"
 #include <vector>
 
 #include <stdio.h>

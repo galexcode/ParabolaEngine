@@ -8,6 +8,7 @@
 #include "ParabolaCore/Math.h"
 
 #include <ParabolaCore/Engine.h>
+#include <ParabolaCore/Window.h>
 
 #ifdef PARABOLA_WINDOWS
 #include <windows.h>
@@ -99,8 +100,8 @@ void RendererOpenGL::disableClipping()
 };
 
 /// Clear the bound buffer
-void RendererOpenGL::clearBuffers(){
-	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
+void RendererOpenGL::clear(){
+	glClear(GL_COLOR_BUFFER_BIT);
 	glClearColor(m_clearColor.r/255,m_clearColor.g/255,m_clearColor.b/255,1.f);
 };
 

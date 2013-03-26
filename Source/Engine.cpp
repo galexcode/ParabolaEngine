@@ -1,258 +1,83 @@
-#include "ParabolaCore/Engine.h"
-#include "ParabolaCore/Window.h"
-#include "ParabolaCore/Application.h"
+#include <ParabolaCore/Engine.h>
+#include <ParabolaCore/GameCore.h>
+#include <ParabolaCore/Renderer.h>
 
-#include <iostream>
-using namespace std;
+#include <ParabolaCore/View.h>
 
 PARABOLA_NAMESPACE_BEGIN
 	
-
-/// Default construction
-Engine::Engine() : myGameManager(this){
-
-	myLastUpdate = 0;
-
-	m_running = false;
-};
-
-/// Safely destructs the engine
-Engine::~Engine(){
-	//	shutdownSubsystems();
-		//myInstance = NULL;
-};
-
-/// Get the game manager
-GameCoreManager& Engine::getGameManager(){
-	return myGameManager;
-};
-
-/// Get the window/screen of this environment
-Window& Engine::getWindow(){
-	return myWindow;
-};
-
-/// Automatic update of the engine state
-/// Will fetch pending events, update the games at fixed steps and do rendering
-void Engine::update(){
-	// Get application events
-	/*while(Application::pendingEvents.size() > 0){
-		Event ev = Application::myInstance->pendingEvents.back();
-		//send
-		myGameManager.pushInputEvent(ev);
-		//destroy
-		Application::myInstance->pendingEvents.pop_back();
-	}*/
-
-	Event ev;
-	while(myWindow.pollEvent(ev)){
-		myGameManager.pushInputEvent(ev);
-	}
+Engine::Engine()
+: mCurrentApp(NULL)
+, mRenderer(NULL)
+{
 	
-	while(!m_events.empty())
+};
+
+Engine::~Engine()
+{
+	delete mRenderer;
+};
+
+void Engine::execute(GameCore* app)
+{
+	mCurrentApp = app;
+
+	if(mCurrentApp)
 	{
-		myGameManager.pushInputEvent(m_events[0]);
-		m_events.erase(m_events.begin());
+		mCurrentApp->m_creator = this;
+		mCurrentApp->onCreate();
 	}
-	 
-	Int64 curr_time = myClock.getElapsedTime().asMicroseconds();
-	myGameManager.update(Time(curr_time - myLastUpdate));
-	myLastUpdate = curr_time;
-};
-
-/// Get a reference to the engine settings
-Engine::Settings& Engine::getSettings(){
-	return mySettings;
-};
-
-/// Launches the necessary services, like the window, if on a pc
-void Engine::create(){
-	myWindow.create(mySettings.windowWidth,mySettings.windowHeight);
-
-	m_running = true;
-};
-
-/// Launches the necessary services of the engine from new settings
-void Engine::create(const Engine::Settings& settings){
-	mySettings = settings;
-	create();
 }
 
-void Engine::createFromHandle(void* handle){
-	myWindow.create(handle);
+void Engine::init()
+{
+	// stub code
+	mSurface.create();
 
-	m_running = true;
-};
-
-/// Check if the engine is currently ready to function normally
-bool Engine::isRunning(){
-	return m_running;
-};
-
-/// Sets the engine back to its uninitialized state
-void Engine::finish(){
-	m_running = false;
-};
-
-	/*
-/// Static instance of the engine, singleton
-Engine* Engine::myInstance = NULL;
-
-
-/// Private constructor
-Engine::Engine(const EngineProfile &profile) : myRunning(false), myGames(this) {
-	myInstance = this;
-	myProfile = profile;
-	myProfile.myParent = this;
-};
-
-
-/// Destroys the engine environment
-void Engine::destroy(){
-	if(myInstance){
-		delete myInstance;
-		myInstance = NULL;
-	}
-};
-
-/// Creates the engine if it was not created already
-/// Returns the pointer to the engine
-Engine* Engine::create(){
-	if(myInstance == NULL){
-		new Engine();
-	}
-
-	myInstance->configure();
-	return myInstance;
-};
-
-
-/// Creates the engine if it was not created already
-/// Returns the pointer to the engine
-Engine* Engine::create(const StringList &arglist){
-	if(!myInstance){
-		Engine *e = new Engine();
-		e->program_arguments = arglist;
-	}
-	myInstance->configure();
-	return myInstance;
+	// Attempt to initialize the renderer
+	mRenderer = Renderer::createAutomaticRenderer(mSurface.window);
 }
 
-/// Creates the engine if it was not created already
-/// Returns the pointer to the engine
-Engine* Engine::create(const EngineProfile &profile, const StringList &arglist){
-	if(!myInstance){
-		Engine *e = new Engine(profile);
-		e->program_arguments = arglist;
+void Engine::update()
+{
+	// Check for removal first
+	if(mCurrentApp && mCurrentApp->mCloseRequested)
+	{
+		mCurrentApp = NULL;
 	}
-	myInstance->configure();
-	return myInstance;
-}
 
-/// Creates the engine if it was not created already
-/// Returns the pointer to the engine
-Engine* Engine::create(const EngineProfile &profile){
-	if(!myInstance){
-		Engine *e = new Engine(profile);
-	}
-	myInstance->configure();
-	return myInstance;
-}
-
-/// Returns a pointer to the engine environment
-/// Returns NULL if it was not created yet
-Engine* Engine::instance(){
-	return myInstance;
-};
-
-/// Get the profile of the engine
-/// You can configure the engine through this object.
-EngineProfile& Engine::profile(){
-	return myProfile;
-};	
-
-/// Checks if the engine is running
-bool Engine::running(){
-	return myRunning;
-};
-
-/// Configures all the engine environment from the profile settings currently defined
-void Engine::configure(){
-
-
-
-	configureWindow();
-	
-
-
-
-
-	myRunning = true;
-};
-
-/// Configure the window if necessary
-/// Uses the profile settings
-void Engine::configureWindow(){
-	if(myProfile.run_window){
-		if(!myWindow){
-			myWindow = new Window();
+	if(mCurrentApp)
+	{
+		// Poll events
+		Event event;
+		while(mSurface.window->pollEvent(event))
+		{
+			mCurrentApp->onEvent(event);
 		}
 
-		//configure it and launch
+		// Perform the update
+		mCurrentApp->innerUpdate(mStepClock.getElapsedTime());
+		mStepClock.reset();
 
-		myWindow->create(sf::VideoMode(1024, 768, 32), "Engine !");
-		myWindow->setVerticalSyncEnabled(true);
-	}
-	else{
-		if(myWindow){
-			myWindow.destroy();
+		// Draw a frame
+		if(mRenderer)
+		{
+			View mView;
+			mView.setRect(0,0, mSurface.window->getWidth(), mSurface.window->getHeight());
+			mRenderer->pushView(mView);
+			mRenderer->clear();
+			mCurrentApp->innerRender();
+			mRenderer->display();
+			mSurface.window->swapBuffers();
 		}
 	}
 };
 
-/// Processes events, updates and renders the games
-/// This is a wrapper function for all steps of updating the environment
-/// This can be called continuously and it will control the execution of the environment by itself
-void Engine::updateCore(){
-	// Event processing - as fast as possible
-	if(myWindow){
-		static Event event;
-		// Will push the events to the handlers, if any
-		while(myWindow->eventDispatcher().catchEvent(event, true)){
-			myGames.pushEvent(event); // Will push every single event to the games
-		}	
-	}
-	else{
-		myGames.checkEvents();
-	}
-
-	// Update the games as desired - all settings are inside, including a clock
-	myGames.update();
-
-	// Draw a frame - also controlled internally, as it may not draw at all
-	myGames.draw();
-};
-
-/// Clears the environment allocated resources
-void Engine::shutdownSubsystems(){
-
-};
-
-
-/// Get the instance of the game manager
-GameCoreManager& Engine::gameManager(){
-	return myGames;
-};
-/// Get the window the engine currently owns
-Window* Engine::getWindow(){
-	return myWindow.get();
-};
-
-/// Begins destruction of the engine
-void Engine::close(){	
-	myRunning = false;
-};
-*/
+/// Get the current renderer
+Renderer* Engine::getRenderer()
+{
+	return mRenderer;
+}
 
 PARABOLA_NAMESPACE_END
 

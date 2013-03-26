@@ -28,7 +28,7 @@ void BrowserPluginInstance::mainThreadFunction(){
 	
 	// init
 	m_engine = new Engine();
-	m_engine->createFromHandle(m_windowHandle);
+//	m_engine->createFromHandle(m_windowHandle);
 
 	// get preload script - mandatory
 	m_preloadScriptURL = m_browserPageURL + m_params["startup"];
@@ -47,7 +47,7 @@ void BrowserPluginInstance::mainThreadFunction(){
 	game->enablePreloadStep(true);
 	game->setPreloadScript("preload.as");
 	game->setFileRoot(m_workingDirectory);
-	m_engine->getGameManager().addGameForExecution(game);
+	m_engine->execute(game);
 
 	game->m_info = m_preloadScriptURL + preloadFileName + "\n" + m_workingDirectory;
 
@@ -55,7 +55,7 @@ void BrowserPluginInstance::mainThreadFunction(){
 	while(m_executeFrame){
 		
 		// loop step
-		m_engine->getWindow().setActive(true);
+//		m_engine->getWindow().setActive(true);
 		m_engine->update();
 
 		//m_engine->getWindow().setActive(false);

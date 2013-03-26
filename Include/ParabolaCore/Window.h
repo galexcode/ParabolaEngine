@@ -4,7 +4,7 @@
 #include "Platform.h"
 #include "Strings.h"
 #include "Vectors.h"
-#include "InputEvent.h"
+#include "Event.h"
 #include "View.h"
 #include "RenderTarget.h"
 

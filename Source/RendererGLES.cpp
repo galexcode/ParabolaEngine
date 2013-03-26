@@ -45,7 +45,7 @@ void RendererGLES::applyView(const View &view){
 };
 
 /// Clear the bound buffer
-void RendererGLES::clearBuffers(){
+void RendererGLES::clear(){
 	glClear(GL_COLOR_BUFFER_BIT);
 	//m_clearColor = Color(255,0,0);
 	glClearColor(m_clearColor.r/255,m_clearColor.g/255,m_clearColor.b/255,m_clearColor.a/255);

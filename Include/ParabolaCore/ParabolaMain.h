@@ -5,7 +5,7 @@
 #include "Strings.h"
 #include "Engine.h"
 #include "Application.h"
-#include "InputEvent.h"
+#include "Event.h"
 #include <stdio.h>
 
 pE::Engine* gEngine = NULL;

@@ -2,7 +2,7 @@
 #define PARABOLA_UIWINDOW_H
 
 #include "Platform.h"
-#include "InputEvent.h"
+#include "Event.h"
 #include "Renderer.h"
 
 #include "UIControl.h"

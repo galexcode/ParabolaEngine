@@ -16,7 +16,7 @@ public:
 	RendererGLES();
 
 	/// Clear the bound buffer
-	virtual void clearBuffers();
+	virtual void clear();
 
 	void applyView(const View &view);
 	/// Anything that inherits Drawable can be drawn using a renderer

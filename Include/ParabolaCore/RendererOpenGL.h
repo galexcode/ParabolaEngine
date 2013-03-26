@@ -11,7 +11,7 @@ public:
 	RendererOpenGL();
 
 	/// Clear the bound buffer
-	virtual void clearBuffers();
+	virtual void clear();
 
 	void applyView(const View &view);
 

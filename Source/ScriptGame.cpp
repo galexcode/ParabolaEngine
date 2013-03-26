@@ -91,7 +91,7 @@ void ScriptGame::onCreate(){
 /// If the direct render script is enabled, it is rendered after the other objects.
 void ScriptGame::onRender(){
 	//m_renderer->m_clearColor.r = 255;
-	m_renderer->clearBuffers();
+	m_renderer->clear();
 	View v;
 	v.setRect(0,0,1024,768);
 

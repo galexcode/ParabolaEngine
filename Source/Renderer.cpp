@@ -62,7 +62,7 @@ void Renderer::setDefaultViewRect(float x, float y){
 
 
 /// Clear the bound buffer
-void Renderer::clearBuffers(){
+void Renderer::clear(){
 
 };
 

@@ -7,7 +7,7 @@ using namespace std;
 PARABOLA_NAMESPACE_BEGIN
 
 /// Construct the game, its mandatory to call this base constructor when implementing GameCore
-GameCore::GameCore() : m_stackedTime(0.f), m_updateStep(1.f / 60.f), m_windowTitle("No name window"){
+GameCore::GameCore() : m_stackedTime(0.f), m_updateStep(1.f / 60.f), m_windowTitle("No name window"), mCloseRequested(false){
 #ifdef PARABOLA_ANDROID
 	m_updateStep = 1.f / 30.f;
 #endif
@@ -25,15 +25,14 @@ String GameCore::getFileSystemRoot()
 	return m_fileSystemRoot;
 };
 
-/// Get the window/screen handler
-Window& GameCore::getWindow(){
-	return m_creator->getWindow();
-};
+Renderer* GameCore::getRenderer()
+{
+	return m_creator->getRenderer();
+}
 
 /// Shutdown this game immediately
 void GameCore::close(){
-	//debug
-	Application::myInstance->m_running = false;
+	mCloseRequested = true;
 };
 
 /// Set the name of the game

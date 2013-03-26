@@ -3,7 +3,7 @@
 
 #include "Platform.h"
 #include "Rect.h"
-#include "InputEvent.h"
+#include "Event.h"
 #include "Signals.h"
 #include "Strings.h"
 #include "Renderer.h"

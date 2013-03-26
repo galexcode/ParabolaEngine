@@ -128,7 +128,11 @@ JNIEXPORT void JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeTouchMove) ( JNIEnv*  en
 JNIEXPORT jint JNI_PACKAGE_FUNC(DemoGLSurfaceView_nativeGetGLVersion) ( JNIEnv*  env, jobject thiz )
 {
 	__android_log_print(ANDROID_LOG_INFO, "Engine", "Attempting to create a OpenGL ES 2.0 context.\n");
+#if defined PARABOLA_PREFER_GLES2
 	return 2;
+#else
+	return 1;
+#endif
 };
 
 #endif

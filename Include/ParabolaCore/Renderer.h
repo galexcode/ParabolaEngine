@@ -43,7 +43,7 @@ public:
 	virtual void setView(const View &view);
 
 	/// Clear the bound buffer
-	virtual void clearBuffers();
+	virtual void clear();
 
 	virtual void drawCube(float x, float y, float z, float len, Color color);
 

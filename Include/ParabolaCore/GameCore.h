@@ -6,7 +6,7 @@
 #include "Logger.h"
 #include "Renderer.h"
 #include "Window.h"
-#include "InputEvent.h"
+#include "Event.h"
 #include "StringList.h"
 #include "Application.h"
 
@@ -51,6 +51,10 @@ public:
 	/// Get the root for file loading on this game
 	String getFileSystemRoot();
 
+	Renderer* getRenderer();
+
+	Engine* m_creator;
+
 protected:
 
 	/// Callback for updating the game
@@ -62,8 +66,6 @@ protected:
 	/// This function is called when a game is starting
 	/// It is imperative that after running this function the game is on its first instant of execution, ready to progress with events and updates
 	virtual void onCreate(); 
-
-
 
 	/// Callback when an event happens
 	virtual void onEvent(Event &event);
@@ -78,7 +80,7 @@ protected:
 
 private:
 	friend class GameCoreManager;
-
+	friend class Engine;
 	/// Inner update of the game
 	/// Will handle fixed update steps
 	/// Callbacks to onUpdate(Time time) when appropriate
@@ -95,8 +97,8 @@ private:
 	/// The title of the window when this game is active
 	String m_windowTitle;
 
-	Engine* m_creator;
 
+	bool mCloseRequested;
 
 	
 	/*
