@@ -69,11 +69,11 @@ public:
 	Renderer* getRenderer();
 
 private:
-	GameCore*	mCurrentApp;	///< The currently executing game/application
-	Clock		mClock;			///< Clock that counts the elapsed time since the engine was instanced
-	Clock		mStepClock;		///< Clock that merely counts the time between updates
-	Renderer*	mRenderer;		///< The unified graphics renderer system
-	Surface		mSurface;		///< The surface this engine is bound to
+	GameCore*	m_currentApp;		///< The currently executing game/application
+	Clock		m_clock;			///< Clock that counts the elapsed time since the engine was instanced
+	Clock		m_stepClock;		///< Clock that merely counts the time between updates
+	Renderer*	m_renderer;			///< The unified graphics renderer system
+	Surface		m_surface;			///< The surface this engine is bound to
 };
 
 PARABOLA_NAMESPACE_END

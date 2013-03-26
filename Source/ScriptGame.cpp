@@ -5,10 +5,8 @@
 #include "ParabolaCore/Sprite.h"
 #include "ParabolaCore/Sound.h"
 #include "ParabolaCore/Kinesis.h"
-#include "ParabolaCore/RocketContext.h"
 #include "ParabolaCore/FileInterface.h"
 #include "ParabolaCore/TextStream.h"
-#include "ParabolaCore/RocketPlugin.h"
 
 #include <iostream>
 using namespace std;

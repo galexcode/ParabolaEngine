@@ -1,9 +1,6 @@
 #include <ParabolaCore/Platform.h>
 #ifdef PARABOLA_DESKTOP
 #include <ParabolaCore/RendererOpenGL.h>
-#include "ParabolaCore/RocketContext.h"
-#include "ParabolaCore/RocketPlugin.h"
-#include "ParabolaCore/RocketRenderInterface.h"
 #include "ParabolaCore/View.h"
 #include "ParabolaCore/Math.h"
 
@@ -285,14 +282,6 @@ void RendererOpenGL::drawVertexArray(VertexArray &vertexArray){
 void RendererOpenGL::draw(Drawable &drawable){
 	drawable.onDraw(this);
 };
-
-void RendererOpenGL::drawRocketContext(RocketContext* context){
-	RocketPlugin::instance().renderInterface()->myRenderer = this;
-	RocketPlugin::instance().renderInterface()->m_context = context;
-	context->Render();
-	RocketPlugin::instance().renderInterface()->myRenderer = NULL;
-	RocketPlugin::instance().renderInterface()->m_context = NULL;
-}
 
 void RendererOpenGL::drawDebugLine(Vec2f begin, Vec2f end, Color color){
 	glLoadIdentity();

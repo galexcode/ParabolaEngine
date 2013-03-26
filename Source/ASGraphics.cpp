@@ -4,7 +4,6 @@
 //#include "ParabolaCore/Sprite.h"
 #include "ParabolaCore/SpriteExt.h"
 //#include "ParabolaCore/Textures.h"
-#include "ParabolaCore/RocketContext.h"
 #include "ParabolaCore/Color.h"
 #include "ParabolaCore/Rect.h"
 #include "ParabolaCore/Renderer.h"
@@ -266,99 +265,6 @@ bool ASEngine::exportGraphics(){
 
 	exportedRenderer = true;
 
-	return true;
-};
-
-/// Exports access to rocket ui
-bool ASEngine::exportRocketUi(){
-	if(exportedRocket)return true;
-
-	exportReferenceDataType("RocketContext");
-	exportReferenceDataType("RocketDocument");
-	exportReferenceDataType("RocketElement");
-	exportReferenceDataType("RocketEvent");
-
-
-	if(exportedRenderer){
-		if (strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")){
-			//asEngine->RegisterGlobalFunction("RocketContext@ createRocketContext(string, Vec2i)", WRAP_FN(RocketContext::create), asCALL_GENERIC);
-			asEngine->RegisterObjectMethod("RocketContext", "void update()",WRAP_MFN(RocketContext, update), asCALL_GENERIC);
-			asEngine->RegisterObjectMethod("RocketContext", "void sendEvent(string)", WRAP_MFN(RocketContext, generateEvent), asCALL_GENERIC);
-			asEngine->RegisterObjectMethod("RocketContext", "void showDocument(string)", WRAP_MFN(RocketContext, showDocument), asCALL_GENERIC);
-			asEngine->RegisterObjectMethod("RocketContext", "void loadFont(string)", WRAP_MFN(RocketContext, loadFont), asCALL_GENERIC);
-
-			asEngine->RegisterObjectMethod("RocketEvent", "RocketElement@ currentElement()", WRAP_MFN(Rocket::Core::Event, GetCurrentElement), asCALL_GENERIC);
-			asEngine->RegisterObjectMethod("RocketEvent", "int getKey()", WRAP_MFN(RocketEvent, getKey), asCALL_GENERIC);
-
-			 
-
-			//asEngine->RegisterObjectMethod("SceneRenderer", "void draw(RocketContext@)", asMETHODPR(SceneRenderer, draw, (RocketContext*), void), asCALL_GENERIC);
-			 
-		}
-		else{
-			//asEngine->RegisterGlobalFunction("RocketContext@ createRocketContext(string, Vec2i)", asFUNCTION(RocketContext::create), asCALL_CDECL);
-			asEngine->RegisterObjectMethod("RocketContext", "void update()", asMETHOD(RocketContext, update), asCALL_THISCALL);
-			asEngine->RegisterObjectMethod("RocketContext", "void sendEvent(string)", asMETHOD(RocketContext, generateEvent), asCALL_THISCALL);
-			asEngine->RegisterObjectMethod("RocketContext", "void showDocument(string)", asMETHOD(RocketContext, showDocument), asCALL_THISCALL);
-			asEngine->RegisterObjectMethod("RocketContext", "void loadFont(string)", asMETHOD(RocketContext, loadFont), asCALL_THISCALL);
-
-			asEngine->RegisterObjectMethod("RocketEvent", "RocketElement@ currentElement()", asMETHOD(Rocket::Core::Event, GetCurrentElement), asCALL_THISCALL);
-			asEngine->RegisterObjectMethod("RocketEvent", "int getKey()", asMETHOD(RocketEvent, getKey), asCALL_THISCALL);
-
-		//	asEngine->RegisterObjectMethod("SceneRenderer", "void draw(RocketContext@)", asMETHODPR(SceneRenderer, draw, (RocketContext*), void), asCALL_THISCALL);
-
-		}
-		
-	}
-
-	exportedRocket = true;
-	return true;
-};
-
-/// Exports as rocket scripting tools
-bool ASEngine::exportRocketScripting(RocketDocument* document){
-	exportRocketUi();
-	if(exportedRocketInternal)return true;
-
-	if (strstr(asGetLibraryOptions(), "AS_MAX_PORTABILITY")){
-		getASEngine()->RegisterObjectMethod("RocketDocument", "RocketContext@ getContext()", WRAP_MFN(RocketDocument, GetContext), asCALL_GENERIC);
-		getASEngine()->RegisterObjectMethod("RocketDocument", "void hide()", WRAP_MFN(RocketDocument, Hide), asCALL_GENERIC);
-
-
-		//getASEngine()->RegisterObjectMethod("RocketDocument", "void say(const string& in)", asMETHOD(RocketDocument, say), asCALL_GENERIC);
-		getASEngine()->RegisterObjectMethod("RocketDocument", "RocketElement@ getElementById(const string &in)", WRAP_MFN(RocketDocument, getElementById), asCALL_GENERIC);
-
-		getASEngine()->RegisterObjectMethod("RocketElement", "string getInnerRML()", WRAP_MFN(RocketElement, getInnerRML), asCALL_GENERIC);
-		getASEngine()->RegisterObjectMethod("RocketElement", "void setProperty(const string &in, const string& in)", WRAP_MFN(RocketElement, setProperty), asCALL_GENERIC);
-	
-		getASEngine()->RegisterObjectMethod("RocketElement", "void setPseudoClass(const string &in, bool)", WRAP_MFN(RocketElement, setPseudoClass), asCALL_GENERIC);
-		getASEngine()->RegisterObjectMethod("RocketElement", "int getNumChildren()", WRAP_MFN(RocketElement, getNumChildren), asCALL_GENERIC);
-		getASEngine()->RegisterObjectMethod("RocketElement", "RocketElement@ getChild(int)", WRAP_MFN(RocketElement, getChild), asCALL_GENERIC);
-		
-		
-	}
-	else{
-		getASEngine()->RegisterObjectMethod("RocketDocument", "RocketContext@ getContext()", asMETHOD(RocketDocument, GetContext), asCALL_THISCALL);
-		getASEngine()->RegisterObjectMethod("RocketDocument", "void hide()", asMETHOD(RocketDocument, Hide), asCALL_THISCALL);
-
-
-		getASEngine()->RegisterObjectMethod("RocketDocument", "void say(const string& in)", asMETHOD(RocketDocument, say), asCALL_THISCALL);
-		getASEngine()->RegisterObjectMethod("RocketDocument", "RocketElement@ getElementById(const string &in)", asMETHOD(RocketDocument, getElementById), asCALL_THISCALL);
-
-		getASEngine()->RegisterObjectMethod("RocketElement", "string getInnerRML()", asMETHOD(RocketElement, getInnerRML), asCALL_THISCALL);
-		getASEngine()->RegisterObjectMethod("RocketElement", "void setProperty(const string &in, const string& in)", asMETHOD(RocketElement, setProperty), asCALL_THISCALL);
-
-		getASEngine()->RegisterObjectMethod("RocketElement", "void setPseudoClass(const string &in, bool)", asMETHOD(RocketElement, setPseudoClass), asCALL_THISCALL);
-		
-		getASEngine()->RegisterObjectMethod("RocketElement", "int getNumChildren()", asMETHOD(RocketElement, getNumChildren), asCALL_THISCALL);
-		getASEngine()->RegisterObjectMethod("RocketElement", "RocketElement@ getChild(int)", asMETHOD(RocketElement, getChild), asCALL_THISCALL);
-	}
-
-	
-	exportGlobalProperty("RocketDocument document", document);
-
-
-	exportedRocketInternal = true;
 	return true;
 };
 

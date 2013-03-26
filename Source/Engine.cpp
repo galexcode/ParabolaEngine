@@ -7,68 +7,68 @@
 PARABOLA_NAMESPACE_BEGIN
 	
 Engine::Engine()
-: mCurrentApp(NULL)
-, mRenderer(NULL)
+: m_currentApp(NULL)
+, m_renderer(NULL)
 {
 	
 };
 
 Engine::~Engine()
 {
-	delete mRenderer;
+	delete m_renderer;
 };
 
 void Engine::execute(GameCore* app)
 {
-	mCurrentApp = app;
+	m_currentApp = app;
 
-	if(mCurrentApp)
+	if(m_currentApp)
 	{
-		mCurrentApp->m_creator = this;
-		mCurrentApp->onCreate();
+		m_currentApp->m_creator = this;
+		m_currentApp->onCreate();
 	}
 }
 
 void Engine::init()
 {
 	// stub code
-	mSurface.create();
+	m_surface.create();
 
 	// Attempt to initialize the renderer
-	mRenderer = Renderer::createAutomaticRenderer(mSurface.window);
+	m_renderer = Renderer::createAutomaticRenderer(m_surface.window);
 }
 
 void Engine::update()
 {
 	// Check for removal first
-	if(mCurrentApp && mCurrentApp->mCloseRequested)
+	if(m_currentApp && m_currentApp->mCloseRequested)
 	{
-		mCurrentApp = NULL;
+		m_currentApp = NULL;
 	}
 
-	if(mCurrentApp)
+	if(m_currentApp)
 	{
 		// Poll events
 		Event event;
-		while(mSurface.window->pollEvent(event))
+		while(m_surface.window->pollEvent(event))
 		{
-			mCurrentApp->onEvent(event);
+			m_currentApp->onEvent(event);
 		}
 
 		// Perform the update
-		mCurrentApp->innerUpdate(mStepClock.getElapsedTime());
-		mStepClock.reset();
+		m_currentApp->innerUpdate(m_stepClock.getElapsedTime());
+		m_stepClock.reset();
 
 		// Draw a frame
-		if(mRenderer)
+		if(m_renderer)
 		{
 			View mView;
-			mView.setRect(0,0, mSurface.window->getWidth(), mSurface.window->getHeight());
-			mRenderer->pushView(mView);
-			mRenderer->clear();
-			mCurrentApp->innerRender();
-			mRenderer->display();
-			mSurface.window->swapBuffers();
+			mView.setRect(0,0, m_surface.window->getWidth(), m_surface.window->getHeight());
+			m_renderer->pushView(mView);
+			m_renderer->clear();
+			m_currentApp->innerRender();
+			m_renderer->display();
+			m_surface.window->swapBuffers();
 		}
 	}
 };
@@ -76,7 +76,7 @@ void Engine::update()
 /// Get the current renderer
 Renderer* Engine::getRenderer()
 {
-	return mRenderer;
+	return m_renderer;
 }
 
 PARABOLA_NAMESPACE_END
